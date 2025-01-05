@@ -1,0 +1,196 @@
+classDiagram
+    class ReactApplication {
+        +String name
+        +String version
+        +Map configurations
+        +addPage(Page)
+        +configureRouter()
+    }
+
+    class Page {
+        +String path
+        +String title
+        +Boolean isPublic
+        +JSXElement layout
+        +Map~String,JSXEl   ement~ elements
+        +renderPage()
+        +getInitialProps()
+    }
+
+    class JSXElement {
+        <<abstract>>
+        +String key
+        +Props props
+        +Array~JSXElement~ children
+        +render()
+    }
+
+    class Component {
+        +String name
+        +String type
+        +Props defaultProps
+        +Props propTypes
+        +render()
+    }
+
+    class ClassComponent {
+        +Map~String,any~ state
+        +Map~String,Function~ lifecycleMethods
+        +setState(newState)
+        +componentDidMount()
+        +componentDidUpdate()
+        +componentWillUnmount()
+    }
+
+    class FunctionalComponent {
+        +useHooks()
+        +returnJSX()
+    }
+
+    class HTMLElement {
+        +String tagName
+        +Boolean isSelfClosing
+        +String namespace
+        +validateElement()
+    }
+
+    class Props {
+        +Map~String,PropDefinition~ definitions
+        +Boolean childrenAllowed
+        +validateProps()
+        +getDefaultProps()
+    }
+
+    class PropDefinition {
+        +String name
+        +PropTypeDefinition typeDefinition
+        +any defaultValue
+        +Boolean isRequired
+        +Function validator
+    }
+
+    class PropTypeDefinition {
+        +PropType type
+        +Boolean isRequired
+        +ValidatorType[] validators
+        +any defaultValue
+        +Function customValidator
+    }
+
+    class PropType {
+        <<enumeration>>
+        STRING
+        NUMBER
+        BOOLEAN
+        OBJECT
+        ARRAY
+        FUNCTION
+        SYMBOL
+        NODE
+        ELEMENT
+        ELEMENTTYPE
+        ANY
+    }
+
+    class State {
+        <<abstract>>
+        +String name
+        +any value
+        +update()
+        +subscribe()
+        +unsubscribe()
+    }
+
+    class LocalState {
+        +Boolean isPrivate
+        +initializeState()
+        +setState()
+        +getState()
+    }
+
+    class GlobalState {
+        +String scope
+        +Map subscribers
+        +dispatch()
+        +select()
+    }
+
+    class Context {
+        +any defaultValue
+        +Provider provider
+        +Consumer consumer
+        +createContext()
+    }
+
+    class HTMLAttribute {
+        <<abstract>>
+        +String name
+        +String value
+        +Boolean isRequired
+        +validateValue()
+    }
+
+    class Hook {
+        <<abstract>>
+        +String name
+        +apply()
+        +cleanup()
+    }
+
+    class Router {
+        +String basename
+        +String mode
+        +Map~String,Route~ routes
+        +configureRoutes()
+        +handleNavigation()
+    }
+
+    class Route {
+        +String path
+        +Boolean exact
+        +Page page
+        +matchPath()
+    }
+
+    ReactApplication --> "*" Page : contains
+    ReactApplication --> "1" Router : has
+    ReactApplication --> "*" Context : provides
+    
+    Page --> "*" JSXElement : renders
+    JSXElement --> "*" JSXElement : renders
+    
+    JSXElement <|-- Component : extends
+    JSXElement <|-- HTMLElement : extends
+    Component <|-- ClassComponent : extends
+    Component <|-- FunctionalComponent : extends
+    
+    JSXElement --> "1" Props : has
+    Props --> "*" PropDefinition : contains
+    PropDefinition --> "1" PropTypeDefinition : hasType
+    PropTypeDefinition --> "1" PropType : uses
+    
+    Component --> "*" State : manages
+    State <|-- LocalState : extends
+    State <|-- GlobalState : extends
+    State <|-- Context : extends
+    
+    Component --> "*" Hook : uses
+    HTMLElement --> "*" HTMLAttribute : has
+    
+    Router --> "*" Route : manages
+    Route --> "1" Page : displays
+
+    note for Page "Container that can render
+    any JSXElement"
+
+    note for JSXElement "Base class for all
+    renderable elements"
+
+    note for Component "User-defined
+    React components"
+
+    note for PropType "All possible basic
+    prop types in React"
+
+    note for State "Base class for all
+    state management"
