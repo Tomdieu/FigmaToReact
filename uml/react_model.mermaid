@@ -2,27 +2,17 @@ classDiagram
     class ReactApplication {
         +String name
         +String version
-        +Map configurations
-        +addPage(Page)
+        +addComponent(Component)
         +configureRouter()
     }
-
-    class Page {
-        +String path
-        +String title
-        +Boolean isPublic
-        +JSXElement layout
-        +Map~String,JSXEl   ement~ elements
-        +renderPage()
-        +getInitialProps()1
-    }   
 
     class JSXElement {
         <<abstract>>
         +String key
-        +Props props
+        +Map~String,PropTypes~ propTypes
         +Array~JSXElement~ children
         +render()
+        +validateProps()
     }
 
     class Component {
@@ -63,33 +53,10 @@ classDiagram
 
     class PropDefinition {
         +String name
-        +PropTypeDefinition typeDefinition
+        +String type
         +any defaultValue
         +Boolean isRequired
         +Function validator
-    }
-
-    class PropTypeDefinition {
-        +PropType type
-        +Boolean isRequired
-        +ValidatorType[] validators
-        +any defaultValue
-        +Function customValidator
-    }
-
-    class PropType {
-        <<enumeration>>
-        STRING
-        NUMBER
-        BOOLEAN
-        OBJECT
-        ARRAY
-        FUNCTION
-        SYMBOL
-        NODE
-        ELEMENT
-        ELEMENTTYPE
-        ANY
     }
 
     class State {
@@ -122,6 +89,28 @@ classDiagram
         +createContext()
     }
 
+    class Hook {
+        <<abstract>>
+        +String name
+        +apply()
+        +cleanup()
+    }
+
+    class StateHook {
+        +any initialState
+        +Function setState
+    }
+
+    class EffectHook {
+        +Function effect
+        +Array dependencies
+    }
+
+    class CustomHook {
+        +String name
+        +Array~Hook~ usedHooks
+    }
+
     class HTMLAttribute {
         <<abstract>>
         +String name
@@ -130,44 +119,44 @@ classDiagram
         +validateValue()
     }
 
-    class Hook {
-        <<abstract>>
-        +String name
-        +apply()
-        +cleanup()
+    class GlobalAttribute {
+        +String id
+        +String className
+        +String style
+        +Boolean hidden
+    }
+
+    class EventAttribute {
+        +String eventName
+        +Function handler
+        +Boolean preventDefault
     }
 
     class Router {
         +String basename
         +String mode
-        +Map~String,Route~ routes
         +configureRoutes()
-        +handleNavigation()
     }
 
     class Route {
         +String path
         +Boolean exact
-        +Page page
-        +matchPath()
+        +Component component
     }
 
-    ReactApplication --> "*" Page : contains
-    ReactApplication --> "1" Router : has
-    ReactApplication --> "*" Context : provides
-    
-    Page --> "*" JSXElement : renders
-    JSXElement --> "*" JSXElement : renders
-    
+    class Children {
+        +Array~JSXElement~ elements
+        +map(function)
+        +count()
+    }
+
     JSXElement <|-- Component : extends
     JSXElement <|-- HTMLElement : extends
     Component <|-- ClassComponent : extends
     Component <|-- FunctionalComponent : extends
     
-    JSXElement --> "1" Props : has
+    Component --> "1" Props : defines
     Props --> "*" PropDefinition : contains
-    PropDefinition --> "1" PropTypeDefinition : hasType
-    PropTypeDefinition --> "1" PropType : uses
     
     Component --> "*" State : manages
     State <|-- LocalState : extends
@@ -175,13 +164,19 @@ classDiagram
     State <|-- Context : extends
     
     Component --> "*" Hook : uses
-    HTMLElement --> "*" HTMLAttribute : has
+    Hook <|-- StateHook : extends
+    Hook <|-- EffectHook : extends
+    Hook <|-- CustomHook : extends
     
+    HTMLElement --> "*" HTMLAttribute : has
+    HTMLAttribute <|-- GlobalAttribute : extends
+    HTMLAttribute <|-- EventAttribute : extends
+    
+    ReactApplication --> "1" Router : has
     Router --> "*" Route : manages
-    Route --> "1" Page : displays
-
-    note for Page "Container that can render
-    any JSXElement"
+    ReactApplication --> "*" Component : contains
+    ReactApplication --> "*" Context : provides
+    Component --> "1" Children : has
 
     note for JSXElement "Base class for all
     renderable elements"
@@ -189,8 +184,13 @@ classDiagram
     note for Component "User-defined
     React components"
 
-    note for PropType "All possible basic
-    prop types in React"
+    note for HTMLElement "Built-in HTML
+    elements"
 
     note for State "Base class for all
-    state management"
+    state types"
+
+    note for Hook "Base class for React hooks"
+
+    note for HTMLAttribute "Base class for
+    HTML attributes"
