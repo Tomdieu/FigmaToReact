@@ -126,8 +126,9 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ComponentPropertyDefinition">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//ComponentPropertyDefinitionType"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="defaultValue"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="variantOptions" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="defaultValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="variantOptions" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Text" eSuperTypes="#//Children">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="layoutAlign" eType="#//LayoutAlign"/>
@@ -137,7 +138,8 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="layoutSizingVertical" eType="#//LayoutSizing"
         defaultValueLiteral="FIXED"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="characters" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="style" eType="#//Style"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="style" eType="#//Style"
+        containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="lineTypes" upperBound="-1"
         eType="#//LineType"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="lineIndentations" upperBound="-1"
@@ -163,18 +165,16 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="itemSpacing" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="cornerRadius" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="cornerSmoothing" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="componentPropertyReferences"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EMap" transient="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="NodeItem">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="components" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EMap"
-        transient="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="componenSets" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EMap"
-        transient="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="schemaVersion" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="styles" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EMap"
         transient="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="document" eType="#//Document"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="components" upperBound="-1"
+        eType="#//Component" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="componenSets" upperBound="-1"
+        eType="#//Component" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="LineType">
     <eLiterals name="NONE"/>
@@ -188,23 +188,23 @@
         defaultValueLiteral="figma"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="document" lowerBound="1"
         eType="#//Document"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="components" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EMap"
-        transient="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="componentSets" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EMap"
-        transient="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="components" upperBound="-1"
+        eType="#//Component" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="componentSets" upperBound="-1"
+        eType="#//Component" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Children">
     <eStructuralFeatures xsi:type="ecore:EReference" name="absoluteBoundingBox" lowerBound="1"
         eType="#//Dimensions"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="absoluteRenderBounds" lowerBound="1"
         eType="#//Dimensions"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//DocumentType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//DocumentType"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="clipsContent" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="constraints" eType="#//Constraints"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="effects" upperBound="-1"
         eType="#//Effect" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="fills" eType="#//Background"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="strokeAlign" eType="#//StrokeAlign"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="strokeWeight" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="blemdMode" eType="#//BlendMode"/>
@@ -216,16 +216,18 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="background" eType="#//Background"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="interactions" upperBound="-1"
         eType="#//Interaction" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
         iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="componentPropertyReferences"
+        upperBound="-1" eType="#//ComponentPropertyReference"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Document">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
         iD="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="scrollBehavior" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
         defaultValueLiteral="SCROLLS"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//DocumentType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//DocumentType"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="children" eType="#//Children"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Constraints">
@@ -307,12 +309,14 @@
     <eLiterals name="SCROLLS"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="FigmaNodeApp">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lastModified"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="thumbnailUrl"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="version"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="editorType" defaultValueLiteral="figma"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nodes" transient="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lastModified" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="thumbnailUrl" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="version" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="editorType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="figma"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nodes" lowerBound="1" upperBound="-1"
+        eType="#//Nodes" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="Navigation">
     <eLiterals name="NAVIGATE"/>
@@ -390,12 +394,26 @@
         defaultValueLiteral="0.0"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Component">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="key"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="remote"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="componentSetId"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="documentationLinks" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="remote" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="componentSetId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="documentationLinks" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="VECTOR" eSuperTypes="#//Children"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Nodes">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" lowerBound="1" eType="#//NodeItem"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ComponentPropertyReference">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" eType="#//ComponentPropertyReferenceKeyType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ComponentPropertyReferenceKeyType">
+    <eLiterals name="characters"/>
+    <eLiterals name="visible" value="1"/>
+  </eClassifiers>
 </ecore:EPackage>
