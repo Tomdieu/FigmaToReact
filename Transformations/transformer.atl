@@ -1,0 +1,241 @@
+-- @path React=/Figma2React/Metamodel/react_meta_model.ecore
+-- @path Figma=/Figma2React/Metamodel/figma_meta_model.ecore
+
+module transformer;
+create OUT : React from IN : Figma;
+
+-- Helper functions to check node types
+helper context Figma!Children def : isCanvas() : Boolean = 
+    if self.type.toString() = 'CANVAS' then
+        true
+    else
+        false
+    endif;
+
+helper context Figma!Children def : isFrame() : Boolean = 
+    if self.type.toString() = 'FRAME' then
+        true
+    else
+        false
+    endif;
+
+helper context Figma!Children def : isRectangle() : Boolean = 
+	if self.type.toString() = 'RECTANGLE' then
+		true
+	else
+		false
+	
+	endif;
+
+helper context Figma!Children def : isText() : Boolean = 
+	if self.type.toString() = 'TEXT' then
+		true
+	else
+		false
+	endif;
+
+helper context Figma!Children def : isLine() : Boolean = 
+	if self.type.toString() = 'LINE' then
+		true
+	else
+		false
+	endif;
+
+helper context Figma!Children def : isComponent() : Boolean = 
+	if self.type.toString() = 'COMPONENT' then
+		true
+	else
+		false
+	endif;
+
+helper context Figma!Children def : isComponentSet() : Boolean = 
+    if self.type.toString() = 'COMPONENT_SET' then
+        true
+    else
+        false
+    endif;
+    
+helper context Figma!Children def : isDocument() : Boolean = 
+	if self.type.toString() = 'DOCUMENT' then
+		true
+	else
+		false
+	endif;
+
+
+rule FigmaApp2ReactApp {
+	from
+		F : Figma!FigmaApp
+	to 
+		R : React!ReactApplication (
+			name <- F.name
+		)
+}
+
+
+rule FigmaDocument2ReactRouter {
+	from
+		F : Figma!Document
+	to 
+		R : React!Router (
+			basname <- F.name
+		)
+}
+
+rule FigmaCanvas2ReactComponent {
+	from
+		F : Figma!Canvas(F.isCanvas())
+	to 
+		R : React!Component (
+			name <- F.name
+		)
+}
+
+rule FigmaFrame2ReactDivHtmlElement {
+	from
+		F : Figma!Frame(F.isFrame())
+	to 
+		R : React!HTMLElement (
+			name <- 'div',
+			isSelfClosing <- false,
+			key <- F.id
+		)
+}
+
+rule FigmaRectangle2ReactDivHtmlElement {
+	from
+		F : Figma!Rectangle(F.isRectangle())
+	to 
+		R : React!HTMLElement (
+			name <- 'div',
+			isSelfClosing <- false,
+			key <- F.id
+		)
+}
+
+
+rule FigmaComponentSet2ReactComponent {
+	from
+		F : Figma!COMPONENT_SET(F.isComponentSet())
+	to 
+		R : React!Component (
+			name <- F.name.replaceAll(' ', ''),
+			key <- F.id
+		)
+}
+
+rule FigmaComponent2RectDivHtmlElement {
+	from
+		F : Figma!Component
+	to 
+		R : React!HTMLElement (
+			name<-'div'
+		)
+}
+
+helper context Figma!Text def : isLabel() : Boolean = 
+	if self.name.toString().toLower().startsWith('label') then
+		true
+	else
+		false		
+	endif;
+
+helper context Figma!Text def : isParagraph() : Boolean = 
+	if self.name.toString().toLower().startsWith('p') then
+		true
+	else
+		false
+	endif;
+
+helper context Figma!Text def : getTextTag(): String =
+    if self.name.toString().toLower().startsWith('label') then
+        'label'
+    else 
+        if self.name.toString().toLower().startsWith('p') then
+            'p'
+        else 
+            if self.name.toString().toLower().startsWith('small') then
+                'small'
+            else 
+                if self.name.toString().toLower().startsWith('h1') then
+                    'h1'
+                else 
+                    if self.name.toString().toLower().startsWith('h2') then
+                        'h2'
+                    else 
+                        if self.name.toString().toLower().startsWith('h3') then
+                            'h3'
+                        else 
+                            if self.name.toString().toLower().startsWith('h4') then
+                                'h4'
+                            else 
+                                if self.name.toString().toLower().startsWith('h5') then
+                                    'h5'
+                                else 
+                                    if self.name.toString().toLower().startsWith('h6') then
+                                        'h6'
+                                    else 
+                                        if self.name.toString().toLower().startsWith('span') then
+                                            'span'
+                                        else 
+                                            if not self.style.oclIsUndefined() then
+                                                if self.style.fontSize >= 40 then
+                                                    'h1'
+                                                else 
+                                                    if self.style.fontSize >= 32 then
+                                                        'h2'
+                                                    else 
+                                                        if self.style.fontSize >= 28 then
+                                                            'h3'
+                                                        else 
+                                                            if self.style.fontSize >= 24 then
+                                                                'h4'
+                                                            else 
+                                                                if self.style.fontSize >= 20 then
+                                                                    'h5'
+                                                                else 
+                                                                    if self.style.fontSize >= 16 then
+                                                                        'h6'
+                                                                    else 
+                                                                        if self.style.fontSize <= 12 then
+                                                                            'small'
+                                                                        else 
+                                                                            'p'
+                                                                        endif
+                                                                    endif
+                                                                endif
+                                                            endif
+                                                        endif
+                                                    endif
+                                                endif
+                                            else
+                                                'p'
+                                            endif
+                                        endif
+                                    endif
+                                endif
+                            endif
+                        endif
+                    endif
+                endif
+            endif
+        endif
+    endif;
+
+helper context Figma!Frame def : isInput() : Boolean =
+    self.name.toString().toLowerCase().startsWith('input') and 
+    not self.children.isEmpty() and 
+    self.children->exists(c | c.type.toString() = 'TEXT' and c.name.toLowerCase().startsWith('placeholder'));
+
+
+
+rule FigmaText2ReactLabelHtmlElement {
+	from
+		F : Figma!Text(F.isLabel())
+	to 
+		R : React!HTMLElement(
+			name <- F.getTextTag(),
+			content <- F.characters,
+			isSelfClosing <- false
+		)
+}
