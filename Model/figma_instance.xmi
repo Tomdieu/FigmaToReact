@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<figma_meta_model:FigmaApp
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:figma_meta_model="www.figma_meta_model.com"
+    xsi:schemaLocation="www.figma_meta_model.com ../Metamodel/figma_meta_model.ecore"
+    name="Untitled"/>
