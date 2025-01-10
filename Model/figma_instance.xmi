@@ -5,4 +5,51 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:figma_meta_model="www.figma_meta_model.com"
     xsi:schemaLocation="www.figma_meta_model.com ../Metamodel/figma_meta_model.ecore"
-    name="Untitled"/>
+    name="Untitled">
+  <document
+      id="0:0"
+      name="Document">
+    <children
+        xsi:type="figma_meta_model:Canvas"
+        type="CANVAS"
+        name="Inputs"
+        id="249:154">
+      <children
+          xsi:type="figma_meta_model:Frame"
+          type="FRAME"
+          name="Desktop - 1"
+          id="249:155">
+        <children
+            xsi:type="figma_meta_model:COMPONENT_SET"
+            type="COMPONENT_SET"
+            name="Input Component">
+          <children
+              xsi:type="figma_meta_model:Component"
+              type="COMPONENT"
+              name="Property 1=Default">
+            <children
+                xsi:type="figma_meta_model:Frame"
+                type="FRAME"
+                name="Frame 2">
+              <children
+                  xsi:type="figma_meta_model:Text"
+                  type="TEXT"
+                  name="label"/>
+              <children
+                  xsi:type="figma_meta_model:Frame"
+                  type="FRAME"
+                  name="Input">
+                <children
+                    xsi:type="figma_meta_model:Text"
+                    type="TEXT"
+                    name="placeholder"
+                    id="placeholder"
+                    characters="placeholder"/>
+              </children>
+            </children>
+          </children>
+        </children>
+      </children>
+    </children>
+  </document>
+</figma_meta_model:FigmaApp>
