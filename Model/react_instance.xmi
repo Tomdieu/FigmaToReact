@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:react_meta_model="http://example.com/react_meta_model">
+  <react_meta_model:ReactApplication name="Untitled"/>
+  <react_meta_model:Router basname="Document"/>
+  <react_meta_model:Component key="249:154" name="Inputs"/>
+  <react_meta_model:HTMLElement key="249:155" name="div">
+    <children xsi:type="react_meta_model:Component" name="InputComponent">
+      <children xsi:type="react_meta_model:HTMLElement" name="div">
+        <children xsi:type="react_meta_model:HTMLElement" name="div">
+          <children xsi:type="react_meta_model:HTMLElement" name="label"/>
+          <children xsi:type="react_meta_model:HTMLElement" name="input" isSelfClosing="true">
+            <attributes name="style" value="padding: 8px 12px; border: 1px solid #ccc; border-radius: 0.0px; " type="string"/>
+            <attributes name="type" value="text" type="string"/>
+            <attributes name="placeholder" value="placeholder" type="string"/>
+            <attributes name="id" type="string"/>
+          </children>
+          <attributes name="style" value="display: flex; " type="string"/>
+          <attributes name="id" type="string"/>
+        </children>
+        <attributes name="id" type="string"/>
+      </children>
+    </children>
+    <attributes name="style" value="display: flex; " type="string"/>
+    <attributes name="id" value="249:155" type="string"/>
+  </react_meta_model:HTMLElement>
+</xmi:XMI>
