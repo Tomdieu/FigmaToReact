@@ -87,18 +87,55 @@ rule FigmaCanvas2ReactComponent {
 		F : Figma!Canvas(F.isCanvas())
 	to 
 		R : React!Component (
-			name <- F.name
+			name <- F.name,
+			key <- F.id	
 		)
 }
 
 rule FigmaFrame2ReactDivHtmlElement {
+    from
+        F : Figma!Frame(F.isFrame() and not F.isInput())
+    to 
+        R : React!HTMLElement (
+            name <- 'div',
+            isSelfClosing <- false,
+            key <- F.id,
+            attributes <- Sequence {
+                thisModule.CreateAttribute('style',F.getStyleString()),
+                thisModule.CreateAttribute('id',F.id)
+            },
+            children <- if not F.children.oclIsUndefined() then
+                F.children->collect(e | thisModule.resolveTemp(e, 'R'))
+            else
+                Sequence {}
+            endif
+        )
+}
+
+helper context Figma!Frame def : getStyleString() : String =
+    -- 'width: ' + self.absoluteBoundingBox.width.toString() + 'px; ' +
+    -- 'height: ' + self.absoluteBoundingBox.height.toString() + 'px; ' +
+    'display: flex; ' +
+    (if not self.backgroundColor.oclIsUndefined() then 
+        ' background-color: ' + self.backgroundColor.toRGBA() + ';'
+    else 
+        ''
+    endif);
+
+-- Helper for Color to RGBA
+helper context Figma!Background def : toRGBA() : String = 'rgba('+self.color.r+','+self.color.g+','+self.color.b+','+self.color.a+')';
+
+
+lazy rule CreateAttribute {
 	from
-		F : Figma!Frame(F.isFrame())
-	to 
-		R : React!HTMLElement (
-			name <- 'div',
-			isSelfClosing <- false,
-			key <- F.id
+		name : String,
+		value : String
+	to
+		attr: React!HTMLAttribute(
+			name <- name,
+			value <- value,
+			isRequire <- false,
+			type <- 'string'
 		)
 }
 
@@ -109,18 +146,40 @@ rule FigmaRectangle2ReactDivHtmlElement {
 		R : React!HTMLElement (
 			name <- 'div',
 			isSelfClosing <- false,
-			key <- F.id
+			key <- F.id,
+			children <- F.children,
+			attributes <- Sequence{
+				thisModule.CreateAttribute('id',F.id)
+			}
 		)
 }
 
+rule FigmLine2ReactHrHtmlElement {
+	from
+		F : Figma!Line
+	to 
+		R : React!HTMLElement (
+			name <- 'hr',
+			isSelfClosing <- true,
+			key <- F.id,
+			attributes <- Sequence{
+				thisModule.CreateAttribute('id',F.id)
+			}
+		)
+}
 
 rule FigmaComponentSet2ReactComponent {
 	from
 		F : Figma!COMPONENT_SET(F.isComponentSet())
 	to 
 		R : React!Component (
-			name <- F.name.replaceAll(' ', ''),
-			key <- F.id
+			name <- F.name.regexReplaceAll(' ', ''),
+			key <- F.id,
+			children <- if not F.children.oclIsUndefined() then
+                F.children->collect(e | thisModule.resolveTemp(e, 'R'))
+            else
+                Sequence {}
+            endif
 		)
 }
 
@@ -129,7 +188,15 @@ rule FigmaComponent2RectDivHtmlElement {
 		F : Figma!Component
 	to 
 		R : React!HTMLElement (
-			name<-'div'
+			name<-'div',
+			children <- if not F.children.oclIsUndefined() then
+                F.children->collect(e | thisModule.resolveTemp(e, 'R'))
+            else
+                Sequence {}
+            endif,
+			attributes <- Sequence{
+				thisModule.CreateAttribute('id',F.id)
+			}
 		)
 }
 
@@ -139,6 +206,14 @@ helper context Figma!Text def : isLabel() : Boolean =
 	else
 		false		
 	endif;
+
+helper context Figma!Text def : isPlaceholder() : Boolean = 
+	if self.name.toString().toLower().startsWith('placeholder') then
+		true
+	else
+		false
+	endif;
+
 
 helper context Figma!Text def : isParagraph() : Boolean = 
 	if self.name.toString().toLower().startsWith('p') then
@@ -222,16 +297,116 @@ helper context Figma!Text def : getTextTag(): String =
         endif
     endif;
 
+
+-- First, let's make the helper more robust
 helper context Figma!Frame def : isInput() : Boolean =
-    self.name.toString().toLowerCase().startsWith('input') and 
-    not self.children.isEmpty() and 
-    self.children->exists(c | c.type.toString() = 'TEXT' and c.name.toLowerCase().startsWith('placeholder'));
+    if self.type.toString() = 'FRAME' and  -- Make sure it's a Frame
+       self.name.toString().toLowerCase().startsWith('input') and  -- Check name
+       not self.children.isEmpty() and  -- Has children
+       self.children->exists(c |  -- Has placeholder text
+            c.type.toString() = 'TEXT' and 
+            c.name.toLowerCase().startsWith('placeholder')
+        )
+    then
+        true
+    else
+        false
+    endif;
+
+-- Helper to get placeholder text
+helper context Figma!Frame def : getPlaceholderText() : Figma!Children =
+    if not self.children.isEmpty() then
+        self.children->select(c | 
+            c.type.toString() = 'TEXT' and 
+            c.name.toLowerCase().startsWith('placeholder')
+        )->first()
+    else
+        OclUndefined
+    endif;
 
 
+-- Add this helper to print debug info
+helper def : debugFrame(frame : Figma!Frame) : String = 
+    let debugInfo : String = frame.debugIsInput() in
+    frame.name + ' debug info: ' + debugInfo;
 
-rule FigmaText2ReactLabelHtmlElement {
+
+helper context Figma!Frame def : debugIsInput() : String =
+    'Frame type: ' + self.type.toString() + ', ' +
+    'Name: ' + self.name.toString() + ', ' +
+    'Has children: ' + (not self.children.isEmpty()).toString() + ', ' +
+    'Has placeholder: ' + (self.children->exists(c | 
+        c.type.toString() = 'TEXT' and 
+        c.name.toLowerCase().startsWith('placeholder')
+    )).toString();
+
+rule FigmaFrame2Input {
+    from
+        F : Figma!Frame (F.isInput())
+    using {
+        placeholderText : Figma!Children = F.getPlaceholderText();
+        styleString : String =
+            -- Add null checks for dimensions
+            (if not F.absoluteBoundingBox.oclIsUndefined() then
+                'width: ' + F.absoluteBoundingBox.width.toString() + 'px; ' +
+                'height: ' + F.absoluteBoundingBox.height.toString() + 'px; '
+            else
+                ''
+            endif) +
+            'padding: 8px 12px; ' +
+            'border: 1px solid #ccc; ' +
+            (if not F.cornerRadius.oclIsUndefined() then
+                'border-radius: ' + F.cornerRadius.toString() + 'px; '
+            else
+                'border-radius: 4px; '
+            endif) +
+            (if not F.backgroundColor.oclIsUndefined() then
+                'background-color: ' + F.backgroundColor.toRGBA() + '; '
+            else
+                ''
+            endif) +
+            (if not placeholderText.oclIsUndefined() and 
+                not placeholderText.style.oclIsUndefined() then
+                placeholderText.style.toStyleString()
+            else
+                ''
+            endif);
+    }
+    to
+        R : React!HTMLElement (
+            name <- 'input',
+            key <- F.id,
+            isSelfClosing <- true,
+            attributes <- Sequence {
+                thisModule.CreateAttribute('style', styleString),
+                thisModule.CreateAttribute('type', 'text'),
+                thisModule.CreateAttribute('placeholder',
+                    if not placeholderText.oclIsUndefined() then
+                        placeholderText.characters
+                    else
+                        ''
+                    endif
+                ),
+                thisModule.CreateAttribute('id', F.id)
+            }
+        )
+}
+
+
+-- Helper to convert text style to CSS string
+helper context Figma!Style def : toStyleString() : String =
+    'font-family: ' + self.fontFamily + '; ' +
+    'font-size: ' + self.fontSize.toString() + 'px; ' +
+    'font-weight: ' + self.fontWeight.toString() + '; ' +
+    'letter-spacing: ' + self.letterSpacing.toString() + 'px; ' +
+    'line-height: ' + (if self.lineHeightUnit.toString() = 'INTRINSIC_' 
+                       then self.lineHeightPx 
+                       else self.lineHeightPercent 
+                       endif).toString() + 'px;';
+
+rule FigmaText2ReactDisplaylHtmlElement {
 	from
-		F : Figma!Text(F.isLabel())
+		F : Figma!Text(not F.isPlaceholder())
 	to 
 		R : React!HTMLElement(
 			name <- F.getTextTag(),
