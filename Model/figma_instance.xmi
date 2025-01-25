@@ -46,7 +46,29 @@
                     id="placeholder"
                     characters="placeholder"/>
               </children>
+              <children
+                  xsi:type="figma_meta_model:Text"
+                  type="TEXT"
+                  name="small"
+                  characters="Helper text"/>
             </children>
+          </children>
+        </children>
+        <children
+            xsi:type="figma_meta_model:COMPONENT_SET"
+            type="COMPONENT_SET"
+            name="Button Component">
+          <children
+              xsi:type="figma_meta_model:Component"
+              type="COMPONENT"
+              name="Property 1=Default"
+              id="264:5">
+            <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Button"
+                id="263:2"
+                characters="Button"/>
           </children>
         </children>
       </children>
