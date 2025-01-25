@@ -1,0 +1,287 @@
+-- @path React=/Figma2React/Metamodel/react_meta_model.ecore
+
+query refine = 
+let app : React!ReactApplication = React!ReactApplication.allInstances()->first() in
+let appContent : String = app.generateApp() in
+let pagesContent : Sequence(TupleType(name: String, content: String)) = 
+    React!Page.allInstances()->collect(p | 
+        Tuple{name = 'pages/' + p.name + '.jsx', content = p.generatePageFile()}
+    ) in
+let componentsContent : Sequence(TupleType(name: String, content: String)) = 
+    React!Component.allInstances()->collect(c | 
+        Tuple{name = 'components/' + c.name + '.jsx', content = c.generateComponentFile()}
+    ) in
+let projectPath : String = '/Figma2React' in
+let outputPath : String = projectPath + '/src' in
+
+Sequence{
+    appContent.writeTo(outputPath + '/App.jsx'),
+    pagesContent->collect(p | p.content.writeTo(outputPath + '/' + p.name)),
+    componentsContent->collect(c | c.content.writeTo(outputPath + '/' + c.name))
+}->flatten();
+
+-- Helper for kebab-case to camelCase conversion
+helper def : toCamelCase(str : String) : String =
+    if str.indexOf('-') = -1 then
+        str
+    else
+        let parts : Sequence(String) = str.split('-') in
+        parts->first() + 
+        parts->subSequence(2, parts->size())->collect(p |
+            p.substring(1, 1).toUpper() + p.substring(2, p.size())
+        )->iterate(s; acc : String = '' | acc + s)
+    endif;
+
+-- Helper for App.jsx generation
+helper context React!ReactApplication def : generateApp() : String =
+    let hasRouter : Boolean = not self.router.oclIsUndefined() in
+    let jsxChildren : Sequence(React!JSXElement) = 
+        if not self.children.oclIsUndefined() then
+            self.children
+        else 
+            Sequence {}
+        endif
+    in
+    let pages : Sequence(React!Page) = 
+        jsxChildren->select(c | c.oclIsTypeOf(React!Page))
+    in
+    -- Imports
+    'import React from "react";\n' +
+    (if hasRouter then 
+        'import { BrowserRouter as Router, Routes, Route } from "react-router-dom";\n'
+    else
+        ''
+    endif) +
+    -- Import pages
+    (if not pages->isEmpty() then
+        pages->collect(p |
+            'import ' + p.name + ' from "./pages/' + p.name + '";'
+        )->iterate(s; acc : String = '' | acc + '\n' + s)
+    else
+        ''
+    endif) +
+    '\n\n' +
+    -- App component
+    'const App = () => {\n' +
+    '  return (\n' +
+    (if hasRouter then
+        '    <Router>\n' +
+        '      <Routes>\n' +
+        (if pages->isEmpty() then
+            ''
+        else
+            pages->collect(p | 
+                '        <Route path="/" element={<' + p.name + ' />} />'
+            )->iterate(s; acc : String = '' | 
+                acc + if acc = '' then s else '\n' + s endif)
+        endif) +
+        '\n' +
+        '      </Routes>\n' +
+        '    </Router>\n'
+    else
+        if not pages->isEmpty() then
+            '    <' + pages->first().name + ' />\n'
+        else
+            '    <div className="app">\n' +
+            (if jsxChildren->isEmpty() then
+                ''
+            else
+                jsxChildren->collect(c | '      ' + c.generateElement())->
+                iterate(s; acc : String = '' | 
+                    acc + if acc = '' then s else '\n' + s endif)
+            endif) +
+            '\n' +
+            '    </div>\n'
+        endif
+    endif) +
+    '  );\n' +
+    '};\n\n' +
+    'export default App;';
+
+helper context React!JSXElement def : findComponents() : Set(React!Component) =
+    let directComponents : Set(React!Component) = 
+        if self.children.oclIsUndefined() then
+            Set{}
+        else
+            self.children->select(c | c.oclIsTypeOf(React!Component))->asSet()
+        endif
+    in
+    let childComponents : Set(React!Component) =
+        if self.children.oclIsUndefined() then
+            Set{}
+        else
+            self.children->iterate(child; acc : Set(React!Component) = Set{} |
+                if child.oclIsTypeOf(React!Component) then
+                    acc
+                else
+                    acc->union(child.findComponents())
+                endif
+            )
+        endif
+    in
+    directComponents->union(childComponents);
+
+-- Helper for Page file generation
+helper context React!JSXElement def : generatePageFile() : String =
+    let components : Set(React!Component) = self.findComponents() in
+    'import React from "react";\n' +
+    -- Import components
+    (if not components->isEmpty() then
+        components->collect(c | 
+            'import { ' + c.name + ' } from "../components/' + c.name + '";'
+        )->iterate(s; acc : String = '' | acc + '\n' + s)
+    else
+        ''
+    endif) +
+    '\n\n' +
+    'const ' + self.name + ' = () => {\n' +
+    '  return (\n' +
+    '    <div className="page">\n      ' +
+    (if not self.children.oclIsUndefined() and not self.children->isEmpty() then
+        self.children->collect(c | c.generateElement())->
+        iterate(s; acc : String = '' | 
+            acc + if acc = '' then s else '\n      ' + s endif)
+    else
+        ''
+    endif) +
+    '\n    </div>\n' +
+    '  );\n' +
+    '};\n\n' +
+    'export default ' + self.name + ';';
+
+-- Helper for Component file generation
+helper context React!Component def : generateComponentFile() : String =
+    'import React from "react";\n\n' +
+    'export const ' + self.name + ' = () => {\n' +
+    '  return (\n    ' +
+    (if not self.children.oclIsUndefined() and not self.children->isEmpty() then
+        self.children->collect(c | c.generateElement())->
+        iterate(s; acc : String = '' | 
+            acc + if acc = '' then s else '\n    ' + s endif)
+    else
+        ''
+    endif) +
+    '\n  );\n' +
+    '};\n';
+
+-- Helper for JSX element generation
+helper context React!JSXElement def : generateElement() : String =
+    let hasChildren : Boolean = not self.children.oclIsUndefined() and not self.children->isEmpty() in
+    let hasContent : Boolean = not self.content.oclIsUndefined() in
+    let attrs : String = self.generateAttributes() in
+    
+    -- Handle different element types
+    if self.oclIsTypeOf(React!Component) then
+        -- For Components, just output the component tag
+        '<' + self.name + ' />'
+    else if self.oclIsTypeOf(React!HTMLElement) then
+        if self.name = 'input' then
+            '<' + self.name + attrs + ' />'
+        else if hasContent then
+            '<' + self.name + attrs + '>' + self.content.toString() + '</' + self.name + '>'
+        else if hasChildren then
+            let childrenContent : String = 
+                self.children->collect(c | 
+                    if c.oclIsTypeOf(React!Component) then
+                        '\n        <' + c.name + ' />'
+                    else
+                        '\n        ' + c.generateElement()
+                    endif
+                )->iterate(s; acc : String = '' | 
+                    acc + if acc = '' then s else '' + s endif)
+            in
+            '<' + self.name + attrs + '>' + 
+            childrenContent +
+            '\n      </' + self.name + '>'
+        else
+            '<' + self.name + attrs + '></' + self.name + '>'
+        endif endif endif
+    else
+        -- For other JSXElements
+        '<' + self.name + attrs + '>' +
+        (if hasChildren then
+            '\n        ' + 
+            self.children->collect(c | c.generateElement())->
+            iterate(s; acc : String = '' | 
+                acc + if acc = '' then s else '\n        ' + s endif) +
+            '\n      '
+        else
+            ''
+        endif) +
+        '</' + self.name + '>'
+    endif endif;
+
+-- Helper for attributes generation
+helper context React!JSXElement def : generateAttributes() : String =
+    let attrs : Sequence(String) = 
+        if self.oclIsTypeOf(React!HTMLElement) then
+            if self.oclIsTypeOf(React!HTMLElement) then
+                let htmlElement : React!HTMLElement = self in
+                if not htmlElement.attributes.oclIsUndefined() then
+                    htmlElement.attributes->collect(a | 
+                        if a.name = 'style' then
+                            -- Inline style formatting logic
+                            let styleStr : String = 
+                                if a.value.oclIsUndefined() then
+                                    '{}'
+                                else
+                                    -- Split style properties
+                                    let styleProps : Sequence(String) = 
+                                        a.value.regexReplaceAll('; *', ';')
+                                                .split(';')
+                                                ->reject(s | s = '')
+                                    in
+                                    styleProps->collect(prop |
+                                        let keyValue : Sequence(String) = prop.split(':') in
+                                        if keyValue->size() = 2 then
+                                            -- Convert property name to camelCase
+                                            thisModule.toCamelCase(keyValue->first().trim()) + 
+                                            ': "' + keyValue->last().trim() + '"'
+                                        else
+                                            ''
+                                        endif
+                                    )->reject(s | s = '')->
+                                    iterate(s; acc : String = '' | 
+                                        acc + if acc = '' then s else ', ' + s endif)
+                                endif
+                            in
+                            'style={{' + styleStr + '}}'
+                        else if a.name = 'id' then
+                            -- Only include id if it has a valid value
+                            if not a.value.oclIsUndefined() and not a.value.toString().startsWith('org.eclipse') then
+                                'id="' + a.value + '"'
+                            else
+                                ''
+                            endif
+                        else
+                            a.name + '="' + a.value + '"'
+                        endif endif
+                    )->reject(s | s = '') -- Remove empty strings from attributes
+                else
+                    Sequence {}
+                endif
+            else
+                Sequence {}
+            endif
+        else
+            if not self.props.oclIsUndefined() and not self.props->isEmpty() then
+                self.props->collect(p |
+                    p.name + '=' + 
+                    if p.value.toString() = 'String' then
+                        '"' + p.defaultValue + '"'
+                    else
+                        '{' + p.defaultValue + '}'
+                    endif
+                )
+            else
+                Sequence {}
+            endif
+        endif
+    in
+    if attrs->isEmpty() then
+        ''
+    else
+        ' ' + attrs->iterate(s; acc : String = '' | 
+            acc + if acc = '' then s else ' ' + s endif)
+    endif;
+            
