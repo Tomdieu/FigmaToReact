@@ -86,9 +86,14 @@ rule FigmaCanvas2ReactComponent {
 	from
 		F : Figma!Canvas(F.isCanvas())
 	to 
-		R : React!Component (
+		R : React!Page (
 			name <- F.name,
-			key <- F.id	
+			key <- F.id,
+            children <- if not F.children.oclIsUndefined() then
+                F.children->collect(e | thisModule.resolveTemp(e, 'R'))
+            else
+                Sequence {}
+            endif
 		)
 }
 
@@ -221,6 +226,14 @@ helper context Figma!Text def : isParagraph() : Boolean =
 	else
 		false
 	endif;
+
+helper context Figma!Text def : isButton() : Boolean = 
+	if self.name.toString().toLower().startsWith('button') then
+		true
+	else
+		false
+	endif;
+
 
 helper context Figma!Text def : getTextTag(): String =
     if self.name.toString().toLower().startsWith('label') then
@@ -389,8 +402,10 @@ rule FigmaFrame2Input {
                 ),
                 thisModule.CreateAttribute('id', F.id)
             }
-        )
+      )
 }
+
+
 
 
 -- Helper to convert text style to CSS string
@@ -404,9 +419,23 @@ helper context Figma!Style def : toStyleString() : String =
                        else self.lineHeightPercent 
                        endif).toString() + 'px;';
 
+
+rule Figma2Button {
+	from
+		F : Figma!Text(F.isButton())
+	to 
+		R : React!HTMLElement (
+			name <- 'button',
+			key <- F.id,
+			isSelfClosing <- false,
+			content <- F.characters
+			
+		)
+}
+
 rule FigmaText2ReactDisplaylHtmlElement {
 	from
-		F : Figma!Text(not F.isPlaceholder())
+		F : Figma!Text(not F.isPlaceholder() and not F.isButton())
 	to 
 		R : React!HTMLElement(
 			name <- F.getTextTag(),
