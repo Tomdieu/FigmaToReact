@@ -32,6 +32,19 @@ helper def : toCamelCase(str : String) : String =
         )->iterate(s; acc : String = '' | acc + s)
     endif;
 
+helper def : toComponentName(name : String) : String =
+    let words : Sequence(String) = 
+        name.split(' ')->reject(w | w = '')
+    in
+    words->iterate(w; acc : String = '' | 
+        acc + w.substring(1, 1).toUpper() + 
+        if w.size() > 1 then
+            w.substring(2, w.size())
+        else
+            ''
+        endif
+    );
+
 -- Helper for App.jsx generation
 helper context React!ReactApplication def : generateApp() : String =
     let hasRouter : Boolean = not self.router.oclIsUndefined() in
