@@ -1,34 +1,149 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:react_meta_model="http://example.com/react_meta_model">
-  <react_meta_model:ReactApplication name="Untitled"/>
-  <react_meta_model:Router basname="Document"/>
-  <react_meta_model:Page key="249:154" name="Inputs">
-    <children xsi:type="react_meta_model:HTMLElement" key="249:155" name="div">
-      <children xsi:type="react_meta_model:Component" name="InputComponent">
-        <children xsi:type="react_meta_model:HTMLElement" name="div">
-          <children xsi:type="react_meta_model:HTMLElement" name="div">
-            <children xsi:type="react_meta_model:HTMLElement" name="label"/>
-            <children xsi:type="react_meta_model:HTMLElement" name="input" isSelfClosing="true">
-              <attributes name="style" value="padding: 8px 12px; border: 1px solid #ccc; border-radius: 0.0px; " type="string"/>
-              <attributes name="type" value="text" type="string"/>
-              <attributes name="placeholder" value="placeholder" type="string"/>
-              <attributes name="id" type="string"/>
-            </children>
-            <children xsi:type="react_meta_model:HTMLElement" name="small" content="Helper text"/>
-            <attributes name="style" value="display: flex; " type="string"/>
-            <attributes name="id" type="string"/>
+<react_meta_model:ReactApplication xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:react_meta_model="http://example.com/react_meta_model" name="Untitled">
+  <router basname="Document">
+    <route path="/page-1" exact="true">
+      <element xsi:type="react_meta_model:Page" key="0:1" name="Page1">
+        <children xsi:type="react_meta_model:HTMLElement" key="107:7" name="div">
+          <children xsi:type="react_meta_model:HTMLElement" key="160:215" name="div">
+            <children xsi:type="react_meta_model:HTMLElement" name="p" content="Tasks"/>
+            <attributes name="style" value="{display: flex, backgroundColor: transparent, flexDirection: row, alignItems: center, gap: 0px, flexWrap: nowrap, borderRadius: 0.0px}" type="string"/>
+            <attributes name="id" value="160:215" type="string"/>
           </children>
-          <attributes name="id" type="string"/>
+          <children xsi:type="react_meta_model:HTMLElement" key="160:214" name="div">
+            <children xsi:type="react_meta_model:HTMLElement" name="p" content="Add Task"/>
+            <attributes name="style" value="{display: flex, backgroundColor: transparent, flexDirection: row, alignItems: center, gap: 0px, flexWrap: nowrap, borderRadius: 0.0px}" type="string"/>
+            <attributes name="id" value="160:214" type="string"/>
+          </children>
+          <children xsi:type="react_meta_model:HTMLElement" name="p" content="Dashboard"/>
+          <children xsi:type="react_meta_model:HTMLElement" name="p" content="Tasks"/>
+          <children xsi:type="react_meta_model:HTMLElement" key="136:52" name="div">
+            <children xsi:type="react_meta_model:HTMLElement" key="135:17" name="div">
+              <children xsi:type="react_meta_model:HTMLElement" key="135:8" name="div">
+                <children xsi:type="react_meta_model:HTMLElement" name="p" content="Title"/>
+                <attributes name="style" value="{display: flex, backgroundColor: transparent, flexDirection: row, alignItems: center, gap: 0px, flexWrap: nowrap, borderRadius: 0.0px}" type="string"/>
+                <attributes name="id" value="135:8" type="string"/>
+              </children>
+              <children xsi:type="react_meta_model:HTMLElement" key="135:9" name="div">
+                <children xsi:type="react_meta_model:HTMLElement" name="p" content="Description"/>
+                <attributes name="style" value="{display: flex, backgroundColor: transparent, flexDirection: row, alignItems: center, gap: 0px, flexWrap: nowrap, borderRadius: 0.0px}" type="string"/>
+                <attributes name="id" value="135:9" type="string"/>
+              </children>
+              <children xsi:type="react_meta_model:HTMLElement" key="135:12" name="div">
+                <children xsi:type="react_meta_model:HTMLElement" name="p" content="Completed"/>
+                <attributes name="style" value="{display: flex, backgroundColor: transparent, flexDirection: row, alignItems: center, gap: 0px, flexWrap: nowrap, borderRadius: 0.0px}" type="string"/>
+                <attributes name="id" value="135:12" type="string"/>
+              </children>
+              <children xsi:type="react_meta_model:HTMLElement" key="135:15" name="div">
+                <children xsi:type="react_meta_model:HTMLElement" name="p" content="Actions"/>
+                <attributes name="style" value="{display: flex, backgroundColor: transparent, flexDirection: row, alignItems: center, gap: 0px, flexWrap: nowrap, borderRadius: 0.0px}" type="string"/>
+                <attributes name="id" value="135:15" type="string"/>
+              </children>
+              <attributes name="style" value="{display: flex, backgroundColor: transparent, flexDirection: row, alignItems: center, gap: 0px, flexWrap: nowrap, borderRadius: 0.0px}" type="string"/>
+              <attributes name="id" value="135:17" type="string"/>
+            </children>
+            <children xsi:type="react_meta_model:HTMLElement" name="div">
+              <attributes name="id" value="153:202" type="string"/>
+            </children>
+            <attributes name="style" value="{display: flex, backgroundColor: transparent, flexDirection: row, alignItems: center, gap: 0px, flexWrap: nowrap, borderRadius: 0.0px}" type="string"/>
+            <attributes name="id" value="136:52" type="string"/>
+          </children>
+          <attributes name="style" value="{display: flex, backgroundColor: transparent, flexDirection: row, alignItems: center, gap: 0px, flexWrap: nowrap, borderRadius: 0.0px}" type="string"/>
+          <attributes name="id" value="107:7" type="string"/>
         </children>
-      </children>
-      <children xsi:type="react_meta_model:Component" name="ButtonComponent">
         <children xsi:type="react_meta_model:HTMLElement" name="div">
-          <children xsi:type="react_meta_model:HTMLElement" key="263:2" name="button" content="Button"/>
-          <attributes name="id" value="264:5" type="string"/>
+          <children xsi:type="react_meta_model:HTMLElement" key="111:18" name="div">
+            <attributes name="style" value="{display: flex, backgroundColor: transparent, flexDirection: row, alignItems: center, gap: 0px, flexWrap: nowrap, borderRadius: 0.0px}" type="string"/>
+            <attributes name="id" value="111:18" type="string"/>
+          </children>
+          <children xsi:type="react_meta_model:HTMLElement" name="p" content="Tasks"/>
+          <children xsi:type="react_meta_model:HTMLElement" name="p" content="Add Task"/>
+          <children xsi:type="react_meta_model:HTMLElement" name="p" content="Dashboard"/>
+          <children xsi:type="react_meta_model:HTMLElement" name="p" content="Add task"/>
+          <children xsi:type="react_meta_model:HTMLElement" key="153:175" name="div">
+            <children xsi:type="react_meta_model:HTMLElement" key="111:20" name="div">
+              <children xsi:type="react_meta_model:HTMLElement" name="p" content="Name"/>
+              <attributes name="style" value="{display: flex, backgroundColor: transparent, flexDirection: row, alignItems: center, gap: 0px, flexWrap: nowrap, borderRadius: 0.0px}" type="string"/>
+              <attributes name="id" value="111:20" type="string"/>
+            </children>
+            <attributes name="style" value="{display: flex, backgroundColor: transparent, flexDirection: row, alignItems: center, gap: 0px, flexWrap: nowrap, borderRadius: 0.0px}" type="string"/>
+            <attributes name="id" value="153:175" type="string"/>
+          </children>
+          <children xsi:type="react_meta_model:HTMLElement" key="117:3" name="div">
+            <children xsi:type="react_meta_model:HTMLElement" name="p" content="Completed"/>
+            <attributes name="style" value="{display: flex, backgroundColor: transparent, flexDirection: row, alignItems: center, gap: 0px, flexWrap: nowrap, borderRadius: 0.0px}" type="string"/>
+            <attributes name="id" value="117:3" type="string"/>
+          </children>
+          <children xsi:type="react_meta_model:HTMLElement" name="p" content="Add"/>
+          <children xsi:type="react_meta_model:HTMLElement" key="111:22" name="div">
+            <children xsi:type="react_meta_model:HTMLElement" name="p" content="Description"/>
+            <attributes name="style" value="{display: flex, backgroundColor: transparent, flexDirection: row, alignItems: center, gap: 0px, flexWrap: nowrap, borderRadius: 0.0px}" type="string"/>
+            <attributes name="id" value="111:22" type="string"/>
+          </children>
+          <attributes name="id" value="109:11" type="string"/>
         </children>
-      </children>
-      <attributes name="style" value="display: flex; " type="string"/>
-      <attributes name="id" value="249:155" type="string"/>
-    </children>
-  </react_meta_model:Page>
-</xmi:XMI>
+      </element>
+    </route>
+    <route path="/page-2" exact="true">
+      <element xsi:type="react_meta_model:Page" key="206:160" name="Page2">
+        <children xsi:type="react_meta_model:HTMLElement" key="206:161" name="div">
+          <attributes name="style" value="{display: flex, backgroundColor: transparent, flexDirection: row, alignItems: center, gap: 0px, flexWrap: nowrap, borderRadius: 0.0px}" type="string"/>
+          <attributes name="id" value="206:161" type="string"/>
+        </children>
+      </element>
+    </route>
+    <route path="/page-3" exact="true">
+      <element xsi:type="react_meta_model:Page" key="219:154" name="Page3">
+        <children xsi:type="react_meta_model:HTMLElement" key="219:155" name="div">
+          <attributes name="style" value="{display: flex, backgroundColor: transparent, flexDirection: row, alignItems: center, gap: 0px, flexWrap: nowrap, borderRadius: 0.0px}" type="string"/>
+          <attributes name="id" value="219:155" type="string"/>
+        </children>
+      </element>
+    </route>
+    <route path="/inputs" exact="true">
+      <element xsi:type="react_meta_model:Page" key="249:154" name="Inputs">
+        <children xsi:type="react_meta_model:HTMLElement" key="249:155" name="div">
+          <children xsi:type="react_meta_model:Component" key="257:183" name="InputComponent">
+            <children xsi:type="react_meta_model:HTMLElement" name="div">
+              <children xsi:type="react_meta_model:HTMLElement" name="div">
+                <children xsi:type="react_meta_model:HTMLElement" key="249:159" name="div">
+                  <children xsi:type="react_meta_model:HTMLElement" name="label" content="label"/>
+                  <children xsi:type="react_meta_model:HTMLElement" key="249:157" name="input" isSelfClosing="true">
+                    <attributes name="style" value="{padding: 8px 12px, border: 1px solid #ccc, borderRadius: 0.0px, }" type="string"/>
+                    <attributes name="type" value="text" type="string"/>
+                    <attributes name="placeholder" value="Placeholder" type="string"/>
+                    <attributes name="id" value="249:157" type="string"/>
+                  </children>
+                  <attributes name="style" value="{display: flex, backgroundColor: transparent, flexDirection: row, alignItems: center, gap: 0px, flexWrap: nowrap, borderRadius: 0.0px}" type="string"/>
+                  <attributes name="id" value="249:159" type="string"/>
+                </children>
+                <children xsi:type="react_meta_model:HTMLElement" name="p" content="Helper text"/>
+                <attributes name="id" value="249:162" type="string"/>
+              </children>
+              <attributes name="style" value="{display: flex, backgroundColor: transparent, borderRadius: 0.0px}" type="string"/>
+            </children>
+          </children>
+          <children xsi:type="react_meta_model:Component" key="264:5" name="Frame3">
+            <children xsi:type="react_meta_model:HTMLElement" name="div">
+              <children xsi:type="react_meta_model:HTMLElement" name="div">
+                <children xsi:type="react_meta_model:HTMLElement" key="263:2" name="button" content="Button Test"/>
+                <attributes name="id" value="263:4" type="string"/>
+              </children>
+              <children xsi:type="react_meta_model:HTMLElement" name="div">
+                <children xsi:type="react_meta_model:HTMLElement" key="264:7" name="button" content="Button Test"/>
+                <attributes name="id" value="264:6" type="string"/>
+              </children>
+              <attributes name="style" value="{display: flex, backgroundColor: transparent, borderRadius: 0.0px}" type="string"/>
+            </children>
+          </children>
+          <children xsi:type="react_meta_model:HTMLElement" key="276:166" name="div">
+            <children xsi:type="react_meta_model:HTMLElement" key="276:167" name="button" content="Button Test"/>
+            <attributes name="style" value="{display: flex, backgroundColor: transparent, flexDirection: row, alignItems: center, gap: 0px, flexWrap: nowrap, borderRadius: 0.0px}" type="string"/>
+            <attributes name="id" value="276:166" type="string"/>
+          </children>
+          <attributes name="style" value="{display: flex, backgroundColor: transparent, flexDirection: row, alignItems: center, gap: 0px, flexWrap: nowrap, borderRadius: 0.0px}" type="string"/>
+          <attributes name="id" value="249:155" type="string"/>
+        </children>
+      </element>
+    </route>
+  </router>
+</react_meta_model:ReactApplication>

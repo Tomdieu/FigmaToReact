@@ -1,76 +1,1775 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <figma_meta_model:FigmaApp
-    xmi:version="2.0"
-    xmlns:xmi="http://www.omg.org/XMI"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:figma_meta_model="www.figma_meta_model.com"
-    xsi:schemaLocation="www.figma_meta_model.com ../Metamodel/figma_meta_model.ecore"
-    name="Untitled">
+  xmi:version="2.0"
+  xmlns:xmi="http://www.omg.org/XMI"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:figma_meta_model="www.figma_meta_model.com"
+  xsi:schemaLocation="www.figma_meta_model.com ../Metamodel/figma_meta_model.ecore"
+  name="Untitled">
   <document
-      id="0:0"
-      name="Document">
+    id="0:0"
+    name="Document">
     <children
-        xsi:type="figma_meta_model:Canvas"
-        type="CANVAS"
-        name="Inputs"
-        id="249:154">
+      xsi:type="figma_meta_model:Canvas"
+      type="CANVAS"
+      name="Page 1"
+      id="0:1"
+      >
       <children
+        xsi:type="figma_meta_model:Frame"
+        type="FRAME"
+        name="Desktop - 1"
+        id="107:7"
+        >
+        <children
+          xsi:type="figma_meta_model:RECTANGLE"
+          type="RECTANGLE"
+          name="Rectangle 2"
+          id="107:9"
+          />
+        <children
           xsi:type="figma_meta_model:Frame"
           type="FRAME"
-          name="Desktop - 1"
-          id="249:155">
-        <children
-            xsi:type="figma_meta_model:COMPONENT_SET"
-            type="COMPONENT_SET"
-            name="Input Component">
+          name="Frame 29"
+          id="160:215"
+          >
           <children
-              xsi:type="figma_meta_model:Component"
-              type="COMPONENT"
-              name="Property 1=Default">
-            <children
-                xsi:type="figma_meta_model:Frame"
-                type="FRAME"
-                name="Frame 2">
-              <children
-                  xsi:type="figma_meta_model:Text"
-                  type="TEXT"
-                  name="label"/>
-              <children
-                  xsi:type="figma_meta_model:Frame"
-                  type="FRAME"
-                  name="Input">
-                <children
-                    xsi:type="figma_meta_model:Text"
-                    type="TEXT"
-                    name="placeholder"
-                    id="placeholder"
-                    characters="placeholder"/>
-              </children>
-              <children
-                  xsi:type="figma_meta_model:Text"
-                  type="TEXT"
-                  name="small"
-                  characters="Helper text"/>
-            </children>
+            xsi:type="figma_meta_model:Text"
+            type="TEXT"
+            name="Tasks"
+            id="109:2"
+            characters="Tasks"
+            />
           </children>
-        </children>
         <children
-            xsi:type="figma_meta_model:COMPONENT_SET"
-            type="COMPONENT_SET"
-            name="Button Component">
+          xsi:type="figma_meta_model:Frame"
+          type="FRAME"
+          name="Frame 28"
+          id="160:214"
+          >
           <children
-              xsi:type="figma_meta_model:Component"
-              type="COMPONENT"
-              name="Property 1=Default"
-              id="264:5">
+            xsi:type="figma_meta_model:Text"
+            type="TEXT"
+            name="Add Task"
+            id="109:3"
+            characters="Add Task"
+            />
+          </children>
+        <children
+          xsi:type="figma_meta_model:Text"
+          type="TEXT"
+          name="Dashboard"
+          id="107:15"
+          characters="Dashboard"
+          />
+        <children
+          xsi:type="figma_meta_model:LINE"
+          type="LINE"
+          name="Line 1"
+          id="107:16"
+          />
+        <children
+          xsi:type="figma_meta_model:Text"
+          type="TEXT"
+          name="Tasks"
+          id="134:2"
+          characters="Tasks"
+          />
+        <children
+          xsi:type="figma_meta_model:Frame"
+          type="FRAME"
+          name="Frame 13"
+          id="136:52"
+          >
+          <children
+            xsi:type="figma_meta_model:Frame"
+            type="FRAME"
+            name="Frame 9"
+            id="135:17"
+            >
             <children
+              xsi:type="figma_meta_model:Frame"
+              type="FRAME"
+              name="Frame 5"
+              id="135:8"
+              >
+              <children
                 xsi:type="figma_meta_model:Text"
                 type="TEXT"
-                name="Button"
-                id="263:2"
-                characters="Button"/>
+                name="Title"
+                id="135:7"
+                characters="Title"
+                />
+              </children>
+            <children
+              xsi:type="figma_meta_model:Frame"
+              type="FRAME"
+              name="Frame 6"
+              id="135:9"
+              >
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Description"
+                id="135:11"
+                characters="Description"
+                />
+              </children>
+            <children
+              xsi:type="figma_meta_model:Frame"
+              type="FRAME"
+              name="Frame 7"
+              id="135:12"
+              >
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Completed"
+                id="135:14"
+                characters="Completed"
+                />
+              </children>
+            <children
+              xsi:type="figma_meta_model:Frame"
+              type="FRAME"
+              name="Frame 8"
+              id="135:15"
+              >
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Actions"
+                id="135:16"
+                characters="Actions"
+                />
+              </children>
+          </children>
+          <children
+            xsi:type="figma_meta_model:INSTANCE"
+            type="INSTANCE"
+            name="Frame 13"
+            id="149:31"
+            >
+            <children
+              xsi:type="figma_meta_model:Frame"
+              type="FRAME"
+              name="Frame 5"
+              id="I149:31;136:64"
+              >
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Initialise project"
+                id="I149:31;136:65"
+                characters="Initialise project"
+                />
+              </children>
+            <children
+              xsi:type="figma_meta_model:Frame"
+              type="FRAME"
+              name="Frame 6"
+              id="I149:31;136:66"
+              >
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Description"
+                id="I149:31;136:67"
+                characters="Description"
+                />
+              </children>
+            <children
+              xsi:type="figma_meta_model:Frame"
+              type="FRAME"
+              name="Frame 7"
+              id="I149:31;136:68"
+              >
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Yes"
+                id="I149:31;136:69"
+                characters="Yes"
+                />
+              </children>
+            <children
+              xsi:type="figma_meta_model:Frame"
+              type="FRAME"
+              name="Frame 8"
+              id="I149:31;136:70"
+              >
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Updated"
+                id="I149:31;136:71"
+                characters="Updated"
+                />
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Deleted"
+                id="I149:31;136:72"
+                characters="Deleted"
+                />
+              </children>
+          </children>
+          <children
+            xsi:type="figma_meta_model:INSTANCE"
+            type="INSTANCE"
+            name="Frame 14"
+            id="149:43"
+            >
+            <children
+              xsi:type="figma_meta_model:Frame"
+              type="FRAME"
+              name="Frame 5"
+              id="I149:43;136:64"
+              >
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Initialise project"
+                id="I149:43;136:65"
+                characters="Initialise project"
+                />
+              </children>
+            <children
+              xsi:type="figma_meta_model:Frame"
+              type="FRAME"
+              name="Frame 6"
+              id="I149:43;136:66"
+              >
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Description"
+                id="I149:43;136:67"
+                characters="Description"
+                />
+              </children>
+            <children
+              xsi:type="figma_meta_model:Frame"
+              type="FRAME"
+              name="Frame 7"
+              id="I149:43;136:68"
+              >
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Yes"
+                id="I149:43;136:69"
+                characters="Yes"
+                />
+              </children>
+            <children
+              xsi:type="figma_meta_model:Frame"
+              type="FRAME"
+              name="Frame 8"
+              id="I149:43;136:70"
+              >
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Updated"
+                id="I149:43;136:71"
+                characters="Updated"
+                />
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Deleted"
+                id="I149:43;136:72"
+                characters="Deleted"
+                />
+              </children>
+          </children>
+          <children
+            xsi:type="figma_meta_model:INSTANCE"
+            type="INSTANCE"
+            name="Frame 15"
+            id="149:53"
+            >
+            <children
+              xsi:type="figma_meta_model:Frame"
+              type="FRAME"
+              name="Frame 5"
+              id="I149:53;136:64"
+              >
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Initialise project"
+                id="I149:53;136:65"
+                characters="Initialise project"
+                />
+              </children>
+            <children
+              xsi:type="figma_meta_model:Frame"
+              type="FRAME"
+              name="Frame 6"
+              id="I149:53;136:66"
+              >
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Description"
+                id="I149:53;136:67"
+                characters="Description"
+                />
+              </children>
+            <children
+              xsi:type="figma_meta_model:Frame"
+              type="FRAME"
+              name="Frame 7"
+              id="I149:53;136:68"
+              >
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Yes"
+                id="I149:53;136:69"
+                characters="Yes"
+                />
+              </children>
+            <children
+              xsi:type="figma_meta_model:Frame"
+              type="FRAME"
+              name="Frame 8"
+              id="I149:53;136:70"
+              >
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Updated"
+                id="I149:53;136:71"
+                characters="Updated"
+                />
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Deleted"
+                id="I149:53;136:72"
+                characters="Deleted"
+                />
+              </children>
+          </children>
+          <children
+            xsi:type="figma_meta_model:INSTANCE"
+            type="INSTANCE"
+            name="Frame 16"
+            id="149:63"
+            >
+            <children
+              xsi:type="figma_meta_model:Frame"
+              type="FRAME"
+              name="Frame 5"
+              id="I149:63;136:64"
+              >
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Initialise project"
+                id="I149:63;136:65"
+                characters="Initialise project"
+                />
+              </children>
+            <children
+              xsi:type="figma_meta_model:Frame"
+              type="FRAME"
+              name="Frame 6"
+              id="I149:63;136:66"
+              >
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Description"
+                id="I149:63;136:67"
+                characters="Description"
+                />
+              </children>
+            <children
+              xsi:type="figma_meta_model:Frame"
+              type="FRAME"
+              name="Frame 7"
+              id="I149:63;136:68"
+              >
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Yes"
+                id="I149:63;136:69"
+                characters="Yes"
+                />
+              </children>
+            <children
+              xsi:type="figma_meta_model:Frame"
+              type="FRAME"
+              name="Frame 8"
+              id="I149:63;136:70"
+              >
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Updated"
+                id="I149:63;136:71"
+                characters="Updated"
+                />
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Deleted"
+                id="I149:63;136:72"
+                characters="Deleted"
+                />
+              </children>
+          </children>
+          <children
+            xsi:type="figma_meta_model:INSTANCE"
+            type="INSTANCE"
+            name="Frame 17"
+            id="149:73"
+            >
+            <children
+              xsi:type="figma_meta_model:Frame"
+              type="FRAME"
+              name="Frame 5"
+              id="I149:73;136:64"
+              >
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Initialise project"
+                id="I149:73;136:65"
+                characters="Initialise project"
+                />
+              </children>
+            <children
+              xsi:type="figma_meta_model:Frame"
+              type="FRAME"
+              name="Frame 6"
+              id="I149:73;136:66"
+              >
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Description"
+                id="I149:73;136:67"
+                characters="Description"
+                />
+              </children>
+            <children
+              xsi:type="figma_meta_model:Frame"
+              type="FRAME"
+              name="Frame 7"
+              id="I149:73;136:68"
+              >
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Yes"
+                id="I149:73;136:69"
+                characters="Yes"
+                />
+              </children>
+            <children
+              xsi:type="figma_meta_model:Frame"
+              type="FRAME"
+              name="Frame 8"
+              id="I149:73;136:70"
+              >
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Updated"
+                id="I149:73;136:71"
+                characters="Updated"
+                />
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Deleted"
+                id="I149:73;136:72"
+                characters="Deleted"
+                />
+              </children>
+          </children>
+          <children
+            xsi:type="figma_meta_model:INSTANCE"
+            type="INSTANCE"
+            name="Frame 18"
+            id="149:83"
+            >
+            <children
+              xsi:type="figma_meta_model:Frame"
+              type="FRAME"
+              name="Frame 5"
+              id="I149:83;136:64"
+              >
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Initialise project"
+                id="I149:83;136:65"
+                characters="Initialise project"
+                />
+              </children>
+            <children
+              xsi:type="figma_meta_model:Frame"
+              type="FRAME"
+              name="Frame 6"
+              id="I149:83;136:66"
+              >
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Description"
+                id="I149:83;136:67"
+                characters="Description"
+                />
+              </children>
+            <children
+              xsi:type="figma_meta_model:Frame"
+              type="FRAME"
+              name="Frame 7"
+              id="I149:83;136:68"
+              >
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Yes"
+                id="I149:83;136:69"
+                characters="Yes"
+                />
+              </children>
+            <children
+              xsi:type="figma_meta_model:Frame"
+              type="FRAME"
+              name="Frame 8"
+              id="I149:83;136:70"
+              >
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Updated"
+                id="I149:83;136:71"
+                characters="Updated"
+                />
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Deleted"
+                id="I149:83;136:72"
+                characters="Deleted"
+                />
+              </children>
+          </children>
+          <children
+            xsi:type="figma_meta_model:INSTANCE"
+            type="INSTANCE"
+            name="Frame 19"
+            id="149:93"
+            >
+            <children
+              xsi:type="figma_meta_model:Frame"
+              type="FRAME"
+              name="Frame 5"
+              id="I149:93;136:64"
+              >
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Initialise project"
+                id="I149:93;136:65"
+                characters="Initialise project"
+                />
+              </children>
+            <children
+              xsi:type="figma_meta_model:Frame"
+              type="FRAME"
+              name="Frame 6"
+              id="I149:93;136:66"
+              >
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Description"
+                id="I149:93;136:67"
+                characters="Description"
+                />
+              </children>
+            <children
+              xsi:type="figma_meta_model:Frame"
+              type="FRAME"
+              name="Frame 7"
+              id="I149:93;136:68"
+              >
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Yes"
+                id="I149:93;136:69"
+                characters="Yes"
+                />
+              </children>
+            <children
+              xsi:type="figma_meta_model:Frame"
+              type="FRAME"
+              name="Frame 8"
+              id="I149:93;136:70"
+              >
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Updated"
+                id="I149:93;136:71"
+                characters="Updated"
+                />
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Deleted"
+                id="I149:93;136:72"
+                characters="Deleted"
+                />
+              </children>
+          </children>
+          <children
+            xsi:type="figma_meta_model:INSTANCE"
+            type="INSTANCE"
+            name="Frame 20"
+            id="149:103"
+            >
+            <children
+              xsi:type="figma_meta_model:Frame"
+              type="FRAME"
+              name="Frame 5"
+              id="I149:103;136:64"
+              >
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Initialise project"
+                id="I149:103;136:65"
+                characters="Initialise project"
+                />
+              </children>
+            <children
+              xsi:type="figma_meta_model:Frame"
+              type="FRAME"
+              name="Frame 6"
+              id="I149:103;136:66"
+              >
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Description"
+                id="I149:103;136:67"
+                characters="Description"
+                />
+              </children>
+            <children
+              xsi:type="figma_meta_model:Frame"
+              type="FRAME"
+              name="Frame 7"
+              id="I149:103;136:68"
+              >
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Yes"
+                id="I149:103;136:69"
+                characters="Yes"
+                />
+              </children>
+            <children
+              xsi:type="figma_meta_model:Frame"
+              type="FRAME"
+              name="Frame 8"
+              id="I149:103;136:70"
+              >
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Updated"
+                id="I149:103;136:71"
+                characters="Updated"
+                />
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Deleted"
+                id="I149:103;136:72"
+                characters="Deleted"
+                />
+              </children>
+          </children>
+          <children
+            xsi:type="figma_meta_model:INSTANCE"
+            type="INSTANCE"
+            name="Frame 21"
+            id="149:113"
+            >
+            <children
+              xsi:type="figma_meta_model:Frame"
+              type="FRAME"
+              name="Frame 5"
+              id="I149:113;136:64"
+              >
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Initialise project"
+                id="I149:113;136:65"
+                characters="Initialise project"
+                />
+              </children>
+            <children
+              xsi:type="figma_meta_model:Frame"
+              type="FRAME"
+              name="Frame 6"
+              id="I149:113;136:66"
+              >
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Description"
+                id="I149:113;136:67"
+                characters="Description"
+                />
+              </children>
+            <children
+              xsi:type="figma_meta_model:Frame"
+              type="FRAME"
+              name="Frame 7"
+              id="I149:113;136:68"
+              >
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Yes"
+                id="I149:113;136:69"
+                characters="Yes"
+                />
+              </children>
+            <children
+              xsi:type="figma_meta_model:Frame"
+              type="FRAME"
+              name="Frame 8"
+              id="I149:113;136:70"
+              >
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Updated"
+                id="I149:113;136:71"
+                characters="Updated"
+                />
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Deleted"
+                id="I149:113;136:72"
+                characters="Deleted"
+                />
+              </children>
+          </children>
+          <children
+            xsi:type="figma_meta_model:INSTANCE"
+            type="INSTANCE"
+            name="Frame 22"
+            id="149:123"
+            >
+            <children
+              xsi:type="figma_meta_model:Frame"
+              type="FRAME"
+              name="Frame 5"
+              id="I149:123;136:64"
+              >
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Initialise project"
+                id="I149:123;136:65"
+                characters="Initialise project"
+                />
+              </children>
+            <children
+              xsi:type="figma_meta_model:Frame"
+              type="FRAME"
+              name="Frame 6"
+              id="I149:123;136:66"
+              >
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Description"
+                id="I149:123;136:67"
+                characters="Description"
+                />
+              </children>
+            <children
+              xsi:type="figma_meta_model:Frame"
+              type="FRAME"
+              name="Frame 7"
+              id="I149:123;136:68"
+              >
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Yes"
+                id="I149:123;136:69"
+                characters="Yes"
+                />
+              </children>
+            <children
+              xsi:type="figma_meta_model:Frame"
+              type="FRAME"
+              name="Frame 8"
+              id="I149:123;136:70"
+              >
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Updated"
+                id="I149:123;136:71"
+                characters="Updated"
+                />
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Deleted"
+                id="I149:123;136:72"
+                characters="Deleted"
+                />
+              </children>
+          </children>
+          <children
+            xsi:type="figma_meta_model:Component"
+            type="COMPONENT"
+            name="Frame 23"
+            id="153:202"
+            >
+            <children
+              xsi:type="figma_meta_model:INSTANCE"
+              type="INSTANCE"
+              name="Frame 23"
+              id="149:133"
+              >
+              <children
+                xsi:type="figma_meta_model:Frame"
+                type="FRAME"
+                name="Frame 5"
+                id="I149:133;136:64"
+                >
+                <children
+                  xsi:type="figma_meta_model:Text"
+                  type="TEXT"
+                  name="Initialise project"
+                  id="I149:133;136:65"
+                  characters="Initialise project"
+                  />
+                </children>
+              <children
+                xsi:type="figma_meta_model:Frame"
+                type="FRAME"
+                name="Frame 6"
+                id="I149:133;136:66"
+                >
+                <children
+                  xsi:type="figma_meta_model:Text"
+                  type="TEXT"
+                  name="Description"
+                  id="I149:133;136:67"
+                  characters="Description"
+                  />
+                </children>
+              <children
+                xsi:type="figma_meta_model:Frame"
+                type="FRAME"
+                name="Frame 7"
+                id="I149:133;136:68"
+                >
+                <children
+                  xsi:type="figma_meta_model:Text"
+                  type="TEXT"
+                  name="Yes"
+                  id="I149:133;136:69"
+                  characters="Yes"
+                  />
+                </children>
+              <children
+                xsi:type="figma_meta_model:Frame"
+                type="FRAME"
+                name="Frame 8"
+                id="I149:133;136:70"
+                >
+                <children
+                  xsi:type="figma_meta_model:Text"
+                  type="TEXT"
+                  name="Updated"
+                  id="I149:133;136:71"
+                  characters="Updated"
+                  />
+                <children
+                  xsi:type="figma_meta_model:Text"
+                  type="TEXT"
+                  name="Deleted"
+                  id="I149:133;136:72"
+                  characters="Deleted"
+                  />
+                </children>
+            </children>
+          </children>
+          <children
+            xsi:type="figma_meta_model:INSTANCE"
+            type="INSTANCE"
+            name="Frame 24"
+            id="149:143"
+            >
+            <children
+              xsi:type="figma_meta_model:Frame"
+              type="FRAME"
+              name="Frame 5"
+              id="I149:143;136:64"
+              >
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Initialise project"
+                id="I149:143;136:65"
+                characters="Initialise project"
+                />
+              </children>
+            <children
+              xsi:type="figma_meta_model:Frame"
+              type="FRAME"
+              name="Frame 6"
+              id="I149:143;136:66"
+              >
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Description"
+                id="I149:143;136:67"
+                characters="Description"
+                />
+              </children>
+            <children
+              xsi:type="figma_meta_model:Frame"
+              type="FRAME"
+              name="Frame 7"
+              id="I149:143;136:68"
+              >
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Yes"
+                id="I149:143;136:69"
+                characters="Yes"
+                />
+              </children>
+            <children
+              xsi:type="figma_meta_model:Frame"
+              type="FRAME"
+              name="Frame 8"
+              id="I149:143;136:70"
+              >
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Updated"
+                id="I149:143;136:71"
+                characters="Updated"
+                />
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Deleted"
+                id="I149:143;136:72"
+                characters="Deleted"
+                />
+              </children>
+          </children>
+          <children
+            xsi:type="figma_meta_model:INSTANCE"
+            type="INSTANCE"
+            name="Frame 25"
+            id="149:153"
+            >
+            <children
+              xsi:type="figma_meta_model:Frame"
+              type="FRAME"
+              name="Frame 5"
+              id="I149:153;136:64"
+              >
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Initialise project"
+                id="I149:153;136:65"
+                characters="Initialise project"
+                />
+              </children>
+            <children
+              xsi:type="figma_meta_model:Frame"
+              type="FRAME"
+              name="Frame 6"
+              id="I149:153;136:66"
+              >
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Description"
+                id="I149:153;136:67"
+                characters="Description"
+                />
+              </children>
+            <children
+              xsi:type="figma_meta_model:Frame"
+              type="FRAME"
+              name="Frame 7"
+              id="I149:153;136:68"
+              >
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Yes"
+                id="I149:153;136:69"
+                characters="Yes"
+                />
+              </children>
+            <children
+              xsi:type="figma_meta_model:Frame"
+              type="FRAME"
+              name="Frame 8"
+              id="I149:153;136:70"
+              >
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Updated"
+                id="I149:153;136:71"
+                characters="Updated"
+                />
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Deleted"
+                id="I149:153;136:72"
+                characters="Deleted"
+                />
+              </children>
+          </children>
+          <children
+            xsi:type="figma_meta_model:INSTANCE"
+            type="INSTANCE"
+            name="Frame 26"
+            id="149:163"
+            >
+            <children
+              xsi:type="figma_meta_model:Frame"
+              type="FRAME"
+              name="Frame 5"
+              id="I149:163;136:64"
+              >
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Initialise project"
+                id="I149:163;136:65"
+                characters="Initialise project"
+                />
+              </children>
+            <children
+              xsi:type="figma_meta_model:Frame"
+              type="FRAME"
+              name="Frame 6"
+              id="I149:163;136:66"
+              >
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Description"
+                id="I149:163;136:67"
+                characters="Description"
+                />
+              </children>
+            <children
+              xsi:type="figma_meta_model:Frame"
+              type="FRAME"
+              name="Frame 7"
+              id="I149:163;136:68"
+              >
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Yes"
+                id="I149:163;136:69"
+                characters="Yes"
+                />
+              </children>
+            <children
+              xsi:type="figma_meta_model:Frame"
+              type="FRAME"
+              name="Frame 8"
+              id="I149:163;136:70"
+              >
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Updated"
+                id="I149:163;136:71"
+                characters="Updated"
+                />
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Deleted"
+                id="I149:163;136:72"
+                characters="Deleted"
+                />
+              </children>
           </children>
         </children>
+      </children>
+      <children
+        xsi:type="figma_meta_model:Component"
+        type="COMPONENT"
+        name="Desktop - 2"
+        id="109:11"
+        >
+        <children
+          xsi:type="figma_meta_model:RECTANGLE"
+          type="RECTANGLE"
+          name="Sidebar"
+          id="109:5"
+          />
+        <children
+          xsi:type="figma_meta_model:Frame"
+          type="FRAME"
+          name="Frame 1"
+          id="111:18"
+          />
+        <children
+          xsi:type="figma_meta_model:RECTANGLE"
+          type="RECTANGLE"
+          name="Rectangle 2"
+          id="109:6"
+          />
+        <children
+          xsi:type="figma_meta_model:VECTOR"
+          type="VECTOR"
+          name="Rectangle 4"
+          id="115:26"
+          />
+        <children
+          xsi:type="figma_meta_model:Text"
+          type="TEXT"
+          name="Tasks"
+          id="109:7"
+          characters="Tasks"
+          />
+        <children
+          xsi:type="figma_meta_model:Text"
+          type="TEXT"
+          name="Add Task"
+          id="109:8"
+          characters="Add Task"
+          />
+        <children
+          xsi:type="figma_meta_model:Text"
+          type="TEXT"
+          name="Dashboard"
+          id="109:9"
+          characters="Dashboard"
+          />
+        <children
+          xsi:type="figma_meta_model:LINE"
+          type="LINE"
+          name="Line 1"
+          id="109:10"
+          />
+        <children
+          xsi:type="figma_meta_model:RECTANGLE"
+          type="RECTANGLE"
+          name="form"
+          id="109:14"
+          />
+        <children
+          xsi:type="figma_meta_model:RECTANGLE"
+          type="RECTANGLE"
+          name="Rectangle 7"
+          id="117:7"
+          />
+        <children
+          xsi:type="figma_meta_model:Text"
+          type="TEXT"
+          name="Add task"
+          id="109:15"
+          characters="Add task"
+          />
+        <children
+          xsi:type="figma_meta_model:Frame"
+          type="FRAME"
+          name="Frame 27"
+          id="153:175"
+          >
+          <children
+            xsi:type="figma_meta_model:Frame"
+            type="FRAME"
+            name="name-input"
+            id="111:20"
+            >
+            <children
+              xsi:type="figma_meta_model:Text"
+              type="TEXT"
+              name="Name"
+              id="111:19"
+              characters="Name"
+              />
+            <children
+              xsi:type="figma_meta_model:GROUP"
+              type="GROUP"
+              name="Group 1"
+              id="117:17"
+              >
+              <children
+                xsi:type="figma_meta_model:RECTANGLE"
+                type="RECTANGLE"
+                name="Rectangle 5"
+                id="111:21"
+                />
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="ivantom"
+                id="117:16"
+                characters="ivantom"
+                />
+              </children>
+            <interactions>
+              <trigger
+              type="ON_CLICK"/>
+              <actions
+              destinationId="None"
+              navigation="SCROLL_TO"/>
+            </interactions>
+          </children>
+        </children>
+        <children
+          xsi:type="figma_meta_model:Frame"
+          type="FRAME"
+          name="Frame 4"
+          id="117:3"
+          >
+          <children
+            xsi:type="figma_meta_model:Text"
+            type="TEXT"
+            name="Completed"
+            id="117:4"
+            characters="Completed"
+            />
+          <children
+            xsi:type="figma_meta_model:RECTANGLE"
+            type="RECTANGLE"
+            name="Rectangle 6"
+            id="117:6"
+            />
+          </children>
+        <children
+          xsi:type="figma_meta_model:Text"
+          type="TEXT"
+          name="Add"
+          id="117:9"
+          characters="Add"
+          />
+        <children
+          xsi:type="figma_meta_model:Frame"
+          type="FRAME"
+          name="description-input"
+          id="111:22"
+          >
+          <children
+            xsi:type="figma_meta_model:Text"
+            type="TEXT"
+            name="Description"
+            id="111:24"
+            characters="Description"
+            />
+          <children
+            xsi:type="figma_meta_model:GROUP"
+            type="GROUP"
+            name="Group 2"
+            id="117:19"
+            >
+            <children
+              xsi:type="figma_meta_model:RECTANGLE"
+              type="RECTANGLE"
+              name="Rectangle 5"
+              id="111:25"
+              />
+            <children
+              xsi:type="figma_meta_model:Text"
+              type="TEXT"
+              name="description"
+              id="117:18"
+              characters="description"
+              />
+            </children>
+        </children>
+      </children>
+      <children
+        xsi:type="figma_meta_model:INSTANCE"
+        type="INSTANCE"
+        name="Desktop - 3"
+        id="138:153"
+        >
+        <children
+          xsi:type="figma_meta_model:RECTANGLE"
+          type="RECTANGLE"
+          name="Sidebar"
+          id="I138:153;109:5"
+          />
+        <children
+          xsi:type="figma_meta_model:Frame"
+          type="FRAME"
+          name="Frame 1"
+          id="I138:153;111:18"
+          />
+        <children
+          xsi:type="figma_meta_model:RECTANGLE"
+          type="RECTANGLE"
+          name="Rectangle 2"
+          id="I138:153;109:6"
+          />
+        <children
+          xsi:type="figma_meta_model:VECTOR"
+          type="VECTOR"
+          name="Rectangle 4"
+          id="I138:153;115:26"
+          />
+        <children
+          xsi:type="figma_meta_model:Text"
+          type="TEXT"
+          name="Tasks"
+          id="I138:153;109:7"
+          characters="Tasks"
+          />
+        <children
+          xsi:type="figma_meta_model:Text"
+          type="TEXT"
+          name="Add Task"
+          id="I138:153;109:8"
+          characters="Add Task"
+          />
+        <children
+          xsi:type="figma_meta_model:Text"
+          type="TEXT"
+          name="Dashboard"
+          id="I138:153;109:9"
+          characters="Dashboard"
+          />
+        <children
+          xsi:type="figma_meta_model:LINE"
+          type="LINE"
+          name="Line 1"
+          id="I138:153;109:10"
+          />
+        <children
+          xsi:type="figma_meta_model:RECTANGLE"
+          type="RECTANGLE"
+          name="form"
+          id="I138:153;109:14"
+          />
+        <children
+          xsi:type="figma_meta_model:RECTANGLE"
+          type="RECTANGLE"
+          name="Rectangle 7"
+          id="I138:153;117:7"
+          />
+        <children
+          xsi:type="figma_meta_model:Text"
+          type="TEXT"
+          name="Add task"
+          id="I138:153;109:15"
+          characters="Update task"
+          />
+        <children
+          xsi:type="figma_meta_model:Frame"
+          type="FRAME"
+          name="Frame 27"
+          id="I138:153;153:175"
+          >
+          <children
+            xsi:type="figma_meta_model:Frame"
+            type="FRAME"
+            name="name-input"
+            id="I138:153;111:20"
+            >
+            <children
+              xsi:type="figma_meta_model:Text"
+              type="TEXT"
+              name="Name"
+              id="I138:153;111:19"
+              characters="Name"
+              />
+            <children
+              xsi:type="figma_meta_model:GROUP"
+              type="GROUP"
+              name="Group 1"
+              id="I138:153;117:17"
+              >
+              <children
+                xsi:type="figma_meta_model:RECTANGLE"
+                type="RECTANGLE"
+                name="Rectangle 5"
+                id="I138:153;111:21"
+                />
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="ivantom"
+                id="I138:153;117:16"
+                characters="initialise project"
+                />
+              </children>
+            <interactions>
+              <trigger
+              type="ON_CLICK"/>
+              <actions
+              destinationId="None"
+              navigation="SCROLL_TO"/>
+            </interactions>
+          </children>
+        </children>
+        <children
+          xsi:type="figma_meta_model:Frame"
+          type="FRAME"
+          name="Frame 4"
+          id="I138:153;117:3"
+          >
+          <children
+            xsi:type="figma_meta_model:Text"
+            type="TEXT"
+            name="Completed"
+            id="I138:153;117:4"
+            characters="Completed"
+            />
+          <children
+            xsi:type="figma_meta_model:RECTANGLE"
+            type="RECTANGLE"
+            name="Rectangle 6"
+            id="I138:153;117:6"
+            />
+          </children>
+        <children
+          xsi:type="figma_meta_model:Text"
+          type="TEXT"
+          name="Add"
+          id="I138:153;117:9"
+          characters="Add"
+          />
+        <children
+          xsi:type="figma_meta_model:Frame"
+          type="FRAME"
+          name="description-input"
+          id="I138:153;111:22"
+          >
+          <children
+            xsi:type="figma_meta_model:Text"
+            type="TEXT"
+            name="Description"
+            id="I138:153;111:24"
+            characters="Description"
+            />
+          <children
+            xsi:type="figma_meta_model:GROUP"
+            type="GROUP"
+            name="Group 2"
+            id="I138:153;117:19"
+            >
+            <children
+              xsi:type="figma_meta_model:RECTANGLE"
+              type="RECTANGLE"
+              name="Rectangle 5"
+              id="I138:153;111:25"
+              />
+            <children
+              xsi:type="figma_meta_model:Text"
+              type="TEXT"
+              name="description"
+              id="I138:153;117:18"
+              characters="description"
+              />
+            </children>
+        </children>
+      </children>
+    </children>
+    <children
+      xsi:type="figma_meta_model:Canvas"
+      type="CANVAS"
+      name="Page 2"
+      id="206:160"
+      >
+      <children
+        xsi:type="figma_meta_model:Frame"
+        type="FRAME"
+        name="Desktop - 1"
+        id="206:161"
+        >
+        <children
+          xsi:type="figma_meta_model:GROUP"
+          type="GROUP"
+          name="Group 1"
+          id="207:164"
+          >
+          <children
+            xsi:type="figma_meta_model:RECTANGLE"
+            type="RECTANGLE"
+            name="Rectangle 1"
+            id="206:162"
+            />
+          <children
+            xsi:type="figma_meta_model:Text"
+            type="TEXT"
+            name="Placeholder"
+            id="206:163"
+            characters="     Placeholder"
+            />
+          </children>
+        <children
+          xsi:type="figma_meta_model:GROUP"
+          type="GROUP"
+          name="Group 2"
+          id="207:167"
+          >
+          <children
+            xsi:type="figma_meta_model:RECTANGLE"
+            type="RECTANGLE"
+            name="Rectangle 2"
+            id="207:165"
+            />
+          <children
+            xsi:type="figma_meta_model:Text"
+            type="TEXT"
+            name="Click Me"
+            id="207:166"
+            characters="Click Me"
+            />
+          </children>
+      </children>
+    </children>
+    <children
+      xsi:type="figma_meta_model:Canvas"
+      type="CANVAS"
+      name="Page 3"
+      id="219:154"
+      >
+      <children
+        xsi:type="figma_meta_model:Frame"
+        type="FRAME"
+        name="Desktop - 1"
+        id="219:155"
+        >
+        <children
+          xsi:type="figma_meta_model:ELLIPSE"
+          type="ELLIPSE"
+          name="Ellipse 1"
+          id="219:156"
+          />
+        <children
+          xsi:type="figma_meta_model:REGULAR_POLYGON"
+          type="REGULAR_POLYGON"
+          name="Polygon 1"
+          id="219:157"
+          />
+        <children
+          xsi:type="figma_meta_model:RECTANGLE"
+          type="RECTANGLE"
+          name="Screenshot from 2024-08-14 20-11-10 1"
+          id="219:158"
+          />
+        </children>
+    </children>
+    <children
+      xsi:type="figma_meta_model:Canvas"
+      type="CANVAS"
+      name="Inputs"
+      id="249:154"
+      >
+      <children
+        xsi:type="figma_meta_model:Frame"
+        type="FRAME"
+        name="Desktop - 1"
+        id="249:155"
+        >
+        <children
+          xsi:type="figma_meta_model:COMPONENT_SET"
+          type="COMPONENT_SET"
+          name="Input Component"
+          id="257:183"
+          >
+          <children
+            xsi:type="figma_meta_model:Component"
+            type="COMPONENT"
+            name="Property 1=Default"
+            id="249:162"
+            >
+            <children
+              xsi:type="figma_meta_model:Frame"
+              type="FRAME"
+              name="Frame 2"
+              id="249:159"
+              >
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="label"
+                id="249:158"
+                characters="label"
+                />
+              <children
+                xsi:type="figma_meta_model:Frame"
+                type="FRAME"
+                name="Input"
+                id="249:157"
+                >
+                <children
+                  xsi:type="figma_meta_model:Text"
+                  type="TEXT"
+                  name="Placeholder"
+                  id="249:156"
+                  characters="Placeholder"
+                  />
+                </children>
+            </children>
+            <children
+              xsi:type="figma_meta_model:Text"
+              type="TEXT"
+              name="Helper text"
+              id="249:160"
+              characters="Helper text"
+              />
+            </children>
+        </children>
+        <children
+          xsi:type="figma_meta_model:COMPONENT_SET"
+          type="COMPONENT_SET"
+          name="Frame 3"
+          id="264:5"
+          >
+          <children
+            xsi:type="figma_meta_model:Component"
+            type="COMPONENT"
+            name="Property 1=Default"
+            id="263:4"
+            >
+            <children
+              xsi:type="figma_meta_model:Text"
+              type="TEXT"
+              name="Button"
+              id="263:2"
+              characters="Button"
+              />
+            <interactions>
+              <trigger
+              type="ON_HOVER"/>
+              <actions
+              destinationId="264:6"
+              navigation="CHANGE_TO"/>
+            </interactions>
+          </children>
+          <children
+            xsi:type="figma_meta_model:Component"
+            type="COMPONENT"
+            name="Property 1=Variant2"
+            id="264:6"
+            >
+            <children
+              xsi:type="figma_meta_model:Text"
+              type="TEXT"
+              name="Button"
+              id="264:7"
+              characters="Button"
+              />
+            </children>
+        </children>
+        <children
+          xsi:type="figma_meta_model:INSTANCE"
+          type="INSTANCE"
+          name="Input Component"
+          id="268:154"
+          >
+          <children
+            xsi:type="figma_meta_model:Frame"
+            type="FRAME"
+            name="Frame 2"
+            id="I268:154;249:159"
+            >
+            <children
+              xsi:type="figma_meta_model:Text"
+              type="TEXT"
+              name="label"
+              id="I268:154;249:158"
+              characters="rrrr"
+              />
+            <children
+              xsi:type="figma_meta_model:Frame"
+              type="FRAME"
+              name="Input"
+              id="I268:154;249:157"
+              >
+              <children
+                xsi:type="figma_meta_model:Text"
+                type="TEXT"
+                name="Placeholder"
+                id="I268:154;249:156"
+                characters="Placeholder"
+                />
+              </children>
+          </children>
+          <children
+            xsi:type="figma_meta_model:Text"
+            type="TEXT"
+            name="Helper text"
+            id="I268:154;249:160"
+            characters="Helper text"
+            />
+          </children>
+        <children
+          xsi:type="figma_meta_model:Frame"
+          type="FRAME"
+          name="Frame 3"
+          id="276:166"
+          >
+          <children
+            xsi:type="figma_meta_model:Text"
+            type="TEXT"
+            name="Button"
+            id="276:167"
+            characters="Button"
+            />
+          </children>
+        <children
+          xsi:type="figma_meta_model:INSTANCE"
+          type="INSTANCE"
+          name="Alarm"
+          id="270:170"
+          >
+          <children
+            xsi:type="figma_meta_model:VECTOR"
+            type="VECTOR"
+            name="tone"
+            id="I270:170;3786:2438"
+            />
+          <children
+            xsi:type="figma_meta_model:VECTOR"
+            type="VECTOR"
+            name="shape"
+            id="I270:170;3786:1668"
+            />
+          </children>
       </children>
     </children>
   </document>
