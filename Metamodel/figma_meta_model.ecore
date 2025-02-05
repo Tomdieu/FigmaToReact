@@ -17,7 +17,8 @@
     <eLiterals name="NODE"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Trigger">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//TriggerType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="COMPONENT_SET" eSuperTypes="#//Children">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="layoutVersion" lowerBound="1"
@@ -332,7 +333,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="destinationId" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="navigation" lowerBound="1"
-        eType="#//Navigation"/>
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" defaultValueLiteral=""/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="transition" eType="#//Transition"
         containment="true"/>
   </eClassifiers>
@@ -353,6 +354,7 @@
     <eLiterals name="TEXT" value="4"/>
     <eLiterals name="COMPONENT" value="5"/>
     <eLiterals name="COMPONENT_SET" value="6" literal="COMPONENT_SET"/>
+    <eLiterals name="VECTOR" value="7"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="TextAlignment">
     <eLiterals name="CENTER"/>
@@ -475,7 +477,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="documentationLinks" upperBound="-1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="VECTOR" eSuperTypes="#//Children"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Vector" eSuperTypes="#//Children"/>
   <eClassifiers xsi:type="ecore:EClass" name="Nodes">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="value" lowerBound="1" eType="#//NodeItem"
