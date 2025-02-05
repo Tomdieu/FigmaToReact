@@ -9,6 +9,9 @@
 !table.md
 !Transformations/
 !uml/
+!python_code
 
 # Ensure .gitignore itself is not ignored
 !.gitignore
+.env
+env
