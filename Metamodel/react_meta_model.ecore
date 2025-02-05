@@ -45,8 +45,8 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="FunctionalComponent" eSuperTypes="#//Component"/>
   <eClassifiers xsi:type="ecore:EClass" name="Router">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="routes" lowerBound="1"
-        upperBound="-1" eType="#//Route" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="route" lowerBound="1" upperBound="-1"
+        eType="#//Route" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="basname" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
