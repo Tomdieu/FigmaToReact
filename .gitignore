@@ -1,0 +1,14 @@
+# Ignore everything
+*
+
+# Except these directories and files
+!atl_help/
+!Metamodel/
+!Model/
+!README.md
+!table.md
+!Transformations/
+!uml/
+
+# Ensure .gitignore itself is not ignored
+!.gitignore
