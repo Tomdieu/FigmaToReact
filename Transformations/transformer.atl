@@ -69,7 +69,7 @@ helper context Figma!Children def : isInstance() : Boolean =
         false 
 endif;
 
-helper context Figma!Vector def : isVector() : Boolean = 
+helper context Figma!VECTOR def : isVector() : Boolean = 
 	if self.type.toString() = 'VECTOR' then
 		true
 	else
@@ -107,7 +107,7 @@ rule FigmaDocument2ReactRouter {
 
 lazy rule CreateRoute {
     from
-        F : Figma!Canvas
+        F : Figma!CANVAS
     to
         R : React!Route (
             path <- '/' + thisModule.sanitizeName(F.name.toLowerCase()),
@@ -131,7 +131,7 @@ helper def : toComponentName(name:String) : String =
 
 rule FigmaCanvas2ReactComponent {
 	from
-		F : Figma!Canvas(F.isCanvas())
+		F : Figma!CANVAS(F.isCanvas())
 	to 
 		R : React!Page (
 			name <- thisModule.toComponentName(F.name),
@@ -146,16 +146,16 @@ rule FigmaCanvas2ReactComponent {
 
 rule VectorToSvg {
 	from
-		F: Figma!Vector(F.isVector())
+		F: Figma!VECTOR(F.isVector())
 	to
-		R: React!JSXElement(
+		R: React!HTMLElement(
 		name <- 'svg'
 		)
 }
 
 rule FigmaFrame2ReactDivHtmlElement {
     from
-        F : Figma!Frame(F.isFrame() and not F.isInput())
+        F : Figma!FRAME(F.isFrame() and not F.isInput())
     to 
         R : React!HTMLElement (
             name <- if F.hasClickNavigation() then 'a' else 'div' endif,
@@ -191,7 +191,7 @@ rule FigmaFrame2ReactDivHtmlElement {
         )
 }
 
-helper context Figma!Frame def : getStyleString() : String =
+helper context Figma!FRAME def : getStyleString() : String =
     -- 'width: ' + self.absoluteBoundingBox.width.toString() + 'px; ' +
     -- 'height: ' + self.absoluteBoundingBox.height.toString() + 'px; ' +
     'display: flex; ' +
@@ -220,7 +220,7 @@ lazy rule CreateAttribute {
 
 rule FigmaRectangle2ReactDivHtmlElement {
     from
-        F : Figma!Rectangle(F.isRectangle())
+        F : Figma!RECTANGLE(F.isRectangle())
     to 
         R : React!HTMLElement (
             name <- if F.hasClickNavigation() then 'a' else 'div' endif,
@@ -253,7 +253,7 @@ rule FigmaRectangle2ReactDivHtmlElement {
 
 rule FigmLine2ReactHrHtmlElement {
 	from
-		F : Figma!Line
+		F : Figma!LINE
 	to 
 		R : React!HTMLElement (
 			name <- 'hr',
@@ -279,7 +279,7 @@ helper context Figma!COMPONENT_SET def : getComponentProps() : Sequence(React!Pr
     endif;
 
 -- Helper to get instance properties
-helper context Figma!Instance def : getComponentProps() : Sequence(React!Props) =
+helper context Figma!INSTANCE def : getComponentProps() : Sequence(React!Props) =
     if self.componentProperties.oclIsUndefined() then
         Sequence{}
     else
@@ -347,7 +347,7 @@ lazy rule CreateComponentWrapper {
 
 rule FigmaInstance2ReactComponent {
     from
-        F : Figma!Instance(F.isInstance())
+        F : Figma!INSTANCE(F.isInstance())
     to 
         R : React!Component (
             name <- F.name.regexReplaceAll(' ', ''),
@@ -366,7 +366,7 @@ rule FigmaInstance2ReactComponent {
 
 rule FigmaComponent2RectDivHtmlElement {
 	from
-		F : Figma!Component
+		F : Figma!COMPONENT
 	to 
 		R : React!HTMLElement (
 			name<-'div',
@@ -381,14 +381,14 @@ rule FigmaComponent2RectDivHtmlElement {
 		)
 }
 
-helper context Figma!Text def : isLabel() : Boolean = 
+helper context Figma!TEXT def : isLabel() : Boolean = 
 	if self.name.toString().toLower().startsWith('label') then
 		true
 	else
 		false		
 	endif;
 
-helper context Figma!Text def : isPlaceholder() : Boolean = 
+helper context Figma!TEXT def : isPlaceholder() : Boolean = 
 	if self.name.toString().toLower().startsWith('placeholder') then
 		true
 	else
@@ -396,14 +396,14 @@ helper context Figma!Text def : isPlaceholder() : Boolean =
 	endif;
 
 
-helper context Figma!Text def : isParagraph() : Boolean = 
+helper context Figma!TEXT def : isParagraph() : Boolean = 
 	if self.name.toString().toLower().startsWith('p') then
 		true
 	else
 		false
 	endif;
 
-helper context Figma!Text def : isButton() : Boolean = 
+helper context Figma!TEXT def : isButton() : Boolean = 
 	if self.name.toString().toLower().startsWith('button') then
 		true
 	else
@@ -411,7 +411,7 @@ helper context Figma!Text def : isButton() : Boolean =
 	endif;
 
 
-helper context Figma!Text def : getTextTag(): String =
+helper context Figma!TEXT def : getTextTag(): String =
     if self.name.toString().toLower().startsWith('label') then
         'label'
     else 
@@ -488,7 +488,7 @@ helper context Figma!Text def : getTextTag(): String =
 
 
 -- First, let's make the helper more robust
-helper context Figma!Frame def : isInput() : Boolean =
+helper context Figma!FRAME def : isInput() : Boolean =
     if self.type.toString() = 'FRAME' and  -- Make sure it's a Frame
        self.name.toString().toLowerCase().startsWith('input') and  -- Check name
        not self.children.isEmpty() and  -- Has children
@@ -503,7 +503,7 @@ helper context Figma!Frame def : isInput() : Boolean =
     endif;
 
 -- Helper to get placeholder text
-helper context Figma!Frame def : getPlaceholderText() : Figma!Children =
+helper context Figma!FRAME def : getPlaceholderText() : Figma!Children =
     if not self.children.isEmpty() then
         self.children->select(c | 
             c.type.toString() = 'TEXT' and 
@@ -515,12 +515,12 @@ helper context Figma!Frame def : getPlaceholderText() : Figma!Children =
 
 
 -- Add this helper to print debug info
-helper def : debugFrame(frame : Figma!Frame) : String = 
+helper def : debugFrame(frame : Figma!FRAME) : String = 
     let debugInfo : String = frame.debugIsInput() in
     frame.name + ' debug info: ' + debugInfo;
 
 
-helper context Figma!Frame def : debugIsInput() : String =
+helper context Figma!FRAME def : debugIsInput() : String =
     'Frame type: ' + self.type.toString() + ', ' +
     'Name: ' + self.name.toString() + ', ' +
     'Has children: ' + (not self.children.isEmpty()).toString() + ', ' +
@@ -531,7 +531,7 @@ helper context Figma!Frame def : debugIsInput() : String =
 
 rule FigmaFrame2Input {
    from
-       F : Figma!Frame (F.isInput())
+       F : Figma!FRAME (F.isInput())
    using {
        placeholderText : Figma!Children = F.getPlaceholderText();
        styleString : String =
@@ -600,7 +600,7 @@ helper context Figma!Style def : toStyleString() : String =
 
 rule Figma2Button {
     from
-        F : Figma!Text(F.isButton())
+        F : Figma!TEXT(F.isButton())
     to 
         R : React!HTMLElement (
             name <- if F.hasClickNavigation() then 'a' else 'button' endif,
@@ -638,7 +638,7 @@ rule Figma2Button {
 
 rule FigmaText2ReactDisplaylHtmlElement {
     from
-        F : Figma!Text(not F.isPlaceholder() and not F.isButton())
+        F : Figma!TEXT(not F.isPlaceholder() and not F.isButton())
     to 
         R : React!HTMLElement(
             name <- if F.hasClickNavigation() then 'a' else F.getTextTag() endif,
@@ -712,7 +712,7 @@ helper context Figma!Children def : getBackgroundColor() : String =
 
 
 -- Helper to build flexbox styles from frame layout properties
-helper context Figma!Frame def : getFlexStyles() : String =
+helper context Figma!FRAME def : getFlexStyles() : String =
     let layoutModeStyle : String = 
         if self.layoutMode.toString() = 'HORIZONTAL' then
             'flexDirection: "row"'
@@ -878,8 +878,6 @@ lazy rule CreateNestedElement {
     to
         R : React!HTMLElement (
             name <- F.name,
-            attributes <- F.attributes,
-            content <- F.content,
             children <- F.children
         )
 }
