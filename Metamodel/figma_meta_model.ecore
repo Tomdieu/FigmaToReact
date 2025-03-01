@@ -9,6 +9,7 @@
   <eClassifiers xsi:type="ecore:EEnum" name="LayoutSizing">
     <eLiterals name="FIXED"/>
     <eLiterals name="HUG" value="1"/>
+    <eLiterals name="FILL" value="2"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="Alignment">
     <eLiterals name="MIN"/>
@@ -34,7 +35,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="strokeDashes" upperBound="-1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="componentPropertyDefinitions"
-        eType="#//ComponentPropertyDefinitionData"/>
+        eType="#//ComponentPropertyDefinitionData" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Style">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="fontFamily" lowerBound="1"
@@ -53,7 +54,8 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="lineHeightPx" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lineHeightUnit" eType="#//LineHeightUnit"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lineHeightUnit" lowerBound="1"
+        eType="#//LineHeightUnit"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="textAlignHorizontal" lowerBound="1"
         eType="#//TextAlignment"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="textAlignVertical" lowerBound="1"
@@ -67,7 +69,7 @@
   <eClassifiers xsi:type="ecore:EEnum" name="StrokeType">
     <eLiterals name="SOLID"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Instance" eSuperTypes="#//Children">
+  <eClassifiers xsi:type="ecore:EClass" name="INSTANCE" eSuperTypes="#//Children">
     <eAnnotations source="http://www.obeo.fr/dsl/dnc/archetype">
       <details key="archetype" value="Role"/>
     </eAnnotations>
@@ -78,7 +80,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="componentProperties" upperBound="-1"
         eType="#//ComponentPropertyData" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Frame" eSuperTypes="#//Children">
+  <eClassifiers xsi:type="ecore:EClass" name="FRAME" eSuperTypes="#//Children">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="layoutMode" lowerBound="1"
         eType="#//LayoutMode"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="layoutWrap" lowerBound="1"
@@ -92,16 +94,18 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="layoutVersion" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="counterAxisSizingMode"
-        eType="#//AxisSizingMode"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="itemSpacing" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+        lowerBound="1" eType="#//AxisSizingMode"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="itemSpacing" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="primaryAxisSizingMode"
-        eType="#//AxisSizingMode"/>
+        lowerBound="1" eType="#//AxisSizingMode"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="counterAxisAlignItems"
-        eType="#//AxisAlign"/>
+        lowerBound="1" eType="#//AxisAlign"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="primaryAxisAlignItems"
-        eType="#//AxisAlign"/>
+        lowerBound="1" eType="#//AxisAlign"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="cornerRadius" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cornerSmoothing" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cornerSmoothing" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="backgroundColor" eType="#//Color"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="layoutGrids" upperBound="-1"
@@ -131,7 +135,7 @@
   <eClassifiers xsi:type="ecore:EEnum" name="LineHeightUnit">
     <eLiterals name="INTRINSIC_"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Rectangle" eSuperTypes="#//Children"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RECTANGLE" eSuperTypes="#//Children"/>
   <eClassifiers xsi:type="ecore:EEnum" name="LayoutAlign">
     <eLiterals name="INHERIT"/>
     <eLiterals name="STRETCH" value="1"/>
@@ -139,6 +143,7 @@
   <eClassifiers xsi:type="ecore:EEnum" name="Horizontal">
     <eLiterals name="LEFT" literal="LEFT"/>
     <eLiterals name="RIGHT" literal="RIGHT"/>
+    <eLiterals name="SCALE" value="2"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="TransitionType">
     <eLiterals name="PUSH"/>
@@ -146,6 +151,7 @@
   <eClassifiers xsi:type="ecore:EEnum" name="Vertical">
     <eLiterals name="BOTTOM"/>
     <eLiterals name="TOP"/>
+    <eLiterals name="SCALE" value="2"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ComponentPropertyDefinition">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//ComponentPropertyDefinitionType"/>
@@ -153,7 +159,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="variantOptions" upperBound="-1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Text" eSuperTypes="#//Children">
+  <eClassifiers xsi:type="ecore:EClass" name="TEXT" eSuperTypes="#//Children">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="layoutAlign" lowerBound="1"
         eType="#//LayoutAlign"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="layoutGrow" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
@@ -169,8 +175,7 @@
         eType="#//LineType"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="lineIndentations" upperBound="-1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="maskType" lowerBound="1"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="maskType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="paddingBottom" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="paddingLeft" lowerBound="1"
@@ -206,8 +211,6 @@
   <eClassifiers xsi:type="ecore:EClass" name="NodeItem">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="schemaVersion" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="styles" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EMap"
-        transient="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="document" lowerBound="1"
         eType="#//Document" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="components" upperBound="-1"
@@ -233,18 +236,12 @@
         eType="#//ComponentData" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="componentSets" upperBound="-1"
         eType="#//ComponentData" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="styles" transient="true">
-      <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EMap">
-        <eTypeArguments/>
-        <eTypeArguments/>
-      </eGenericType>
-    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Children" abstract="true">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="absoluteBoundingBox" lowerBound="1"
-        eType="#//Dimensions" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="absoluteRenderBounds" lowerBound="1"
-        eType="#//Dimensions" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="absoluteBoundingBox" eType="#//Dimensions"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="absoluteRenderBounds" eType="#//Dimensions"
+        containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//DocumentType"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="clipsContent" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
@@ -308,8 +305,7 @@
     <eLiterals name="ON_CLICK"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Override">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
-        iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="overriddenFields" upperBound="-1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" transient="true"/>
   </eClassifiers>
@@ -337,7 +333,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="transition" eType="#//Transition"
         containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Line" eSuperTypes="#//Children">
+  <eClassifiers xsi:type="ecore:EClass" name="LINE" eSuperTypes="#//Children">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="rotation" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
   </eClassifiers>
@@ -355,6 +351,11 @@
     <eLiterals name="COMPONENT" value="5"/>
     <eLiterals name="COMPONENT_SET" value="6" literal="COMPONENT_SET"/>
     <eLiterals name="VECTOR" value="7"/>
+    <eLiterals name="GROUP" value="8" literal="GROUP"/>
+    <eLiterals name="INSTANCE" value="9"/>
+    <eLiterals name="LINE" value="10"/>
+    <eLiterals name="REGULAR_POLYGON" value="11"/>
+    <eLiterals name="ELLIPSE" value="12"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="TextAlignment">
     <eLiterals name="CENTER"/>
@@ -384,6 +385,8 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="EffectType">
     <eLiterals name="BACKGROUND_BLUR"/>
+    <eLiterals name="LAYER_BLUR" value="1"/>
+    <eLiterals name="DROP_SHADOW" value="2"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="StrokeWeight">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="top" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
@@ -404,7 +407,7 @@
   <eClassifiers xsi:type="ecore:EEnum" name="EasingType">
     <eLiterals name="EASE_OUT"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Canvas" eSuperTypes="#//Children">
+  <eClassifiers xsi:type="ecore:EClass" name="CANVAS" eSuperTypes="#//Children">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="prototypeStartNodeID" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="prototypeDevice" eType="#//PrototypeDevice"
@@ -477,7 +480,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="documentationLinks" upperBound="-1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Vector" eSuperTypes="#//Children"/>
+  <eClassifiers xsi:type="ecore:EClass" name="VECTOR" eSuperTypes="#//Children"/>
   <eClassifiers xsi:type="ecore:EClass" name="Nodes">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="value" lowerBound="1" eType="#//NodeItem"
@@ -496,15 +499,18 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="value" lowerBound="1" eType="#//ComponentProperty"
         containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Component" eSuperTypes="#//Frame"/>
+  <eClassifiers xsi:type="ecore:EClass" name="COMPONENT" eSuperTypes="#//FRAME"/>
   <eClassifiers xsi:type="ecore:EClass" name="ComponentPropertyDefinitionData">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="componentpropertydefinition"
-        lowerBound="1" eType="#//ComponentPropertyDefinition"/>
+        lowerBound="1" eType="#//ComponentPropertyDefinition" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ComponentData">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="data" lowerBound="1" eType="#//ComponentItem"
         containment="true"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GROUP" eSuperTypes="#//FRAME"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ELLIPSE" eSuperTypes="#//Children"/>
+  <eClassifiers xsi:type="ecore:EClass" name="REGULAR_POLYGON" eSuperTypes="#//Children"/>
 </ecore:EPackage>
