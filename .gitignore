@@ -10,8 +10,10 @@
 !Transformations/
 !uml/
 !python_code
+!parser
 
 # Ensure .gitignore itself is not ignored
 !.gitignore
 .env
 env
+__pycache__/
