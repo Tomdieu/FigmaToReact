@@ -69,8 +69,29 @@ helper context Figma!Children def : isInstance() : Boolean =
         false 
 endif;
 
-helper context Figma!VECTOR def : isVector() : Boolean = 
+helper context Figma!Children def : isVector() : Boolean = 
 	if self.type.toString() = 'VECTOR' then
+		true
+	else
+		false
+endif;
+
+helper context Figma!Children def : isEllipse(): Boolean = 
+	if self.type.toString() = 'ELLIPSE' then
+		true
+	else
+		false
+endif;
+
+helper context Figma!Children def : isGroup() : Boolean = 
+	if self.type.toString() = 'GROUP' then
+		true
+	else
+		false
+endif;
+
+helper context Figma!Children def : isRegularPolygon() : Boolean =
+	if self.type.toString() = 'REGULAR_POLYGON' then
 		true
 	else
 		false
@@ -145,12 +166,43 @@ rule FigmaCanvas2ReactComponent {
 }
 
 rule VectorToSvg {
-	from
-		F: Figma!VECTOR(F.isVector())
-	to
-		R: React!HTMLElement(
-		name <- 'svg'
-		)
+    from
+        F: Figma!Children(F.isVector())
+    to
+        R: React!HTMLElement(
+            name <- 'svg',
+            isSelfClosing <- false,
+            key <- F.id,
+            attributes <- Sequence {
+                thisModule.CreateAttribute('viewBox', 
+                    if not F.absoluteBoundingBox.oclIsUndefined() then
+                        '0 0 ' + F.absoluteBoundingBox.width.toString() + ' ' + F.absoluteBoundingBox.height.toString()
+                    else
+                        '0 0 24 24'  -- default viewBox
+                    endif
+                ),
+                thisModule.CreateAttribute('xmlns', 'http://www.w3.org/2000/svg'),
+                thisModule.CreateAttribute('width', 
+                    if not F.absoluteBoundingBox.oclIsUndefined() then
+                        F.absoluteBoundingBox.width.toString() + 'px'
+                    else
+                        '24px'
+                    endif
+                ),
+                thisModule.CreateAttribute('height', 
+                    if not F.absoluteBoundingBox.oclIsUndefined() then
+                        F.absoluteBoundingBox.height.toString() + 'px'
+                    else
+                        '24px'
+                    endif
+                )
+            },
+            children <- if not F.children.oclIsUndefined() then
+                F.children->collect(e | thisModule.resolveTemp(e, 'R'))
+            else
+                Sequence {}
+            endif
+        )
 }
 
 rule FigmaFrame2ReactDivHtmlElement {
@@ -202,8 +254,14 @@ helper context Figma!FRAME def : getStyleString() : String =
     endif);
 
 -- Helper for Color to RGBA
-helper context Figma!Background def : toRGBA() : String = 'rgba('+self.color.r+','+self.color.g+','+self.color.b+','+self.color.a+')';
-
+-- helper context Figma!Background def : toRGBA() : String = 'rgba('+self.color.r+','+self.color.g+','+self.color.b+','+self.color.a+')';
+-- For Background objects
+helper context Figma!Background def : toRGBA() : String =
+    if not self.color.oclIsUndefined() then
+        self.color.toRGBA()
+    else
+        'rgba(0, 0, 0, 0)'
+    endif;
 
 lazy rule CreateAttribute {
 	from
@@ -220,7 +278,7 @@ lazy rule CreateAttribute {
 
 rule FigmaRectangle2ReactDivHtmlElement {
     from
-        F : Figma!RECTANGLE(F.isRectangle())
+        F : Figma!Children(F.isRectangle())
     to 
         R : React!HTMLElement (
             name <- if F.hasClickNavigation() then 'a' else 'div' endif,
@@ -265,19 +323,83 @@ rule FigmLine2ReactHrHtmlElement {
 		)
 }
 
+-- helper context Figma!COMPONENT_SET def : getComponentProps() : Sequence(React!Props) =
+--     if self.componentPropertyDefinitions.oclIsUndefined() then
+--         Sequence{}
+--     else
+--         self.componentPropertyDefinitions->collect(entry | 
+--             thisModule.CreateComponentProp(
+--                 entry.key,
+--                 entry.value.type.toString(),
+--                 entry.value.defaultValue.toString()
+--             )
+--         )
+--     endif;
+
 helper context Figma!COMPONENT_SET def : getComponentProps() : Sequence(React!Props) =
+    -- Create an empty sequence to store the props
+    let props : Sequence(React!Props) = Sequence{} in
+    
+    -- Check if componentPropertyDefinitions exists
     if self.componentPropertyDefinitions.oclIsUndefined() then
-        Sequence{}
+        props
     else
-        self.componentPropertyDefinitions->collect(entry | 
-            thisModule.CreateComponentProp(
-                entry.key,
-                entry.value.type.toString(),
-                entry.value.defaultValue.toString()
-            )
+        -- Extract all componentPropertyDefinitions
+        self.componentPropertyDefinitions->iterate(
+            propDef; 
+            acc : Sequence(React!Props) = props | 
+            
+            -- For each property definition, create a prop
+            let propName : String = 
+                if propDef.key.oclIsUndefined() then
+                    'unnamed_prop'
+                else
+                    propDef.key
+                endif
+            in
+            
+            let propType : String = 
+                if propDef.componentpropertydefinition.oclIsUndefined() or
+                   propDef.componentpropertydefinition.type.oclIsUndefined() then
+                    'TEXT'  -- Default type
+                else
+                    propDef.componentpropertydefinition.type.toString()
+                endif
+            in
+            
+            let defaultValue : String = 
+                if propDef.componentpropertydefinition.oclIsUndefined() or
+                   propDef.componentpropertydefinition.defaultValue.oclIsUndefined() then
+                    ''  -- Default empty value
+                else
+                    propDef.componentpropertydefinition.defaultValue.toString()
+                endif
+            in
+            
+            -- Check if we have variant options
+            let hasVariants : Boolean = 
+                not propDef.componentpropertydefinition.oclIsUndefined() and
+                not propDef.componentpropertydefinition.variantOptions.oclIsUndefined() and
+                not propDef.componentpropertydefinition.variantOptions->isEmpty()
+            in
+            
+            -- Add the new prop to the accumulator using the appropriate rule
+            if hasVariants and propType = 'VARIANT' then
+                acc->including(
+                    thisModule.CreateComponentPropWithVariants(
+                        propName, 
+                        propType, 
+                        defaultValue, 
+                        propDef.componentpropertydefinition.variantOptions
+                    )
+                )
+            else
+                acc->including(
+                    thisModule.CreateComponentProp(propName, propType, defaultValue)
+                )
+            endif
         )
     endif;
-
 -- Helper to get instance properties
 helper context Figma!INSTANCE def : getComponentProps() : Sequence(React!Props) =
     if self.componentProperties.oclIsUndefined() then
@@ -293,7 +415,77 @@ helper context Figma!INSTANCE def : getComponentProps() : Sequence(React!Props) 
     endif;
 
 
+-- Helper to safely get PropType enum value
+helper def : getPropType(typeStr : String) : React!PropType =
+    if typeStr = 'BOOLEAN' then 
+        React!PropType.allInstances()->select(e | e.name = 'boolean')->first()
+    else if typeStr = 'TEXT' or typeStr = 'VARIANT' then 
+        React!PropType.allInstances()->select(e | e.name = 'String')->first()
+    else 
+        React!PropType.allInstances()->select(e | e.name = 'ANY')->first()
+    endif endif;
+
 -- Helper rule to create component props
+-- lazy rule CreateComponentProp {
+--     from
+--         name : String,
+--         type : String,
+--         defaultValue : String
+--     to
+--         prop : React!Props (
+--             name <- name,
+--             value <- 
+--                 if type = 'BOOLEAN' then #PropType.boolean
+--                 else if type = 'TEXT' then #PropType.String
+--                 else if type = 'VARIANT' then #PropType.String
+--                 else #PropType.ANY
+--                 endif endif endif,
+--             defaultValue <- defaultValue,
+--             isRequire <- false
+--         )
+-- }
+
+
+-- Convert a string to camelCase (e.g., "Show Helper text#258:13" -> "showHelperText")
+helper def : toCamelCase(input : String) : String =
+    let cleanInput : String = 
+        -- Remove any ID suffixes like #258:13
+        if input.indexOf('#') > 0 then
+            input.substring(1, input.indexOf('#'))
+        else
+            input
+        endif
+    in
+    let words : Sequence(String) = cleanInput.split(' ') in
+    words->iterate(word; result : String = '' |
+        if result = '' then
+            -- First word starts with lowercase
+            word.toLowerCase()
+        else
+            -- Subsequent words start with uppercase
+            result + word.substring(1, 1).toUpper() + 
+            if word.size() > 1 then
+                word.substring(2, word.size()).toLowerCase()
+            else
+                ''
+            endif
+        endif
+    );
+
+
+-- Convert Figma type to React TypeScript type
+helper def : figmaTypeToTsType(figmaType : String) : String =
+    if figmaType = 'BOOLEAN' then
+        'boolean'
+    else if figmaType = 'TEXT' then
+        'string'
+    else if figmaType = 'VARIANT' then
+        'string'
+    else
+        'any'
+    endif endif endif;
+
+-- Basic version without variants
 lazy rule CreateComponentProp {
     from
         name : String,
@@ -301,31 +493,106 @@ lazy rule CreateComponentProp {
         defaultValue : String
     to
         prop : React!Props (
-            name <- name,
+            name <- thisModule.toCamelCase(name),
+            -- Keep value for PropType enum
             value <- 
-                if type = 'BOOLEAN' then #PropType.boolean
-                else if type = 'TEXT' then #PropType.String
-                else if type = 'VARIANT' then #PropType.String
-                else #PropType.ANY
+                if type = 'BOOLEAN' then
+                    'boolean'
+                else if type = 'TEXT' then
+                    'String'
+                else if type = 'VARIANT' then
+                    'String'
+                else
+                    'ANY'
                 endif endif endif,
             defaultValue <- defaultValue,
-            isRequire <- false
+            isRequire <- false,
+            -- Use proper TypeScript type
+            type <- thisModule.figmaTypeToTsType(type)
         )
 }
 
+-- Extended version with variants
+lazy rule CreateComponentPropWithVariants {
+    from
+        name : String,
+        type : String,
+        defaultValue : String,
+        variants : Sequence(String)
+    to
+        prop : React!Props (
+            name <- thisModule.toCamelCase(name),
+            -- For variant types, just use the default value directly
+            value <- 
+                if type = 'VARIANT' then
+                    defaultValue
+                else if type = 'BOOLEAN' then
+                    'boolean'
+                else if type = 'TEXT' then
+                    'String'
+                else
+                    'ANY'
+                endif endif endif,
+            defaultValue <- defaultValue,
+            isRequire <- false,
+            -- For variants, create a clean union type like "default"|"secondary"
+            type <- 
+                if type = 'VARIANT' and not variants->isEmpty() then
+                    -- Create a union type without quotes around the values
+                    variants->iterate(v; acc : String = '' |
+                        if acc = '' then
+                            v
+                        else
+                            acc + '|' + v
+                        endif
+                    )
+                else
+                    thisModule.figmaTypeToTsType(type)
+                endif
+        )
+}
+
+-- Helper to convert a component name to PascalCase (e.g., "Input Component" -> "InputComponent")
+helper def : toPascalCase(input : String) : String =
+    let cleanInput : String = 
+        -- Remove any special characters or dashes
+        if input.indexOf('-') > 0 then
+            input.regexReplaceAll('-', ' ')
+        else
+            input
+        endif
+    in
+    let words : Sequence(String) = cleanInput.split(' ') in
+    words->iterate(word; result : String = '' |
+        if word.size() > 0 then
+            -- Capitalize first letter of each word
+            result + word.substring(1, 1).toUpper() + 
+            if word.size() > 1 then
+                word.substring(2, word.size())
+            else
+                ''
+            endif
+        else
+            result
+        endif
+    );
+
+-- Updated rule for component sets
 rule FigmaComponentSet2ReactComponent {
     from
-        F : Figma!COMPONENT_SET(F.isComponentSet())
+        F : Figma!Children(F.isComponentSet())
     to 
         R : React!Component (
-            name <- F.name.regexReplaceAll(' ', ''),
+            name <- thisModule.toPascalCase(F.name),
             key <- F.id,
             props <- F.getComponentProps(),
             children <- Sequence{
                 thisModule.CreateComponentWrapper(F)
-            }
+            },
+            isInstance <- false
         )
 }
+
 
 -- Helper rule to create a wrapper div with the styles
 lazy rule CreateComponentWrapper {
@@ -345,24 +612,114 @@ lazy rule CreateComponentWrapper {
         )
 }
 
+-- Helper to get instance properties with their actual values
+helper context Figma!INSTANCE def : getInstanceProps() : Sequence(React!Props) =
+    if self.componentProperties.oclIsUndefined() then
+        Sequence{}
+    else
+        -- Extract the actual properties with their values
+        self.componentProperties->collect(propDef |
+            let propName : String = 
+                if propDef.key.oclIsUndefined() then
+                    'unnamed_prop'
+                else
+                    propDef.key
+                endif
+            in
+            
+            let propType : String = 
+                if propDef.value.oclIsUndefined() or
+                   propDef.value.type.oclIsUndefined() then
+                    'TEXT'  -- Default type
+                else
+                    propDef.value.type.toString()
+                endif
+            in
+            
+            let propValue : String = 
+                if propDef.value.oclIsUndefined() or
+                   propDef.value.value.oclIsUndefined() then
+                    ''  -- Default empty value
+                else
+                    propDef.value.value.toString()
+                endif
+            in
+            
+            -- Create prop with the actual value
+            thisModule.CreateInstanceProp(
+                thisModule.toCamelCase(propName),
+                propType,
+                propValue
+            )
+        )
+    endif;
+
+-- Specialized lazy rule for instance properties
+lazy rule CreateInstanceProp {
+    from
+        name : String,
+        type : String,
+        value : String
+    to
+        prop : React!Props (
+            name <- name,
+            -- For boolean values, convert string to actual boolean if needed
+            value <- 
+                if type = 'BOOLEAN' then
+                    if value = 'True' or value = 'true' then
+                        'true'
+                    else
+                        'false'
+                    endif
+                else
+                    value
+                endif,
+            defaultValue <- value,  -- Use the actual value as default too
+            isRequire <- false,
+            type <- thisModule.figmaTypeToTsType(type)
+        )
+}
+
+-- Updated rule for instances
 rule FigmaInstance2ReactComponent {
     from
-        F : Figma!INSTANCE(F.isInstance())
+        F : Figma!Children(F.isInstance())
     to 
         R : React!Component (
-            name <- F.name.regexReplaceAll(' ', ''),
+            name <- thisModule.toPascalCase(F.name),
             key <- F.id,
-            props <- F.getComponentProps(),
+            props <- F.getInstanceProps(),
+            children <- if not F.children.oclIsUndefined() then
+                Sequence {
+                    thisModule.CreateStyledWrapper(F)
+                }
+            else
+                Sequence {}
+            endif,
+            isInstance <- true
+        )
+}
+
+-- Helper rule to create a styled wrapper div for instances
+lazy rule CreateStyledWrapper {
+    from
+        F : Figma!INSTANCE
+    to
+        R : React!HTMLElement (
+            name <- 'div',
+            key <- F.id + '_wrapper',
+            isSelfClosing <- false,
+            attributes <- Sequence {
+                thisModule.CreateAttribute('style', F.generateFrameStyles())
+            },
             children <- if not F.children.oclIsUndefined() then
                 F.children->collect(e | thisModule.resolveTemp(e, 'R'))
             else
                 Sequence {}
-            endif,
-            attributes <- Sequence {
-                thisModule.CreateAttribute('style', F.generateFrameStyles())
-            }
+            endif
         )
 }
+
 
 rule FigmaComponent2RectDivHtmlElement {
 	from
@@ -488,19 +845,38 @@ helper context Figma!TEXT def : getTextTag(): String =
 
 
 -- First, let's make the helper more robust
+-- helper context Figma!FRAME def : isInput() : Boolean =
+--     if self.type.toString() = 'FRAME' and  -- Make sure it's a Frame
+--        self.name.toString().toLowerCase().startsWith('input') and  -- Check name
+--        not self.children.isEmpty() and  -- Has children
+--        self.children->exists(c |  -- Has placeholder text
+--             c.type.toString() = 'TEXT' and 
+--             c.name.toLowerCase().startsWith('placeholder')
+--         )
+--     then
+--         true
+--     else
+--         false
+--     endif;
+
 helper context Figma!FRAME def : isInput() : Boolean =
-    if self.type.toString() = 'FRAME' and  -- Make sure it's a Frame
-       self.name.toString().toLowerCase().startsWith('input') and  -- Check name
-       not self.children.isEmpty() and  -- Has children
-       self.children->exists(c |  -- Has placeholder text
-            c.type.toString() = 'TEXT' and 
-            c.name.toLowerCase().startsWith('placeholder')
-        )
+    if self.type.toString() = 'FRAME' and
+       not self.name.oclIsUndefined() and
+       self.name.toString().toLowerCase().startsWith('input') and
+       not self.children.oclIsUndefined() and
+       not self.children->isEmpty() and
+       self.children->exists(c |
+           not c.oclIsUndefined() and
+           c.type.toString() = 'TEXT' and
+           not c.name.oclIsUndefined() and
+           c.name.toString().toLowerCase().startsWith('placeholder')
+       )
     then
         true
     else
         false
     endif;
+
 
 -- Helper to get placeholder text
 helper context Figma!FRAME def : getPlaceholderText() : Figma!Children =
@@ -609,7 +985,7 @@ rule Figma2Button {
             content <- if F.hasClickNavigation() then 
                 OclUndefined 
             else 
-                F.characters + ' Test'
+                F.characters
             endif,
             attributes <- if F.hasClickNavigation() then
                 let targetCanvas : Figma!Children = thisModule.findCanvasById(F.getNavigationDestination()) in
@@ -674,42 +1050,64 @@ rule FigmaText2ReactDisplaylHtmlElement {
 -- Frame styles helper
 
 -- Helper to convert color to RGBA string
+
+-- For Color objects
 helper context Figma!Color def : toRGBA() : String =
     'rgba(' +
-    (self.r * 255).toString() + ', ' +
-    (self.g * 255).toString() + ', ' +
-    (self.b * 255).toString() + ', ' +
-    self.a.toString() + ')';
+    (if not self.r.oclIsUndefined() then (self.r * 255).round().toString() else '0' endif) + ', ' +
+    (if not self.g.oclIsUndefined() then (self.g * 255).round().toString() else '0' endif) + ', ' +
+    (if not self.b.oclIsUndefined() then (self.b * 255).round().toString() else '0' endif) + ', ' +
+    (if not self.a.oclIsUndefined() then self.a.toString() else '1' endif) + ')';
 
 -- Helper to get the background color from a frame
 helper context Figma!Children def : getBackgroundColor() : String =
-    if not self.backgroundColor.oclIsUndefined() then
-        self.backgroundColor.toRGBA()
-    else
-        let backgroundCollection : Sequence(Figma!Background) = 
-            if self.background.oclIsUndefined() then 
-                Sequence{} 
-            else 
-                self.background 
+    -- First check if this is an INSTANCE
+    if self.oclIsTypeOf(Figma!INSTANCE) then
+        -- For INSTANCE, try to get color from fills or background
+        if not self.fills.oclIsUndefined() then
+            -- Try treating it as a single object first
+            if not self.fills.color.oclIsUndefined() then
+                self.fills.color.toRGBA()
+            else
+                -- Try to handle as a potential collection
+                'transparent'
             endif
-        in
-        let fillsCollection : Sequence(Figma!Background) = 
-            if self.fills.oclIsUndefined() then 
-                Sequence{} 
-            else 
-                self.fills 
+        else if not self.background.oclIsUndefined() then
+            -- Try treating it as a single object first
+            if not self.background.color.oclIsUndefined() then
+                self.background.color.toRGBA()
+            else
+                -- Try to handle as a potential collection
+                'transparent'
             endif
-        in
-        if not backgroundCollection->isEmpty() then
-            backgroundCollection->first().color.toRGBA()
-        else if not fillsCollection->isEmpty() then
-            fillsCollection->first().color.toRGBA()
         else
             'transparent'
         endif endif
+    else
+        -- For other elements, try backgroundColor first
+        if not self.backgroundColor.oclIsUndefined() then
+            self.backgroundColor.toRGBA()
+        else
+            -- Fallback to background and fills, with same approach as above
+            if not self.background.oclIsUndefined() then
+                -- Try treating it as a single object first
+                if not self.background.color.oclIsUndefined() then
+                    self.background.color.toRGBA()
+                else
+                    'transparent'
+                endif
+            else if not self.fills.oclIsUndefined() then
+                -- Try treating it as a single object first
+                if not self.fills.color.oclIsUndefined() then
+                    self.fills.color.toRGBA()
+                else
+                    'transparent'
+                endif
+            else
+                'transparent'
+            endif endif
+        endif
     endif;
-
-
 
 -- Helper to build flexbox styles from frame layout properties
 helper context Figma!FRAME def : getFlexStyles() : String =
@@ -763,8 +1161,11 @@ helper context Figma!Children def : generateFrameStyles() : String =
         endif
     in
     let display : String = 'display: flex' in
+    
+    -- Handle flex styles based on element type
     let flexStyles : String = 
         if self.isFrame() then
+            -- Flex styles specific to FRAME elements
             let layoutModeStyle : String = 
                 if not self.layoutMode.oclIsUndefined() then
                     if self.layoutMode.toString() = 'HORIZONTAL' then
@@ -807,18 +1208,28 @@ helper context Figma!Children def : generateFrameStyles() : String =
                 ''
             endif
         else
-            ''
+            -- Default flex styles for non-FRAME elements
+            'flexDirection: column'
         endif
     in
-    let borderStyles : String =
-        if not self.cornerRadius.oclIsUndefined() then
+    
+    -- Handle border styles based on element type
+    let borderStyles : String = 
+        -- Check if this is an INSTANCE (which doesn't have cornerRadius)
+        if self.oclIsTypeOf(Figma!INSTANCE) then
+            -- Default border radius for instances
+            ''
+        else if not self.cornerRadius.oclIsUndefined() then
+            -- Use cornerRadius if available
             ', borderRadius: ' + self.cornerRadius.toString() + 'px'
         else
+            -- Default (no border radius)
             ''
-        endif
+        endif endif
     in
+    
     '{' +
-    display + 
+    display +
     (if dimensions <> '' then ', ' + dimensions else '' endif) +
     ', backgroundColor: ' + backgroundColor +
     (if flexStyles <> '' then ', ' + flexStyles else '' endif) +
@@ -870,14 +1281,19 @@ helper context Figma!Children def : getNavigationDestination() : String =
             navigateAction.destinationId
         endif
     endif;
+    
 
+
+    
 -- Helper rule to create a nested element (preserving the original element)
+
+
 lazy rule CreateNestedElement {
     from
         F : Figma!Children
     to
         R : React!HTMLElement (
-            name <- F.name,
+            name <- thisModule.toPascalCase(F.name),
             children <- F.children
         )
 }
@@ -888,7 +1304,7 @@ lazy rule CreateNestedTextElement {
         F : Figma!Children
     to
         R : React!HTMLElement (
-            name <- F.name,
+            name <- thisModule.toPascalCase(F.name),
             children <- F.children
         )
 }
