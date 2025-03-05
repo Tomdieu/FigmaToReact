@@ -4,7 +4,7 @@
     <semanticResources>figma_meta_model.ecore</semanticResources>
     <ownedViews xmi:type="viewpoint:DView" uid="_BWKgMPaeEe-fZ-myiWZn4A">
       <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']"/>
-      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_HWCTwPalEe-lCLoubhtedw" name="figma_meta_model class diagram" repPath="#_HVZakPalEe-lCLoubhtedw" changeId="1740858932432">
+      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_HWCTwPalEe-lCLoubhtedw" name="figma_meta_model class diagram" repPath="#_HVZakPalEe-lCLoubhtedw" changeId="1741084241349">
         <description xmi:type="description_1:DiagramDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']"/>
         <target xmi:type="ecore:EPackage" href="figma_meta_model.ecore#/"/>
       </ownedRepresentationDescriptors>
@@ -4542,7 +4542,7 @@
       </ownedStyle>
       <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC_EReference']"/>
     </ownedDiagramElements>
-    <ownedDiagramElements xmi:type="diagram:DEdge" uid="_INHFtvalEe-lCLoubhtedw" name="[0..1] componentPropertyDefinitions" sourceNode="_IJ3kcPalEe-lCLoubhtedw" targetNode="_IKvuMPalEe-lCLoubhtedw">
+    <ownedDiagramElements xmi:type="diagram:DEdge" uid="_INHFtvalEe-lCLoubhtedw" name="[0..*] componentPropertyDefinitions" sourceNode="_IJ3kcPalEe-lCLoubhtedw" targetNode="_IKvuMPalEe-lCLoubhtedw">
       <target xmi:type="ecore:EReference" href="figma_meta_model.ecore#//COMPONENT_SET/componentPropertyDefinitions"/>
       <semanticElements xmi:type="ecore:EReference" href="figma_meta_model.ecore#//COMPONENT_SET/componentPropertyDefinitions"/>
       <ownedStyle xmi:type="diagram:EdgeStyle" uid="_yeSD9vazEe-TW84shw806g" description="_INAYAPalEe-lCLoubhtedw" sourceArrow="FillDiamond" routingStyle="manhattan" strokeColor="0,0,0">
