@@ -1,11 +1,11 @@
 <?xml version="1.0" ?>
-<figma_meta_model:FigmaApp xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:figma_meta_model="www.figma_meta_model.com" xsi:schemaLocation="www.figma_meta_model.com ../Metamodel/figma_meta_model.ecore" name="Untitled" lastModified="2025-02-19T13:22:59Z" thumbnailUrl="https://s3-alpha.figma.com/thumbnails/3d61d05f-bce6-4339-ae68-1b744cbe9489?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAQ4GOSFWCRGOJ7Z7W%2F20250227%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20250227T000000Z&amp;X-Amz-Expires=604800&amp;X-Amz-SignedHeaders=host&amp;X-Amz-Signature=cf7c9a26acd02f163f46da74536aadb3d4e9e755155ac0026c184e495af15fd8" version="2186825081425971172" editorType="figma">
+<figma_meta_model:FigmaApp xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:figma_meta_model="www.figma_meta_model.com" xsi:schemaLocation="www.figma_meta_model.com ../Metamodel/figma_meta_model.ecore" name="Untitled" lastModified="2025-03-18T14:31:42Z" thumbnailUrl="https://s3-alpha.figma.com/thumbnails/c168af95-d671-4948-9930-0d102ee20f06?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAQ4GOSFWCUXI2UGDG%2F20250316%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20250316T120000Z&amp;X-Amz-Expires=604800&amp;X-Amz-SignedHeaders=host&amp;X-Amz-Signature=5d1ecee1081c0abbb1d3943e23620f85ee5c73e63a8550fc0f7eec61abdcaa8c" version="2196862217020241098" editorType="figma">
   <document id="0:0" name="Document" type="DOCUMENT" scrollBehavior="SCROLLS">
-    <children xsi:type="figma_meta_model:CANVAS" id="0:1" name="Page 1" type="CANVAS" scrollBehavior="SCROLLS" clipsContent="false" prototypeStartNodeID="107:7">
+    <children xsi:type="figma_meta_model:CANVAS" id="393:39" name="AuthPage" type="CANVAS" scrollBehavior="SCROLLS" clipsContent="false" prototypeStartNodeID="393:41">
       <prototypeDevice xsi:type="figma_meta_model:PrototypeDevice" type="NONE" rotation="NONE"/>
-      <children xsi:type="figma_meta_model:FRAME" id="107:7" name="Desktop - 1" type="FRAME" scrollBehavior="SCROLLS" clipsContent="true" strokeWeight="1.0" strokeAlign="INSIDE">
-        <absoluteBoundingBox x="-804.0" y="-476.0" width="1440.0" height="1024.0"/>
-        <absoluteRenderBounds x="-804.0" y="-476.0" width="1440.0" height="1024.0"/>
+      <children xsi:type="figma_meta_model:FRAME" id="393:41" name="Login screen" type="FRAME" scrollBehavior="SCROLLS" clipsContent="true" strokeWeight="1.0" strokeAlign="INSIDE">
+        <absoluteBoundingBox x="0.0" y="0.0" width="1440.0" height="1024.0"/>
+        <absoluteRenderBounds x="0.0" y="0.0" width="1440.0" height="1024.0"/>
         <constraints horizontal="LEFT" vertical="TOP"/>
         <backgroundColor r="1.0" g="1.0" b="1.0" a="1.0"/>
         <fills>
@@ -14,930 +14,154 @@
         <background>
           <color r="1.0" g="1.0" b="1.0" a="1.0"/>
         </background>
-        <children xsi:type="figma_meta_model:RECTANGLE" id="107:9" name="Rectangle 2" type="RECTANGLE" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="INSIDE">
-          <absoluteBoundingBox x="-417.0" y="-471.0" width="1053.0" height="1024.0"/>
-          <absoluteRenderBounds x="-417.0" y="-471.0" width="1053.0" height="1019.0"/>
-          <constraints horizontal="LEFT" vertical="TOP"/>
-          <fills>
-            <color r="1.0" g="1.0" b="1.0" a="1.0"/>
-          </fills>
-        </children>
-        <children xsi:type="figma_meta_model:FRAME" id="160:215" name="Frame 29" type="FRAME" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="INSIDE" layoutMode="HORIZONTAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="FIXED" layoutSizingVertical="HUG" itemSpacing="10" primaryAxisSizingMode="FIXED" counterAxisAlignItems="CENTER">
-          <absoluteBoundingBox x="-803.0" y="-387.0" width="386.0" height="44.0"/>
-          <absoluteRenderBounds x="-803.0" y="-387.0" width="386.0" height="44.0"/>
-          <constraints horizontal="LEFT" vertical="TOP"/>
+        <children xsi:type="figma_meta_model:FRAME" id="393:42" name="Frame 1" type="FRAME" scrollBehavior="SCROLLS" clipsContent="true" strokeWeight="1.0" strokeAlign="INSIDE" layoutMode="VERTICAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="FIXED" layoutSizingVertical="FIXED" counterAxisSizingMode="FIXED" itemSpacing="10" primaryAxisSizingMode="FIXED" counterAxisAlignItems="CENTER" primaryAxisAlignItems="CENTER">
+          <absoluteBoundingBox x="294.0" y="183.0" width="852.0" height="659.0"/>
+          <absoluteRenderBounds x="294.0" y="183.0" width="852.0" height="659.0"/>
+          <constraints horizontal="CENTER" vertical="CENTER"/>
           <backgroundColor r="0.0" g="0.0" b="0.0" a="0.0"/>
-          <interactions xsi:type="figma_meta_model:Interaction">
-            <trigger xsi:type="figma_meta_model:Trigger" type="ON_CLICK"/>
-          </interactions>
-          <children xsi:type="figma_meta_model:TEXT" id="109:2" name="Tasks" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="Tasks" layoutAlign="INHERIT" layoutGrow="0.0" layoutSizingHorizontal="HUG" layoutSizingVertical="HUG" lineTypes="NONE" lineIndentations="0">
-            <absoluteBoundingBox x="-793.0" y="-377.0" width="56.0" height="24.0"/>
-            <absoluteRenderBounds x="-792.1193237304688" y="-372.5454406738281" width="53.7198486328125" height="14.78692626953125"/>
-            <constraints horizontal="LEFT" vertical="TOP"/>
-            <style fontFamily="Inter" fontPostScriptName="Inter-Medium" textAutoResize="WIDTH_AND_HEIGHT" fontSize="20.0" fontWeight="500" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="24.204544067382812" textAlignHorizontal="LEFT" textAlignVertical="CENTER"/>
-            <fills>
-              <color r="0.0" g="0.0" b="0.0" a="1.0"/>
-            </fills>
-          </children>
-        </children>
-        <children xsi:type="figma_meta_model:FRAME" id="160:214" name="Frame 28" type="FRAME" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="INSIDE" layoutMode="HORIZONTAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="FIXED" layoutSizingVertical="HUG" itemSpacing="10" primaryAxisSizingMode="FIXED" counterAxisAlignItems="CENTER">
-          <absoluteBoundingBox x="-803.0" y="-319.0" width="386.0" height="44.0"/>
-          <absoluteRenderBounds x="-803.0" y="-319.0" width="386.0" height="44.0"/>
-          <constraints horizontal="LEFT" vertical="TOP"/>
-          <backgroundColor r="0.0" g="0.0" b="0.0" a="0.0"/>
-          <children xsi:type="figma_meta_model:TEXT" id="109:3" name="Add Task" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="Add Task" layoutAlign="INHERIT" layoutGrow="0.0" layoutSizingHorizontal="HUG" layoutSizingVertical="HUG" lineTypes="NONE" lineIndentations="0">
-            <absoluteBoundingBox x="-793.0" y="-309.0" width="90.0" height="24.0"/>
-            <absoluteRenderBounds x="-792.5099487304688" y="-304.5454406738281" width="89.22943115234375" height="14.765625"/>
-            <constraints horizontal="LEFT" vertical="TOP"/>
-            <style fontFamily="Inter" fontPostScriptName="Inter-SemiBold" textAutoResize="WIDTH_AND_HEIGHT" fontSize="20.0" fontWeight="600" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="24.204544067382812" textAlignHorizontal="LEFT" textAlignVertical="CENTER"/>
-            <fills>
-              <color r="0.0" g="0.0" b="0.0" a="1.0"/>
-            </fills>
-            <interactions xsi:type="figma_meta_model:Interaction">
-              <trigger xsi:type="figma_meta_model:Trigger" type="ON_CLICK"/>
-              <actions xsi:type="figma_meta_model:Action" type="NODE" destinationId="109:11" navigation="NAVIGATE">
-                <transition xsi:type="figma_meta_model:Transition"/>
-              </actions>
-            </interactions>
-          </children>
-        </children>
-        <children xsi:type="figma_meta_model:TEXT" id="107:15" name="Dashboard" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="Dashboard" lineTypes="NONE" lineIndentations="0">
-          <absoluteBoundingBox x="-793.0" y="-454.0" width="193.0" height="44.0"/>
-          <absoluteRenderBounds x="-790.7244262695312" y="-445.18182373046875" width="187.72479248046875" height="26.565338134765625"/>
-          <constraints horizontal="LEFT" vertical="TOP"/>
-          <style fontFamily="Inter" fontPostScriptName="Inter-Bold" textAutoResize="WIDTH_AND_HEIGHT" fontSize="36.0" fontWeight="700" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="43.568180084228516" textAlignHorizontal="LEFT" textAlignVertical="TOP"/>
-          <fills>
-            <color r="0.0" g="0.0" b="0.0" a="1.0"/>
-          </fills>
-        </children>
-        <children xsi:type="figma_meta_model:LINE" id="107:16" name="Line 1" type="LINE" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="CENTER">
-          <absoluteBoundingBox x="-804.0" y="-390.0000000043822" width="386.9999899821414" height="1.0000000043821728"/>
-          <absoluteRenderBounds x="-804.0" y="-391.0" width="387.0" height="2.0"/>
-          <constraints horizontal="LEFT" vertical="TOP"/>
-          <strokes>
-            <color r="0.501960813999176" g="0.501960813999176" b="0.501960813999176" a="1.0"/>
-          </strokes>
-        </children>
-        <children xsi:type="figma_meta_model:TEXT" id="134:2" name="Tasks" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="Tasks" lineTypes="NONE" lineIndentations="0">
-          <absoluteBoundingBox x="-396.0" y="-438.0" width="109.0" height="48.0"/>
-          <absoluteRenderBounds x="-394.06817626953125" y="-428.0909118652344" width="104.8792724609375" height="29.602264404296875"/>
-          <constraints horizontal="LEFT" vertical="TOP"/>
-          <style fontFamily="Inter" fontPostScriptName="" textAutoResize="WIDTH_AND_HEIGHT" fontSize="40.0" fontWeight="400" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="48.409088134765625" textAlignHorizontal="LEFT" textAlignVertical="TOP"/>
-          <fills>
-            <color r="0.0" g="0.0" b="0.0" a="1.0"/>
-          </fills>
-        </children>
-        <children xsi:type="figma_meta_model:FRAME" id="136:52" name="table" type="FRAME" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="INSIDE" layoutMode="VERTICAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="FIXED" layoutSizingVertical="HUG" counterAxisSizingMode="FIXED" itemSpacing="6" counterAxisAlignItems="CENTER" primaryAxisAlignItems="CENTER">
-          <absoluteBoundingBox x="-398.0" y="-377.0" width="1007.0" height="90.0"/>
-          <absoluteRenderBounds x="-398.0" y="-377.0" width="1007.0" height="90.0"/>
-          <constraints horizontal="LEFT" vertical="TOP"/>
-          <backgroundColor r="0.0" g="0.0" b="0.0" a="0.0"/>
-          <children xsi:type="figma_meta_model:FRAME" id="135:17" name="th" type="FRAME" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="0.0" strokeAlign="OUTSIDE" layoutMode="HORIZONTAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="FIXED" layoutSizingVertical="FIXED" layoutAlign="INHERIT" counterAxisSizingMode="FIXED" primaryAxisSizingMode="FIXED" counterAxisAlignItems="CENTER" primaryAxisAlignItems="CENTER" cornerRadius="2.0" cornerSmoothing="0.0">
-            <absoluteBoundingBox x="-397.5" y="-377.0" width="1006.0" height="48.0"/>
-            <absoluteRenderBounds x="-398.0" y="-377.0" width="1007.0" height="48.0"/>
+          <children xsi:type="figma_meta_model:FRAME" id="408:55" name="form" type="FRAME" scrollBehavior="SCROLLS" clipsContent="true" strokeWeight="1.0" strokeAlign="INSIDE" layoutMode="VERTICAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="HUG" layoutSizingVertical="HUG" layoutAlign="INHERIT" itemSpacing="10" cornerRadius="8.0" cornerSmoothing="0.0">
+            <absoluteBoundingBox x="513.5" y="271.0" width="413.0" height="483.0"/>
+            <absoluteRenderBounds x="513.5" y="271.0" width="413.0" height="483.0"/>
             <constraints horizontal="LEFT" vertical="TOP"/>
             <backgroundColor r="0.0" g="0.0" b="0.0" a="0.0"/>
-            <layoutGrids xsi:type="figma_meta_model:LayoutGrid" sectionSize="10.0" visible="True" alignment="MIN" gutterSize="0" offset="0" count="-1">
-              <color r="1.0" g="0.0" b="0.0" a="0.10000000149011612"/>
-            </layoutGrids>
-            <individualStrokeWeights xsi:type="figma_meta_model:StrokeWeight" top="0.0" right="0.0" bottom="10.0" left="0.0"/>
-            <effects radius="4.0" visible="True" type="BACKGROUND_BLUR"/>
-            <children xsi:type="figma_meta_model:FRAME" id="135:8" name="td" type="FRAME" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="INSIDE" layoutMode="HORIZONTAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="FIXED" layoutSizingVertical="FIXED" layoutAlign="INHERIT" counterAxisSizingMode="FIXED" itemSpacing="10" primaryAxisSizingMode="FIXED" counterAxisAlignItems="CENTER" cornerRadius="4.0" cornerSmoothing="0.0">
-              <absoluteBoundingBox x="-398.0" y="-370.5" width="237.0" height="35.0"/>
-              <absoluteRenderBounds x="-398.0" y="-370.5" width="237.0" height="35.0"/>
+            <strokes>
+              <color r="0.0" g="0.0" b="0.0" a="1.0"/>
+            </strokes>
+            <children xsi:type="figma_meta_model:TEXT" id="393:44" name="h1" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="Login Page" layoutAlign="STRETCH" layoutGrow="0.0" layoutSizingHorizontal="FILL" layoutSizingVertical="HUG" lineTypes="NONE" lineIndentations="0">
+              <absoluteBoundingBox x="536.5" y="310.0" width="367.0" height="29.0"/>
+              <absoluteRenderBounds x="658.2730712890625" y="314.8465881347656" width="124.257080078125" height="23.335235595703125"/>
               <constraints horizontal="LEFT" vertical="TOP"/>
-              <backgroundColor r="0.925000011920929" g="0.925000011920929" b="0.925000011920929" a="1.0"/>
-              <fills>
-                <color r="0.925000011920929" g="0.925000011920929" b="0.925000011920929" a="1.0"/>
-              </fills>
-              <background>
-                <color r="0.925000011920929" g="0.925000011920929" b="0.925000011920929" a="1.0"/>
-              </background>
-              <children xsi:type="figma_meta_model:TEXT" id="135:7" name="Title" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="Title" layoutAlign="INHERIT" layoutGrow="0.0" layoutSizingHorizontal="FIXED" layoutSizingVertical="HUG" lineTypes="NONE" lineIndentations="0">
-                <absoluteBoundingBox x="-398.0" y="-365.0" width="224.0" height="24.0"/>
-                <absoluteRenderBounds x="-397.2897644042969" y="-361.3764343261719" width="42.741455078125" height="15.589508056640625"/>
-                <constraints horizontal="LEFT" vertical="TOP"/>
-                <style fontFamily="Inter" fontPostScriptName="Inter-Bold" textAutoResize="HEIGHT" fontSize="20.0" fontWeight="700" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="24.204544067382812" textAlignHorizontal="LEFT" textAlignVertical="TOP"/>
-                <fills>
-                  <color r="0.0" g="0.0" b="0.0" a="1.0"/>
-                </fills>
-              </children>
-            </children>
-            <children xsi:type="figma_meta_model:FRAME" id="135:9" name="td" type="FRAME" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="INSIDE" layoutMode="HORIZONTAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="FIXED" layoutSizingVertical="FIXED" layoutAlign="INHERIT" counterAxisSizingMode="FIXED" itemSpacing="10" primaryAxisSizingMode="FIXED" counterAxisAlignItems="CENTER">
-              <absoluteBoundingBox x="-161.0" y="-370.5" width="246.0" height="35.0"/>
-              <absoluteRenderBounds x="-161.0" y="-370.5" width="246.0" height="35.0"/>
-              <constraints horizontal="LEFT" vertical="TOP"/>
-              <backgroundColor r="0.925000011920929" g="0.925000011920929" b="0.925000011920929" a="1.0"/>
-              <fills>
-                <color r="0.925000011920929" g="0.925000011920929" b="0.925000011920929" a="1.0"/>
-              </fills>
-              <background>
-                <color r="0.925000011920929" g="0.925000011920929" b="0.925000011920929" a="1.0"/>
-              </background>
-              <children xsi:type="figma_meta_model:TEXT" id="135:11" name="Description" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="Description" layoutAlign="INHERIT" layoutGrow="0.0" layoutSizingHorizontal="FIXED" layoutSizingVertical="HUG" lineTypes="NONE" lineIndentations="0">
-                <absoluteBoundingBox x="-161.0" y="-365.0" width="243.0" height="24.0"/>
-                <absoluteRenderBounds x="-159.7357940673828" y="-361.3764343261719" width="111.25" height="19.46734619140625"/>
-                <constraints horizontal="LEFT" vertical="TOP"/>
-                <style fontFamily="Inter" fontPostScriptName="Inter-Bold" textAutoResize="HEIGHT" fontSize="20.0" fontWeight="700" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="24.204544067382812" textAlignHorizontal="LEFT" textAlignVertical="TOP"/>
-                <fills>
-                  <color r="0.0" g="0.0" b="0.0" a="1.0"/>
-                </fills>
-              </children>
-            </children>
-            <children xsi:type="figma_meta_model:FRAME" id="135:12" name="Frame 7" type="FRAME" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="INSIDE" layoutMode="HORIZONTAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="FIXED" layoutSizingVertical="FIXED" layoutAlign="INHERIT" counterAxisSizingMode="FIXED" itemSpacing="10" primaryAxisSizingMode="FIXED" counterAxisAlignItems="CENTER">
-              <absoluteBoundingBox x="85.0" y="-370.5" width="234.0" height="35.0"/>
-              <absoluteRenderBounds x="85.0" y="-370.5" width="234.0" height="35.0"/>
-              <constraints horizontal="LEFT" vertical="TOP"/>
-              <backgroundColor r="0.925000011920929" g="0.925000011920929" b="0.925000011920929" a="1.0"/>
-              <fills>
-                <color r="0.925000011920929" g="0.925000011920929" b="0.925000011920929" a="1.0"/>
-              </fills>
-              <background>
-                <color r="0.925000011920929" g="0.925000011920929" b="0.925000011920929" a="1.0"/>
-              </background>
-              <children xsi:type="figma_meta_model:TEXT" id="135:14" name="Completed" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="Completed" layoutAlign="INHERIT" layoutGrow="0.0" layoutSizingHorizontal="HUG" layoutSizingVertical="HUG" lineTypes="NONE" lineIndentations="0">
-                <absoluteBoundingBox x="85.0" y="-365.0" width="108.0" height="24.0"/>
-                <absoluteRenderBounds x="86.0085220336914" y="-360.74432373046875" width="105.64098358154297" height="18.835235595703125"/>
-                <constraints horizontal="LEFT" vertical="TOP"/>
-                <style fontFamily="Inter" fontPostScriptName="Inter-Bold" textAutoResize="WIDTH_AND_HEIGHT" fontSize="20.0" fontWeight="700" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="24.204544067382812" textAlignHorizontal="LEFT" textAlignVertical="TOP"/>
-                <fills>
-                  <color r="0.0" g="0.0" b="0.0" a="1.0"/>
-                </fills>
-              </children>
-            </children>
-            <children xsi:type="figma_meta_model:FRAME" id="135:15" name="Frame 8" type="FRAME" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="INSIDE" layoutMode="HORIZONTAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="FIXED" layoutSizingVertical="FIXED" layoutAlign="INHERIT" counterAxisSizingMode="FIXED" itemSpacing="10" primaryAxisSizingMode="FIXED" counterAxisAlignItems="CENTER" cornerRadius="4.0" cornerSmoothing="0.0">
-              <absoluteBoundingBox x="319.0" y="-370.5" width="290.0" height="35.0"/>
-              <absoluteRenderBounds x="319.0" y="-370.5" width="290.0" height="35.0"/>
-              <constraints horizontal="LEFT" vertical="TOP"/>
-              <backgroundColor r="0.925000011920929" g="0.925000011920929" b="0.925000011920929" a="1.0"/>
-              <fills>
-                <color r="0.925000011920929" g="0.925000011920929" b="0.925000011920929" a="1.0"/>
-              </fills>
-              <background>
-                <color r="0.925000011920929" g="0.925000011920929" b="0.925000011920929" a="1.0"/>
-              </background>
-              <children xsi:type="figma_meta_model:TEXT" id="135:16" name="Actions" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="Actions" layoutAlign="INHERIT" layoutGrow="0.0" layoutSizingHorizontal="HUG" layoutSizingVertical="HUG" lineTypes="NONE" lineIndentations="0">
-                <absoluteBoundingBox x="319.0" y="-365.0" width="76.0" height="24.0"/>
-                <absoluteRenderBounds x="319.4758605957031" y="-361.3764343261719" width="74.17788696289062" height="15.589508056640625"/>
-                <constraints horizontal="LEFT" vertical="TOP"/>
-                <style fontFamily="Inter" fontPostScriptName="Inter-Bold" textAutoResize="WIDTH_AND_HEIGHT" fontSize="20.0" fontWeight="700" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="24.204544067382812" textAlignHorizontal="LEFT" textAlignVertical="TOP"/>
-                <fills>
-                  <color r="0.0" g="0.0" b="0.0" a="1.0"/>
-                </fills>
-              </children>
-            </children>
-          </children>
-          <children xsi:type="figma_meta_model:INSTANCE" id="149:31" name="tr" type="INSTANCE" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="0.0" strokeAlign="OUTSIDE" componentId="149:30">
-            <absoluteBoundingBox x="-397.5" y="-323.0" width="1006.0" height="36.0"/>
-            <absoluteRenderBounds x="-398.0" y="-323.0" width="1007.0" height="36.0"/>
-            <constraints horizontal="LEFT" vertical="TOP"/>
-            <overrides xsi:type="figma_meta_model:Override" id="I149:31;136:71">
-              <overriddenFields>transitionEasing</overriddenFields>
-              <overriddenFields>transitionDuration</overriddenFields>
-              <overriddenFields>transitionNodeID</overriddenFields>
-            </overrides>
-            <overrides xsi:type="figma_meta_model:Override" id="149:31">
-              <overriddenFields>name</overriddenFields>
-            </overrides>
-            <effects radius="4.0" visible="True" type="BACKGROUND_BLUR"/>
-            <children xsi:type="figma_meta_model:FRAME" id="I149:31;136:64" name="Frame 5" type="FRAME" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="INSIDE" layoutMode="HORIZONTAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="FIXED" layoutSizingVertical="FIXED" layoutAlign="INHERIT" counterAxisSizingMode="FIXED" itemSpacing="10" primaryAxisSizingMode="FIXED" counterAxisAlignItems="CENTER" cornerRadius="4.0" cornerSmoothing="0.0">
-              <absoluteBoundingBox x="-398.0" y="-322.5" width="237.0" height="35.0"/>
-              <absoluteRenderBounds x="-398.0" y="-322.5" width="237.0" height="35.0"/>
-              <constraints horizontal="LEFT" vertical="TOP"/>
-              <backgroundColor r="1.0" g="1.0" b="1.0" a="1.0"/>
-              <fills>
-                <color r="1.0" g="1.0" b="1.0" a="1.0"/>
-              </fills>
-              <background>
-                <color r="1.0" g="1.0" b="1.0" a="1.0"/>
-              </background>
-              <children xsi:type="figma_meta_model:TEXT" id="I149:31;136:65" name="Initialise project" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="Initialise project" layoutAlign="INHERIT" layoutGrow="0.0" layoutSizingHorizontal="FIXED" layoutSizingVertical="HUG" lineTypes="NONE" lineIndentations="0">
-                <absoluteBoundingBox x="-398.0" y="-317.0" width="224.0" height="24.0"/>
-                <absoluteRenderBounds x="-396.2386474609375" y="-313.0" width="145.73155212402344" height="19.090911865234375"/>
-                <constraints horizontal="LEFT" vertical="TOP"/>
-                <style fontFamily="Inter" fontPostScriptName="" textAutoResize="HEIGHT" fontSize="20.0" fontWeight="400" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="24.204544067382812" textAlignHorizontal="LEFT" textAlignVertical="TOP"/>
-                <fills>
-                  <color r="0.0" g="0.0" b="0.0" a="1.0"/>
-                </fills>
-              </children>
-            </children>
-            <children xsi:type="figma_meta_model:FRAME" id="I149:31;136:66" name="Frame 6" type="FRAME" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="INSIDE" layoutMode="HORIZONTAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="FIXED" layoutSizingVertical="FIXED" layoutAlign="INHERIT" counterAxisSizingMode="FIXED" itemSpacing="10" primaryAxisSizingMode="FIXED" counterAxisAlignItems="CENTER">
-              <absoluteBoundingBox x="-161.0" y="-322.5" width="246.0" height="35.0"/>
-              <absoluteRenderBounds x="-161.0" y="-322.5" width="246.0" height="35.0"/>
-              <constraints horizontal="LEFT" vertical="TOP"/>
-              <backgroundColor r="1.0" g="1.0" b="1.0" a="1.0"/>
-              <fills>
-                <color r="1.0" g="1.0" b="1.0" a="1.0"/>
-              </fills>
-              <background>
-                <color r="1.0" g="1.0" b="1.0" a="1.0"/>
-              </background>
-              <children xsi:type="figma_meta_model:TEXT" id="I149:31;136:67" name="Description" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="Description" layoutAlign="INHERIT" layoutGrow="0.0" layoutSizingHorizontal="FIXED" layoutSizingVertical="HUG" lineTypes="NONE" lineIndentations="0">
-                <absoluteBoundingBox x="-161.0" y="-317.0" width="243.0" height="24.0"/>
-                <absoluteRenderBounds x="-159.23863220214844" y="-313.0" width="104.36611938476562" height="19.090911865234375"/>
-                <constraints horizontal="LEFT" vertical="TOP"/>
-                <style fontFamily="Inter" fontPostScriptName="" textAutoResize="HEIGHT" fontSize="20.0" fontWeight="400" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="24.204544067382812" textAlignHorizontal="LEFT" textAlignVertical="TOP"/>
-                <fills>
-                  <color r="0.5666666626930237" g="0.5359722375869751" b="0.5359722375869751" a="1.0"/>
-                </fills>
-              </children>
-            </children>
-            <children xsi:type="figma_meta_model:FRAME" id="I149:31;136:68" name="Frame 7" type="FRAME" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="INSIDE" layoutMode="HORIZONTAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="FIXED" layoutSizingVertical="FIXED" layoutAlign="INHERIT" counterAxisSizingMode="FIXED" itemSpacing="10" primaryAxisSizingMode="FIXED" counterAxisAlignItems="CENTER">
-              <absoluteBoundingBox x="85.0" y="-322.5" width="234.0" height="35.0"/>
-              <absoluteRenderBounds x="85.0" y="-322.5" width="234.0" height="35.0"/>
-              <constraints horizontal="LEFT" vertical="TOP"/>
-              <backgroundColor r="1.0" g="1.0" b="1.0" a="1.0"/>
-              <fills>
-                <color r="1.0" g="1.0" b="1.0" a="1.0"/>
-              </fills>
-              <background>
-                <color r="1.0" g="1.0" b="1.0" a="1.0"/>
-              </background>
-              <children xsi:type="figma_meta_model:TEXT" id="I149:31;136:69" name="Yes" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="Yes" layoutAlign="INHERIT" layoutGrow="0.0" layoutSizingHorizontal="HUG" layoutSizingVertical="HUG" lineTypes="NONE" lineIndentations="0">
-                <absoluteBoundingBox x="85.0" y="-317.0" width="34.0" height="24.0"/>
-                <absoluteRenderBounds x="85.51136016845703" y="-312.5454406738281" width="32.34730529785156" height="14.772705078125"/>
-                <constraints horizontal="LEFT" vertical="TOP"/>
-                <style fontFamily="Inter" fontPostScriptName="" textAutoResize="WIDTH_AND_HEIGHT" fontSize="20.0" fontWeight="400" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="24.204544067382812" textAlignHorizontal="LEFT" textAlignVertical="TOP"/>
-                <fills>
-                  <color r="0.5647059082984924" g="0.5372549295425415" b="0.5372549295425415" a="1.0"/>
-                </fills>
-              </children>
-            </children>
-            <children xsi:type="figma_meta_model:FRAME" id="I149:31;136:70" name="Frame 8" type="FRAME" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="INSIDE" layoutMode="HORIZONTAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="FIXED" layoutSizingVertical="FIXED" layoutAlign="INHERIT" counterAxisSizingMode="FIXED" itemSpacing="10" primaryAxisSizingMode="FIXED" counterAxisAlignItems="CENTER" cornerRadius="4.0" cornerSmoothing="0.0">
-              <absoluteBoundingBox x="319.0" y="-322.5" width="290.0" height="35.0"/>
-              <absoluteRenderBounds x="319.0" y="-322.5" width="290.0" height="35.0"/>
-              <constraints horizontal="LEFT" vertical="TOP"/>
-              <backgroundColor r="1.0" g="1.0" b="1.0" a="1.0"/>
-              <fills>
-                <color r="1.0" g="1.0" b="1.0" a="1.0"/>
-              </fills>
-              <background>
-                <color r="1.0" g="1.0" b="1.0" a="1.0"/>
-              </background>
-              <children xsi:type="figma_meta_model:TEXT" id="I149:31;136:71" name="Updated" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="Updated" layoutAlign="INHERIT" layoutGrow="0.0" layoutSizingHorizontal="HUG" layoutSizingVertical="HUG" lineTypes="NONE" lineIndentations="0">
-                <absoluteBoundingBox x="319.0" y="-317.0" width="84.0" height="24.0"/>
-                <absoluteRenderBounds x="320.2641906738281" y="-312.5454406738281" width="81.34234619140625" height="18.6363525390625"/>
-                <constraints horizontal="LEFT" vertical="TOP"/>
-                <style fontFamily="Inter" fontPostScriptName="Inter-Bold" textAutoResize="WIDTH_AND_HEIGHT" fontSize="20.0" fontWeight="700" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="24.204544067382812" textAlignHorizontal="LEFT" textAlignVertical="TOP"/>
-                <fills>
-                  <color r="0.46458330750465393" g="0.34843748807907104" b="0.9291666746139526" a="1.0"/>
-                </fills>
-                <interactions xsi:type="figma_meta_model:Interaction">
-                  <trigger xsi:type="figma_meta_model:Trigger" type="ON_CLICK"/>
-                  <actions xsi:type="figma_meta_model:Action" type="NODE" destinationId="138:153" navigation="NAVIGATE">
-                    <transition xsi:type="figma_meta_model:Transition" type="PUSH" direction="RIGHT" duration="0.30000001192092896" matchLayers="False">
-                      <easing xsi:type="figma_meta_model:Easing" type="EASE_OUT"/>
-                    </transition>
-                  </actions>
-                </interactions>
-              </children>
-              <children xsi:type="figma_meta_model:TEXT" id="I149:31;136:72" name="Deleted" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="Deleted" layoutAlign="INHERIT" layoutGrow="0.0" layoutSizingHorizontal="HUG" layoutSizingVertical="HUG" lineTypes="NONE" lineIndentations="0">
-                <absoluteBoundingBox x="413.0" y="-317.0" width="77.0" height="24.0"/>
-                <absoluteRenderBounds x="414.2641906738281" y="-312.5454406738281" width="73.68609619140625" height="14.758514404296875"/>
-                <constraints horizontal="LEFT" vertical="TOP"/>
-                <style fontFamily="Inter" fontPostScriptName="Inter-Bold" textAutoResize="WIDTH_AND_HEIGHT" fontSize="20.0" fontWeight="700" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="24.204544067382812" textAlignHorizontal="LEFT" textAlignVertical="TOP"/>
-                <fills>
-                  <color r="0.9916666746139526" g="0.024791667237877846" b="0.024791667237877846" a="1.0"/>
-                </fills>
-              </children>
-            </children>
-          </children>
-        </children>
-        <children xsi:type="figma_meta_model:TEXT" id="324:162" name="Text" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="" lineTypes="NONE" lineIndentations="0">
-          <absoluteBoundingBox x="-522.0" y="-91.0" width="0.0" height="24.0"/>
-          <absoluteRenderBounds/>
-          <constraints horizontal="LEFT" vertical="TOP"/>
-          <style fontFamily="Inter" fontPostScriptName="Inter-Bold" textAutoResize="WIDTH_AND_HEIGHT" fontSize="20.0" fontWeight="700" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="24.204544067382812" textAlignHorizontal="LEFT" textAlignVertical="TOP"/>
-          <fills>
-            <color r="0.0" g="0.0" b="0.0" a="1.0"/>
-          </fills>
-        </children>
-      </children>
-      <children xsi:type="figma_meta_model:COMPONENT" id="109:11" name="Desktop - 2" type="COMPONENT" scrollBehavior="SCROLLS" clipsContent="true" strokeWeight="1.0" strokeAlign="INSIDE">
-        <absoluteBoundingBox x="766.0" y="-476.0" width="1440.0" height="1024.0"/>
-        <absoluteRenderBounds x="766.0" y="-476.0" width="1440.0" height="1024.0"/>
-        <constraints horizontal="LEFT" vertical="TOP"/>
-        <fills>
-          <color r="1.0" g="1.0" b="1.0" a="1.0"/>
-        </fills>
-        <background>
-          <color r="1.0" g="1.0" b="1.0" a="1.0"/>
-        </background>
-        <children xsi:type="figma_meta_model:RECTANGLE" id="109:5" name="Sidebar" type="RECTANGLE" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="INSIDE">
-          <absoluteBoundingBox x="766.0" y="-476.0" width="387.0" height="1024.0"/>
-          <absoluteRenderBounds x="766.0" y="-476.0" width="387.0" height="1024.0"/>
-          <constraints horizontal="LEFT" vertical="TOP"/>
-          <fills>
-            <color r="1.0" g="1.0" b="1.0" a="1.0"/>
-          </fills>
-          <strokes>
-            <color r="0.0" g="0.0" b="0.0" a="1.0"/>
-          </strokes>
-        </children>
-        <children xsi:type="figma_meta_model:FRAME" id="111:18" name="Frame 1" type="FRAME" scrollBehavior="SCROLLS" clipsContent="true" strokeWeight="1.0" strokeAlign="INSIDE">
-          <absoluteBoundingBox x="1581.0" y="-117.0" width="100.0" height="100.0"/>
-          <absoluteRenderBounds x="1581.0" y="-117.0" width="100.0" height="100.0"/>
-          <constraints horizontal="LEFT" vertical="TOP"/>
-          <backgroundColor r="0.0" g="0.0" b="0.0" a="0.0"/>
-        </children>
-        <children xsi:type="figma_meta_model:RECTANGLE" id="109:6" name="Rectangle 2" type="RECTANGLE" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="INSIDE">
-          <absoluteBoundingBox x="1153.0" y="-476.0" width="1053.0" height="1024.0"/>
-          <absoluteRenderBounds x="1153.0" y="-476.0" width="1053.0" height="1024.0"/>
-          <constraints horizontal="LEFT" vertical="TOP"/>
-          <fills>
-            <color r="1.0" g="1.0" b="1.0" a="1.0"/>
-          </fills>
-        </children>
-        <children xsi:type="figma_meta_model:VECTOR" id="115:26" name="Rectangle 4" type="VECTOR" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="INSIDE">
-          <absoluteBoundingBox x="1153.0" y="-476.0" width="1053.0" height="1024.0"/>
-          <absoluteRenderBounds x="1153.0" y="-476.0" width="1053.0" height="1024.0"/>
-          <constraints horizontal="LEFT" vertical="TOP"/>
-          <fills>
-            <color r="1.0" g="1.0" b="1.0" a="1.0"/>
-          </fills>
-          <componentPropertyReferences key="visible" value="Show Rectangle 4#117:1"/>
-        </children>
-        <children xsi:type="figma_meta_model:TEXT" id="109:7" name="Tasks" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="Tasks" lineTypes="NONE" lineIndentations="0">
-          <absoluteBoundingBox x="777.0" y="-377.0" width="376.0" height="56.0"/>
-          <absoluteRenderBounds x="777.8806762695312" y="-356.54547119140625" width="53.7198486328125" height="14.786956787109375"/>
-          <constraints horizontal="LEFT" vertical="TOP"/>
-          <style fontFamily="Inter" fontPostScriptName="Inter-Medium" fontSize="20.0" fontWeight="500" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="24.204544067382812" textAlignHorizontal="LEFT" textAlignVertical="CENTER"/>
-          <fills>
-            <color r="0.0" g="0.0" b="0.0" a="1.0"/>
-          </fills>
-          <interactions xsi:type="figma_meta_model:Interaction">
-            <trigger xsi:type="figma_meta_model:Trigger" type="ON_CLICK"/>
-            <actions xsi:type="figma_meta_model:Action" type="NODE" destinationId="107:7" navigation="NAVIGATE">
-              <transition xsi:type="figma_meta_model:Transition"/>
-            </actions>
-          </interactions>
-        </children>
-        <children xsi:type="figma_meta_model:TEXT" id="109:8" name="Add Task" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="Add Task" lineTypes="NONE" lineIndentations="0">
-          <absoluteBoundingBox x="777.0" y="-309.0" width="376.0" height="56.0"/>
-          <absoluteRenderBounds x="777.4900512695312" y="-288.54547119140625" width="89.22943115234375" height="14.765625"/>
-          <constraints horizontal="LEFT" vertical="TOP"/>
-          <style fontFamily="Inter" fontPostScriptName="Inter-SemiBold" fontSize="20.0" fontWeight="600" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="24.204544067382812" textAlignHorizontal="LEFT" textAlignVertical="CENTER"/>
-          <fills>
-            <color r="0.0" g="0.0" b="0.0" a="1.0"/>
-          </fills>
-        </children>
-        <children xsi:type="figma_meta_model:TEXT" id="109:9" name="Dashboard" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="Dashboard" lineTypes="NONE" lineIndentations="0">
-          <absoluteBoundingBox x="777.0" y="-454.0" width="193.0" height="44.0"/>
-          <absoluteRenderBounds x="779.2755737304688" y="-445.18182373046875" width="187.72479248046875" height="26.565338134765625"/>
-          <constraints horizontal="LEFT" vertical="TOP"/>
-          <style fontFamily="Inter" fontPostScriptName="Inter-Bold" textAutoResize="WIDTH_AND_HEIGHT" fontSize="36.0" fontWeight="700" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="43.568180084228516" textAlignHorizontal="LEFT" textAlignVertical="TOP"/>
-          <fills>
-            <color r="0.0" g="0.0" b="0.0" a="1.0"/>
-          </fills>
-        </children>
-        <children xsi:type="figma_meta_model:LINE" id="109:10" name="Line 1" type="LINE" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="CENTER">
-          <absoluteBoundingBox x="766.0" y="-390.0000000043822" width="386.9999899821414" height="1.0000000043821728"/>
-          <absoluteRenderBounds x="766.0" y="-391.0" width="387.0" height="2.0"/>
-          <constraints horizontal="LEFT" vertical="TOP"/>
-          <strokes>
-            <color r="0.501960813999176" g="0.501960813999176" b="0.501960813999176" a="1.0"/>
-          </strokes>
-        </children>
-        <children xsi:type="figma_meta_model:RECTANGLE" id="109:14" name="form" type="RECTANGLE" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE">
-          <absoluteBoundingBox x="1348.0" y="-244.0" width="663.0" height="559.0"/>
-          <absoluteRenderBounds/>
-          <constraints horizontal="LEFT" vertical="BOTTOM"/>
-          <fills>
-            <color r="1.0" g="1.0" b="1.0" a="1.0"/>
-          </fills>
-          <strokes>
-            <color r="0.8833333253860474" g="0.828125" b="0.828125" a="1.0"/>
-          </strokes>
-          <effects radius="4.0" visible="True" type="LAYER_BLUR"/>
-          <componentPropertyReferences key="visible" value="Form#117:3"/>
-        </children>
-        <children xsi:type="figma_meta_model:RECTANGLE" id="117:7" name="Rectangle 7" type="RECTANGLE" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="INSIDE">
-          <absoluteBoundingBox x="1404.0" y="217.0" width="577.0" height="65.0"/>
-          <absoluteRenderBounds x="1404.0" y="217.0" width="577.0" height="65.0"/>
-          <constraints horizontal="LEFT" vertical="TOP"/>
-          <fills>
-            <color r="0.0" g="0.0" b="0.0" a="1.0"/>
-          </fills>
-          <interactions xsi:type="figma_meta_model:Interaction">
-            <trigger xsi:type="figma_meta_model:Trigger" type="ON_CLICK"/>
-            <actions xsi:type="figma_meta_model:Action" type="NODE" destinationId="107:7" navigation="NAVIGATE">
-              <transition xsi:type="figma_meta_model:Transition"/>
-            </actions>
-          </interactions>
-        </children>
-        <children xsi:type="figma_meta_model:TEXT" id="109:15" name="Add task" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="Add task" lineTypes="NONE" lineIndentations="0">
-          <absoluteBoundingBox x="1601.0" y="-200.0" width="157.0" height="44.0"/>
-          <absoluteRenderBounds x="1601.8565673828125" y="-191.18182373046875" width="155.1796875" height="26.565353393554688"/>
-          <constraints horizontal="LEFT" vertical="TOP"/>
-          <style fontFamily="Inter" fontPostScriptName="Inter-Bold" textAutoResize="WIDTH_AND_HEIGHT" fontSize="36.0" fontWeight="700" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="43.568180084228516" textAlignHorizontal="LEFT" textAlignVertical="TOP"/>
-          <fills>
-            <color r="0.20000000298023224" g="0.18833333253860474" b="0.18833333253860474" a="1.0"/>
-          </fills>
-        </children>
-        <children xsi:type="figma_meta_model:FRAME" id="153:175" name="Frame 27" type="FRAME" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="INSIDE" layoutMode="VERTICAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="FIXED" layoutSizingVertical="HUG" counterAxisSizingMode="FIXED" itemSpacing="10">
-          <absoluteBoundingBox x="1372.0" y="-127.0" width="622.0" height="129.0"/>
-          <absoluteRenderBounds x="1372.0" y="-127.0" width="622.0" height="129.0"/>
-          <constraints horizontal="LEFT" vertical="TOP"/>
-          <backgroundColor r="0.0" g="0.0" b="0.0" a="0.0"/>
-          <layoutGrids xsi:type="figma_meta_model:LayoutGrid" sectionSize="10.0" visible="True" alignment="MIN" gutterSize="0" offset="0" count="-1">
-            <color r="1.0" g="0.0" b="0.0" a="0.10000000149011612"/>
-          </layoutGrids>
-          <children xsi:type="figma_meta_model:FRAME" id="111:20" name="name-input" type="FRAME" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="INSIDE" layoutMode="VERTICAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="FILL" layoutSizingVertical="FIXED" layoutAlign="STRETCH" counterAxisSizingMode="FIXED" itemSpacing="4" primaryAxisSizingMode="FIXED">
-            <absoluteBoundingBox x="1382.0" y="-117.0" width="602.0" height="109.0"/>
-            <absoluteRenderBounds x="1382.0" y="-117.0" width="602.0" height="109.0"/>
-            <constraints horizontal="LEFT" vertical="TOP"/>
-            <backgroundColor r="1.0" g="1.0" b="1.0" a="1.0"/>
-            <fills>
-              <color r="1.0" g="1.0" b="1.0" a="1.0"/>
-            </fills>
-            <background>
-              <color r="1.0" g="1.0" b="1.0" a="1.0"/>
-            </background>
-            <interactions xsi:type="figma_meta_model:Interaction">
-              <trigger xsi:type="figma_meta_model:Trigger" type="ON_CLICK"/>
-              <actions xsi:type="figma_meta_model:Action" type="NODE" destinationId="" navigation="SCROLL_TO">
-                <transition xsi:type="figma_meta_model:Transition"/>
-              </actions>
-            </interactions>
-            <componentPropertyReferences key="visible" value="Show Frame 2#117:0"/>
-            <children xsi:type="figma_meta_model:TEXT" id="111:19" name="Name" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="Name" layoutAlign="INHERIT" layoutGrow="0.0" layoutSizingHorizontal="HUG" layoutSizingVertical="HUG" lineTypes="NONE" lineIndentations="0">
-              <absoluteBoundingBox x="1407.0" y="-101.0" width="45.0" height="19.0"/>
-              <absoluteRenderBounds x="1408.2784423828125" y="-97.63636779785156" width="42.5723876953125" height="11.829551696777344"/>
-              <constraints horizontal="LEFT" vertical="TOP"/>
-              <style fontFamily="Inter" fontPostScriptName="Inter-Medium" textAutoResize="WIDTH_AND_HEIGHT" fontSize="16.0" fontWeight="500" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="19.363636016845703" textAlignHorizontal="LEFT" textAlignVertical="CENTER"/>
+              <style fontFamily="Inter" fontPostScriptName="Inter-Medium" textAutoResize="HEIGHT" fontSize="24.0" fontWeight="500" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="29.045454025268555" textAlignHorizontal="CENTER" textAlignVertical="TOP"/>
               <fills>
                 <color r="0.0" g="0.0" b="0.0" a="1.0"/>
               </fills>
             </children>
-            <children xsi:type="figma_meta_model:GROUP" id="117:17" name="Group 1" type="GROUP" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="INSIDE" layoutSizingHorizontal="FIXED" layoutSizingVertical="FIXED" layoutAlign="INHERIT" cornerRadius="8.0" cornerSmoothing="0.0">
-              <absoluteBoundingBox x="1407.0" y="-78.0" width="577.0" height="51.0"/>
-              <absoluteRenderBounds x="1407.0" y="-78.0" width="577.0" height="51.0"/>
+            <children xsi:type="figma_meta_model:FRAME" id="393:45" name="username_field" type="FRAME" scrollBehavior="SCROLLS" clipsContent="true" strokeWeight="1.0" strokeAlign="INSIDE" layoutMode="VERTICAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="FIXED" layoutSizingVertical="FIXED" layoutAlign="INHERIT" counterAxisSizingMode="FIXED" itemSpacing="10" primaryAxisSizingMode="FIXED" primaryAxisAlignItems="CENTER">
+              <absoluteBoundingBox x="536.5" y="349.0" width="367.0" height="119.0"/>
+              <absoluteRenderBounds x="536.5" y="349.0" width="367.0" height="119.0"/>
               <constraints horizontal="LEFT" vertical="TOP"/>
               <backgroundColor r="0.0" g="0.0" b="0.0" a="0.0"/>
-              <children xsi:type="figma_meta_model:RECTANGLE" id="111:21" name="Rectangle 5" type="RECTANGLE" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="INSIDE">
-                <absoluteBoundingBox x="1407.0" y="-78.0" width="577.0" height="51.0"/>
-                <absoluteRenderBounds x="1407.0" y="-78.0" width="577.0" height="51.0"/>
+              <children xsi:type="figma_meta_model:TEXT" id="395:46" name="label" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="Username" layoutAlign="STRETCH" layoutGrow="0.0" layoutSizingHorizontal="FILL" layoutSizingVertical="HUG" lineTypes="NONE" lineIndentations="0">
+                <absoluteBoundingBox x="536.5" y="359.0" width="367.0" height="29.0"/>
+                <absoluteRenderBounds x="538.6136474609375" y="364.5454406738281" width="112.2847900390625" height="17.761383056640625"/>
                 <constraints horizontal="LEFT" vertical="TOP"/>
+                <style fontFamily="Inter" fontPostScriptName="" textAutoResize="HEIGHT" fontSize="24.0" fontWeight="400" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="29.045454025268555" textAlignHorizontal="LEFT" textAlignVertical="CENTER"/>
                 <fills>
-                  <color r="0.8509804010391235" g="0.8509804010391235" b="0.8509804010391235" a="1.0"/>
-                </fills>
-                <interactions xsi:type="figma_meta_model:Interaction">
-                  <trigger xsi:type="figma_meta_model:Trigger" type="ON_CLICK"/>
-                  <actions xsi:type="figma_meta_model:Action" type="NODE" destinationId="111:25" navigation="SCROLL_TO">
-                    <transition xsi:type="figma_meta_model:Transition"/>
-                  </actions>
-                </interactions>
-              </children>
-              <children xsi:type="figma_meta_model:TEXT" id="117:16" name="ivantom" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="ivantom" lineTypes="NONE" lineIndentations="0">
-                <absoluteBoundingBox x="1424.0" y="-61.0" width="62.0" height="19.0"/>
-                <absoluteRenderBounds x="1424.9261474609375" y="-58.102272033691406" width="59.04833984375" height="12.295455932617188"/>
-                <constraints horizontal="LEFT" vertical="TOP"/>
-                <style fontFamily="Inter" fontPostScriptName="Inter-Medium" textAutoResize="WIDTH_AND_HEIGHT" fontSize="16.0" fontWeight="500" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="19.363636016845703" textAlignHorizontal="LEFT" textAlignVertical="CENTER"/>
-                <fills>
-                  <color r="0.6000000238418579" g="0.6000000238418579" b="0.6000000238418579" a="1.0"/>
+                  <color r="0.0" g="0.0" b="0.0" a="1.0"/>
                 </fills>
               </children>
+              <children xsi:type="figma_meta_model:FRAME" id="396:48" name="input" type="FRAME" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="INSIDE" layoutMode="HORIZONTAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="FILL" layoutSizingVertical="FILL" layoutAlign="STRETCH" counterAxisSizingMode="FIXED" itemSpacing="4" primaryAxisSizingMode="FIXED" counterAxisAlignItems="CENTER" cornerRadius="8.0" cornerSmoothing="0.0">
+                <absoluteBoundingBox x="536.5" y="398.0" width="367.0" height="60.0"/>
+                <absoluteRenderBounds x="536.5" y="398.0" width="367.0" height="60.0"/>
+                <constraints horizontal="LEFT" vertical="TOP"/>
+                <backgroundColor r="0.0" g="0.0" b="0.0" a="0.0"/>
+                <strokes>
+                  <color r="0.762499988079071" g="0.7370833158493042" b="0.7370833158493042" a="1.0"/>
+                </strokes>
+                <children xsi:type="figma_meta_model:TEXT" id="395:47" name="placeholder" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="placeholder" layoutAlign="STRETCH" layoutGrow="0.0" layoutSizingHorizontal="FIXED" layoutSizingVertical="FILL" lineTypes="NONE" lineIndentations="0">
+                  <absoluteBoundingBox x="555.5" y="409.0" width="329.0" height="38.0"/>
+                  <absoluteRenderBounds x="557.3408813476562" y="414.5454406738281" width="130.83453369140625" height="22.3636474609375"/>
+                  <constraints horizontal="LEFT" vertical="TOP"/>
+                  <style fontFamily="Inter" fontPostScriptName="" fontSize="24.0" fontWeight="400" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="29.045454025268555" textAlignHorizontal="LEFT" textAlignVertical="TOP"/>
+                  <fills>
+                    <color r="0.824999988079071" g="0.7906249761581421" b="0.7906249761581421" a="1.0"/>
+                  </fills>
+                </children>
+              </children>
             </children>
-          </children>
-        </children>
-        <children xsi:type="figma_meta_model:FRAME" id="117:3" name="Frame 4" type="FRAME" scrollBehavior="SCROLLS" clipsContent="true" strokeWeight="1.0" strokeAlign="INSIDE" layoutMode="HORIZONTAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="FIXED" layoutSizingVertical="FIXED" counterAxisSizingMode="FIXED" itemSpacing="18" primaryAxisSizingMode="FIXED" counterAxisAlignItems="CENTER">
-          <absoluteBoundingBox x="1382.0" y="148.0" width="602.0" height="53.0"/>
-          <absoluteRenderBounds x="1382.0" y="148.0" width="602.0" height="53.0"/>
-          <constraints horizontal="LEFT" vertical="TOP"/>
-          <backgroundColor r="1.0" g="1.0" b="1.0" a="1.0"/>
-          <fills>
-            <color r="1.0" g="1.0" b="1.0" a="1.0"/>
-          </fills>
-          <background>
-            <color r="1.0" g="1.0" b="1.0" a="1.0"/>
-          </background>
-          <componentPropertyReferences key="visible" value="Show Frame 2#117:0"/>
-          <children xsi:type="figma_meta_model:TEXT" id="117:4" name="Completed" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="Completed" layoutAlign="INHERIT" layoutGrow="0.0" layoutSizingHorizontal="HUG" layoutSizingVertical="HUG" lineTypes="NONE" lineIndentations="0">
-            <absoluteBoundingBox x="1407.0" y="165.0" width="85.0" height="19.0"/>
-            <absoluteRenderBounds x="1407.9034423828125" y="168.2045440673828" width="81.8763427734375" height="15.068191528320312"/>
-            <constraints horizontal="LEFT" vertical="TOP"/>
-            <style fontFamily="Inter" fontPostScriptName="Inter-Medium" textAutoResize="WIDTH_AND_HEIGHT" fontSize="16.0" fontWeight="500" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="19.363636016845703" textAlignHorizontal="LEFT" textAlignVertical="CENTER"/>
-            <fills>
-              <color r="0.0" g="0.0" b="0.0" a="1.0"/>
-            </fills>
-          </children>
-          <children xsi:type="figma_meta_model:RECTANGLE" id="117:6" name="Rectangle 6" type="RECTANGLE" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="INSIDE">
-            <absoluteBoundingBox x="1510.0" y="157.5" width="33.0" height="34.0"/>
-            <absoluteRenderBounds x="1506.0" y="157.5" width="41.0" height="42.0"/>
-            <constraints horizontal="LEFT" vertical="TOP"/>
-            <fills>
-              <color r="0.9490196108818054" g="0.9490196108818054" b="0.9686274528503418" a="1.0"/>
-            </fills>
-            <strokes>
-              <color r="0.0" g="0.0" b="0.0" a="1.0"/>
-            </strokes>
-            <effects radius="4.0" visible="True" type="DROP_SHADOW" blenMode="NORMAL"/>
-            <interactions xsi:type="figma_meta_model:Interaction">
-              <trigger xsi:type="figma_meta_model:Trigger" type="ON_CLICK"/>
-              <actions xsi:type="figma_meta_model:Action" type="NODE" destinationId="117:7" navigation="SCROLL_TO">
-                <transition xsi:type="figma_meta_model:Transition"/>
-              </actions>
-            </interactions>
-            <componentPropertyReferences key="visible" value="State#117:2"/>
-          </children>
-        </children>
-        <children xsi:type="figma_meta_model:TEXT" id="117:9" name="Add" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="Add" lineTypes="NONE" lineIndentations="0">
-          <absoluteBoundingBox x="1657.0" y="236.0" width="45.0" height="27.0"/>
-          <absoluteRenderBounds x="1664.350830078125" y="243.36363220214844" width="29.413330078125" height="11.80682373046875"/>
-          <constraints horizontal="LEFT" vertical="TOP"/>
-          <style fontFamily="Inter" fontPostScriptName="Inter-Medium" fontSize="16.0" fontWeight="500" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="19.363636016845703" textAlignHorizontal="CENTER" textAlignVertical="CENTER"/>
-          <fills>
-            <color r="1.0" g="1.0" b="1.0" a="1.0"/>
-          </fills>
-        </children>
-        <children xsi:type="figma_meta_model:FRAME" id="111:22" name="description-input" type="FRAME" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="INSIDE" layoutMode="VERTICAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="FIXED" layoutSizingVertical="FIXED" counterAxisSizingMode="FIXED" itemSpacing="4" primaryAxisSizingMode="FIXED">
-          <absoluteBoundingBox x="1379.0" y="8.0" width="602.0" height="136.0"/>
-          <absoluteRenderBounds x="1379.0" y="8.0" width="602.0" height="136.0"/>
-          <constraints horizontal="LEFT" vertical="TOP"/>
-          <backgroundColor r="1.0" g="1.0" b="1.0" a="1.0"/>
-          <fills>
-            <color r="1.0" g="1.0" b="1.0" a="1.0"/>
-          </fills>
-          <background>
-            <color r="1.0" g="1.0" b="1.0" a="1.0"/>
-          </background>
-          <children xsi:type="figma_meta_model:TEXT" id="111:24" name="Description" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="Description" layoutAlign="INHERIT" layoutGrow="0.0" layoutSizingHorizontal="HUG" layoutSizingVertical="HUG" lineTypes="NONE" lineIndentations="0">
-            <absoluteBoundingBox x="1404.0" y="20.0" width="88.0" height="19.0"/>
-            <absoluteRenderBounds x="1405.2784423828125" y="22.897727966308594" width="85.319580078125" height="15.375"/>
-            <constraints horizontal="LEFT" vertical="TOP"/>
-            <style fontFamily="Inter" fontPostScriptName="Inter-Medium" textAutoResize="WIDTH_AND_HEIGHT" fontSize="16.0" fontWeight="500" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="19.363636016845703" textAlignHorizontal="LEFT" textAlignVertical="CENTER"/>
-            <fills>
-              <color r="0.0" g="0.0" b="0.0" a="1.0"/>
-            </fills>
-          </children>
-          <children xsi:type="figma_meta_model:GROUP" id="117:19" name="Group 2" type="GROUP" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="INSIDE" layoutSizingHorizontal="FIXED" layoutSizingVertical="FIXED" layoutAlign="INHERIT" cornerRadius="8.0" cornerSmoothing="0.0">
-            <absoluteBoundingBox x="1404.0" y="43.0" width="577.0" height="91.0"/>
-            <absoluteRenderBounds x="1404.0" y="43.0" width="577.0" height="91.0"/>
-            <constraints horizontal="LEFT" vertical="TOP"/>
-            <backgroundColor r="0.0" g="0.0" b="0.0" a="0.0"/>
-            <children xsi:type="figma_meta_model:RECTANGLE" id="111:25" name="Rectangle 5" type="RECTANGLE" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="INSIDE">
-              <absoluteBoundingBox x="1404.0" y="43.0" width="577.0" height="91.0"/>
-              <absoluteRenderBounds x="1404.0" y="43.0" width="577.0" height="91.0"/>
-              <constraints horizontal="LEFT" vertical="TOP"/>
-              <fills>
-                <color r="0.8509804010391235" g="0.8509804010391235" b="0.8509804010391235" a="1.0"/>
-              </fills>
-              <interactions xsi:type="figma_meta_model:Interaction">
-                <trigger xsi:type="figma_meta_model:Trigger" type="ON_CLICK"/>
-                <actions xsi:type="figma_meta_model:Action" type="NODE" destinationId="117:6" navigation="SCROLL_TO">
-                  <transition xsi:type="figma_meta_model:Transition"/>
-                </actions>
-              </interactions>
-            </children>
-            <children xsi:type="figma_meta_model:TEXT" id="117:18" name="description" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="description" lineTypes="NONE" lineIndentations="0">
-              <absoluteBoundingBox x="1424.0" y="52.0" width="87.0" height="19.0"/>
-              <absoluteRenderBounds x="1424.7613525390625" y="54.897727966308594" width="84.305419921875" height="15.375"/>
-              <constraints horizontal="LEFT" vertical="TOP"/>
-              <style fontFamily="Inter" fontPostScriptName="Inter-Medium" textAutoResize="WIDTH_AND_HEIGHT" fontSize="16.0" fontWeight="500" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="19.363636016845703" textAlignHorizontal="LEFT" textAlignVertical="CENTER"/>
-              <fills>
-                <color r="0.6000000238418579" g="0.6000000238418579" b="0.6000000238418579" a="1.0"/>
-              </fills>
-            </children>
-          </children>
-        </children>
-      </children>
-      <children xsi:type="figma_meta_model:INSTANCE" id="138:153" name="Desktop - 3" type="INSTANCE" scrollBehavior="SCROLLS" clipsContent="true" strokeWeight="1.0" strokeAlign="INSIDE" componentId="109:11">
-        <absoluteBoundingBox x="2298.0" y="-476.0" width="1440.0" height="1024.0"/>
-        <absoluteRenderBounds x="2298.0" y="-476.0" width="1440.0" height="1024.0"/>
-        <constraints horizontal="LEFT" vertical="TOP"/>
-        <overrides xsi:type="figma_meta_model:Override" id="I138:153;109:15">
-          <overriddenFields>lineIndentations</overriddenFields>
-          <overriddenFields>lineTypes</overriddenFields>
-          <overriddenFields>characterStyleOverrides</overriddenFields>
-          <overriddenFields>styleOverrideTable</overriddenFields>
-          <overriddenFields>characters</overriddenFields>
-        </overrides>
-        <overrides xsi:type="figma_meta_model:Override" id="I138:153;117:16">
-          <overriddenFields>lineIndentations</overriddenFields>
-          <overriddenFields>fills</overriddenFields>
-          <overriddenFields>lineTypes</overriddenFields>
-          <overriddenFields>characterStyleOverrides</overriddenFields>
-          <overriddenFields>styleOverrideTable</overriddenFields>
-          <overriddenFields>characters</overriddenFields>
-        </overrides>
-        <overrides xsi:type="figma_meta_model:Override" id="I138:153;117:7">
-          <overriddenFields>transitionEasing</overriddenFields>
-          <overriddenFields>transitionDuration</overriddenFields>
-          <overriddenFields>transitionNodeID</overriddenFields>
-        </overrides>
-        <overrides xsi:type="figma_meta_model:Override" id="138:153">
-          <overriddenFields>name</overriddenFields>
-        </overrides>
-        <componentProperties key="Show Frame 2#117:0">
-          <value type="BOOLEAN" value="True"/>
-        </componentProperties>
-        <componentProperties key="Show Rectangle 4#117:1">
-          <value type="BOOLEAN" value="True"/>
-        </componentProperties>
-        <componentProperties key="State#117:2">
-          <value type="BOOLEAN" value="True"/>
-        </componentProperties>
-        <componentProperties key="Form#117:3">
-          <value type="BOOLEAN" value="True"/>
-        </componentProperties>
-        <fills>
-          <color r="1.0" g="1.0" b="1.0" a="1.0"/>
-        </fills>
-        <background>
-          <color r="1.0" g="1.0" b="1.0" a="1.0"/>
-        </background>
-        <children xsi:type="figma_meta_model:RECTANGLE" id="I138:153;109:5" name="Sidebar" type="RECTANGLE" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="INSIDE">
-          <absoluteBoundingBox x="2298.0" y="-476.0" width="387.0" height="1024.0"/>
-          <absoluteRenderBounds x="2298.0" y="-476.0" width="387.0" height="1024.0"/>
-          <constraints horizontal="LEFT" vertical="TOP"/>
-          <fills>
-            <color r="1.0" g="1.0" b="1.0" a="1.0"/>
-          </fills>
-          <strokes>
-            <color r="0.0" g="0.0" b="0.0" a="1.0"/>
-          </strokes>
-        </children>
-        <children xsi:type="figma_meta_model:FRAME" id="I138:153;111:18" name="Frame 1" type="FRAME" scrollBehavior="SCROLLS" clipsContent="true" strokeWeight="1.0" strokeAlign="INSIDE">
-          <absoluteBoundingBox x="3113.0" y="-117.0" width="100.0" height="100.0"/>
-          <absoluteRenderBounds x="3113.0" y="-117.0" width="100.0" height="100.0"/>
-          <constraints horizontal="LEFT" vertical="TOP"/>
-          <backgroundColor r="0.0" g="0.0" b="0.0" a="0.0"/>
-        </children>
-        <children xsi:type="figma_meta_model:RECTANGLE" id="I138:153;109:6" name="Rectangle 2" type="RECTANGLE" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="INSIDE">
-          <absoluteBoundingBox x="2685.0" y="-476.0" width="1053.0" height="1024.0"/>
-          <absoluteRenderBounds x="2685.0" y="-476.0" width="1053.0" height="1024.0"/>
-          <constraints horizontal="LEFT" vertical="TOP"/>
-          <fills>
-            <color r="1.0" g="1.0" b="1.0" a="1.0"/>
-          </fills>
-        </children>
-        <children xsi:type="figma_meta_model:VECTOR" id="I138:153;115:26" name="Rectangle 4" type="VECTOR" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="INSIDE">
-          <absoluteBoundingBox x="2685.0" y="-476.0" width="1053.0" height="1024.0"/>
-          <absoluteRenderBounds x="2685.0" y="-476.0" width="1053.0" height="1024.0"/>
-          <constraints horizontal="LEFT" vertical="TOP"/>
-          <fills>
-            <color r="1.0" g="1.0" b="1.0" a="1.0"/>
-          </fills>
-          <componentPropertyReferences key="visible" value="Show Rectangle 4#117:1"/>
-        </children>
-        <children xsi:type="figma_meta_model:TEXT" id="I138:153;109:7" name="Tasks" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="Tasks" lineTypes="NONE" lineIndentations="0">
-          <absoluteBoundingBox x="2309.0" y="-377.0" width="376.0" height="56.0"/>
-          <absoluteRenderBounds x="2309.880615234375" y="-356.54547119140625" width="53.719970703125" height="14.786956787109375"/>
-          <constraints horizontal="LEFT" vertical="TOP"/>
-          <style fontFamily="Inter" fontPostScriptName="Inter-Medium" fontSize="20.0" fontWeight="500" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="24.204544067382812" textAlignHorizontal="LEFT" textAlignVertical="CENTER"/>
-          <fills>
-            <color r="0.0" g="0.0" b="0.0" a="1.0"/>
-          </fills>
-          <interactions xsi:type="figma_meta_model:Interaction">
-            <trigger xsi:type="figma_meta_model:Trigger" type="ON_CLICK"/>
-            <actions xsi:type="figma_meta_model:Action" type="NODE" destinationId="107:7" navigation="NAVIGATE">
-              <transition xsi:type="figma_meta_model:Transition"/>
-            </actions>
-          </interactions>
-        </children>
-        <children xsi:type="figma_meta_model:TEXT" id="I138:153;109:8" name="Add Task" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="Add Task" lineTypes="NONE" lineIndentations="0">
-          <absoluteBoundingBox x="2309.0" y="-309.0" width="376.0" height="56.0"/>
-          <absoluteRenderBounds x="2309.489990234375" y="-288.54547119140625" width="89.2294921875" height="14.765625"/>
-          <constraints horizontal="LEFT" vertical="TOP"/>
-          <style fontFamily="Inter" fontPostScriptName="Inter-SemiBold" fontSize="20.0" fontWeight="600" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="24.204544067382812" textAlignHorizontal="LEFT" textAlignVertical="CENTER"/>
-          <fills>
-            <color r="0.0" g="0.0" b="0.0" a="1.0"/>
-          </fills>
-        </children>
-        <children xsi:type="figma_meta_model:TEXT" id="I138:153;109:9" name="Dashboard" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="Dashboard" lineTypes="NONE" lineIndentations="0">
-          <absoluteBoundingBox x="2309.0" y="-454.0" width="193.0" height="44.0"/>
-          <absoluteRenderBounds x="2311.275634765625" y="-445.18182373046875" width="187.724609375" height="26.565338134765625"/>
-          <constraints horizontal="LEFT" vertical="TOP"/>
-          <style fontFamily="Inter" fontPostScriptName="Inter-Bold" textAutoResize="WIDTH_AND_HEIGHT" fontSize="36.0" fontWeight="700" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="43.568180084228516" textAlignHorizontal="LEFT" textAlignVertical="TOP"/>
-          <fills>
-            <color r="0.0" g="0.0" b="0.0" a="1.0"/>
-          </fills>
-        </children>
-        <children xsi:type="figma_meta_model:LINE" id="I138:153;109:10" name="Line 1" type="LINE" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="CENTER">
-          <absoluteBoundingBox x="2298.0" y="-390.0000000043822" width="386.9999899821414" height="1.0000000043821728"/>
-          <absoluteRenderBounds x="2298.0" y="-391.0" width="387.0" height="2.0"/>
-          <constraints horizontal="LEFT" vertical="TOP"/>
-          <strokes>
-            <color r="0.501960813999176" g="0.501960813999176" b="0.501960813999176" a="1.0"/>
-          </strokes>
-        </children>
-        <children xsi:type="figma_meta_model:RECTANGLE" id="I138:153;109:14" name="form" type="RECTANGLE" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE">
-          <absoluteBoundingBox x="2880.0" y="-244.0" width="663.0" height="559.0"/>
-          <absoluteRenderBounds/>
-          <constraints horizontal="LEFT" vertical="BOTTOM"/>
-          <fills>
-            <color r="1.0" g="1.0" b="1.0" a="1.0"/>
-          </fills>
-          <strokes>
-            <color r="0.8833333253860474" g="0.828125" b="0.828125" a="1.0"/>
-          </strokes>
-          <effects radius="4.0" visible="True" type="LAYER_BLUR"/>
-          <componentPropertyReferences key="visible" value="Form#117:3"/>
-        </children>
-        <children xsi:type="figma_meta_model:RECTANGLE" id="I138:153;117:7" name="Rectangle 7" type="RECTANGLE" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="INSIDE">
-          <absoluteBoundingBox x="2936.0" y="217.0" width="577.0" height="65.0"/>
-          <absoluteRenderBounds x="2936.0" y="217.0" width="577.0" height="65.0"/>
-          <constraints horizontal="LEFT" vertical="TOP"/>
-          <fills>
-            <color r="0.0" g="0.0" b="0.0" a="1.0"/>
-          </fills>
-          <interactions xsi:type="figma_meta_model:Interaction">
-            <trigger xsi:type="figma_meta_model:Trigger" type="ON_CLICK"/>
-            <actions xsi:type="figma_meta_model:Action" type="NODE" destinationId="107:7" navigation="NAVIGATE">
-              <transition xsi:type="figma_meta_model:Transition"/>
-            </actions>
-          </interactions>
-          <interactions xsi:type="figma_meta_model:Interaction">
-            <trigger xsi:type="figma_meta_model:Trigger" type="ON_CLICK"/>
-            <actions xsi:type="figma_meta_model:Action" type="NODE" destinationId="107:7" navigation="NAVIGATE">
-              <transition xsi:type="figma_meta_model:Transition" type="PUSH" direction="LEFT" duration="0.30000001192092896" matchLayers="False">
-                <easing xsi:type="figma_meta_model:Easing" type="EASE_OUT"/>
-              </transition>
-            </actions>
-          </interactions>
-        </children>
-        <children xsi:type="figma_meta_model:TEXT" id="I138:153;109:15" name="Add task" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="Update task" lineTypes="NONE" lineIndentations="0">
-          <absoluteBoundingBox x="3133.0" y="-200.0" width="213.0" height="44.0"/>
-          <absoluteRenderBounds x="3135.275634765625" y="-191.18182373046875" width="210.080810546875" height="33.54545593261719"/>
-          <constraints horizontal="LEFT" vertical="TOP"/>
-          <style fontFamily="Inter" fontPostScriptName="Inter-Bold" textAutoResize="WIDTH_AND_HEIGHT" fontSize="36.0" fontWeight="700" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="43.568180084228516" textAlignHorizontal="LEFT" textAlignVertical="TOP"/>
-          <fills>
-            <color r="0.20000000298023224" g="0.18833333253860474" b="0.18833333253860474" a="1.0"/>
-          </fills>
-        </children>
-        <children xsi:type="figma_meta_model:FRAME" id="I138:153;153:175" name="Frame 27" type="FRAME" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="INSIDE" layoutMode="VERTICAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="FIXED" layoutSizingVertical="HUG" counterAxisSizingMode="FIXED" itemSpacing="10">
-          <absoluteBoundingBox x="2904.0" y="-127.0" width="622.0" height="129.0"/>
-          <absoluteRenderBounds x="2904.0" y="-127.0" width="622.0" height="129.0"/>
-          <constraints horizontal="LEFT" vertical="TOP"/>
-          <backgroundColor r="0.0" g="0.0" b="0.0" a="0.0"/>
-          <layoutGrids xsi:type="figma_meta_model:LayoutGrid" sectionSize="10.0" visible="True" alignment="MIN" gutterSize="0" offset="0" count="-1">
-            <color r="1.0" g="0.0" b="0.0" a="0.10000000149011612"/>
-          </layoutGrids>
-          <children xsi:type="figma_meta_model:FRAME" id="I138:153;111:20" name="name-input" type="FRAME" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="INSIDE" layoutMode="VERTICAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="FILL" layoutSizingVertical="FIXED" layoutAlign="STRETCH" counterAxisSizingMode="FIXED" itemSpacing="4" primaryAxisSizingMode="FIXED">
-            <absoluteBoundingBox x="2914.0" y="-117.0" width="602.0" height="109.0"/>
-            <absoluteRenderBounds x="2914.0" y="-117.0" width="602.0" height="109.0"/>
-            <constraints horizontal="LEFT" vertical="TOP"/>
-            <backgroundColor r="1.0" g="1.0" b="1.0" a="1.0"/>
-            <fills>
-              <color r="1.0" g="1.0" b="1.0" a="1.0"/>
-            </fills>
-            <background>
-              <color r="1.0" g="1.0" b="1.0" a="1.0"/>
-            </background>
-            <interactions xsi:type="figma_meta_model:Interaction">
-              <trigger xsi:type="figma_meta_model:Trigger" type="ON_CLICK"/>
-              <actions xsi:type="figma_meta_model:Action" type="NODE" destinationId="" navigation="SCROLL_TO">
-                <transition xsi:type="figma_meta_model:Transition"/>
-              </actions>
-            </interactions>
-            <componentPropertyReferences key="visible" value="Show Frame 2#117:0"/>
-            <children xsi:type="figma_meta_model:TEXT" id="I138:153;111:19" name="Name" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="Name" layoutAlign="INHERIT" layoutGrow="0.0" layoutSizingHorizontal="HUG" layoutSizingVertical="HUG" lineTypes="NONE" lineIndentations="0">
-              <absoluteBoundingBox x="2939.0" y="-101.0" width="45.0" height="19.0"/>
-              <absoluteRenderBounds x="2940.2783203125" y="-97.63636779785156" width="42.572509765625" height="11.829551696777344"/>
-              <constraints horizontal="LEFT" vertical="TOP"/>
-              <style fontFamily="Inter" fontPostScriptName="Inter-Medium" textAutoResize="WIDTH_AND_HEIGHT" fontSize="16.0" fontWeight="500" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="19.363636016845703" textAlignHorizontal="LEFT" textAlignVertical="CENTER"/>
-              <fills>
-                <color r="0.0" g="0.0" b="0.0" a="1.0"/>
-              </fills>
-            </children>
-            <children xsi:type="figma_meta_model:GROUP" id="I138:153;117:17" name="Group 1" type="GROUP" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="INSIDE" layoutSizingHorizontal="FIXED" layoutSizingVertical="FIXED" layoutAlign="INHERIT" cornerRadius="8.0" cornerSmoothing="0.0">
-              <absoluteBoundingBox x="2939.0" y="-78.0" width="577.0" height="51.0"/>
-              <absoluteRenderBounds x="2939.0" y="-78.0" width="577.0" height="51.0"/>
+            <children xsi:type="figma_meta_model:FRAME" id="400:50" name="username_field" type="FRAME" scrollBehavior="SCROLLS" clipsContent="true" strokeWeight="1.0" strokeAlign="INSIDE" layoutMode="VERTICAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="FIXED" layoutSizingVertical="FIXED" layoutAlign="INHERIT" counterAxisSizingMode="FIXED" itemSpacing="10" primaryAxisSizingMode="FIXED" primaryAxisAlignItems="CENTER">
+              <absoluteBoundingBox x="536.5" y="478.0" width="367.0" height="119.0"/>
+              <absoluteRenderBounds x="536.5" y="478.0" width="367.0" height="119.0"/>
               <constraints horizontal="LEFT" vertical="TOP"/>
               <backgroundColor r="0.0" g="0.0" b="0.0" a="0.0"/>
-              <children xsi:type="figma_meta_model:RECTANGLE" id="I138:153;111:21" name="Rectangle 5" type="RECTANGLE" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="INSIDE">
-                <absoluteBoundingBox x="2939.0" y="-78.0" width="577.0" height="51.0"/>
-                <absoluteRenderBounds x="2939.0" y="-78.0" width="577.0" height="51.0"/>
+              <children xsi:type="figma_meta_model:TEXT" id="400:51" name="label" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="Password" layoutAlign="STRETCH" layoutGrow="0.0" layoutSizingHorizontal="FILL" layoutSizingVertical="HUG" lineTypes="NONE" lineIndentations="0">
+                <absoluteBoundingBox x="536.5" y="488.0" width="367.0" height="29.0"/>
+                <absoluteRenderBounds x="538.6136474609375" y="493.5454406738281" width="106.41259765625" height="17.761383056640625"/>
                 <constraints horizontal="LEFT" vertical="TOP"/>
+                <style fontFamily="Inter" fontPostScriptName="" textAutoResize="HEIGHT" fontSize="24.0" fontWeight="400" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="29.045454025268555" textAlignHorizontal="LEFT" textAlignVertical="CENTER"/>
                 <fills>
-                  <color r="0.8509804010391235" g="0.8509804010391235" b="0.8509804010391235" a="1.0"/>
+                  <color r="0.0" g="0.0" b="0.0" a="1.0"/>
                 </fills>
-                <interactions xsi:type="figma_meta_model:Interaction">
-                  <trigger xsi:type="figma_meta_model:Trigger" type="ON_CLICK"/>
-                  <actions xsi:type="figma_meta_model:Action" type="NODE" destinationId="111:25" navigation="SCROLL_TO">
-                    <transition xsi:type="figma_meta_model:Transition"/>
-                  </actions>
-                </interactions>
               </children>
-              <children xsi:type="figma_meta_model:TEXT" id="I138:153;117:16" name="ivantom" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="initialise project" lineTypes="NONE" lineIndentations="0">
-                <absoluteBoundingBox x="2956.0" y="-61.0" width="121.0" height="19.0"/>
-                <absoluteRenderBounds x="2956.926025390625" y="-58.102272033691406" width="118.995849609375" height="15.375"/>
+              <children xsi:type="figma_meta_model:FRAME" id="400:52" name="password input" type="FRAME" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="INSIDE" layoutMode="HORIZONTAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="FILL" layoutSizingVertical="FILL" layoutAlign="STRETCH" counterAxisSizingMode="FIXED" itemSpacing="4" primaryAxisSizingMode="FIXED" counterAxisAlignItems="CENTER" cornerRadius="8.0" cornerSmoothing="0.0">
+                <absoluteBoundingBox x="536.5" y="527.0" width="367.0" height="60.0"/>
+                <absoluteRenderBounds x="536.5" y="527.0" width="367.0" height="60.0"/>
                 <constraints horizontal="LEFT" vertical="TOP"/>
-                <style fontFamily="Inter" fontPostScriptName="Inter-Medium" textAutoResize="WIDTH_AND_HEIGHT" fontSize="16.0" fontWeight="500" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="19.363636016845703" textAlignHorizontal="LEFT" textAlignVertical="CENTER"/>
+                <backgroundColor r="0.0" g="0.0" b="0.0" a="0.0"/>
+                <strokes>
+                  <color r="0.762499988079071" g="0.7370833158493042" b="0.7370833158493042" a="1.0"/>
+                </strokes>
+                <children xsi:type="figma_meta_model:TEXT" id="400:53" name="placeholder" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="password" layoutAlign="INHERIT" layoutGrow="0.0" layoutSizingHorizontal="FIXED" layoutSizingVertical="HUG" lineTypes="NONE" lineIndentations="0">
+                  <absoluteBoundingBox x="555.5" y="542.5" width="329.0" height="29.0"/>
+                  <absoluteRenderBounds x="557.3408813476562" y="548.0454711914062" width="106.07598876953125" height="22.3636474609375"/>
+                  <constraints horizontal="LEFT" vertical="TOP"/>
+                  <style fontFamily="Inter" fontPostScriptName="" textAutoResize="HEIGHT" fontSize="24.0" fontWeight="400" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="29.045454025268555" textAlignHorizontal="LEFT" textAlignVertical="TOP"/>
+                  <fills>
+                    <color r="0.824999988079071" g="0.7906249761581421" b="0.7906249761581421" a="1.0"/>
+                  </fills>
+                </children>
+              </children>
+            </children>
+            <children xsi:type="figma_meta_model:FRAME" id="430:59" name="Frame 2" type="FRAME" scrollBehavior="SCROLLS" clipsContent="true" strokeWeight="1.0" strokeAlign="INSIDE" layoutMode="HORIZONTAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="FIXED" layoutSizingVertical="HUG" layoutAlign="INHERIT" itemSpacing="10" primaryAxisSizingMode="FIXED" counterAxisAlignItems="CENTER">
+              <absoluteBoundingBox x="536.5" y="607.0" width="367.0" height="49.0"/>
+              <absoluteRenderBounds x="536.5" y="607.0" width="367.0" height="49.0"/>
+              <constraints horizontal="LEFT" vertical="TOP"/>
+              <backgroundColor r="0.0" g="0.0" b="0.0" a="0.0"/>
+              <children xsi:type="figma_meta_model:FRAME" id="430:60" name="checkbox" type="FRAME" scrollBehavior="SCROLLS" clipsContent="true" strokeWeight="1.0" strokeAlign="INSIDE" layoutSizingHorizontal="FIXED" layoutSizingVertical="FIXED" layoutAlign="INHERIT" cornerRadius="5.0" cornerSmoothing="0.0">
+                <absoluteBoundingBox x="546.5" y="617.0" width="26.0" height="29.0"/>
+                <absoluteRenderBounds x="546.5" y="617.0" width="26.0" height="29.0"/>
+                <constraints horizontal="LEFT" vertical="TOP"/>
+                <backgroundColor r="0.0" g="0.0" b="0.0" a="0.0"/>
+                <strokes>
+                  <color r="0.6000000238418579" g="0.5600000023841858" b="0.5600000023841858" a="1.0"/>
+                </strokes>
+              </children>
+              <children xsi:type="figma_meta_model:TEXT" id="430:61" name="label" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="Remember me" layoutAlign="INHERIT" layoutGrow="1.0" layoutSizingHorizontal="FILL" layoutSizingVertical="HUG" lineTypes="NONE" lineIndentations="0">
+                <absoluteBoundingBox x="582.5" y="617.0" width="311.0" height="29.0"/>
+                <absoluteRenderBounds x="584.6136474609375" y="622.5454711914062" width="160.9176025390625" height="17.72723388671875"/>
+                <constraints horizontal="LEFT" vertical="TOP"/>
+                <style fontFamily="Inter" fontPostScriptName="" textAutoResize="HEIGHT" fontSize="24.0" fontWeight="400" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="29.045454025268555" textAlignHorizontal="LEFT" textAlignVertical="TOP"/>
                 <fills>
                   <color r="0.0" g="0.0" b="0.0" a="1.0"/>
                 </fills>
               </children>
             </children>
-          </children>
-        </children>
-        <children xsi:type="figma_meta_model:FRAME" id="I138:153;117:3" name="Frame 4" type="FRAME" scrollBehavior="SCROLLS" clipsContent="true" strokeWeight="1.0" strokeAlign="INSIDE" layoutMode="HORIZONTAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="FIXED" layoutSizingVertical="FIXED" counterAxisSizingMode="FIXED" itemSpacing="18" primaryAxisSizingMode="FIXED" counterAxisAlignItems="CENTER">
-          <absoluteBoundingBox x="2914.0" y="148.0" width="602.0" height="53.0"/>
-          <absoluteRenderBounds x="2914.0" y="148.0" width="602.0" height="53.0"/>
-          <constraints horizontal="LEFT" vertical="TOP"/>
-          <backgroundColor r="1.0" g="1.0" b="1.0" a="1.0"/>
-          <fills>
-            <color r="1.0" g="1.0" b="1.0" a="1.0"/>
-          </fills>
-          <background>
-            <color r="1.0" g="1.0" b="1.0" a="1.0"/>
-          </background>
-          <componentPropertyReferences key="visible" value="Show Frame 2#117:0"/>
-          <children xsi:type="figma_meta_model:TEXT" id="I138:153;117:4" name="Completed" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="Completed" layoutAlign="INHERIT" layoutGrow="0.0" layoutSizingHorizontal="HUG" layoutSizingVertical="HUG" lineTypes="NONE" lineIndentations="0">
-            <absoluteBoundingBox x="2939.0" y="165.0" width="85.0" height="19.0"/>
-            <absoluteRenderBounds x="2939.9033203125" y="168.2045440673828" width="81.87646484375" height="15.068191528320312"/>
-            <constraints horizontal="LEFT" vertical="TOP"/>
-            <style fontFamily="Inter" fontPostScriptName="Inter-Medium" textAutoResize="WIDTH_AND_HEIGHT" fontSize="16.0" fontWeight="500" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="19.363636016845703" textAlignHorizontal="LEFT" textAlignVertical="CENTER"/>
-            <fills>
-              <color r="0.0" g="0.0" b="0.0" a="1.0"/>
-            </fills>
-          </children>
-          <children xsi:type="figma_meta_model:RECTANGLE" id="I138:153;117:6" name="Rectangle 6" type="RECTANGLE" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="INSIDE">
-            <absoluteBoundingBox x="3042.0" y="157.5" width="33.0" height="34.0"/>
-            <absoluteRenderBounds x="3038.0" y="157.5" width="41.0" height="42.0"/>
-            <constraints horizontal="LEFT" vertical="TOP"/>
-            <fills>
-              <color r="0.9490196108818054" g="0.9490196108818054" b="0.9686274528503418" a="1.0"/>
-            </fills>
-            <strokes>
-              <color r="0.0" g="0.0" b="0.0" a="1.0"/>
-            </strokes>
-            <effects radius="4.0" visible="True" type="DROP_SHADOW" blenMode="NORMAL"/>
-            <interactions xsi:type="figma_meta_model:Interaction">
-              <trigger xsi:type="figma_meta_model:Trigger" type="ON_CLICK"/>
-              <actions xsi:type="figma_meta_model:Action" type="NODE" destinationId="117:7" navigation="SCROLL_TO">
-                <transition xsi:type="figma_meta_model:Transition"/>
-              </actions>
-            </interactions>
-            <componentPropertyReferences key="visible" value="State#117:2"/>
-          </children>
-        </children>
-        <children xsi:type="figma_meta_model:TEXT" id="I138:153;117:9" name="Add" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="Add" lineTypes="NONE" lineIndentations="0">
-          <absoluteBoundingBox x="3189.0" y="236.0" width="45.0" height="27.0"/>
-          <absoluteRenderBounds x="3196.350830078125" y="243.36363220214844" width="29.413330078125" height="11.80682373046875"/>
-          <constraints horizontal="LEFT" vertical="TOP"/>
-          <style fontFamily="Inter" fontPostScriptName="Inter-Medium" fontSize="16.0" fontWeight="500" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="19.363636016845703" textAlignHorizontal="CENTER" textAlignVertical="CENTER"/>
-          <fills>
-            <color r="1.0" g="1.0" b="1.0" a="1.0"/>
-          </fills>
-        </children>
-        <children xsi:type="figma_meta_model:FRAME" id="I138:153;111:22" name="description-input" type="FRAME" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="INSIDE" layoutMode="VERTICAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="FIXED" layoutSizingVertical="FIXED" counterAxisSizingMode="FIXED" itemSpacing="4" primaryAxisSizingMode="FIXED">
-          <absoluteBoundingBox x="2911.0" y="8.0" width="602.0" height="136.0"/>
-          <absoluteRenderBounds x="2911.0" y="8.0" width="602.0" height="136.0"/>
-          <constraints horizontal="LEFT" vertical="TOP"/>
-          <backgroundColor r="1.0" g="1.0" b="1.0" a="1.0"/>
-          <fills>
-            <color r="1.0" g="1.0" b="1.0" a="1.0"/>
-          </fills>
-          <background>
-            <color r="1.0" g="1.0" b="1.0" a="1.0"/>
-          </background>
-          <children xsi:type="figma_meta_model:TEXT" id="I138:153;111:24" name="Description" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="Description" layoutAlign="INHERIT" layoutGrow="0.0" layoutSizingHorizontal="HUG" layoutSizingVertical="HUG" lineTypes="NONE" lineIndentations="0">
-            <absoluteBoundingBox x="2936.0" y="20.0" width="88.0" height="19.0"/>
-            <absoluteRenderBounds x="2937.2783203125" y="22.897727966308594" width="85.319580078125" height="15.375"/>
-            <constraints horizontal="LEFT" vertical="TOP"/>
-            <style fontFamily="Inter" fontPostScriptName="Inter-Medium" textAutoResize="WIDTH_AND_HEIGHT" fontSize="16.0" fontWeight="500" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="19.363636016845703" textAlignHorizontal="LEFT" textAlignVertical="CENTER"/>
-            <fills>
-              <color r="0.0" g="0.0" b="0.0" a="1.0"/>
-            </fills>
-          </children>
-          <children xsi:type="figma_meta_model:GROUP" id="I138:153;117:19" name="Group 2" type="GROUP" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="INSIDE" layoutSizingHorizontal="FIXED" layoutSizingVertical="FIXED" layoutAlign="INHERIT" cornerRadius="8.0" cornerSmoothing="0.0">
-            <absoluteBoundingBox x="2936.0" y="43.0" width="577.0" height="91.0"/>
-            <absoluteRenderBounds x="2936.0" y="43.0" width="577.0" height="91.0"/>
-            <constraints horizontal="LEFT" vertical="TOP"/>
-            <backgroundColor r="0.0" g="0.0" b="0.0" a="0.0"/>
-            <children xsi:type="figma_meta_model:RECTANGLE" id="I138:153;111:25" name="Rectangle 5" type="RECTANGLE" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="INSIDE">
-              <absoluteBoundingBox x="2936.0" y="43.0" width="577.0" height="91.0"/>
-              <absoluteRenderBounds x="2936.0" y="43.0" width="577.0" height="91.0"/>
+            <children xsi:type="figma_meta_model:FRAME" id="409:58" name="button" type="FRAME" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="INSIDE" layoutMode="HORIZONTAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="FILL" layoutSizingVertical="HUG" layoutAlign="STRETCH" itemSpacing="10" primaryAxisSizingMode="FIXED" counterAxisAlignItems="CENTER" primaryAxisAlignItems="CENTER" cornerRadius="4.0" cornerSmoothing="0.0">
+              <absoluteBoundingBox x="536.5" y="666.0" width="367.0" height="49.0"/>
+              <absoluteRenderBounds x="536.5" y="666.0" width="367.0" height="49.0"/>
               <constraints horizontal="LEFT" vertical="TOP"/>
+              <backgroundColor r="0.2827083468437195" g="0.3994791507720947" b="0.9833333492279053" a="1.0"/>
               <fills>
-                <color r="0.8509804010391235" g="0.8509804010391235" b="0.8509804010391235" a="1.0"/>
+                <color r="0.2827083468437195" g="0.3994791507720947" b="0.9833333492279053" a="1.0"/>
               </fills>
+              <background>
+                <color r="0.2827083468437195" g="0.3994791507720947" b="0.9833333492279053" a="1.0"/>
+              </background>
+              <strokes>
+                <color r="1.0" g="1.0" b="1.0" a="1.0"/>
+              </strokes>
               <interactions xsi:type="figma_meta_model:Interaction">
                 <trigger xsi:type="figma_meta_model:Trigger" type="ON_CLICK"/>
-                <actions xsi:type="figma_meta_model:Action" type="NODE" destinationId="117:6" navigation="SCROLL_TO">
+                <actions xsi:type="figma_meta_model:Action" type="NODE" destinationId="552:3" navigation="NAVIGATE">
                   <transition xsi:type="figma_meta_model:Transition"/>
                 </actions>
               </interactions>
-            </children>
-            <children xsi:type="figma_meta_model:TEXT" id="I138:153;117:18" name="description" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="description" lineTypes="NONE" lineIndentations="0">
-              <absoluteBoundingBox x="2956.0" y="52.0" width="87.0" height="19.0"/>
-              <absoluteRenderBounds x="2956.761474609375" y="54.897727966308594" width="84.30517578125" height="15.375"/>
-              <constraints horizontal="LEFT" vertical="TOP"/>
-              <style fontFamily="Inter" fontPostScriptName="Inter-Medium" textAutoResize="WIDTH_AND_HEIGHT" fontSize="16.0" fontWeight="500" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="19.363636016845703" textAlignHorizontal="LEFT" textAlignVertical="CENTER"/>
-              <fills>
-                <color r="0.6000000238418579" g="0.6000000238418579" b="0.6000000238418579" a="1.0"/>
-              </fills>
+              <children xsi:type="figma_meta_model:TEXT" id="409:57" name="button" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="Login" layoutAlign="INHERIT" layoutGrow="0.0" layoutSizingHorizontal="HUG" layoutSizingVertical="HUG" lineTypes="NONE" lineIndentations="0">
+                <absoluteBoundingBox x="688.5" y="676.0" width="63.0" height="29.0"/>
+                <absoluteRenderBounds x="691.0238037109375" y="681.0" width="58.23150634765625" height="23.18182373046875"/>
+                <constraints horizontal="CENTER" vertical="CENTER"/>
+                <style fontFamily="Inter" fontPostScriptName="" textAutoResize="WIDTH_AND_HEIGHT" fontSize="24.0" fontWeight="400" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="29.045454025268555" textAlignHorizontal="CENTER" textAlignVertical="TOP"/>
+                <fills>
+                  <color r="1.0" g="0.9833333492279053" b="0.9833333492279053" a="1.0"/>
+                </fills>
+              </children>
             </children>
           </children>
         </children>
       </children>
-    </children>
-    <children xsi:type="figma_meta_model:CANVAS" id="249:154" name="Inputs" type="CANVAS" scrollBehavior="SCROLLS" clipsContent="false" prototypeStartNodeID="">
-      <prototypeDevice xsi:type="figma_meta_model:PrototypeDevice" type="NONE" rotation="NONE"/>
-      <children xsi:type="figma_meta_model:FRAME" id="249:155" name="Desktop - 1" type="FRAME" scrollBehavior="SCROLLS" clipsContent="true" strokeWeight="1.0" strokeAlign="INSIDE">
-        <absoluteBoundingBox x="-720.0" y="-512.0" width="1440.0" height="1024.0"/>
-        <absoluteRenderBounds x="-720.0" y="-512.0" width="1440.0" height="1024.0"/>
+      <children xsi:type="figma_meta_model:FRAME" id="552:3" name="List screen" type="FRAME" scrollBehavior="SCROLLS" clipsContent="true" strokeWeight="1.0" strokeAlign="INSIDE" layoutMode="HORIZONTAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="FIXED" layoutSizingVertical="FIXED" counterAxisSizingMode="FIXED" itemSpacing="10" primaryAxisSizingMode="FIXED">
+        <absoluteBoundingBox x="1480.0" y="2.0" width="1440.0" height="1024.0"/>
+        <absoluteRenderBounds x="1480.0" y="2.0" width="1440.0" height="1024.0"/>
         <constraints horizontal="LEFT" vertical="TOP"/>
         <backgroundColor r="1.0" g="1.0" b="1.0" a="1.0"/>
         <fills>
@@ -946,239 +170,563 @@
         <background>
           <color r="1.0" g="1.0" b="1.0" a="1.0"/>
         </background>
-        <children xsi:type="figma_meta_model:COMPONENT_SET" id="257:183" name="Input Component" type="COMPONENT_SET" scrollBehavior="SCROLLS" clipsContent="true" strokeWeight="1.0" strokeAlign="INSIDE" cornerRadius="5.0" cornerSmoothing="0.0">
-          <absoluteBoundingBox x="-681.0" y="-394.0" width="497.0" height="224.0"/>
-          <absoluteRenderBounds x="-681.0" y="-394.0" width="497.0" height="224.0"/>
+        <children xsi:type="figma_meta_model:FRAME" id="632:8" name="Sidebar" type="FRAME" scrollBehavior="SCROLLS" clipsContent="true" strokeWeight="1.0" strokeAlign="INSIDE" layoutMode="VERTICAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="FIXED" layoutSizingVertical="FIXED" layoutAlign="INHERIT" counterAxisSizingMode="FIXED" itemSpacing="10" primaryAxisSizingMode="FIXED">
+          <absoluteBoundingBox x="1490.0" y="12.0" width="299.0" height="1004.0"/>
+          <absoluteRenderBounds x="1490.0" y="12.0" width="299.0" height="1004.0"/>
           <constraints horizontal="LEFT" vertical="TOP"/>
           <backgroundColor r="0.0" g="0.0" b="0.0" a="0.0"/>
-          <strokeDashes>10.0</strokeDashes>
-          <strokeDashes>5.0</strokeDashes>
-          <componentPropertyDefinitions key="Show Helper text#258:13">
-            <componentpropertydefinition type="BOOLEAN" defaultValue="True"/>
-          </componentPropertyDefinitions>
-          <componentPropertyDefinitions key="Show label#258:11">
-            <componentpropertydefinition type="BOOLEAN" defaultValue="True"/>
-          </componentPropertyDefinitions>
-          <componentPropertyDefinitions key="Placeholder#258:9">
-            <componentpropertydefinition type="TEXT" defaultValue="Placeholder"/>
-          </componentPropertyDefinitions>
-          <componentPropertyDefinitions key="HelpText#258:7">
-            <componentpropertydefinition type="TEXT" defaultValue="Helper text"/>
-          </componentPropertyDefinitions>
-          <componentPropertyDefinitions key="Label#258:5">
-            <componentpropertydefinition type="TEXT" defaultValue="label"/>
-          </componentPropertyDefinitions>
-          <componentPropertyDefinitions key="Property 1">
-            <componentpropertydefinition type="VARIANT" defaultValue="Default">
-              <variantOptions>Default</variantOptions>
-            </componentpropertydefinition>
-          </componentPropertyDefinitions>
-          <strokes>
-            <color r="0.5921568870544434" g="0.27843138575553894" b="1.0" a="1.0"/>
-          </strokes>
-          <children xsi:type="figma_meta_model:COMPONENT" id="249:162" name="Property 1=Default" type="COMPONENT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="INSIDE">
-            <absoluteBoundingBox x="-661.0" y="-374.0" width="457.0" height="184.0"/>
-            <absoluteRenderBounds x="-661.0" y="-374.0" width="457.0" height="184.0"/>
+          <children xsi:type="figma_meta_model:FRAME" id="632:12" name="Frame 5" type="FRAME" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="INSIDE" layoutMode="HORIZONTAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="FILL" layoutSizingVertical="HUG" layoutAlign="STRETCH" itemSpacing="10" primaryAxisSizingMode="FIXED" counterAxisAlignItems="CENTER" primaryAxisAlignItems="CENTER">
+            <absoluteBoundingBox x="1500.0" y="22.0" width="279.0" height="48.0"/>
+            <absoluteRenderBounds x="1500.0" y="22.0" width="279.0" height="48.0"/>
             <constraints horizontal="LEFT" vertical="TOP"/>
-            <children xsi:type="figma_meta_model:FRAME" id="249:159" name="Frame 2" type="FRAME" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="INSIDE" layoutMode="VERTICAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="FILL" layoutSizingVertical="HUG" layoutAlign="STRETCH" counterAxisSizingMode="FIXED" itemSpacing="12">
-              <absoluteBoundingBox x="-661.0" y="-374.0" width="457.0" height="138.0"/>
-              <absoluteRenderBounds x="-661.0" y="-374.0" width="457.0" height="138.0"/>
+            <backgroundColor r="0.0" g="0.0" b="0.0" a="0.0"/>
+            <children xsi:type="figma_meta_model:TEXT" id="632:11" name="h1" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="Sidebar" layoutAlign="INHERIT" layoutGrow="1.0" layoutSizingHorizontal="FILL" layoutSizingVertical="HUG" lineTypes="NONE" lineIndentations="0">
+              <absoluteBoundingBox x="1500.0" y="22.0" width="279.0" height="48.0"/>
+              <absoluteRenderBounds x="1501.8182373046875" y="30.502840042114258" width="146.7435302734375" height="30.937501907348633"/>
+              <constraints horizontal="LEFT" vertical="TOP"/>
+              <style fontFamily="Inter" fontPostScriptName="Inter-SemiBold" textAutoResize="HEIGHT" fontSize="40.0" fontWeight="600" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="48.409088134765625" textAlignHorizontal="LEFT" textAlignVertical="TOP"/>
+              <fills>
+                <color r="0.0" g="0.0" b="0.0" a="1.0"/>
+              </fills>
+            </children>
+          </children>
+          <children xsi:type="figma_meta_model:FRAME" id="632:13" name="Frame 6" type="FRAME" scrollBehavior="SCROLLS" clipsContent="true" strokeWeight="1.0" strokeAlign="INSIDE" layoutMode="VERTICAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="FILL" layoutSizingVertical="FILL" layoutAlign="STRETCH" counterAxisSizingMode="FIXED" itemSpacing="22" primaryAxisSizingMode="FIXED">
+            <absoluteBoundingBox x="1500.0" y="80.0" width="279.0" height="926.0"/>
+            <absoluteRenderBounds x="1500.0" y="80.0" width="279.0" height="926.0"/>
+            <constraints horizontal="LEFT" vertical="TOP"/>
+            <backgroundColor r="0.0" g="0.0" b="0.0" a="0.0"/>
+            <children xsi:type="figma_meta_model:FRAME" id="632:15" name="a" type="FRAME" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="INSIDE" layoutMode="HORIZONTAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="FILL" layoutSizingVertical="HUG" layoutAlign="STRETCH" itemSpacing="10" primaryAxisSizingMode="FIXED" counterAxisAlignItems="CENTER">
+              <absoluteBoundingBox x="1510.0" y="93.0" width="259.0" height="30.0"/>
+              <absoluteRenderBounds x="1510.0" y="93.0" width="259.0" height="30.0"/>
               <constraints horizontal="LEFT" vertical="TOP"/>
               <backgroundColor r="0.0" g="0.0" b="0.0" a="0.0"/>
-              <children xsi:type="figma_meta_model:TEXT" id="249:158" name="label" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="label" layoutAlign="STRETCH" layoutGrow="0.0" layoutSizingHorizontal="FILL" layoutSizingVertical="HUG" lineTypes="NONE" lineIndentations="0">
-                <absoluteBoundingBox x="-661.0" y="-374.0" width="457.0" height="39.0"/>
-                <absoluteRenderBounds x="-658.5454711914062" y="-366.2727355957031" width="66.80682373046875" height="23.68182373046875"/>
+              <interactions xsi:type="figma_meta_model:Interaction">
+                <trigger xsi:type="figma_meta_model:Trigger" type="ON_CLICK"/>
+                <actions xsi:type="figma_meta_model:Action" type="NODE" destinationId="632:14" navigation="SCROLL_TO">
+                  <transition xsi:type="figma_meta_model:Transition"/>
+                </actions>
+              </interactions>
+              <children xsi:type="figma_meta_model:INSTANCE" id="632:37" name="Users" type="INSTANCE" scrollBehavior="SCROLLS" clipsContent="true" strokeWeight="1.0" strokeAlign="INSIDE" componentId="632:25">
+                <absoluteBoundingBox x="1510.0" y="93.0" width="30.0" height="30.0"/>
+                <absoluteRenderBounds x="1510.0" y="93.0" width="30.0" height="30.0"/>
                 <constraints horizontal="LEFT" vertical="TOP"/>
-                <style fontFamily="Inter" fontPostScriptName="" textAutoResize="HEIGHT" fontSize="32.0" fontWeight="400" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="38.727272033691406" textAlignHorizontal="LEFT" textAlignVertical="TOP"/>
-                <fills>
-                  <color r="0.0" g="0.0" b="0.0" a="1.0"/>
-                </fills>
-                <componentPropertyReferences key="characters" value="Label#258:5"/>
-                <componentPropertyReferences key="visible" value="Show label#258:11"/>
-              </children>
-              <children xsi:type="figma_meta_model:FRAME" id="249:157" name="Input" type="FRAME" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="2.0" strokeAlign="INSIDE" layoutMode="HORIZONTAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="FILL" layoutSizingVertical="FIXED" layoutAlign="STRETCH" counterAxisSizingMode="FIXED" itemSpacing="10" primaryAxisSizingMode="FIXED" counterAxisAlignItems="CENTER" cornerRadius="6.0" cornerSmoothing="0.0">
-                <absoluteBoundingBox x="-661.0" y="-323.0" width="457.0" height="87.0"/>
-                <absoluteRenderBounds x="-661.0" y="-323.0" width="457.0" height="87.0"/>
-                <constraints horizontal="LEFT" vertical="TOP"/>
-                <backgroundColor r="1.0" g="1.0" b="1.0" a="1.0"/>
+                <overrides xsi:type="figma_meta_model:Override" id="632:37">
+                  <overriddenFields>height</overriddenFields>
+                  <overriddenFields>width</overriddenFields>
+                </overrides>
+                <componentProperties key="Size">
+                  <value type="VARIANT" value="48"/>
+                </componentProperties>
                 <fills>
                   <color r="1.0" g="1.0" b="1.0" a="1.0"/>
                 </fills>
                 <background>
                   <color r="1.0" g="1.0" b="1.0" a="1.0"/>
                 </background>
-                <strokes>
-                  <color r="0.6625000238418579" g="0.6542187333106995" b="0.6542187333106995" a="1.0"/>
-                </strokes>
-                <children xsi:type="figma_meta_model:TEXT" id="249:156" name="Placeholder" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="Placeholder" layoutAlign="INHERIT" layoutGrow="0.0" layoutSizingHorizontal="HUG" layoutSizingVertical="HUG" lineTypes="NONE" lineIndentations="0">
-                  <absoluteBoundingBox x="-651.0" y="-299.0" width="179.0" height="39.0"/>
-                  <absoluteRenderBounds x="-648.1818237304688" y="-291.2727355957031" width="174.8948974609375" height="23.68182373046875"/>
+                <children xsi:type="figma_meta_model:VECTOR" id="I632:37;7758:12542" name="Icon" type="VECTOR" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="4.0" strokeAlign="CENTER">
+                  <absoluteBoundingBox x="1511.25" y="96.75" width="27.5" height="22.5"/>
+                  <absoluteRenderBounds x="1510.0" y="94.75" width="30.0" height="26.5"/>
+                  <constraints horizontal="SCALE" vertical="SCALE"/>
+                  <strokes>
+                    <color r="0.11764705926179886" g="0.11764705926179886" b="0.11764705926179886" a="1.0"/>
+                  </strokes>
+                </children>
+              </children>
+              <children xsi:type="figma_meta_model:TEXT" id="632:14" name="Users" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="Users" layoutAlign="INHERIT" layoutGrow="1.0" layoutSizingHorizontal="FILL" layoutSizingVertical="HUG" lineTypes="NONE" lineIndentations="0">
+                <absoluteBoundingBox x="1550.0" y="93.5" width="219.0" height="29.0"/>
+                <absoluteRenderBounds x="1552.1136474609375" y="99.04545593261719" width="62.4652099609375" height="17.76136016845703"/>
+                <constraints horizontal="LEFT" vertical="TOP"/>
+                <style fontFamily="Inter" fontPostScriptName="" textAutoResize="HEIGHT" fontSize="24.0" fontWeight="400" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="29.045454025268555" textAlignHorizontal="LEFT" textAlignVertical="TOP"/>
+                <fills>
+                  <color r="0.0" g="0.0" b="0.0" a="1.0"/>
+                </fills>
+              </children>
+            </children>
+            <children xsi:type="figma_meta_model:FRAME" id="632:40" name="a" type="FRAME" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="INSIDE" layoutMode="HORIZONTAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="FILL" layoutSizingVertical="HUG" layoutAlign="STRETCH" itemSpacing="10" primaryAxisSizingMode="FIXED" counterAxisAlignItems="CENTER">
+              <absoluteBoundingBox x="1510.0" y="145.0" width="259.0" height="30.0"/>
+              <absoluteRenderBounds x="1510.0" y="145.0" width="259.0" height="30.0"/>
+              <constraints horizontal="LEFT" vertical="TOP"/>
+              <backgroundColor r="0.0" g="0.0" b="0.0" a="0.0"/>
+              <interactions xsi:type="figma_meta_model:Interaction">
+                <trigger xsi:type="figma_meta_model:Trigger" type="ON_CLICK"/>
+                <actions xsi:type="figma_meta_model:Action" type="NODE" destinationId="632:70" navigation="NAVIGATE">
+                  <transition xsi:type="figma_meta_model:Transition"/>
+                </actions>
+              </interactions>
+              <children xsi:type="figma_meta_model:INSTANCE" id="632:41" name="Users" type="INSTANCE" scrollBehavior="SCROLLS" clipsContent="true" strokeWeight="1.0" strokeAlign="INSIDE" componentId="632:25">
+                <absoluteBoundingBox x="1510.0" y="145.0" width="30.0" height="30.0"/>
+                <absoluteRenderBounds x="1510.0" y="145.0" width="30.0" height="30.0"/>
+                <constraints horizontal="LEFT" vertical="TOP"/>
+                <overrides xsi:type="figma_meta_model:Override" id="632:41">
+                  <overriddenFields>height</overriddenFields>
+                  <overriddenFields>width</overriddenFields>
+                </overrides>
+                <componentProperties key="Size">
+                  <value type="VARIANT" value="48"/>
+                </componentProperties>
+                <fills>
+                  <color r="1.0" g="1.0" b="1.0" a="1.0"/>
+                </fills>
+                <background>
+                  <color r="1.0" g="1.0" b="1.0" a="1.0"/>
+                </background>
+                <children xsi:type="figma_meta_model:VECTOR" id="I632:41;7758:12542" name="Icon" type="VECTOR" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="4.0" strokeAlign="CENTER">
+                  <absoluteBoundingBox x="1511.25" y="148.75" width="27.5" height="22.5"/>
+                  <absoluteRenderBounds x="1510.0" y="146.75" width="30.0" height="26.5"/>
+                  <constraints horizontal="SCALE" vertical="SCALE"/>
+                  <strokes>
+                    <color r="0.11764705926179886" g="0.11764705926179886" b="0.11764705926179886" a="1.0"/>
+                  </strokes>
+                </children>
+              </children>
+              <children xsi:type="figma_meta_model:TEXT" id="632:42" name="Add User" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="Add User" layoutAlign="INHERIT" layoutGrow="1.0" layoutSizingHorizontal="FILL" layoutSizingVertical="HUG" lineTypes="NONE" lineIndentations="0">
+                <absoluteBoundingBox x="1550.0" y="145.5" width="219.0" height="29.0"/>
+                <absoluteRenderBounds x="1550.6136474609375" y="151.0454559326172" width="104.850830078125" height="17.761367797851562"/>
+                <constraints horizontal="LEFT" vertical="TOP"/>
+                <style fontFamily="Inter" fontPostScriptName="" textAutoResize="HEIGHT" fontSize="24.0" fontWeight="400" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="29.045454025268555" textAlignHorizontal="LEFT" textAlignVertical="TOP"/>
+                <fills>
+                  <color r="0.0" g="0.0" b="0.0" a="1.0"/>
+                </fills>
+              </children>
+            </children>
+          </children>
+        </children>
+        <children xsi:type="figma_meta_model:FRAME" id="632:10" name="Frame 4" type="FRAME" scrollBehavior="SCROLLS" clipsContent="true" strokeWeight="1.0" strokeAlign="INSIDE" layoutMode="VERTICAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="FILL" layoutSizingVertical="FILL" layoutAlign="STRETCH" counterAxisSizingMode="FIXED" itemSpacing="10" primaryAxisSizingMode="FIXED">
+          <absoluteBoundingBox x="1799.0" y="12.0" width="1111.0" height="1004.0"/>
+          <absoluteRenderBounds x="1799.0" y="12.0" width="1111.0" height="1004.0"/>
+          <constraints horizontal="LEFT" vertical="TOP"/>
+          <backgroundColor r="0.0" g="0.0" b="0.0" a="0.0"/>
+          <children xsi:type="figma_meta_model:FRAME" id="632:47" name="Frame 9" type="FRAME" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" layoutMode="HORIZONTAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="FILL" layoutSizingVertical="HUG" layoutAlign="STRETCH" itemSpacing="10" primaryAxisSizingMode="FIXED" counterAxisAlignItems="CENTER">
+            <absoluteBoundingBox x="1809.0" y="22.0" width="1091.0" height="55.0"/>
+            <absoluteRenderBounds x="1809.0" y="22.0" width="1091.0" height="55.0"/>
+            <constraints horizontal="LEFT" vertical="TOP"/>
+            <backgroundColor r="0.0" g="0.0" b="0.0" a="0.0"/>
+            <effects radius="4.0" visible="True" type="DROP_SHADOW" blenMode="NORMAL"/>
+            <children xsi:type="figma_meta_model:TEXT" id="632:46" name="Users" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="Users" layoutAlign="INHERIT" layoutGrow="0.0" layoutSizingHorizontal="HUG" layoutSizingVertical="HUG" lineTypes="NONE" lineIndentations="0">
+              <absoluteBoundingBox x="1821.0" y="35.0" width="68.0" height="29.0"/>
+              <absoluteRenderBounds x="1822.7215576171875" y="40.54545593261719" width="65.007080078125" height="17.71875"/>
+              <constraints horizontal="LEFT" vertical="TOP"/>
+              <style fontFamily="Inter" fontPostScriptName="Inter-SemiBold" textAutoResize="WIDTH_AND_HEIGHT" fontSize="24.0" fontWeight="600" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="29.045454025268555" textAlignHorizontal="LEFT" textAlignVertical="TOP"/>
+              <fills>
+                <color r="0.0" g="0.0" b="0.0" a="1.0"/>
+              </fills>
+            </children>
+          </children>
+          <children xsi:type="figma_meta_model:FRAME" id="632:51" name="table" type="FRAME" scrollBehavior="SCROLLS" clipsContent="true" strokeWeight="1.0" strokeAlign="INSIDE" layoutMode="VERTICAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="FILL" layoutSizingVertical="FILL" layoutAlign="STRETCH" counterAxisSizingMode="FIXED" itemSpacing="10" primaryAxisSizingMode="FIXED">
+            <absoluteBoundingBox x="1809.0" y="87.0" width="1091.0" height="919.0"/>
+            <absoluteRenderBounds x="1809.0" y="87.0" width="1091.0" height="919.0"/>
+            <constraints horizontal="LEFT" vertical="TOP"/>
+            <backgroundColor r="0.0" g="0.0" b="0.0" a="0.0"/>
+            <children xsi:type="figma_meta_model:FRAME" id="632:52" name="tr" type="FRAME" scrollBehavior="SCROLLS" clipsContent="true" strokeWeight="1.0" strokeAlign="INSIDE" layoutMode="HORIZONTAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="FILL" layoutSizingVertical="HUG" layoutAlign="STRETCH" itemSpacing="114" primaryAxisSizingMode="FIXED">
+              <absoluteBoundingBox x="1819.0" y="97.0" width="1071.0" height="49.0"/>
+              <absoluteRenderBounds x="1819.0" y="97.0" width="1071.0" height="49.0"/>
+              <constraints horizontal="LEFT" vertical="TOP"/>
+              <backgroundColor r="0.0" g="0.0" b="0.0" a="0.0"/>
+              <children xsi:type="figma_meta_model:TEXT" id="632:55" name="th" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="Name" layoutAlign="INHERIT" layoutGrow="0.0" layoutSizingHorizontal="HUG" layoutSizingVertical="HUG" lineTypes="NONE" lineIndentations="0">
+                <absoluteBoundingBox x="1829.0" y="107.0" width="68.0" height="29.0"/>
+                <absoluteRenderBounds x="1830.7215576171875" y="112.54545593261719" width="64.5894775390625" height="17.71875"/>
+                <constraints horizontal="LEFT" vertical="TOP"/>
+                <style fontFamily="Inter" fontPostScriptName="Inter-SemiBold" textAutoResize="WIDTH_AND_HEIGHT" fontSize="24.0" fontWeight="600" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="29.045454025268555" textAlignHorizontal="LEFT" textAlignVertical="TOP"/>
+                <fills>
+                  <color r="0.0" g="0.0" b="0.0" a="1.0"/>
+                </fills>
+              </children>
+              <children xsi:type="figma_meta_model:TEXT" id="632:56" name="th" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="LastName" layoutAlign="INHERIT" layoutGrow="0.0" layoutSizingHorizontal="HUG" layoutSizingVertical="HUG" lineTypes="NONE" lineIndentations="0">
+                <absoluteBoundingBox x="2011.0" y="107.0" width="118.0" height="29.0"/>
+                <absoluteRenderBounds x="2012.7215576171875" y="112.54545593261719" width="114.5347900390625" height="17.71875"/>
+                <constraints horizontal="LEFT" vertical="TOP"/>
+                <style fontFamily="Inter" fontPostScriptName="Inter-SemiBold" textAutoResize="WIDTH_AND_HEIGHT" fontSize="24.0" fontWeight="600" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="29.045454025268555" textAlignHorizontal="LEFT" textAlignVertical="TOP"/>
+                <fills>
+                  <color r="0.0" g="0.0" b="0.0" a="1.0"/>
+                </fills>
+              </children>
+              <children xsi:type="figma_meta_model:TEXT" id="632:58" name="th" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="Email" layoutAlign="INHERIT" layoutGrow="0.0" layoutSizingHorizontal="HUG" layoutSizingVertical="HUG" lineTypes="NONE" lineIndentations="0">
+                <absoluteBoundingBox x="2243.0" y="107.0" width="63.0" height="29.0"/>
+                <absoluteRenderBounds x="2244.7216796875" y="111.70170593261719" width="59.10498046875" height="18.5625"/>
+                <constraints horizontal="LEFT" vertical="TOP"/>
+                <style fontFamily="Inter" fontPostScriptName="Inter-SemiBold" textAutoResize="WIDTH_AND_HEIGHT" fontSize="24.0" fontWeight="600" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="29.045454025268555" textAlignHorizontal="LEFT" textAlignVertical="TOP"/>
+                <fills>
+                  <color r="0.0" g="0.0" b="0.0" a="1.0"/>
+                </fills>
+              </children>
+              <children xsi:type="figma_meta_model:TEXT" id="632:62" name="th" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="Actions" layoutAlign="INHERIT" layoutGrow="1.0" layoutSizingHorizontal="FILL" layoutSizingVertical="HUG" lineTypes="NONE" lineIndentations="0">
+                <absoluteBoundingBox x="2420.0" y="107.0" width="460.0" height="29.0"/>
+                <absoluteRenderBounds x="2606.291259765625" y="111.70170593261719" width="87.046875" height="18.553970336914062"/>
+                <constraints horizontal="LEFT" vertical="TOP"/>
+                <style fontFamily="Inter" fontPostScriptName="Inter-SemiBold" textAutoResize="HEIGHT" fontSize="24.0" fontWeight="600" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="29.045454025268555" textAlignHorizontal="CENTER" textAlignVertical="TOP"/>
+                <fills>
+                  <color r="0.0" g="0.0" b="0.0" a="1.0"/>
+                </fills>
+              </children>
+            </children>
+            <children xsi:type="figma_meta_model:FRAME" id="632:63" name="tr" type="FRAME" scrollBehavior="SCROLLS" clipsContent="true" strokeWeight="1.0" strokeAlign="INSIDE" layoutMode="HORIZONTAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="FILL" layoutSizingVertical="FIXED" layoutAlign="STRETCH" counterAxisSizingMode="FIXED" itemSpacing="90" primaryAxisSizingMode="FIXED" counterAxisAlignItems="CENTER">
+              <absoluteBoundingBox x="1819.0" y="156.0" width="1071.0" height="68.0"/>
+              <absoluteRenderBounds x="1819.0" y="156.0" width="1071.0" height="68.0"/>
+              <constraints horizontal="LEFT" vertical="TOP"/>
+              <backgroundColor r="0.0" g="0.0" b="0.0" a="0.0"/>
+              <children xsi:type="figma_meta_model:TEXT" id="632:64" name="td" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="ivantom" layoutAlign="INHERIT" layoutGrow="0.0" layoutSizingHorizontal="HUG" layoutSizingVertical="HUG" lineTypes="NONE" lineIndentations="0">
+                <absoluteBoundingBox x="1829.0" y="175.5" width="89.0" height="29.0"/>
+                <absoluteRenderBounds x="1830.7830810546875" y="180.97726440429688" width="85.082275390625" height="17.821029663085938"/>
+                <constraints horizontal="LEFT" vertical="TOP"/>
+                <style fontFamily="Inter" fontPostScriptName="Inter-Light" textAutoResize="WIDTH_AND_HEIGHT" fontSize="24.0" fontWeight="300" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="29.045454025268555" textAlignHorizontal="CENTER" textAlignVertical="TOP"/>
+                <fills>
+                  <color r="0.0" g="0.0" b="0.0" a="1.0"/>
+                </fills>
+              </children>
+              <children xsi:type="figma_meta_model:TEXT" id="632:65" name="td" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="ivantom" layoutAlign="INHERIT" layoutGrow="0.0" layoutSizingHorizontal="HUG" layoutSizingVertical="HUG" lineTypes="NONE" lineIndentations="0">
+                <absoluteBoundingBox x="2008.0" y="175.5" width="89.0" height="29.0"/>
+                <absoluteRenderBounds x="2009.7830810546875" y="180.97726440429688" width="85.0823974609375" height="17.821029663085938"/>
+                <constraints horizontal="LEFT" vertical="TOP"/>
+                <style fontFamily="Inter" fontPostScriptName="Inter-Light" textAutoResize="WIDTH_AND_HEIGHT" fontSize="24.0" fontWeight="300" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="29.045454025268555" textAlignHorizontal="CENTER" textAlignVertical="TOP"/>
+                <fills>
+                  <color r="0.0" g="0.0" b="0.0" a="1.0"/>
+                </fills>
+              </children>
+              <children xsi:type="figma_meta_model:TEXT" id="632:66" name="td" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="ivan.tomdieu@gmail.com" layoutAlign="INHERIT" layoutGrow="0.0" layoutSizingHorizontal="HUG" layoutSizingVertical="HUG" lineTypes="NONE" lineIndentations="0">
+                <absoluteBoundingBox x="2187.0" y="175.5" width="280.0" height="29.0"/>
+                <absoluteRenderBounds x="2188.763427734375" y="180.97726440429688" width="276.12158203125" height="22.704559326171875"/>
+                <constraints horizontal="LEFT" vertical="TOP"/>
+                <style fontFamily="Inter" fontPostScriptName="Inter-Light" textAutoResize="WIDTH_AND_HEIGHT" fontSize="24.0" fontWeight="300" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="29.045454025268555" textAlignHorizontal="CENTER" textAlignVertical="TOP"/>
+                <fills>
+                  <color r="0.0" g="0.0" b="0.0" a="1.0"/>
+                </fills>
+              </children>
+              <children xsi:type="figma_meta_model:FRAME" id="632:67" name="Frame 10" type="FRAME" scrollBehavior="SCROLLS" clipsContent="true" strokeWeight="1.0" strokeAlign="INSIDE" layoutMode="HORIZONTAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="HUG" layoutSizingVertical="HUG" layoutAlign="INHERIT" itemSpacing="47" counterAxisAlignItems="CENTER" primaryAxisAlignItems="MAX">
+                <absoluteBoundingBox x="2557.0" y="165.5" width="223.0" height="49.0"/>
+                <absoluteRenderBounds x="2557.0" y="165.5" width="223.0" height="49.0"/>
+                <constraints horizontal="LEFT" vertical="TOP"/>
+                <backgroundColor r="0.0" g="0.0" b="0.0" a="0.0"/>
+                <children xsi:type="figma_meta_model:TEXT" id="632:68" name="a" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="update" layoutAlign="INHERIT" layoutGrow="0.0" layoutSizingHorizontal="HUG" layoutSizingVertical="HUG" lineTypes="NONE" lineIndentations="0">
+                  <absoluteBoundingBox x="2567.0" y="175.5" width="82.0" height="29.0"/>
+                  <absoluteRenderBounds x="2568.733642578125" y="181.0454559326172" width="79.093017578125" height="22.363632202148438"/>
                   <constraints horizontal="LEFT" vertical="TOP"/>
-                  <style fontFamily="Inter" fontPostScriptName="" textAutoResize="WIDTH_AND_HEIGHT" fontSize="32.0" fontWeight="400" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="38.727272033691406" textAlignHorizontal="LEFT" textAlignVertical="TOP"/>
+                  <style fontFamily="Inter" fontPostScriptName="Inter-SemiBold" textAutoResize="WIDTH_AND_HEIGHT" fontSize="24.0" fontWeight="600" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="29.045454025268555" textAlignHorizontal="CENTER" textAlignVertical="TOP"/>
                   <fills>
-                    <color r="0.6333333253860474" g="0.5990277528762817" b="0.5990277528762817" a="1.0"/>
+                    <color r="0.1106249988079071" g="0.3142569661140442" b="0.9833333492279053" a="1.0"/>
                   </fills>
-                  <componentPropertyReferences key="characters" value="Placeholder#258:9"/>
+                </children>
+                <children xsi:type="figma_meta_model:TEXT" id="632:69" name="a" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="delete" layoutAlign="INHERIT" layoutGrow="0.0" layoutSizingHorizontal="HUG" layoutSizingVertical="HUG" lineTypes="NONE" lineIndentations="0">
+                  <absoluteBoundingBox x="2696.0" y="175.5" width="74.0" height="29.0"/>
+                  <absoluteRenderBounds x="2697.53271484375" y="181.0454559326172" width="70.9580078125" height="17.710220336914062"/>
+                  <constraints horizontal="LEFT" vertical="TOP"/>
+                  <style fontFamily="Inter" fontPostScriptName="Inter-SemiBold" textAutoResize="WIDTH_AND_HEIGHT" fontSize="24.0" fontWeight="600" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="29.045454025268555" textAlignHorizontal="CENTER" textAlignVertical="TOP"/>
+                  <fills>
+                    <color r="0.949999988079071" g="0.11874999850988388" b="0.11874999850988388" a="1.0"/>
+                  </fills>
                 </children>
               </children>
             </children>
-            <children xsi:type="figma_meta_model:TEXT" id="249:160" name="Helper text" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="Helper text" layoutAlign="STRETCH" layoutGrow="0.0" layoutSizingHorizontal="FILL" layoutSizingVertical="HUG" lineTypes="NONE" lineIndentations="0">
-              <absoluteBoundingBox x="-661.0" y="-229.0" width="457.0" height="39.0"/>
-              <absoluteRenderBounds x="-658.1818237304688" y="-221.27273559570312" width="163.35797119140625" height="29.818191528320312"/>
-              <constraints horizontal="LEFT" vertical="TOP"/>
-              <style fontFamily="Inter" fontPostScriptName="" textAutoResize="HEIGHT" fontSize="32.0" fontWeight="400" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="38.727272033691406" textAlignHorizontal="LEFT" textAlignVertical="TOP"/>
-              <fills>
-                <color r="0.9208333492279053" g="0.3146180510520935" b="0.3146180510520935" a="1.0"/>
-              </fills>
-              <componentPropertyReferences key="characters" value="HelpText#258:7"/>
-              <componentPropertyReferences key="visible" value="Show Helper text#258:13"/>
-            </children>
           </children>
         </children>
-        <children xsi:type="figma_meta_model:COMPONENT_SET" id="264:5" name="Frame 3" type="COMPONENT_SET" scrollBehavior="SCROLLS" clipsContent="true" strokeWeight="1.0" strokeAlign="INSIDE" cornerRadius="5.0" cornerSmoothing="0.0">
-          <absoluteBoundingBox x="49.0" y="-411.0" width="318.0" height="198.0"/>
-          <absoluteRenderBounds x="49.0" y="-411.0" width="318.0" height="198.0"/>
+      </children>
+      <children xsi:type="figma_meta_model:FRAME" id="632:70" name="Add user screen" type="FRAME" scrollBehavior="SCROLLS" clipsContent="true" strokeWeight="1.0" strokeAlign="INSIDE" layoutMode="HORIZONTAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="FIXED" layoutSizingVertical="FIXED" counterAxisSizingMode="FIXED" itemSpacing="10" primaryAxisSizingMode="FIXED">
+        <absoluteBoundingBox x="2960.0" y="2.0" width="1440.0" height="1024.0"/>
+        <absoluteRenderBounds x="2960.0" y="2.0" width="1440.0" height="1024.0"/>
+        <constraints horizontal="LEFT" vertical="TOP"/>
+        <backgroundColor r="1.0" g="1.0" b="1.0" a="1.0"/>
+        <fills>
+          <color r="1.0" g="1.0" b="1.0" a="1.0"/>
+        </fills>
+        <background>
+          <color r="1.0" g="1.0" b="1.0" a="1.0"/>
+        </background>
+        <children xsi:type="figma_meta_model:FRAME" id="632:74" name="Sidebar" type="FRAME" scrollBehavior="SCROLLS" clipsContent="true" strokeWeight="1.0" strokeAlign="INSIDE" layoutMode="VERTICAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="FIXED" layoutSizingVertical="FIXED" layoutAlign="INHERIT" counterAxisSizingMode="FIXED" itemSpacing="10" primaryAxisSizingMode="FIXED">
+          <absoluteBoundingBox x="2970.0" y="12.0" width="299.0" height="1004.0"/>
+          <absoluteRenderBounds x="2970.0" y="12.0" width="299.0" height="1004.0"/>
           <constraints horizontal="LEFT" vertical="TOP"/>
           <backgroundColor r="0.0" g="0.0" b="0.0" a="0.0"/>
-          <strokeDashes>10.0</strokeDashes>
-          <strokeDashes>5.0</strokeDashes>
-          <componentPropertyDefinitions key="text#264:1">
-            <componentpropertydefinition type="TEXT" defaultValue="Button"/>
-          </componentPropertyDefinitions>
-          <componentPropertyDefinitions key="Property 1">
-            <componentpropertydefinition type="VARIANT" defaultValue="Default">
-              <variantOptions>Default</variantOptions>
-              <variantOptions>Variant2</variantOptions>
-            </componentpropertydefinition>
-          </componentPropertyDefinitions>
-          <strokes>
-            <color r="0.5921568870544434" g="0.27843138575553894" b="1.0" a="1.0"/>
-          </strokes>
-          <children xsi:type="figma_meta_model:COMPONENT" id="263:4" name="Property 1=Default" type="COMPONENT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="INSIDE">
-            <absoluteBoundingBox x="87.0" y="-391.0" width="242.0" height="69.0"/>
-            <absoluteRenderBounds x="87.0" y="-391.0" width="242.0" height="69.0"/>
+          <children xsi:type="figma_meta_model:FRAME" id="632:75" name="Frame 5" type="FRAME" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="INSIDE" layoutMode="HORIZONTAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="FILL" layoutSizingVertical="HUG" layoutAlign="STRETCH" itemSpacing="10" primaryAxisSizingMode="FIXED" counterAxisAlignItems="CENTER" primaryAxisAlignItems="CENTER">
+            <absoluteBoundingBox x="2980.0" y="22.0" width="279.0" height="48.0"/>
+            <absoluteRenderBounds x="2980.0" y="22.0" width="279.0" height="48.0"/>
             <constraints horizontal="LEFT" vertical="TOP"/>
-            <fills>
-              <color r="0.05000000074505806" g="0.05000000074505806" b="0.05000000074505806" a="1.0"/>
-            </fills>
-            <background>
-              <color r="0.05000000074505806" g="0.05000000074505806" b="0.05000000074505806" a="1.0"/>
-            </background>
-            <strokes>
-              <color r="0.0" g="0.0" b="0.0" a="1.0"/>
-            </strokes>
-            <interactions xsi:type="figma_meta_model:Interaction">
-              <trigger xsi:type="figma_meta_model:Trigger" type="ON_HOVER"/>
-              <actions xsi:type="figma_meta_model:Action" type="NODE" destinationId="264:6" navigation="CHANGE_TO">
-                <transition xsi:type="figma_meta_model:Transition"/>
-              </actions>
-            </interactions>
-            <children xsi:type="figma_meta_model:TEXT" id="263:2" name="Button" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="Button" layoutAlign="INHERIT" layoutGrow="0.0" layoutSizingHorizontal="HUG" layoutSizingVertical="HUG" lineTypes="NONE" lineIndentations="0">
-              <absoluteBoundingBox x="170.0" y="-371.0" width="76.0" height="29.0"/>
-              <absoluteRenderBounds x="172.11363220214844" y="-365.4545593261719" width="71.26278686523438" height="17.727294921875"/>
+            <backgroundColor r="0.0" g="0.0" b="0.0" a="0.0"/>
+            <children xsi:type="figma_meta_model:TEXT" id="632:76" name="h1" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="Sidebar" layoutAlign="INHERIT" layoutGrow="1.0" layoutSizingHorizontal="FILL" layoutSizingVertical="HUG" lineTypes="NONE" lineIndentations="0">
+              <absoluteBoundingBox x="2980.0" y="22.0" width="279.0" height="48.0"/>
+              <absoluteRenderBounds x="2981.818115234375" y="30.502840042114258" width="146.74365234375" height="30.937501907348633"/>
               <constraints horizontal="LEFT" vertical="TOP"/>
-              <style fontFamily="Inter" fontPostScriptName="" textAutoResize="WIDTH_AND_HEIGHT" fontSize="24.0" fontWeight="400" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="29.045454025268555" textAlignHorizontal="LEFT" textAlignVertical="TOP"/>
+              <style fontFamily="Inter" fontPostScriptName="Inter-SemiBold" textAutoResize="HEIGHT" fontSize="40.0" fontWeight="600" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="48.409088134765625" textAlignHorizontal="LEFT" textAlignVertical="TOP"/>
               <fills>
-                <color r="1.0" g="1.0" b="1.0" a="1.0"/>
+                <color r="0.0" g="0.0" b="0.0" a="1.0"/>
               </fills>
-              <componentPropertyReferences key="characters" value="text#264:1"/>
             </children>
           </children>
-          <children xsi:type="figma_meta_model:COMPONENT" id="264:6" name="Property 1=Variant2" type="COMPONENT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="INSIDE">
-            <absoluteBoundingBox x="87.0" y="-302.0" width="242.0" height="69.0"/>
-            <absoluteRenderBounds x="87.0" y="-302.0" width="242.0" height="69.0"/>
+          <children xsi:type="figma_meta_model:FRAME" id="632:77" name="Frame 6" type="FRAME" scrollBehavior="SCROLLS" clipsContent="true" strokeWeight="1.0" strokeAlign="INSIDE" layoutMode="VERTICAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="FILL" layoutSizingVertical="FILL" layoutAlign="STRETCH" counterAxisSizingMode="FIXED" itemSpacing="22" primaryAxisSizingMode="FIXED">
+            <absoluteBoundingBox x="2980.0" y="80.0" width="279.0" height="926.0"/>
+            <absoluteRenderBounds x="2980.0" y="80.0" width="279.0" height="926.0"/>
             <constraints horizontal="LEFT" vertical="TOP"/>
-            <fills>
-              <color r="0.30416667461395264" g="0.28515625" b="0.28515625" a="1.0"/>
-            </fills>
-            <background>
-              <color r="0.30416667461395264" g="0.28515625" b="0.28515625" a="1.0"/>
-            </background>
-            <strokes>
-              <color r="0.0" g="0.0" b="0.0" a="1.0"/>
-            </strokes>
-            <children xsi:type="figma_meta_model:TEXT" id="264:7" name="Button" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="Button" layoutAlign="INHERIT" layoutGrow="0.0" layoutSizingHorizontal="HUG" layoutSizingVertical="HUG" lineTypes="NONE" lineIndentations="0">
-              <absoluteBoundingBox x="170.0" y="-282.0" width="76.0" height="29.0"/>
-              <absoluteRenderBounds x="172.11363220214844" y="-276.4545593261719" width="71.26278686523438" height="17.727294921875"/>
+            <backgroundColor r="0.0" g="0.0" b="0.0" a="0.0"/>
+            <children xsi:type="figma_meta_model:FRAME" id="632:78" name="a" type="FRAME" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="INSIDE" layoutMode="HORIZONTAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="FILL" layoutSizingVertical="HUG" layoutAlign="STRETCH" itemSpacing="10" primaryAxisSizingMode="FIXED" counterAxisAlignItems="CENTER">
+              <absoluteBoundingBox x="2990.0" y="93.0" width="259.0" height="30.0"/>
+              <absoluteRenderBounds x="2990.0" y="93.0" width="259.0" height="30.0"/>
               <constraints horizontal="LEFT" vertical="TOP"/>
-              <style fontFamily="Inter" fontPostScriptName="" textAutoResize="WIDTH_AND_HEIGHT" fontSize="24.0" fontWeight="400" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="29.045454025268555" textAlignHorizontal="LEFT" textAlignVertical="TOP"/>
-              <fills>
-                <color r="1.0" g="1.0" b="1.0" a="1.0"/>
-              </fills>
-              <componentPropertyReferences key="characters" value="text#264:1"/>
+              <backgroundColor r="0.0" g="0.0" b="0.0" a="0.0"/>
+              <interactions xsi:type="figma_meta_model:Interaction">
+                <trigger xsi:type="figma_meta_model:Trigger" type="ON_CLICK"/>
+                <actions xsi:type="figma_meta_model:Action" type="NODE" destinationId="552:3" navigation="NAVIGATE">
+                  <transition xsi:type="figma_meta_model:Transition"/>
+                </actions>
+              </interactions>
+              <children xsi:type="figma_meta_model:INSTANCE" id="632:79" name="Users" type="INSTANCE" scrollBehavior="SCROLLS" clipsContent="true" strokeWeight="1.0" strokeAlign="INSIDE" componentId="632:25">
+                <absoluteBoundingBox x="2990.0" y="93.0" width="30.0" height="30.0"/>
+                <absoluteRenderBounds x="2990.0" y="93.0" width="30.0" height="30.0"/>
+                <constraints horizontal="LEFT" vertical="TOP"/>
+                <overrides xsi:type="figma_meta_model:Override" id="632:79">
+                  <overriddenFields>height</overriddenFields>
+                  <overriddenFields>width</overriddenFields>
+                </overrides>
+                <componentProperties key="Size">
+                  <value type="VARIANT" value="48"/>
+                </componentProperties>
+                <fills>
+                  <color r="1.0" g="1.0" b="1.0" a="1.0"/>
+                </fills>
+                <background>
+                  <color r="1.0" g="1.0" b="1.0" a="1.0"/>
+                </background>
+                <children xsi:type="figma_meta_model:VECTOR" id="I632:79;7758:12542" name="Icon" type="VECTOR" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="4.0" strokeAlign="CENTER">
+                  <absoluteBoundingBox x="2991.25" y="96.75" width="27.5" height="22.5"/>
+                  <absoluteRenderBounds x="2990.0" y="94.75" width="30.0" height="26.5"/>
+                  <constraints horizontal="SCALE" vertical="SCALE"/>
+                  <strokes>
+                    <color r="0.11764705926179886" g="0.11764705926179886" b="0.11764705926179886" a="1.0"/>
+                  </strokes>
+                </children>
+              </children>
+              <children xsi:type="figma_meta_model:TEXT" id="632:80" name="Users" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="Users" layoutAlign="INHERIT" layoutGrow="1.0" layoutSizingHorizontal="FILL" layoutSizingVertical="HUG" lineTypes="NONE" lineIndentations="0">
+                <absoluteBoundingBox x="3030.0" y="93.5" width="219.0" height="29.0"/>
+                <absoluteRenderBounds x="3032.113525390625" y="99.04545593261719" width="62.46533203125" height="17.76136016845703"/>
+                <constraints horizontal="LEFT" vertical="TOP"/>
+                <style fontFamily="Inter" fontPostScriptName="" textAutoResize="HEIGHT" fontSize="24.0" fontWeight="400" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="29.045454025268555" textAlignHorizontal="LEFT" textAlignVertical="TOP"/>
+                <fills>
+                  <color r="0.0" g="0.0" b="0.0" a="1.0"/>
+                </fills>
+              </children>
+            </children>
+            <children xsi:type="figma_meta_model:FRAME" id="632:81" name="a" type="FRAME" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="INSIDE" layoutMode="HORIZONTAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="FILL" layoutSizingVertical="HUG" layoutAlign="STRETCH" itemSpacing="10" primaryAxisSizingMode="FIXED" counterAxisAlignItems="CENTER">
+              <absoluteBoundingBox x="2990.0" y="145.0" width="259.0" height="30.0"/>
+              <absoluteRenderBounds x="2990.0" y="145.0" width="259.0" height="30.0"/>
+              <constraints horizontal="LEFT" vertical="TOP"/>
+              <backgroundColor r="0.0" g="0.0" b="0.0" a="0.0"/>
+              <interactions xsi:type="figma_meta_model:Interaction">
+                <trigger xsi:type="figma_meta_model:Trigger" type="ON_CLICK"/>
+                <actions xsi:type="figma_meta_model:Action" type="NODE" destinationId="632:70" navigation="NAVIGATE">
+                  <transition xsi:type="figma_meta_model:Transition"/>
+                </actions>
+              </interactions>
+              <children xsi:type="figma_meta_model:INSTANCE" id="632:82" name="Users" type="INSTANCE" scrollBehavior="SCROLLS" clipsContent="true" strokeWeight="1.0" strokeAlign="INSIDE" componentId="632:25">
+                <absoluteBoundingBox x="2990.0" y="145.0" width="30.0" height="30.0"/>
+                <absoluteRenderBounds x="2990.0" y="145.0" width="30.0" height="30.0"/>
+                <constraints horizontal="LEFT" vertical="TOP"/>
+                <overrides xsi:type="figma_meta_model:Override" id="632:82">
+                  <overriddenFields>height</overriddenFields>
+                  <overriddenFields>width</overriddenFields>
+                </overrides>
+                <componentProperties key="Size">
+                  <value type="VARIANT" value="48"/>
+                </componentProperties>
+                <fills>
+                  <color r="1.0" g="1.0" b="1.0" a="1.0"/>
+                </fills>
+                <background>
+                  <color r="1.0" g="1.0" b="1.0" a="1.0"/>
+                </background>
+                <children xsi:type="figma_meta_model:VECTOR" id="I632:82;7758:12542" name="Icon" type="VECTOR" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="4.0" strokeAlign="CENTER">
+                  <absoluteBoundingBox x="2991.25" y="148.75" width="27.5" height="22.5"/>
+                  <absoluteRenderBounds x="2990.0" y="146.75" width="30.0" height="26.5"/>
+                  <constraints horizontal="SCALE" vertical="SCALE"/>
+                  <strokes>
+                    <color r="0.11764705926179886" g="0.11764705926179886" b="0.11764705926179886" a="1.0"/>
+                  </strokes>
+                </children>
+              </children>
+              <children xsi:type="figma_meta_model:TEXT" id="632:83" name="Add User" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="Add User" layoutAlign="INHERIT" layoutGrow="1.0" layoutSizingHorizontal="FILL" layoutSizingVertical="HUG" lineTypes="NONE" lineIndentations="0">
+                <absoluteBoundingBox x="3030.0" y="145.5" width="219.0" height="29.0"/>
+                <absoluteRenderBounds x="3030.613525390625" y="151.0454559326172" width="104.85107421875" height="17.761367797851562"/>
+                <constraints horizontal="LEFT" vertical="TOP"/>
+                <style fontFamily="Inter" fontPostScriptName="" textAutoResize="HEIGHT" fontSize="24.0" fontWeight="400" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="29.045454025268555" textAlignHorizontal="LEFT" textAlignVertical="TOP"/>
+                <fills>
+                  <color r="0.0" g="0.0" b="0.0" a="1.0"/>
+                </fills>
+              </children>
             </children>
           </children>
         </children>
-        <children xsi:type="figma_meta_model:FRAME" id="276:166" name="Frame 3" type="FRAME" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="INSIDE" layoutMode="HORIZONTAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="HUG" layoutSizingVertical="HUG" itemSpacing="10" counterAxisAlignItems="CENTER" primaryAxisAlignItems="CENTER" cornerRadius="6.0" cornerSmoothing="0.0">
-          <absoluteBoundingBox x="430.0" y="-417.0" width="242.0" height="69.0"/>
-          <absoluteRenderBounds x="430.0" y="-417.0" width="242.0" height="69.0"/>
+        <children xsi:type="figma_meta_model:FRAME" id="632:87" name="Frame 4" type="FRAME" scrollBehavior="SCROLLS" clipsContent="true" strokeWeight="1.0" strokeAlign="INSIDE" layoutMode="VERTICAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="FILL" layoutSizingVertical="FILL" layoutAlign="STRETCH" counterAxisSizingMode="FIXED" itemSpacing="10" primaryAxisSizingMode="FIXED">
+          <absoluteBoundingBox x="3279.0" y="12.0" width="1111.0" height="1004.0"/>
+          <absoluteRenderBounds x="3279.0" y="12.0" width="1111.0" height="1004.0"/>
           <constraints horizontal="LEFT" vertical="TOP"/>
-          <backgroundColor r="0.05000000074505806" g="0.05000000074505806" b="0.05000000074505806" a="1.0"/>
-          <fills>
-            <color r="0.05000000074505806" g="0.05000000074505806" b="0.05000000074505806" a="1.0"/>
-          </fills>
-          <background>
-            <color r="0.05000000074505806" g="0.05000000074505806" b="0.05000000074505806" a="1.0"/>
-          </background>
-          <strokes>
-            <color r="0.0" g="0.0" b="0.0" a="1.0"/>
-          </strokes>
-          <children xsi:type="figma_meta_model:TEXT" id="276:167" name="Button" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="Button" layoutAlign="INHERIT" layoutGrow="0.0" layoutSizingHorizontal="HUG" layoutSizingVertical="HUG" lineTypes="NONE" lineIndentations="0">
-            <absoluteBoundingBox x="513.0" y="-397.0" width="76.0" height="29.0"/>
-            <absoluteRenderBounds x="515.1136474609375" y="-391.4545593261719" width="71.26275634765625" height="17.727294921875"/>
+          <backgroundColor r="0.0" g="0.0" b="0.0" a="0.0"/>
+          <children xsi:type="figma_meta_model:FRAME" id="632:88" name="Frame 9" type="FRAME" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" layoutMode="HORIZONTAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="FILL" layoutSizingVertical="HUG" layoutAlign="STRETCH" itemSpacing="10" primaryAxisSizingMode="FIXED" counterAxisAlignItems="CENTER">
+            <absoluteBoundingBox x="3289.0" y="22.0" width="1091.0" height="55.0"/>
+            <absoluteRenderBounds x="3289.0" y="22.0" width="1091.0" height="55.0"/>
             <constraints horizontal="LEFT" vertical="TOP"/>
-            <style fontFamily="Inter" fontPostScriptName="" textAutoResize="WIDTH_AND_HEIGHT" fontSize="24.0" fontWeight="400" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="29.045454025268555" textAlignHorizontal="LEFT" textAlignVertical="TOP"/>
-            <fills>
-              <color r="1.0" g="1.0" b="1.0" a="1.0"/>
-            </fills>
+            <backgroundColor r="0.0" g="0.0" b="0.0" a="0.0"/>
+            <effects radius="4.0" visible="True" type="DROP_SHADOW" blenMode="NORMAL"/>
+            <children xsi:type="figma_meta_model:TEXT" id="632:89" name="Add User" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="Add User" layoutAlign="INHERIT" layoutGrow="0.0" layoutSizingHorizontal="HUG" layoutSizingVertical="HUG" lineTypes="NONE" lineIndentations="0">
+              <absoluteBoundingBox x="3301.0" y="35.0" width="108.0" height="29.0"/>
+              <absoluteRenderBounds x="3301.588134765625" y="40.54545593261719" width="106.619140625" height="17.71875"/>
+              <constraints horizontal="LEFT" vertical="TOP"/>
+              <style fontFamily="Inter" fontPostScriptName="Inter-SemiBold" textAutoResize="WIDTH_AND_HEIGHT" fontSize="24.0" fontWeight="600" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="29.045454025268555" textAlignHorizontal="LEFT" textAlignVertical="TOP"/>
+              <fills>
+                <color r="0.0" g="0.0" b="0.0" a="1.0"/>
+              </fills>
+            </children>
           </children>
-        </children>
-        <children xsi:type="figma_meta_model:INSTANCE" id="270:170" name="Alarm" type="INSTANCE" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="INSIDE" componentId="270:161">
-          <absoluteBoundingBox x="-352.0" y="326.0" width="24.0" height="24.0"/>
-          <absoluteRenderBounds x="-352.0" y="326.0" width="24.0" height="24.0"/>
-          <constraints horizontal="LEFT" vertical="TOP"/>
-          <children xsi:type="figma_meta_model:VECTOR" id="I270:170;3786:2438" name="tone" type="VECTOR" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="INSIDE">
-            <absoluteBoundingBox x="-348.0" y="331.0" width="16.0" height="16.0"/>
-            <absoluteRenderBounds x="-348.0" y="331.0" width="16.0" height="16.0"/>
-            <constraints horizontal="SCALE" vertical="SCALE"/>
-            <fills>
-              <color r="0.0" g="0.0" b="0.0" a="1.0"/>
-            </fills>
-          </children>
-          <children xsi:type="figma_meta_model:VECTOR" id="I270:170;3786:1668" name="shape" type="VECTOR" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="2.0" strokeAlign="CENTER">
-            <absoluteBoundingBox x="-349.0" y="329.0" width="18.0" height="18.0"/>
-            <absoluteRenderBounds x="-350.0" y="328.0" width="20.0" height="20.0"/>
-            <constraints horizontal="SCALE" vertical="SCALE"/>
-            <strokes>
-              <color r="0.0" g="0.0" b="0.0" a="1.0"/>
-            </strokes>
+          <children xsi:type="figma_meta_model:FRAME" id="632:104" name="Frame 11" type="FRAME" scrollBehavior="SCROLLS" clipsContent="true" strokeWeight="1.0" strokeAlign="INSIDE" layoutMode="VERTICAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="FILL" layoutSizingVertical="FILL" layoutAlign="STRETCH" counterAxisSizingMode="FIXED" itemSpacing="10" primaryAxisSizingMode="FIXED" counterAxisAlignItems="CENTER" primaryAxisAlignItems="CENTER">
+            <absoluteBoundingBox x="3289.0" y="87.0" width="1091.0" height="919.0"/>
+            <absoluteRenderBounds x="3289.0" y="87.0" width="1091.0" height="919.0"/>
+            <constraints horizontal="LEFT" vertical="TOP"/>
+            <backgroundColor r="0.0" g="0.0" b="0.0" a="0.0"/>
+            <children xsi:type="figma_meta_model:FRAME" id="632:105" name="form" type="FRAME" scrollBehavior="SCROLLS" clipsContent="true" strokeWeight="1.0" strokeAlign="INSIDE" layoutMode="VERTICAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="FIXED" layoutSizingVertical="FIXED" layoutAlign="INHERIT" counterAxisSizingMode="FIXED" itemSpacing="24" primaryAxisSizingMode="FIXED" cornerRadius="8.0" cornerSmoothing="0.0">
+              <absoluteBoundingBox x="3417.0" y="201.0" width="835.0" height="691.0"/>
+              <absoluteRenderBounds x="3417.0" y="201.0" width="835.0" height="691.0"/>
+              <constraints horizontal="LEFT" vertical="TOP"/>
+              <backgroundColor r="0.0" g="0.0" b="0.0" a="0.0"/>
+              <strokes>
+                <color r="0.0" g="0.0" b="0.0" a="1.0"/>
+              </strokes>
+              <children xsi:type="figma_meta_model:TEXT" id="632:106" name="h1" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="Add User" layoutAlign="INHERIT" layoutGrow="0.0" layoutSizingHorizontal="HUG" layoutSizingVertical="HUG" lineTypes="NONE" lineIndentations="0">
+                <absoluteBoundingBox x="3445.0" y="228.0" width="108.0" height="29.0"/>
+                <absoluteRenderBounds x="3445.588134765625" y="233.5454559326172" width="106.619140625" height="17.71875"/>
+                <constraints horizontal="LEFT" vertical="TOP"/>
+                <style fontFamily="Inter" fontPostScriptName="Inter-SemiBold" textAutoResize="WIDTH_AND_HEIGHT" fontSize="24.0" fontWeight="600" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="29.045454025268555" textAlignHorizontal="LEFT" textAlignVertical="TOP"/>
+                <fills>
+                  <color r="0.0" g="0.0" b="0.0" a="1.0"/>
+                </fills>
+              </children>
+              <children xsi:type="figma_meta_model:FRAME" id="632:107" name="input container" type="FRAME" scrollBehavior="SCROLLS" clipsContent="true" strokeWeight="1.0" strokeAlign="INSIDE" layoutMode="VERTICAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="FILL" layoutSizingVertical="HUG" layoutAlign="STRETCH" counterAxisSizingMode="FIXED" itemSpacing="4">
+                <absoluteBoundingBox x="3445.0" y="281.0" width="779.0" height="104.0"/>
+                <absoluteRenderBounds x="3445.0" y="281.0" width="779.0" height="104.0"/>
+                <constraints horizontal="LEFT" vertical="TOP"/>
+                <backgroundColor r="0.0" g="0.0" b="0.0" a="0.0"/>
+                <children xsi:type="figma_meta_model:TEXT" id="632:108" name="label" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="name" layoutAlign="INHERIT" layoutGrow="0.0" layoutSizingHorizontal="HUG" layoutSizingVertical="HUG" lineTypes="NONE" lineIndentations="0">
+                  <absoluteBoundingBox x="3445.0" y="292.0" width="65.0" height="29.0"/>
+                  <absoluteRenderBounds x="3446.585205078125" y="301.7386474609375" width="61.561767578125" height="13.525543212890625"/>
+                  <constraints horizontal="LEFT" vertical="TOP"/>
+                  <style fontFamily="Inter" fontPostScriptName="Inter-SemiBold" textAutoResize="WIDTH_AND_HEIGHT" fontSize="24.0" fontWeight="600" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="29.045454025268555" textAlignHorizontal="LEFT" textAlignVertical="TOP"/>
+                  <fills>
+                    <color r="0.0" g="0.0" b="0.0" a="1.0"/>
+                  </fills>
+                </children>
+                <children xsi:type="figma_meta_model:FRAME" id="632:110" name="input" type="FRAME" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="INSIDE" layoutMode="HORIZONTAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="FILL" layoutSizingVertical="HUG" layoutAlign="STRETCH" itemSpacing="10" primaryAxisSizingMode="FIXED" counterAxisAlignItems="CENTER" cornerRadius="8.0" cornerSmoothing="0.0">
+                  <absoluteBoundingBox x="3445.0" y="325.0" width="779.0" height="49.0"/>
+                  <absoluteRenderBounds x="3445.0" y="325.0" width="779.0" height="49.0"/>
+                  <constraints horizontal="LEFT" vertical="TOP"/>
+                  <backgroundColor r="0.0" g="0.0" b="0.0" a="0.0"/>
+                  <strokes>
+                    <color r="0.0" g="0.0" b="0.0" a="1.0"/>
+                  </strokes>
+                  <children xsi:type="figma_meta_model:TEXT" id="632:109" name="placeholder" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="placeholder" layoutAlign="INHERIT" layoutGrow="0.0" layoutSizingHorizontal="HUG" layoutSizingVertical="HUG" lineTypes="NONE" lineIndentations="0">
+                    <absoluteBoundingBox x="3455.0" y="335.0" width="132.0" height="29.0"/>
+                    <absoluteRenderBounds x="3457.0029296875" y="340.5454406738281" width="128.9189453125" height="22.3636474609375"/>
+                    <constraints horizontal="LEFT" vertical="TOP"/>
+                    <style fontFamily="Inter" fontPostScriptName="Inter-Light" textAutoResize="WIDTH_AND_HEIGHT" fontSize="24.0" fontWeight="300" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="29.045454025268555" textAlignHorizontal="LEFT" textAlignVertical="TOP"/>
+                    <fills>
+                      <color r="0.0" g="0.0" b="0.0" a="1.0"/>
+                    </fills>
+                  </children>
+                </children>
+              </children>
+              <children xsi:type="figma_meta_model:FRAME" id="632:111" name="input container" type="FRAME" scrollBehavior="SCROLLS" clipsContent="true" strokeWeight="1.0" strokeAlign="INSIDE" layoutMode="VERTICAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="FILL" layoutSizingVertical="HUG" layoutAlign="STRETCH" counterAxisSizingMode="FIXED" itemSpacing="4">
+                <absoluteBoundingBox x="3445.0" y="409.0" width="779.0" height="104.0"/>
+                <absoluteRenderBounds x="3445.0" y="409.0" width="779.0" height="104.0"/>
+                <constraints horizontal="LEFT" vertical="TOP"/>
+                <backgroundColor r="0.0" g="0.0" b="0.0" a="0.0"/>
+                <children xsi:type="figma_meta_model:TEXT" id="632:112" name="label" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="last name" layoutAlign="INHERIT" layoutGrow="0.0" layoutSizingHorizontal="HUG" layoutSizingVertical="HUG" lineTypes="NONE" lineIndentations="0">
+                  <absoluteBoundingBox x="3445.0" y="420.0" width="113.0" height="29.0"/>
+                  <absoluteRenderBounds x="3446.585205078125" y="425.5454406738281" width="109.843017578125" height="17.71875"/>
+                  <constraints horizontal="LEFT" vertical="TOP"/>
+                  <style fontFamily="Inter" fontPostScriptName="Inter-SemiBold" textAutoResize="WIDTH_AND_HEIGHT" fontSize="24.0" fontWeight="600" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="29.045454025268555" textAlignHorizontal="LEFT" textAlignVertical="TOP"/>
+                  <fills>
+                    <color r="0.0" g="0.0" b="0.0" a="1.0"/>
+                  </fills>
+                </children>
+                <children xsi:type="figma_meta_model:FRAME" id="632:113" name="input" type="FRAME" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="INSIDE" layoutMode="HORIZONTAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="FILL" layoutSizingVertical="HUG" layoutAlign="STRETCH" itemSpacing="10" primaryAxisSizingMode="FIXED" counterAxisAlignItems="CENTER" cornerRadius="8.0" cornerSmoothing="0.0">
+                  <absoluteBoundingBox x="3445.0" y="453.0" width="779.0" height="49.0"/>
+                  <absoluteRenderBounds x="3445.0" y="453.0" width="779.0" height="49.0"/>
+                  <constraints horizontal="LEFT" vertical="TOP"/>
+                  <backgroundColor r="0.0" g="0.0" b="0.0" a="0.0"/>
+                  <strokes>
+                    <color r="0.0" g="0.0" b="0.0" a="1.0"/>
+                  </strokes>
+                  <children xsi:type="figma_meta_model:TEXT" id="632:114" name="placeholder" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="placeholder" layoutAlign="INHERIT" layoutGrow="0.0" layoutSizingHorizontal="HUG" layoutSizingVertical="HUG" lineTypes="NONE" lineIndentations="0">
+                    <absoluteBoundingBox x="3455.0" y="463.0" width="132.0" height="29.0"/>
+                    <absoluteRenderBounds x="3457.0029296875" y="468.5454406738281" width="128.9189453125" height="22.3636474609375"/>
+                    <constraints horizontal="LEFT" vertical="TOP"/>
+                    <style fontFamily="Inter" fontPostScriptName="Inter-Light" textAutoResize="WIDTH_AND_HEIGHT" fontSize="24.0" fontWeight="300" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="29.045454025268555" textAlignHorizontal="LEFT" textAlignVertical="TOP"/>
+                    <fills>
+                      <color r="0.0" g="0.0" b="0.0" a="1.0"/>
+                    </fills>
+                  </children>
+                </children>
+              </children>
+              <children xsi:type="figma_meta_model:FRAME" id="632:116" name="input container" type="FRAME" scrollBehavior="SCROLLS" clipsContent="true" strokeWeight="1.0" strokeAlign="INSIDE" layoutMode="VERTICAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="FILL" layoutSizingVertical="HUG" layoutAlign="STRETCH" counterAxisSizingMode="FIXED" itemSpacing="4">
+                <absoluteBoundingBox x="3445.0" y="537.0" width="779.0" height="104.0"/>
+                <absoluteRenderBounds x="3445.0" y="537.0" width="779.0" height="104.0"/>
+                <constraints horizontal="LEFT" vertical="TOP"/>
+                <backgroundColor r="0.0" g="0.0" b="0.0" a="0.0"/>
+                <children xsi:type="figma_meta_model:TEXT" id="632:117" name="label" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="email" layoutAlign="INHERIT" layoutGrow="0.0" layoutSizingHorizontal="HUG" layoutSizingVertical="HUG" lineTypes="NONE" lineIndentations="0">
+                  <absoluteBoundingBox x="3445.0" y="548.0" width="63.0" height="29.0"/>
+                  <absoluteRenderBounds x="3446.022705078125" y="552.7017211914062" width="59.452392578125" height="18.5625"/>
+                  <constraints horizontal="LEFT" vertical="TOP"/>
+                  <style fontFamily="Inter" fontPostScriptName="Inter-SemiBold" textAutoResize="WIDTH_AND_HEIGHT" fontSize="24.0" fontWeight="600" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="29.045454025268555" textAlignHorizontal="LEFT" textAlignVertical="TOP"/>
+                  <fills>
+                    <color r="0.0" g="0.0" b="0.0" a="1.0"/>
+                  </fills>
+                </children>
+                <children xsi:type="figma_meta_model:FRAME" id="632:118" name="email input" type="FRAME" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="INSIDE" layoutMode="HORIZONTAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="FILL" layoutSizingVertical="HUG" layoutAlign="STRETCH" itemSpacing="10" primaryAxisSizingMode="FIXED" counterAxisAlignItems="CENTER" cornerRadius="8.0" cornerSmoothing="0.0">
+                  <absoluteBoundingBox x="3445.0" y="581.0" width="779.0" height="49.0"/>
+                  <absoluteRenderBounds x="3445.0" y="581.0" width="779.0" height="49.0"/>
+                  <constraints horizontal="LEFT" vertical="TOP"/>
+                  <backgroundColor r="0.0" g="0.0" b="0.0" a="0.0"/>
+                  <strokes>
+                    <color r="0.0" g="0.0" b="0.0" a="1.0"/>
+                  </strokes>
+                  <children xsi:type="figma_meta_model:TEXT" id="632:119" name="placeholder" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="placeholder" layoutAlign="INHERIT" layoutGrow="0.0" layoutSizingHorizontal="HUG" layoutSizingVertical="HUG" lineTypes="NONE" lineIndentations="0">
+                    <absoluteBoundingBox x="3455.0" y="591.0" width="132.0" height="29.0"/>
+                    <absoluteRenderBounds x="3457.0029296875" y="596.5454711914062" width="128.9189453125" height="22.3636474609375"/>
+                    <constraints horizontal="LEFT" vertical="TOP"/>
+                    <style fontFamily="Inter" fontPostScriptName="Inter-Light" textAutoResize="WIDTH_AND_HEIGHT" fontSize="24.0" fontWeight="300" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="29.045454025268555" textAlignHorizontal="LEFT" textAlignVertical="TOP"/>
+                    <fills>
+                      <color r="0.0" g="0.0" b="0.0" a="1.0"/>
+                    </fills>
+                  </children>
+                </children>
+              </children>
+              <children xsi:type="figma_meta_model:FRAME" id="632:121" name="button" type="FRAME" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="INSIDE" layoutMode="HORIZONTAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="FILL" layoutSizingVertical="HUG" layoutAlign="STRETCH" itemSpacing="10" primaryAxisSizingMode="FIXED" counterAxisAlignItems="CENTER" primaryAxisAlignItems="CENTER" cornerRadius="6.0" cornerSmoothing="0.0">
+                <absoluteBoundingBox x="3445.0" y="665.0" width="779.0" height="57.0"/>
+                <absoluteRenderBounds x="3445.0" y="665.0" width="779.0" height="57.0"/>
+                <constraints horizontal="LEFT" vertical="TOP"/>
+                <backgroundColor r="0.0" g="0.49041664600372314" b="0.8916666507720947" a="1.0"/>
+                <fills>
+                  <color r="0.0" g="0.49041664600372314" b="0.8916666507720947" a="1.0"/>
+                </fills>
+                <background>
+                  <color r="0.0" g="0.49041664600372314" b="0.8916666507720947" a="1.0"/>
+                </background>
+                <strokes>
+                  <color r="0.13732638955116272" g="0.3652228116989136" b="0.9416666626930237" a="1.0"/>
+                </strokes>
+                <children xsi:type="figma_meta_model:TEXT" id="632:120" name="Add User" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="Add User" layoutAlign="INHERIT" layoutGrow="0.0" layoutSizingHorizontal="HUG" layoutSizingVertical="HUG" lineTypes="NONE" lineIndentations="0">
+                  <absoluteBoundingBox x="3780.5" y="679.0" width="108.0" height="29.0"/>
+                  <absoluteRenderBounds x="3781.088134765625" y="684.5454711914062" width="106.619140625" height="17.71875"/>
+                  <constraints horizontal="LEFT" vertical="TOP"/>
+                  <style fontFamily="Inter" fontPostScriptName="Inter-SemiBold" textAutoResize="WIDTH_AND_HEIGHT" fontSize="24.0" fontWeight="600" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="29.045454025268555" textAlignHorizontal="LEFT" textAlignVertical="TOP"/>
+                  <fills>
+                    <color r="1.0" g="1.0" b="1.0" a="1.0"/>
+                  </fills>
+                </children>
+              </children>
+            </children>
           </children>
         </children>
       </children>
     </children>
   </document>
-  <components id="149:30">
-    <data key="78f414ac2a605675361c5a78f24672becdeb3601" name="Frame 13" description="" remote="false"/>
+  <components id="632:25">
+    <data key="fbd0aad49ef8c70b9ab46092ab709f674fad31f6" name="Size=48" description="" remote="true" componentSetId="632:24"/>
   </components>
-  <components id="109:11">
-    <data key="7c8b16b5248ca13579c14c39a143a3eb92dc8010" name="Desktop - 2" description="" remote="false"/>
-  </components>
-  <components id="249:162">
-    <data key="7c1753adbe732dd7eab843d57ab9a518699446e8" name="Property 1=Default" description="" remote="false" componentSetId="257:183"/>
-  </components>
-  <components id="263:4">
-    <data key="6b5219f79c034306d8bb489c9970b5b55324a189" name="Property 1=Default" description="" remote="false" componentSetId="264:5"/>
-  </components>
-  <components id="264:6">
-    <data key="eeb70044d90fe8d21ad04ee09400cd23f63e98c1" name="Property 1=Variant2" description="" remote="false" componentSetId="264:5"/>
-  </components>
-  <components id="270:161">
-    <data key="6a48afa8125624f0ce8bf97436ef9f4d2b8c376e" name="Alarm" description="" remote="true"/>
-  </components>
-  <componentSets id="257:183">
-    <data key="ec440e3bd58aff01f585dccdd10085da8544e6c0" name="Input Component" description=""/>
-  </componentSets>
-  <componentSets id="264:5">
-    <data key="5e1da356a226aa076734875faaa3fa70d8bc8145" name="Frame 3" description=""/>
+  <componentSets id="632:24">
+    <data key="5936a810a434bbecd988f31ba741f7f086f9041e" name="Users" description="Keywords: group"/>
   </componentSets>
 </figma_meta_model:FigmaApp>
