@@ -25,9 +25,9 @@ let componentsContent : Sequence(TupleType(name: String, content: String)) =
 
 -- Generate Vite configuration file (vite.config.js)
 let viteConfigContent : String = 
-    'import { defineConfig } from `vite`;\n' +
-    'import react from `@vitejs/plugin-react`;\n' +
-    'import { VitePWA } from `vite-plugin-pwa`;\n' +
+    'import { defineConfig } from \'vite\';\n' +
+    'import react from \'@vitejs/plugin-react\';\n' +
+    'import { VitePWA } from \'vite-plugin-pwa\';\n' +
     '\n' +
     'export default defineConfig({\n' +
     '  plugins: [\n' +
@@ -70,7 +70,8 @@ let packageJsonContent : String =
     '  },\n' +
     '  "dependencies": {\n' +
     '    "react": "^18.2.0",\n' +
-    '    "react-dom": "^18.2.0"\n' +
+    '    "react-dom": "^18.2.0",\n' +
+    '    "react-router-dom": "^6.14.0"\n' +
     '  },\n' +
     '  "devDependencies": {\n' +
     '    "vite": "^4.0.0",\n' +
@@ -89,8 +90,8 @@ let indexHtmlContent : String =
     '  <meta charset="UTF-8" />\n' +
     '  <meta name="viewport" content="width=device-width, initial-scale=1.0" />\n' +
     '  <title>' + appName + '</title>\n' +
-    '  <link rel="manifest" href="/manifest.json"> <!-- Link to manifest <button class="citation-flag" data-index="2"> -->\n' +
-    '  <link rel="icon" type="image/svg+xml" href="/icons/vite.svg"> <!-- SVG favicon <button class="citation-flag" data-index="5"> -->\n' +
+    '  <link rel="manifest" href="/manifest.json">\n' +
+    '  <link rel="icon" type="image/svg+xml" href="/icons/vite.svg">\n' +
     '</head>\n' +
     '<body>\n' +
     '  <div id="root"></div>\n' +
@@ -101,11 +102,11 @@ in
 
 -- Generate main.jsx (entry point for the React app)
 let mainJsxContent : String = 
-    'import React from `react`;\n' +
-    'import ReactDOM from `react-dom/client`;\n' +
-    'import App from `./App.jsx`;\n' +
+    'import React from "react";\n' +
+    'import ReactDOM from "react-dom/client";\n' +
+    'import App from "./App.jsx";\n' +
     '\n' +
-    'const root = ReactDOM.createRoot(document.getElementById(`root`));\n' +
+    'const root = ReactDOM.createRoot(document.getElementById("root"));\n' +
     'root.render(<App />);\n'
 in
 
@@ -114,12 +115,16 @@ Sequence{
     -- Create the main project directory if it doesn't exist
     'mkdir -p ' + projectPath,
     -- Create the src directory if it doesn't exist
-    'mkdir -p ' + outputPath,
+    'mkdir -p ' + outputPath + '/pages',
+    'mkdir -p ' + outputPath + '/components',
     -- Create the public/icons directory if it doesn't exist
     'mkdir -p ' + publicPath + '/icons',
     
     -- Write App.jsx
     appContent.writeTo(outputPath + '/App.jsx'),
+    
+    -- Write main.jsx
+    mainJsxContent.writeTo(outputPath + '/main.jsx'),
     
     -- Write pages
     pagesContent->collect(p | p.content.writeTo(outputPath + '/' + p.name)),
@@ -165,7 +170,25 @@ helper def : toComponentName(name : String) : String =
         endif
     );
 
--- Helper for App.jsx generation
+-- Helper for gathering all pages from routes recursively
+helper def : getAllPages(routes : Sequence(React!Route)) : Set(React!JSXElement) =
+    if routes->isEmpty() then
+        Set{}
+    else
+        routes->iterate(route; result : Set(React!JSXElement) = Set{} |
+            let parentPage : React!JSXElement = route.element in
+            let childPages : Set(React!JSXElement) = 
+                if route.children.oclIsUndefined() or route.children->isEmpty() then
+                    Set{}
+                else
+                    thisModule.getAllPages(route.children)
+                endif
+            in
+            result->including(parentPage)->union(childPages)
+        )
+    endif;
+
+-- Helper for App.jsx generation with nested routes
 helper context React!ReactApplication def : generateApp() : String =
     let router : React!Router = self.router in
     let routes : Sequence(React!Route) = 
@@ -173,28 +196,48 @@ helper context React!ReactApplication def : generateApp() : String =
         else router.route endif
     in
     
+    -- First, collect all page imports from all routes (including nested)
+    let allPages : Set(React!JSXElement) = thisModule.getAllPages(routes) in
+    
     'import React from "react";\n' +
     'import { BrowserRouter as Router, Routes, Route } from "react-router-dom";\n' +
-    routes->collect(r |
-        'import ' + thisModule.toComponentName(r.element.name) + 
-        ' from "./pages/' + thisModule.toComponentName(r.element.name) + '";'
+    allPages->collect(page |
+        'import ' + thisModule.toComponentName(page.name) + 
+        ' from "./pages/' + thisModule.toComponentName(page.name) + '";'
     )->iterate(s; acc : String = '' | acc + '\n' + s) +
     '\n\n' +
     'const App = () => {\n' +
     '  return (\n' +
     '    <Router>\n' +
-    '      <Routes>\n        ' +
-    routes->collect(r | 
-        '<Route path="' + r.path + '" element={<' + 
-        thisModule.toComponentName(r.element.name) + ' />} />'
-    )->iterate(s; acc : String = '' | 
-        acc + if acc = '' then s else '\n        ' + s endif) +
+    '      <Routes>\n' +
+    '        ' + thisModule.generateRoutes(routes, '') +
     '\n      </Routes>\n' +
     '    </Router>\n' +
     '  );\n' +
     '};\n\n' +
     'export default App;';
 
+-- Helper to generate routes recursively
+helper def : generateRoutes(routes : Sequence(React!Route), indent : String) : String =
+    routes->collect(route | 
+        -- Create the route element
+        indent + '<Route path="' + route.path + '" ' + 
+        (if route.exact then 'exact ' else '' endif) + 
+        'element={<' + thisModule.toComponentName(route.element.name) + ' />}' +
+        
+        -- Handle child routes if any
+        (if not route.children.oclIsUndefined() and not route.children->isEmpty() then
+            '>\n' + 
+            thisModule.generateRoutes(route.children, indent + '  ') + 
+            '\n' + indent + '</Route>'
+        else
+            ' />'
+        endif)
+    )->iterate(s; acc : String = '' | 
+        acc + if acc = '' then s else '\n' + indent + s endif
+    );
+
+-- Helper to find components in JSX elements
 helper context React!JSXElement def : findComponents() : Set(React!Component) =
     let directComponents : Set(React!Component) = 
         if self.children.oclIsUndefined() then
@@ -219,9 +262,10 @@ helper context React!JSXElement def : findComponents() : Set(React!Component) =
     directComponents->union(childComponents);
 
 -- Helper for Page file generation
-helper context React!JSXElement def : generatePageFile() : String =
+helper context React!Page def : generatePageFile() : String =
     let components : Set(React!Component) = self.findComponents() in
     'import React from "react";\n' +
+    'import { Outlet } from "react-router-dom";\n' +
     -- Import components
     (if not components->isEmpty() then
         components->collect(c | 
@@ -241,15 +285,48 @@ helper context React!JSXElement def : generatePageFile() : String =
     else
         ''
     endif) +
-    '\n    </div>\n' +
+    '\n      {/* Outlet for nested routes */}\n      <Outlet />\n' +
+    '    </div>\n' +
     '  );\n' +
     '};\n\n' +
     'export default ' + self.name + ';';
 
--- Helper for Component file generation
+-- Helper for Component file generation with props
 helper context React!Component def : generateComponentFile() : String =
+    let hasProps : Boolean = not self.props.oclIsUndefined() and not self.props->isEmpty() in
+    
     'import React from "react";\n\n' +
-    'export const ' + self.name + ' = () => {\n' +
+    (if hasProps then
+        '/**\n * ' + self.name + ' Component\n' +
+        self.props->collect(p | 
+            ' * @param {' + p.type + '} ' + p.name + ' - ' + p.defaultValue
+        )->iterate(s; acc : String = '' | acc + '\n' + s) +
+        '\n */\n'
+    else
+        ''
+    endif) +
+    'export const ' + self.name + ' = (' +
+    (if hasProps then
+        '{ ' + 
+        self.props->collect(p | 
+            p.name + ' = ' + 
+            (if p.type = 'boolean' then
+                p.defaultValue.toString().toLowerCase()
+            else
+                '"' + p.defaultValue + '"'
+            endif)
+        )->iterate(s; acc : String = '' | 
+            acc + if acc = '' then s else ', ' + s endif) + 
+        ' }'
+    else
+        ''
+    endif) +
+    ') => {\n' +
+    (if self.isInstance then
+        '  // Instance of a component with props\n'
+    else
+        ''
+    endif) +
     '  return (\n    ' +
     (if not self.children.oclIsUndefined() and not self.children->isEmpty() then
         self.children->collect(c | c.generateElement())->
@@ -261,16 +338,64 @@ helper context React!Component def : generateComponentFile() : String =
     '\n  );\n' +
     '};\n';
 
+-- Helper to fix RGBA color format issues
+helper def : fixRgbaFormat(styleString : String) : String =
+    let rgbaParts : Sequence(String) = styleString.split('rgba(') in
+    
+    if rgbaParts->size() <= 1 then
+        -- No rgba values found
+        styleString
+    else
+        -- Process each rgba part
+        rgbaParts->first() + 
+        rgbaParts->subSequence(2, rgbaParts->size())->iterate(part; result : String = '' |
+            let closingParen : Integer = part.indexOf(')') in
+            if closingParen > 0 then
+                let colorValues : String = part.substring(1, closingParen) in
+                let rest : String = part.substring(closingParen + 1, part.size()) in
+                
+                -- Fix malformed rgba values
+                let fixedColorValues : String = colorValues.regexReplaceAll(', ([0-9]+)[^0-9]', ', $1.') in
+                
+                result + 'rgba(' + fixedColorValues + ')' + rest
+            else
+                result + part
+            endif
+        )
+    endif;
+
 -- Helper for JSX element generation
 helper context React!JSXElement def : generateElement() : String =
     let hasChildren : Boolean = not self.children.oclIsUndefined() and not self.children->isEmpty() in
-    let hasContent : Boolean = not self.content.oclIsUndefined() in
+    let hasContent : Boolean = not self.content.oclIsUndefined() and self.content <> '' in
     let attrs : String = self.generateAttributes() in
     
     if self.oclIsTypeOf(React!Component) then
-        '<' + self.name + ' />'
+        -- For component instances, include props when available
+        let component : React!Component = self in
+        let componentProps : String = 
+            if not component.props.oclIsUndefined() and not component.props->isEmpty() then
+                ' ' + 
+                component.props->collect(p | 
+                    p.name + '={' + 
+                    if p.type = 'boolean' then
+                        if p.value = 'true' or p.value = 'True' then
+                            'true'
+                        else
+                            'false'
+                        endif
+                    else
+                        '"' + p.value + '"'
+                    endif + '}'
+                )->iterate(s; acc : String = '' | 
+                    acc + if acc = '' then s else ' ' + s endif)
+            else
+                ''
+            endif
+        in
+        '<' + component.name + componentProps + ' />'
     else if self.oclIsTypeOf(React!HTMLElement) then
-        if self.name = 'input' then
+        if self.isSelfClosing = true then
             '<' + self.name + attrs + ' />'
         else if hasContent then
             '<' + self.name + attrs + '>' + self.content.toString() + '</' + self.name + '>'
@@ -279,7 +404,7 @@ helper context React!JSXElement def : generateElement() : String =
             self.children->collect(c | '        ' + c.generateElement())->
             iterate(s; acc : String = '' | 
                 acc + if acc = '' then s else '\n' + s endif) +
-            '\n</' + self.name + '>'
+            '\n      </' + self.name + '>'
         else
             '<' + self.name + attrs + '></' + self.name + '>'
         endif endif endif
@@ -296,6 +421,73 @@ helper context React!JSXElement def : generateElement() : String =
         '</' + self.name + '>'
     endif endif;
 
+-- Helper to fix RGBA values in style strings
+helper def : fixRgbaColors(styleStr : String) : String =
+    -- First check if we have rgba in the string
+    if styleStr.indexOf('rgba') = -1 then
+        styleStr
+    else
+        -- Use a simpler string-based approach to fix rgba values
+        let result : String = '' in
+        let remaining : String = styleStr in
+        let fixed : String = 
+            -- Process the string from left to right
+            if remaining.indexOf('rgba') <> -1 then
+                -- Part before rgba
+                let beforeRgba : String = remaining.substring(1, remaining.indexOf('rgba')) in
+                -- Get the remaining string starting with 'rgba'
+                let fromRgba : String = remaining.substring(remaining.indexOf('rgba'), remaining.size()) in
+                -- Find the closing parenthesis
+                let closeParen : Integer = 
+                    if fromRgba.indexOf(')') <> -1 then
+                        fromRgba.indexOf(')')
+                    else
+                        fromRgba.size() - 1
+                    endif
+                in
+                -- Extract the rgba value including the closing parenthesis
+                let rgbaValue : String = fromRgba.substring(1, closeParen + 1) in
+                -- Get the part after the rgba value
+                let afterRgba : String = 
+                    if closeParen + 1 < fromRgba.size() then
+                        fromRgba.substring(closeParen + 1, fromRgba.size())
+                    else
+                        ''
+                    endif
+                in
+                
+                -- Build the fixed string with proper formatting
+                -- Replace any missing decimals in the rgba values
+                let fixedRgba : String = 
+                    rgbaValue.regexReplaceAll('([0-9]+)([^0-9.)])', '$1.0$2')
+                in
+                
+                beforeRgba + fixedRgba + afterRgba
+            else
+                remaining
+            endif
+        in
+        fixed
+    endif;
+
+-- Direct manual fix for common backgroundColor values
+helper def : fixBackgroundColor(styleStr : String) : String =
+    -- First fix the extra quotes around rgba values
+    let fixedQuotes : String = styleStr.regexReplaceAll('""([^"]*)"', '"$1"') in
+    
+    -- Fix specific patterns for rgba values 
+    let fixedRgba : String = 
+        fixedQuotes
+        -- Fix "rgba(0", 0, 0, 0.0)" pattern
+        .regexReplaceAll('"rgba\\(([0-9]+)"\\s*,\\s*([0-9]+)\\s*,\\s*([0-9]+)\\s*,\\s*([0-9.]+)\\)"', 
+                      '"rgba($1, $2, $3, $4)"')
+        -- Fix "transparent"" pattern
+        .regexReplaceAll('"transparent""', '"transparent"')
+    in
+    
+    fixedRgba;
+
+-- Helper for properly formatting style attributes using simple direct fixes
 helper context React!JSXElement def : generateAttributes() : String =
    let attrs : Sequence(String) = 
        if self.oclIsTypeOf(React!HTMLElement) then
@@ -303,19 +495,29 @@ helper context React!JSXElement def : generateAttributes() : String =
            if not htmlElement.attributes.oclIsUndefined() then
                htmlElement.attributes->collect(a | 
                    if a.name = 'style' then
-                       let styleValue : String = 
-                           if a.value.startsWith('{') then
-                               -- For object style notation
-                               a.value.substring(2, a.value.size() - 1)
-                                   .regexReplaceAll('([a-zA-Z]+): ([^,}]+)', '$1: "$2"')
+                       let rawStyle : String = a.value in
+                       
+                       -- Step 1: Clean the style string (remove braces if present)
+                       let cleanedStyle : String = 
+                           if rawStyle.startsWith('{') and rawStyle.endsWith('}') then
+                               rawStyle.substring(2, rawStyle.size() - 1)
                            else
-                               -- For inline style notation 
-                               a.value.trim()
-                                   .regexReplaceAll('([^:]+): ([^;]+);?', '$1: "$2"')
-                                   .regexReplaceAll(', *$', '')
+                               rawStyle.trim()
                            endif
                        in
-                       'style={{' + styleValue + '}}'
+                       
+                       -- Add basic quotes around values
+                       let basicFormatting : String =
+                           cleanedStyle.regexReplaceAll('([a-zA-Z]+):\\s*([^,{}:"]+)(,|$)', '$1: "$2"$3')
+                           -- Remove quotes from numbers
+                           .regexReplaceAll('"([0-9]+(\\.?[0-9]*)?)"', '$1')
+                       in
+                       
+                       -- Fix backgroundColor values
+                       let fixedStyle : String = thisModule.fixBackgroundColor(basicFormatting) in
+                       
+                       -- Return the formatted style attribute
+                       'style={{' + fixedStyle.trim() + '}}'
                    else if a.name = 'id' then
                        'id="' + a.value + '"'
                    else
