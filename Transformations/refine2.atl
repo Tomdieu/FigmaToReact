@@ -1,0 +1,585 @@
+-- @path React=/Figma2React/Metamodel/react_meta_model.ecore
+
+query refine = 
+let app : React!ReactApplication = React!ReactApplication.allInstances()->first() in
+let appName : String = if not app.name.oclIsUndefined() then app.name else 'UnnamedApp' endif in
+let appContent : String = app.generateApp() in
+
+-- Define project path and output path using the app's name
+let projectPath : String = '/Figma2React/' + appName in
+let outputPath : String = projectPath + '/src' in
+let publicPath : String = projectPath + '/public' in
+let iconsPath : String = publicPath + '/icons/vite.svg' in
+
+-- Generate pages content
+let pagesContent : Sequence(TupleType(name: String, content: String)) = 
+    React!Page.allInstances()->collect(p | 
+        Tuple{name = 'pages/' + p.name + '.jsx', content = p.generatePageFile()}
+    ) in
+
+-- Generate components content
+let componentsContent : Sequence(TupleType(name: String, content: String)) = 
+    React!Component.allInstances()->collect(c | 
+        Tuple{name = 'components/' + c.name + '.jsx', content = c.generateComponentFile()}
+    ) in
+
+-- Generate Vite configuration file (vite.config.js)
+let viteConfigContent : String = 
+    'import { defineConfig } from \'vite\';\n' +
+    'import react from \'@vitejs/plugin-react\';\n' +
+    'import { VitePWA } from \'vite-plugin-pwa\';\n' +
+    '\n' +
+    'export default defineConfig({\n' +
+    '  plugins: [\n' +
+    '    react(),\n' +
+    '    VitePWA({\n' +
+    '      registerType: "autoUpdate",\n' +
+    '      includeAssets: ["favicon.ico", "apple-touch-icon.png"],\n' +
+    '      manifest: {\n' +
+    '        name: "' + appName + '",\n' +
+    '        short_name: "' + appName + '",\n' +
+    '        description: "A progressive web app built with React and Vite.",\n' +
+    '        theme_color: "#ffffff",\n' +
+    '        icons: [\n' +
+    '          {\n' +
+    '            src: "/android-chrome-192x192.png",\n' +
+    '            sizes: "192x192",\n' +
+    '            type: "image/png"\n' +
+    '          },\n' +
+    '          {\n' +
+    '            src: "/android-chrome-512x512.png",\n' +
+    '            sizes: "512x512",\n' +
+    '            type: "image/png"\n' +
+    '          }\n' +
+    '        ]\n' +
+    '      }\n' +
+    '    })\n' +
+    '  ]\n' +
+    '});\n'
+in
+
+-- Generate package.json with PWA plugin dependency
+let packageJsonContent : String = 
+    '{\n' +
+    '  "name": "' + appName.toLowerCase() + '",\n' +
+    '  "version": "1.0.0",\n' +
+    '  "scripts": {\n' +
+    '    "dev": "vite",\n' +
+    '    "build": "vite build",\n' +
+    '    "preview": "vite preview"\n' +
+    '  },\n' +
+    '  "dependencies": {\n' +
+    '    "react": "^18.2.0",\n' +
+    '    "react-dom": "^18.2.0",\n' +
+    '    "react-router-dom": "^6.14.0"\n' +
+    '  },\n' +
+    '  "devDependencies": {\n' +
+    '    "vite": "^4.0.0",\n' +
+    '    "@vitejs/plugin-react": "^3.0.0",\n' +
+    '    "vite-plugin-pwa": "^0.14.0",\n' +
+    '    "vite-plugin-svg-icons": "^2.0.0"\n' +
+    '  }\n' +
+    '}\n'
+in
+
+-- Generate index.html with reference to SVG icon
+let indexHtmlContent : String = 
+    '<!DOCTYPE html>\n' +
+    '<html lang="en">\n' +
+    '<head>\n' +
+    '  <meta charset="UTF-8" />\n' +
+    '  <meta name="viewport" content="width=device-width, initial-scale=1.0" />\n' +
+    '  <title>' + appName + '</title>\n' +
+    '  <link rel="manifest" href="/manifest.json">\n' +
+    '  <link rel="icon" type="image/svg+xml" href="/icons/vite.svg">\n' +
+    '</head>\n' +
+    '<body>\n' +
+    '  <div id="root"></div>\n' +
+    '  <script type="module" src="/src/main.jsx"></script>\n' +
+    '</body>\n' +
+    '</html>\n'
+in
+
+-- Generate main.jsx (entry point for the React app)
+let mainJsxContent : String = 
+    'import React from "react";\n' +
+    'import ReactDOM from "react-dom/client";\n' +
+    'import App from "./App.jsx";\n' +
+    '\n' +
+    'const root = ReactDOM.createRoot(document.getElementById("root"));\n' +
+    'root.render(<App />);\n'
+in
+
+-- Write all files to the appropriate locations
+Sequence{
+    -- Create the main project directory if it doesn't exist
+    'mkdir -p ' + projectPath,
+    -- Create the src directory if it doesn't exist
+    'mkdir -p ' + outputPath + '/pages',
+    'mkdir -p ' + outputPath + '/components',
+    -- Create the public/icons directory if it doesn't exist
+    'mkdir -p ' + publicPath + '/icons',
+    
+    -- Write App.jsx
+    appContent.writeTo(outputPath + '/App.jsx'),
+    
+    -- Write main.jsx
+    mainJsxContent.writeTo(outputPath + '/main.jsx'),
+    
+    -- Write pages
+    pagesContent->collect(p | p.content.writeTo(outputPath + '/' + p.name)),
+    
+    -- Write components
+    componentsContent->collect(c | c.content.writeTo(outputPath + '/' + c.name)),
+    
+    -- Write Vite configuration file
+    viteConfigContent.writeTo(projectPath + '/vite.config.js'),
+    
+    -- Write package.json
+    packageJsonContent.writeTo(projectPath + '/package.json'),
+    
+    -- Write index.html in the root folder
+    indexHtmlContent.writeTo(projectPath + '/index.html'),
+    
+    -- Write the Vite SVG icon to the public/icons directory
+    '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="iconify iconify--logos" width="31.88" height="32" preserveAspectRatio="xMidYMid meet" viewBox="0 0 256 257"><defs><linearGradient id="IconifyId1813088fe1fbc01fb466" x1="-.828%" x2="57.636%" y1="7.652%" y2="78.411%"><stop offset="0%" stop-color="#41D1FF"/><stop offset="100%" stop-color="#BD34FE"/></linearGradient><linearGradient id="IconifyId1813088fe1fbc01fb467" x1="43.376%" x2="50.316%" y1="2.242%" y2="89.03%"><stop offset="0%" stop-color="#FFEA83"/><stop offset="8.333%" stop-color="#FFDD35"/><stop offset="100%" stop-color="#FFA800"/></linearGradient></defs><path fill="url(#IconifyId1813088fe1fbc01fb466)" d="M255.153 37.938L134.897 252.976c-2.483 4.44-8.862 4.466-11.382.048L.875 37.958c-2.746-4.814 1.371-10.646 6.827-9.67l120.385 21.517a6.537 6.537 0 0 0 2.322-.004l117.867-21.483c5.438-.991 9.574 4.796 6.877 9.62Z"/><path fill="url(#IconifyId1813088fe1fbc01fb467)" d="M185.432.063L96.44 17.501a3.268 3.268 0 0 0-2.634 3.014l-5.474 92.456a3.268 3.268 0 0 0 3.997 3.378l24.777-5.718c2.318-.535 4.413 1.507 3.936 3.838l-7.361 36.047c-.495 2.426 1.782 4.5 4.151 3.78l15.304-4.649c2.372-.72 4.652 1.36 4.15 3.788l-11.698 56.621c-.732 3.542 3.979 5.473 5.943 2.437l1.313-2.028l72.516-144.72c1.215-2.423-.88-5.186-3.54-4.672l-25.505 4.922c-2.396.462-4.435-1.77-3.759-4.114l16.646-57.705c.677-2.35-1.37-4.583-3.769-4.113Z"/></svg>'.writeTo(iconsPath)
+}->flatten();
+
+-- Helper for kebab-case to camelCase conversion
+helper def : toCamelCase(str : String) : String =
+    if str.indexOf('-') = -1 then
+        str
+    else
+        let parts : Sequence(String) = str.split('-') in
+        parts->first() + 
+        parts->subSequence(2, parts->size())->collect(p |
+            p.substring(1, 1).toUpper() + p.substring(2, p.size())
+        )->iterate(s; acc : String = '' | acc + s)
+    endif;
+
+helper def : toComponentName(name : String) : String =
+    if name.oclIsUndefined() then
+        'UnknownComponent'
+    else
+        let words : Sequence(String) = 
+            name.split(' ')->reject(w | w = '')
+        in
+        words->iterate(w; acc : String = '' | 
+            acc + w.substring(1, 1).toUpper() + 
+            if w.size() > 1 then
+                w.substring(2, w.size())
+            else
+                ''
+            endif
+        )
+    endif;
+
+-- Helper for gathering all pages from routes recursively
+helper def : getAllPages(routes : Sequence(React!Route)) : Set(React!JSXElement) =
+    if routes->isEmpty() then
+        Set{}
+    else
+        routes->iterate(route; result : Set(React!JSXElement) = Set{} |
+            let parentPage : React!JSXElement = 
+                if route.element.oclIsUndefined() then
+                    OclUndefined
+                else 
+                    route.element
+                endif
+            in
+            let childPages : Set(React!JSXElement) = 
+                if route.children.oclIsUndefined() or route.children->isEmpty() then
+                    Set{}
+                else
+                    thisModule.getAllPages(route.children)
+                endif
+            in
+            if parentPage.oclIsUndefined() then
+                result->union(childPages)
+            else
+                result->including(parentPage)->union(childPages)
+            endif
+        )
+    endif;
+
+-- Helper for App.jsx generation with nested routes
+helper context React!ReactApplication def : generateApp() : String =
+    let router : React!Router = self.router in
+    let routes : Sequence(React!Route) = 
+        if router.oclIsUndefined() then Sequence{} 
+        else router.route endif
+    in
+    
+    -- First, collect all page imports from all routes (including nested)
+    let allPages : Set(React!JSXElement) = thisModule.getAllPages(routes) in
+    let validPages : Set(React!JSXElement) = allPages->reject(page | page.oclIsUndefined()) in
+    
+    'import React from "react";\n' +
+    'import { BrowserRouter as Router, Routes, Route } from "react-router-dom";\n' +
+    validPages->collect(page |
+        'import ' + thisModule.toComponentName(page.name) + 
+        ' from "./pages/' + thisModule.toComponentName(page.name) + '";'
+    )->iterate(s; acc : String = '' | acc + '\n' + s) +
+    '\n\n' +
+    'const App = () => {\n' +
+    '  return (\n' +
+    '    <Router>\n' +
+    '      <Routes>\n' +
+    '        ' + thisModule.generateRoutes(routes, '') +
+    '\n      </Routes>\n' +
+    '    </Router>\n' +
+    '  );\n' +
+    '};\n\n' +
+    'export default App;';
+
+-- Helper to generate routes recursively
+helper def : generateRoutes(routes : Sequence(React!Route), indent : String) : String =
+    routes->collect(route | 
+        -- Only create route elements for routes that have an element
+        if route.element.oclIsUndefined() then
+            -- Skip routes without elements but still process children
+            if not route.children.oclIsUndefined() and not route.children->isEmpty() then
+                thisModule.generateRoutes(route.children, indent)
+            else
+                ''
+            endif
+        else
+            -- Create the route element
+            indent + '<Route path="' + route.path + '" ' + 
+            (if route.exact then 'exact ' else '' endif) + 
+            'element={<' + thisModule.toComponentName(route.element.name) + ' />}' +
+            
+            -- Handle child routes if any
+            (if not route.children.oclIsUndefined() and not route.children->isEmpty() then
+                '>\n' + 
+                thisModule.generateRoutes(route.children, indent + '  ') + 
+                '\n' + indent + '</Route>'
+            else
+                ' />'
+            endif)
+        endif
+    )->reject(s | s = '')->iterate(s; acc : String = '' | 
+        acc + if acc = '' then s else '\n' + indent + s endif
+    );
+
+-- Helper to find components in JSX elements
+helper context React!JSXElement def : findComponents() : Set(React!Component) =
+    let directComponents : Set(React!Component) = 
+        if self.children.oclIsUndefined() then
+            Set{}
+        else
+            self.children->select(c | c.oclIsTypeOf(React!Component))->asSet()
+        endif
+    in
+    let childComponents : Set(React!Component) =
+        if self.children.oclIsUndefined() then
+            Set{}
+        else
+            self.children->iterate(child; acc : Set(React!Component) = Set{} |
+                if child.oclIsTypeOf(React!Component) then
+                    acc
+                else
+                    acc->union(child.findComponents())
+                endif
+            )
+        endif
+    in
+    directComponents->union(childComponents);
+
+-- Helper for Page file generation
+helper context React!Page def : generatePageFile() : String =
+    let components : Set(React!Component) = 
+        if self.oclIsUndefined() then
+            Set{}
+        else
+            self.findComponents()
+        endif
+    in
+    'import React from "react";\n' +
+    'import { Outlet } from "react-router-dom";\n' +
+    -- Import components
+    (if not components->isEmpty() then
+        components->collect(c | 
+            'import { ' + c.name + ' } from "../components/' + c.name + '";'
+        )->iterate(s; acc : String = '' | acc + '\n' + s)
+    else
+        ''
+    endif) +
+    '\n\n' +
+    'const ' + self.name + ' = () => {\n' +
+    '  return (\n' +
+    '    <div className="page">\n      ' +
+    (if not self.children.oclIsUndefined() and not self.children->isEmpty() then
+        self.children->collect(c | c.generateElement())->
+        iterate(s; acc : String = '' | 
+            acc + if acc = '' then s else '\n      ' + s endif)
+    else
+        ''
+    endif) +
+    '\n      {/* Outlet for nested routes */}\n      <Outlet />\n' +
+    '    </div>\n' +
+    '  );\n' +
+    '};\n\n' +
+    'export default ' + self.name + ';';
+
+-- Helper for Component file generation with props
+helper context React!Component def : generateComponentFile() : String =
+    let hasProps : Boolean = not self.props.oclIsUndefined() and not self.props->isEmpty() in
+    
+    'import React from "react";\n\n' +
+    (if hasProps then
+        '/**\n * ' + self.name + ' Component\n' +
+        self.props->collect(p | 
+            ' * @param {' + (if p.type.oclIsUndefined() then 'any' else p.type endif) + '} ' + 
+            p.name + ' - ' + (if p.defaultValue.oclIsUndefined() then '' else p.defaultValue endif)
+        )->iterate(s; acc : String = '' | acc + '\n' + s) +
+        '\n */\n'
+    else
+        ''
+    endif) +
+    'export const ' + self.name + ' = (' +
+    (if hasProps then
+        '{ ' + 
+        self.props->collect(p | 
+            p.name + ' = ' + 
+            if p.defaultValue.oclIsUndefined() then
+                if p.type = 'boolean' then 'false' else '""' endif
+            else
+                if p.type = 'boolean' then
+                    p.defaultValue.toString().toLowerCase()
+                else
+                    '"' + p.defaultValue + '"'
+                endif
+            endif
+        )->iterate(s; acc : String = '' | 
+            acc + if acc = '' then s else ', ' + s endif) + 
+        ' }'
+    else
+        ''
+    endif) +
+    ') => {\n' +
+    (if self.isInstance then
+        '  // Instance of a component with props\n'
+    else
+        ''
+    endif) +
+    '  return (\n    ' +
+    (if not self.children.oclIsUndefined() and not self.children->isEmpty() then
+        self.children->collect(c | c.generateElement())->
+        iterate(s; acc : String = '' | 
+            acc + if acc = '' then s else '\n    ' + s endif)
+    else
+        ''
+    endif) +
+    '\n  );\n' +
+    '};\n';
+
+-- Helper to fix RGBA color format issues
+helper def : fixRgbaFormat(styleString : String) : String =
+    if styleString.oclIsUndefined() then
+        ''
+    else
+        let rgbaParts : Sequence(String) = styleString.split('rgba(') in
+        
+        if rgbaParts->size() <= 1 then
+            -- No rgba values found
+            styleString
+        else
+            -- Process each rgba part
+            rgbaParts->first() + 
+            rgbaParts->subSequence(2, rgbaParts->size())->iterate(part; result : String = '' |
+                let closingParen : Integer = part.indexOf(')') in
+                if closingParen > 0 then
+                    let colorValues : String = part.substring(1, closingParen) in
+                    let rest : String = part.substring(closingParen + 1, part.size()) in
+                    
+                    -- Fix malformed rgba values
+                    let fixedColorValues : String = colorValues.regexReplaceAll(', ([0-9]+)[^0-9]', ', $1.') in
+                    
+                    result + 'rgba(' + fixedColorValues + ')' + rest
+                else
+                    result + part
+                endif
+            )
+        endif
+    endif;
+
+-- Helper for JSX element generation
+helper context React!JSXElement def : generateElement() : String =
+    if self.oclIsUndefined() then
+        '<!-- Undefined element -->'
+    else
+        let hasChildren : Boolean = not self.children.oclIsUndefined() and not self.children->isEmpty() in
+        let hasContent : Boolean = not self.content.oclIsUndefined() and self.content <> '' in
+        let attrs : String = self.generateAttributes() in
+        
+        if self.oclIsTypeOf(React!Component) then
+            -- For component instances, include props when available
+            let component : React!Component = self in
+            let componentProps : String = 
+                if not component.props.oclIsUndefined() and not component.props->isEmpty() then
+                    ' ' + 
+                    component.props->collect(p | 
+                        p.name + '={' + 
+                        if p.type = 'boolean' then
+                            if p.value = 'true' or p.value = 'True' then
+                                'true'
+                            else
+                                'false'
+                            endif
+                        else
+                            '"' + p.value + '"'
+                        endif + '}'
+                    )->iterate(s; acc : String = '' | 
+                        acc + if acc = '' then s else ' ' + s endif)
+                else
+                    ''
+                endif
+            in
+            '<' + component.name + componentProps + ' />'
+        else if self.oclIsTypeOf(React!HTMLElement) then
+            let htmlElement : React!HTMLElement = self in
+            if htmlElement.isSelfClosing = true then
+                '<' + self.name + attrs + ' />'
+            else if hasContent then
+                '<' + self.name + attrs + '>' + self.content.toString() + '</' + self.name + '>'
+            else if hasChildren then
+                '<' + self.name + attrs + '>\n' +
+                self.children->collect(c | '        ' + c.generateElement())->
+                iterate(s; acc : String = '' | 
+                    acc + if acc = '' then s else '\n' + s endif) +
+                '\n      </' + self.name + '>'
+            else
+                '<' + self.name + attrs + '></' + self.name + '>'
+            endif endif endif
+        else
+            '<' + self.name + attrs + '>' +
+            (if hasChildren then
+                '\n' + 
+                self.children->collect(c | c.generateElement())->
+                iterate(s; acc : String = '' | 
+                    acc + if acc = '' then s else '\n' + s endif)
+            else
+                ''
+            endif) +
+            '</' + self.name + '>'
+        endif endif
+    endif;
+
+-- Helper to fix styles that may already contain curly braces
+helper def : fixStylePattern(styleStr : String) : String =
+    if styleStr.oclIsUndefined() then
+        '{}'
+    else
+        -- Check if the style string already contains JavaScript-style object notation
+        let trimmedStyle : String = styleStr.trim() in
+        
+        -- If it starts with {{ (doubled braces), adjust it
+        if trimmedStyle.startsWith('{{') and trimmedStyle.endsWith('}}') then
+            -- Already has double braces, so it's likely already in the correct format
+            trimmedStyle
+        else if trimmedStyle.startsWith('{') and trimmedStyle.endsWith('}') then
+            -- Has single braces from transform.atl, wrap it with another set for JSX
+            -- This is the standard case from our transform.atl
+            '{{' + trimmedStyle.substring(1, trimmedStyle.size() - 1) + '}}'
+        else
+            -- No braces, treat as a raw style string and wrap it
+            '{{' + trimmedStyle + '}}'
+        endif endif
+    endif;
+
+-- Direct manual fix for common backgroundColor values that might be in different formats
+helper def : fixBackgroundColor(styleStr : String) : String =
+    if styleStr.oclIsUndefined() then
+        ''
+    else
+        -- First fix the extra quotes around rgba values
+        let fixedQuotes : String = styleStr.regexReplaceAll('""([^"]*)"', '"$1"') in
+        
+        -- Fix specific patterns for rgba values 
+        let fixedRgba : String = 
+            fixedQuotes
+            -- Fix "rgba(0", 0, 0, 0.0)" pattern
+            .regexReplaceAll('"rgba\\(([0-9]+)"\\s*,\\s*([0-9]+)\\s*,\\s*([0-9]+)\\s*,\\s*([0-9.]+)\\)"', 
+                        '"rgba($1, $2, $3, $4)"')
+            -- Fix "transparent"" pattern
+            .regexReplaceAll('"transparent""', '"transparent"')
+            -- Fix semicolons that should be commas in styles
+            .regexReplaceAll(';', ',')
+        in
+        
+        fixedRgba
+    endif;
+
+-- Helper for properly formatting style attributes in JSX elements
+helper context React!JSXElement def : generateAttributes() : String =
+    if self.oclIsUndefined() then
+        ''
+    else
+        let attrs : Sequence(String) = 
+            if self.oclIsTypeOf(React!HTMLElement) then
+                let htmlElement : React!HTMLElement = self in
+                if not htmlElement.attributes.oclIsUndefined() then
+                    htmlElement.attributes->collect(a | 
+                        if a.oclIsUndefined() then
+                            ''
+                        else 
+                            if a.name.oclIsUndefined() then
+                                ''
+                            else 
+                                if a.name = 'style' then
+                                    if a.value.oclIsUndefined() then
+                                        ''
+                                    else
+                                        -- Get the raw style string
+                                        let rawStyle : String = a.value in
+                                        
+										'style=' + rawStyle.substring(1, rawStyle.size() - 1) + '}'
+                                        -- -- Check for existing brace format and correct it
+                                        -- if rawStyle.startsWith('{{') and rawStyle.endsWith('}}') then
+                                        --     -- Style already has double braces, convert to proper JSX format
+                                        --     'style=' + rawStyle.substring(1, rawStyle.size() - 1) + ''
+                                        -- else if rawStyle.startsWith('{') and rawStyle.endsWith('}') then
+                                        --     -- Style has single braces, add another set for JSX
+                                        --     'style={{' + rawStyle.substring(1, rawStyle.size() - 1) + '}}'
+                                        -- else
+                                        --     -- No braces at all, wrap with double braces
+                                        --     'style={{' + rawStyle + '}}'
+                                        -- endif endif
+                                    endif
+                                else 
+                                    if a.name = 'id' then
+                                        if a.value.oclIsUndefined() then
+                                            ''
+                                        else
+                                            'id="' + a.value + '"'
+                                        endif
+                                    else
+                                        if a.value.oclIsUndefined() then
+                                            a.name
+                                        else
+                                            a.name + '="' + a.value + '"'
+                                        endif
+                                    endif
+                                endif
+                            endif
+                        endif
+                    )->reject(s | s = '')
+                else
+                    Sequence {}
+                endif
+            else
+                Sequence {}
+            endif
+        in
+        
+        -- Combine all attributes with spaces
+        if attrs->isEmpty() then
+            ''
+        else
+            ' ' + attrs->iterate(s; acc : String = '' | 
+                acc + if acc = '' then s else ' ' + s endif)
+        endif
+    endif;
+
+
