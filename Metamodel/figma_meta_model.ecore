@@ -112,6 +112,10 @@
         eType="#//LayoutGrid" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="individualStrokeWeights"
         upperBound="-1" eType="#//StrokeWeight" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="paddingLeft" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="paddingRight" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="paddingTop" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="paddingBottom" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Interaction">
     <eStructuralFeatures xsi:type="ecore:EReference" name="trigger" eType="#//Trigger"
@@ -144,6 +148,7 @@
     <eLiterals name="LEFT" literal="LEFT"/>
     <eLiterals name="RIGHT" literal="RIGHT"/>
     <eLiterals name="SCALE" value="2"/>
+    <eLiterals name="CENTER" value="3"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="TransitionType">
     <eLiterals name="PUSH"/>
@@ -152,6 +157,7 @@
     <eLiterals name="BOTTOM"/>
     <eLiterals name="TOP"/>
     <eLiterals name="SCALE" value="2"/>
+    <eLiterals name="CENTER" value="3"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ComponentPropertyDefinition">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//ComponentPropertyDefinitionType"/>
@@ -397,6 +403,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="AxisAlign">
     <eLiterals name="CENTER"/>
+    <eLiterals name="MAX" value="1"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="Directions">
     <eLiterals name="LEFT"/>
@@ -420,7 +427,7 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="blenMode" lowerBound="1"
         eType="#//BlendMode"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//EffectType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//EffectType"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ComponentProperty">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
