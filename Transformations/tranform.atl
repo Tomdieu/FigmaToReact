@@ -1,0 +1,2284 @@
+-- @path ReactMM=/Figma2React/Metamodel/react_meta_model.ecore
+-- @path FigmaMM=/Figma2React/Metamodel/FigmaMM.ecore
+
+
+module tranform;
+create OUT: ReactMM from IN: FigmaMM;
+
+-- Class Helper functions
+
+helper context FigmaMM!Children def: isCanvas(): Boolean =
+        if self.type.toString() = 'CANVAS' then
+                true
+        else
+                false
+        endif;
+
+helper context FigmaMM!Children def: isFrame(): Boolean =
+        if self.type.toString() = 'FRAME' then
+                true
+        else
+                false
+        endif;
+
+helper context FigmaMM!Children def: isRectangle(): Boolean =
+        if self.type.toString() = 'RECTANGLE' then
+                true
+        else
+                false
+        endif;
+
+helper context FigmaMM!Children def: isText(): Boolean =
+        if self.type.toString() = 'TEXT' then
+                true
+        else
+                false
+        endif;
+
+helper context FigmaMM!Children def: isLine(): Boolean =
+        if self.type.toString() = 'LINE' then
+                true
+        else
+                false
+        endif;
+
+helper context FigmaMM!Children def: isComponent(): Boolean =
+        if self.type.toString() = 'COMPONENT' then
+                true
+        else
+                false
+        endif;
+
+helper context FigmaMM!Children def: isComponentSet(): Boolean =
+        if self.type.toString() = 'COMPONENT_SET' then
+                true
+        else
+                false
+        endif;
+
+helper context FigmaMM!Children def: isDocument(): Boolean =
+        if self.type.toString() = 'DOCUMENT' then
+                true
+        else
+                false
+        endif;
+
+helper context FigmaMM!Children def: isInstance(): Boolean =
+        if self.type.toString() = 'INSTANCE' then
+                true
+        else
+                false
+        endif;
+
+helper context FigmaMM!Children def: isVector(): Boolean =
+        if self.type.toString() = 'VECTOR' then
+                true
+        else
+                false
+        endif;
+
+helper context FigmaMM!Children def: isEllipse(): Boolean =
+        if self.type.toString() = 'ELLIPSE' then
+                true
+        else
+                false
+        endif;
+
+helper context FigmaMM!Children def: isGroup(): Boolean =
+        if self.type.totarget_pattern_nameString() = 'GROUP' then
+                true
+        else
+                false
+        endif;
+
+helper context FigmaMM!Children def: isRegularPolygon(): Boolean =
+        if self.type.toString() = 'REGULAR_POLYGON' then
+                true
+        else
+                false
+        endif;
+
+-- End class helper function
+-- other helpers
+helper context FigmaMM!Children def: isScreenOrPage(): Boolean =
+        if self.type.toString() = 'FRAME' and not self.name.oclIsUndefined() and ((self.name.
+                        toString().toLower().indexOf('screen') <> -1) or (self.name.toString().
+                        toLower().indexOf('page') <> -1)) then
+                true
+        else
+                false
+        endif;
+
+-- Helper to check if a frame is a button container
+helper context FigmaMM!FRAME def: isButtonContainer(): Boolean =
+        if self.isFrame() and not self.name.oclIsUndefined() and self.name.toString().
+                        toLowerCase().indexOf('button') <> -1 and not self.children.oclIsUndefined()
+                        and not self.children -> isEmpty() and self.children -> exists(c | c.
+                        isText()) then
+                true
+        else
+                false
+        endif;
+
+helper context FigmaMM!Children def: isCheckbox(): Boolean =
+        if self.type.toString() = 'FRAME' or 'RECTANGLE' then
+                if not self.name.oclIsUndefined() and self.name.toLowerCase().indexOf('checkbox')
+                                <> -1 then
+                        true
+                else
+                        false
+                endif
+        else
+                false
+        endif;
+
+helper context FigmaMM!FRAME def: isForm(): Boolean =
+        if self.type.toString() = 'FRAME' and not self.name.toString().oclIsUndefined() and
+                        self.name.toString().toLower().indexOf('form') <> -1 then
+                true
+        else
+                false
+        endif;
+
+-- Helper to check if an element has click navigation
+helper context FigmaMM!Children def: hasClickNavigation(): Boolean =
+        if self.interactions.oclIsUndefined() or self.interactions -> isEmpty() then
+                false
+        else
+                self.interactions -> exists(i | not i.trigger.oclIsUndefined() and i.trigger.type
+                                = 'ON_CLICK' and not i.actions.oclIsUndefined() and not i.actions ->
+                                isEmpty() and i.actions -> exists(a | not a.navigation.oclIsUndefined()
+                                and a.navigation = 'NAVIGATE' and not a.destinationId.oclIsUndefined()
+                                and a.destinationId <> ''))
+        endif;
+
+-- Helper to get navigation destination
+helper context FigmaMM!Children def: getNavigationDestination(): String =
+        let clickInteraction: Figma!Interaction =
+                self.interactions -> select(i | not i.trigger.oclIsUndefined() and i.trigger.type.
+                                toString() = 'ON_CLICK') -> first()
+        in
+                if clickInteraction.oclIsUndefined() then
+                        ''
+                else
+                        let navigateAction: Figma!Action =
+                                clickInteraction.actions -> select(a | a.navigation.toString() =
+                                                'NAVIGATE') -> first()
+                        in
+                                if navigateAction.oclIsUndefined() then
+                                        ''
+                                else
+                                        navigateAction.destinationId
+                                endif
+                endif;
+
+-- Helpers functions on Children type TEXT
+helper context FigmaMM!TEXT def: isLabel(): Boolean =
+        if self.name.toString().toLower().indexOf('label') <> -1 then
+                true
+        else
+                false
+        endif;
+
+helper context FigmaMM!TEXT def: isPlaceholder(): Boolean =
+        if self.name.toString().toLower().indexOf('placeholder') <> -1 then
+                true
+        else
+                false
+        endif;
+
+helper context FigmaMM!TEXT def: isParagraph(): Boolean =
+        if self.name.toString().toLower().indexOf('paragraph') <> -1 then
+                true
+        else
+                false
+        endif;
+
+helper context FigmaMM!TEXT def: isButton(): Boolean =
+        if self.name.toString().toLower().indexOf('button') <> -1 then
+                true
+        else
+                false
+        endif;
+
+helper context FigmaMM!TEXT def: getTextTag(): String =
+        if self.name.toString().toLower().startsWith('label') then
+                'label'
+        else
+                if self.name.toString().toLower().startsWith('p') or self.name.toString().
+                                toLower().startsWith('paragraph') then 'p'
+                 else 
+            if self.name.toString().toLower().startsWith('small') then
+                'small'
+            else 
+                if self.name.toString().toLower().startsWith('h1') then
+                    'h1'
+                else 
+                    if self.name.toString().toLower().startsWith('h2') then
+                        'h2'
+                    else 
+                        if self.name.toString().toLower().startsWith('h3') then
+                            'h3'
+                        else 
+                            if self.name.toString().toLower().startsWith('h4') then
+                                'h4'
+                            else 
+                                if self.name.toString().toLower().startsWith('h5') then
+                                    'h5'
+                                else 
+                                    if self.name.toString().toLower().startsWith('h6')
+                then
+                                        'h6'
+                                    else 
+                                        if self.name.toString().toLower().
+                startsWith('span') then
+                                            'span'
+                                        else 
+                                            if not self.style.oclIsUndefined() then
+                                                                                                if self.style.fontSize >= 40 then
+                                                                                                        'h1'
+                                                                                                else
+                                                                                                        if self.style.fontSize >= 32 then
+                                                                                                                'h2'
+                                                                                                        else
+                                                                                                                if self.style.fontSize >= 28 then
+                                                                                                                        'h3'
+                                                                                                                else
+                                                                                                                        if self.style.fontSize >= 24
+                                                                                                                                        then
+                                                                                                                                'h4'
+                                                                                                                        else
+                                                                                                                                if self.style.fontSize >=
+                                                                                                                                                20 then
+                                                                                                                                        'h5'
+                                                                                                                                else
+                                                                                                                                        if self.style.
+                                                                                                                                                        fontSize >=
+                                                                                                                                                        16 then
+                                                                                                                                                'h6'
+                                                                                                                                        else
+                                                                                                                                                if self.style.
+                                                                                                                                                                fontSize
+                                                                                                                                                                <= 12 then
+                                                                                                                                                        'small'
+                                                                                                                                                else
+                                                                                                                                                        'p'
+                                                                                                                                                endif
+                                                                                                                                        endif
+                                                                                                                                endif
+                                                                                                                        endif
+                                                                                                                endif
+                                                                                                        endif
+                                                                                                endif
+                                                                                        else
+                                                                                                'p'
+                                                                                        endif
+                                        endif
+                                    endif
+                                endif
+                            endif
+                        endif
+                    endif
+                endif
+            endif
+        endif
+        endif;
+
+helper context FigmaMM!TEXT def: isAnchorTagText(): Boolean =
+        let lowercaseName:String = self.name.toString().toLower()
+        in (
+                (lowercaseName = 'a' or lowercaseName.indexOf('link') <> -1)    
+        );
+
+helper context FigmaMM!TEXT def: isTableCell(): Boolean =
+        -- Check if the name starts with 'td' or 'th'
+        self.name.toString().toLower().startsWith('td') or self.name.toString().toLower().
+                        startsWith('th');
+
+helper context FigmaMM!TEXT def: getTableCellTag(): String =
+        -- Check if the name starts with 'td'
+        if self.name.toString().toLower().startsWith('td') then
+        'td'
+    else
+          -- Check if the name starts with 'th'
+                if self.name.toString().toLower().startsWith('th') then
+            'th'
+        else
+            'undefined' -- Return 'undefined' if not a table cell
+                          endif
+    endif;
+
+-- Helper method to check if a frame is a text input frame
+helper context FigmaMM!FRAME def: isTextInputFrame(): Boolean =
+        let lowercaseName: String =
+                self.name.toString().toLower()
+        in
+                (
+                         -- Check if name contains 'input' but not 'password'
+                lowercaseName.indexOf('input') <> -1 and lowercaseName.indexOf('password') = -1
+                                and lowercaseName.indexOf('email') = -1 and lowercaseName.indexOf('date')
+                                = -1 and -- Ensure the frame has children
+                        not self.children.oclIsUndefined() and not self.children -> isEmpty() and --
+                                        -- Check for a text child with a placeholder
+                        self.children -> exists(c | not c.oclIsUndefined() and c.type.toString() =
+                                        'TEXT' and not c.name.oclIsUndefined() and c.name.toString().
+                                        toLowerCase().indexOf('placeholder') <> -1)
+    );
+
+-- Helper method to check if a frame is a password input frame
+helper context FigmaMM!FRAME def: isPasswordInputFrame(): Boolean =
+        let lowercaseName: String =
+                self.name.toString().toLower()
+        in
+                (
+                         -- Check if name contains 'password' or 'input' with 'password'
+                (lowercaseName.indexOf('password') <> -1 or (lowercaseName.indexOf('input') <> -1
+                                and lowercaseName.indexOf('password') <> -1)) and -- Ensure the frame has
+                                -- children
+                        not self.children.oclIsUndefined() and not self.children -> isEmpty() and --
+                                        -- Check for a text child with a placeholder
+                        self.children -> exists(c | not c.oclIsUndefined() and c.type.toString() =
+                                        'TEXT' and not c.name.oclIsUndefined() and c.name.toString().
+                                        toLowerCase().indexOf('placeholder') <> -1)
+    );
+
+-- Helper method to check if a frame is a date input frame
+helper context FigmaMM!FRAME def: isDateInputFrame(): Boolean =
+        let lowercaseName: String =
+                self.name.toString().toLower()
+        in
+                (
+                         -- Check if name contains both 'input' and 'date'
+                lowercaseName.indexOf('input') <> -1 and lowercaseName.indexOf('date') <> -1 and
+                                -- Ensure the frame has children
+                        not self.children.oclIsUndefined() and not self.children -> isEmpty() and --
+                                        -- Check for a text child with a placeholder
+                        self.children -> exists(c | not c.oclIsUndefined() and c.type.toString() =
+                                        'TEXT' and not c.name.oclIsUndefined() and c.name.toString().
+                                        toLowerCase().indexOf('placeholder') <> -1)
+    );
+
+-- Helper method to check if a frame is an email input frame
+helper context FigmaMM!FRAME def: isEmailInputFrame(): Boolean =
+        let lowercaseName: String =
+                self.name.toString().toLower()
+        in
+                (
+                         -- Check if name contains both 'input' and 'email'
+                lowercaseName.indexOf('email') <> -1 and lowercaseName.indexOf('input') <> -1 and
+                                -- Ensure the frame has children
+                        not self.children.oclIsUndefined() and not self.children -> isEmpty() and --
+                                        -- Check for a text child with a placeholder
+                        self.children -> exists(c | not c.oclIsUndefined() and c.type.toString() =
+                                        'TEXT' and not c.name.oclIsUndefined() and c.name.toString().
+                                        toLowerCase().indexOf('placeholder') <> -1)
+    );
+
+-- Helper method to check if a frame is designed to be an anchor tag (`<a>`)
+helper context FigmaMM!FRAME def: isAnchorTagFrame(): Boolean =
+        let lowercaseName: String =
+                self.name.toString().toLower()
+        in
+                (
+                                    -- Check if the name contains 'a' or 'link'
+                (lowercaseName = 'a' or lowercaseName.indexOf('link') <> -1) and -- Ensure the
+                                -- frame has children
+                        not self.children.oclIsUndefined() and not self.children -> isEmpty() and --
+                                        -- Check for a text child that is not undefined
+                        self.children -> exists(c | not c.oclIsUndefined() and c.type.toString() =
+                                        'TEXT')
+                );
+
+-- Helper to check if the frame is a <table>
+helper context FigmaMM!FRAME def: isTable(): Boolean =
+        self.name.toLower() = 'table';
+
+-- Helper to check if the frame is a <tr>
+helper context FigmaMM!FRAME def: isTableRow(): Boolean =
+        self.refImmediateComposite().oclIsTypeOf(FigmaMM!FRAME) and (self.name.toLower() =
+                        'tr');
+
+-- Helper to check if the frame is a <th>
+helper context FigmaMM!FRAME def: isTableHeader(): Boolean =
+        self.refImmediateComposite().oclIsTypeOf(FigmaMM!FRAME) and (self.name.toLower() =
+                        'th');
+
+-- Helper to check if the frame is a <thead>
+helper context FigmaMM!FRAME def: isTableHeaderSection(): Boolean =
+        self.refImmediateComposite().oclIsTypeOf(FigmaMM!FRAME) and (self.name.toLower() =
+                        'thead');
+
+-- Helper to check if the frame is a <td>
+helper context FigmaMM!FRAME def: isTableData(): Boolean =
+        self.refImmediateComposite().oclIsTypeOf(FigmaMM!FRAME) and (self.name.toLower() =
+                        'td');
+
+-- Helper to check if the frame is a <tfoot>
+helper context FigmaMM!FRAME def: isTableFooter(): Boolean =
+        self.refImmediateComposite().oclIsTypeOf(FigmaMM!FRAME) and (self.name.toLower() =
+                        'tfoot');
+
+-- Helper to check if the frame is a <tbody>
+helper context FigmaMM!FRAME def: isTableBody(): Boolean =
+        self.refImmediateComposite().oclIsTypeOf(FigmaMM!FRAME) and (self.name.toLower() =
+                        'tbody');
+
+-- Helper to check if the frame is a <colgroup>
+helper context FigmaMM!FRAME def: isColGroup(): Boolean =
+        self.refImmediateComposite().oclIsTypeOf(FigmaMM!FRAME) and (self.name.toLower() =
+                        'colgroup');
+
+-- Helper to check if the frame is a <col>
+helper context FigmaMM!FRAME def: isCol(): Boolean =
+        self.refImmediateComposite().oclIsTypeOf(FigmaMM!FRAME) and (self.name.toLower() =
+                        'col');
+
+-- Helper to check if the frame is a <caption>
+helper context FigmaMM!FRAME def: isCaption(): Boolean =
+        self.refImmediateComposite().oclIsTypeOf(FigmaMM!FRAME) and (self.name.toLower() =
+                        'caption');
+
+-- Helper to check if the frame has a table element (either it's a table-related element
+-- or has one as a child)
+helper context FigmaMM!FRAME def: isTableElement(): Boolean =
+        -- Check if the frame itself is a table-related element (table, tr, td, th, thead,
+                        -- tfoot, tbody, colgroup, col, caption)
+        self.isTable() or self.isTableRow() or self.isTableHeaderSection() or self.
+                        isTableFooter() or self.isTableBody() or self.isColGroup() or self.isCol() or
+                        self.isCaption();
+
+-- Helper to get the table tag name based on the frame type
+helper context FigmaMM!FRAME def: getTableTagName(): String =
+        -- Check the type of the frame and return the corresponding table tag name
+        if self.isTable() then
+                'table'
+        else
+                if self.isTableRow() then
+                        'tr'
+                else
+                        if self.isTableHeaderSection() then
+                                'thead'
+                        else
+                                if self.isTableFooter() then
+                                        'tfoot'
+                                else
+                                        if self.isTableBody() then
+                                                'tbody'
+                                        else
+                                                if self.isColGroup() then
+                                                        'colgroup'
+                                                else
+                                                        if self.isCol() then
+                                                                'col'
+                                                        else
+                                                                if self.isCaption() then
+                                                                        'caption'
+                                                                else
+                                                                        'undefined' -- Return 'undefined' if the
+                                                                                        -- frame is not a recognized table
+                                                                                        -- element
+                                                                        
+                                                                endif
+                                                        endif
+                                                endif
+                                        endif
+                                endif
+                        endif
+                endif
+        endif;
+
+-- Helper method to extract placeholder text element
+helper context FigmaMM!FRAME def: getPlaceholderText(): FigmaMM!TEXT =
+        if not self.children.isEmpty() then
+                self.children -> select(c | c.type.toString() = 'TEXT' and c.name.toString().
+                                toLower().indexOf('placeholder') <> -1) -> first()
+        else
+                OclUndefined
+        endif;
+
+-- end context helper function
+--helper functions
+helper def: sanitizeName(name: String): String =
+        name.regexReplaceAll('[^a-zA-Z0-9]', '-').toLower();
+
+-- Helper to convert a component name to PascalCase (e.g., "Input Component" -->
+--- "InputComponent")
+helper def: toPascalCase(input: String): String =
+        let cleanInput: String =
+                input.regexReplaceAll('[^a-zA-Z0-9 ]', '')
+        in
+                let words: Sequence(String) =
+                        cleanInput.split(' ')
+                in
+                        words -> iterate(word; result: String = '' | if word.size() > 0 then
+                                        -- Capitalize first letter of each word
+                                        result + word.substring(1, 1).toUpper() + if word.size() > 1 then
+                                                word.substring(2, word.size())
+                                        else
+                                                ''
+                                        endif
+                                else
+                                        result
+                                endif);
+
+-- Convert a string to camelCase (e.g., "Show Helper text#258:13" -> "showHelperText")
+helper def: toCamelCase(input: String): String =
+        let cleanInput: String =
+                -- Remove any ID suffixes like #258:13
+                        if input.indexOf('#') > 0 then
+                                input.substring(1, input.indexOf('#'))
+                        else
+                                input
+                        endif
+        in
+                let words: Sequence(String) =
+                        cleanInput.split(' ')
+                in
+                        words -> iterate(word; result: String = '' | if result = '' then
+                                        -- First word starts with lowercase
+                                        word.toLowerCase()
+                                else
+                                        -- Subsequent words start with uppercase
+                                        result + word.substring(1, 1).toUpper() + if word.size() > 1 then
+                                                word.substring(2, word.size()).toLowerCase()
+                                        else
+                                                ''
+                                        endif
+                                endif);
+
+helper def: toComponentName(name: String): String =
+        let words: Sequence(String) =
+                name.split(' ') -> reject(w | w = '')
+        in
+                words -> iterate(w; acc: String = '' | acc + w.substring(1, 1).toUpper() + if w.
+                                size() > 1 then
+                                w.substring(2, w.size())
+                        else
+                                ''
+                        endif);
+
+-- Helper to find a Frame by ID in the entire document
+helper def: findFrameById(id: String): Figma!Children =
+        if id = '' then
+                OclUndefined
+        else
+                let allScreens: Sequence(Figma!Children) =
+                        FigmaMM!Children.allInstances() -> select(c | c.isScreenOrPage() and not c.id.
+                                        oclIsUndefined())
+                in
+                        
+                        let matchingFrames : FigmaMM!Children = 
+            allScreens -> select(c | c.id = id) -> first()
+                        
+        in
+        matchingFrames
+                
+                
+        endif;
+
+
+helper def: getInputType(frame: FigmaMM!FRAME): String =
+        if frame.isEmailInputFrame() then
+                'text'
+        else
+                if frame.isDateInputFrame() then
+                        'date'
+                else
+                        if frame.isPasswordInputFrame() then
+                                'password'
+                        else
+                                if frame.isTextInputFrame() then
+                                        'email'
+                                else
+                                        'text'
+                                endif
+                        endif
+                endif
+        endif;
+
+helper context FigmaMM!COMPONENT_SET def: getComponentProps(): Sequence(ReactMM!Props) =
+        -- Create an empty sequence to store the props
+        let props: Sequence(ReactMM!Props) =
+                Sequence{}
+        in
+                -- Check if componentPropertyDefinitions exists
+                if self.componentPropertyDefinitions.oclIsUndefined() then
+                        props
+                else
+                        -- Extract all componentPropertyDefinitions
+                        self.componentPropertyDefinitions -> iterate(propDef; acc:
+                                        Sequence(ReactMM!Props) = props | -- For each property definition,
+                                        -- create a prop
+                                let propName: String =
+                                        if propDef.key.oclIsUndefined() then
+                                                        'unnamed_prop'
+                                                else
+                                                        propDef.key
+                                                endif
+                                in
+                                        let propType: String =
+                                                if propDef.componentpropertydefinition.oclIsUndefined() or
+                                                                propDef.componentpropertydefinition.type.oclIsUndefined()
+                                                                then
+                                                                'TEXT' -- Default type
+                                                                
+                                                        else
+                                                                propDef.componentpropertydefinition.type.toString()
+                                                        endif
+                                        in
+                                                let defaultValue: String =
+                                                        if propDef.componentpropertydefinition.oclIsUndefined() or
+                                                                        propDef.componentpropertydefinition.defaultValue.
+                                                                        oclIsUndefined() then
+                                                                        '' -- Default empty value
+                                                                        
+                                                                else
+                                                                        propDef.componentpropertydefinition.defaultValue.toString()
+                                                                endif
+                                                in
+                                                        -- Check if we have variant options
+                                                        let hasVariants: Boolean =
+                                                                not propDef.componentpropertydefinition.oclIsUndefined()
+                                                                                and not propDef.componentpropertydefinition.
+                                                                                variantOptions.oclIsUndefined() and not propDef.
+                                                                                componentpropertydefinition.variantOptions ->
+                                                                                isEmpty()
+                                                        in
+                                                                -- Add the new prop to the accumulator using the
+                                                                                -- appropriate rule
+                                                                if hasVariants and propType = 'VARIANT' then
+                                                                        acc -> including(thisModule.
+                                                                                        CreateComponentPropWithVariants(propName,
+                                                                                        propType, defaultValue, propDef.
+                                                                                        componentpropertydefinition.variantOptions))
+                                                                else
+                                                                        acc -> including(thisModule.
+                                                                                        CreateComponentProp(propName, propType,
+                                                                                        defaultValue))
+                                                                endif)
+                endif;
+
+-- Helper to get instance properties
+helper context FigmaMM!INSTANCE def: getComponentProps(): Sequence(ReactMM!Props) =
+        if self.componentProperties.oclIsUndefined() then
+                Sequence{}
+        else
+                self.componentProperties -> collect(entry | thisModule.CreateComponentProp(entry.
+                                key, entry.value.type.toString(), entry.value.value.toString()))
+        endif;
+
+-- Helper to safely get PropType enum value
+helper def: getPropType(typeStr: String): ReactMM!PropType =
+        if typeStr = 'BOOLEAN' then
+                React!PropType.allInstances() -> select(e | e.name = 'boolean') -> first()
+        else
+                if typeStr = 'TEXT' or typeStr = 'VARIANT' then
+                        React!PropType.allInstances() -> select(e | e.name = 'String') -> first()
+                else
+                        React!PropType.allInstances() -> select(e | e.name = 'ANY') -> first()
+                endif
+        endif;
+
+-- Helper to get instance properties with their actual values
+helper context FigmaMM!INSTANCE def: getInstanceProps(): Sequence(ReactMM!Props) =
+        if self.componentProperties.oclIsUndefined() then
+                Sequence{}
+        else
+                -- Extract the actual properties with their values
+                self.componentProperties -> collect(propDef | let propName: String =
+                                if propDef.key.oclIsUndefined() then
+                                                'unnamed_prop'
+                                        else
+                                                propDef.key
+                                        endif
+                        in
+                                let propType: String =
+                                        if propDef.value.oclIsUndefined() or propDef.value.type.
+                                                        oclIsUndefined() then
+                                                        'TEXT' -- Default type
+                                                        
+                                                else
+                                                        propDef.value.type.toString()
+                                                endif
+                                in
+                                        let propValue: String =
+                                                if propDef.value.oclIsUndefined() or propDef.value.value.
+                                                                oclIsUndefined() then
+                                                                '' -- Default empty value
+                                                                
+                                                        else
+                                                                propDef.value.value.toString()
+                                                        endif
+                                        in
+                                                -- Create prop with the actual value
+                                                thisModule.CreateInstanceProp(thisModule.toCamelCase(propName),
+                                                                propType, propValue))
+        endif;
+
+-- Convert Figma type to React TypeScript type
+helper def: figmaTypeToTsType(figmaType: String): String =
+        if figmaType = 'BOOLEAN' then
+                'boolean'
+        else
+                if figmaType = 'TEXT' then
+                        'string'
+                else
+                        if figmaType = 'VARIANT' then
+                                'string'
+                        else
+                                'any'
+                        endif
+                endif
+        endif;
+
+
+-- lazy rules
+-- lazy rule to create a react route to from figma canvas which in this case represent
+-- the parent routes of all frame with name containing screen or page
+lazy rule CreateCanvasRoute {
+        from
+                F: FigmaMM!CANVAS
+        to
+                R: ReactMM!Route (
+                        path <- if not F.name.oclIsUndefined() and F.name.size() > 0 then
+                                        '/' + thisModule.sanitizeName(F.name.toLowerCase())
+                                else
+                                        '/'
+                                endif,
+                        exact <- true,
+                        element <- OclUndefined,
+                        children <- F.children -> select(f | f.isScreenOrPage()) -> collect(screen |
+                                        if not screen.oclIsUndefined() then
+                                                thisModule.CreateScreenRoute(screen)
+                                        else
+                                                OclUndefined
+                                        endif)
+                )
+}
+
+-- lazy rule to create a route from a figma frame which is a screen
+lazy rule CreateScreenRoute {
+        from
+                F: FigmaMM!FRAME
+        to
+                R: ReactMM!Route (
+                        path <- if not F.name.oclIsUndefined() and F.name.size() > 0 then
+                                        thisModule.sanitizeName(F.name.toString().toLowerCase())
+                                else
+                                        'default-route'
+                                endif,
+                        exact <- true,
+                        element <- thisModule.CreateScreenElement(F)
+                )
+}
+
+-- lazy rule to create a react page from figma frame
+lazy rule CreateScreenElement {
+        from
+                F: FigmaMM!FRAME
+        to
+                R: ReactMM!Page (
+                        name <- thisModule.toPascalCase(F.name),
+                        key <- F.id,
+                        children <- Sequence{thisModule.CreateMainWrapper(F)}
+                )
+}
+
+-- lazy rule to build a wrapper arround a page to keep all the frame attributes
+lazy rule CreateMainWrapper {
+        from
+                F: FigmaMM!FRAME
+        to
+                R: ReactMM!HTMLElement (
+                        name <- 'main',
+                        key <- F.id + '_main',
+                        isSelfClosing <- false,
+                        attributes <- Sequence {
+                        	thisModule.CreateAttribute('id',F.id),
+							thisModule.CreateAttribute('style',F.getFrameStyles())
+                        },
+                        children <- if not F.children.oclIsUndefined() then
+                                        F.children -> collect(children | thisModule.resolveTemp(children,
+                                                        'R'))
+                                else
+                                        Sequence {}
+                                endif
+                )
+}
+
+-- lazy rule to create nested frame to preseve frame attributes and styles
+lazy rule CreateNestedFrameElement {
+        from
+                F: FigmaMM!FRAME
+        to
+                R: ReactMM!HTMLElement (
+                        name <- 'div',
+                        key <- F.id,
+                        attributes <- Sequence {},
+                        children <- if not F.children.oclIsUndefined() then
+                                        F.children -> collect(children | thisModule.resolveTemp(children,
+                                                        'R'))
+                                else
+                                        Sequence {}
+                                endif
+                )
+}
+
+-- lazy rule to create attributes
+-- lazy rule CreateAttribute {
+--      from
+--              name: String,
+--              value: String
+--      to
+--              attr: ReactMM!HTMLAttribute (
+--                      name <- name,
+--                      value <- value,
+--                      isRequire <- false,
+--                      type <- 'string'
+--              )
+-- }
+-- Updated lazy rule to create attributes with proper style formatting
+lazy rule CreateAttribute {
+    from
+        name: String,
+        value: String
+    to
+        attr: ReactMM!HTMLAttribute (
+            name <- name,
+            value <- if name = 'style' then
+                       -- Check if the style value already has braces
+                       if value.startsWith('{{') then
+                           -- Already double-braced, ensure it ends with double braces too
+                           if value.endsWith('}}') then
+                               value
+                           else
+                               value + '}}'
+                           endif
+                       else if value.startsWith('{') then
+                           -- Single-braced, check if it's a correctly formatted object
+                           if value.endsWith('}') then
+                               -- Wrap with outer braces for JSX
+                               '{' + value + '}'
+                           else
+                               -- Missing closing brace
+                               '{' + value + '}}'
+                           endif
+                       else
+                           -- No braces at all, add them (this is for cases like "fontFamily": "Inter", ...)
+                           '{{' + value + '}}'
+                       endif endif
+                    else
+                       -- For non-style attributes, return as is
+                       value
+                    endif,
+            isRequire <- false,
+            type <- 'string'
+        )
+}
+
+-- lazy rule to create component wrapper
+lazy rule CreateComponentWrapper {
+        from
+                F: FigmaMM!COMPONENT_SET
+        to
+                R: ReactMM!HTMLElement (
+                        name <- 'div',
+                        attributes <- Sequence {
+                                },
+                        isSelfClosing <- false,
+                        children <- if not F.children.oclIsUndefined() then
+                                        F.children -> collect(children | thisModule.resolveTemp(children,
+                                                        'R'))
+                                else
+                                        Sequence {}
+                                endif
+                )
+}
+
+lazy rule CreateInstanceWrapper {
+        from
+                F: FigmaMM!INSTANCE
+        to
+                R: ReactMM!HTMLElement (
+                        name <- 'div',
+                        key <- F.id + '_wrapper',
+                        isSelfClosing <- false,
+                        attributes <- Sequence {},
+                        children <- if not F.children.oclIsUndefined() then
+                                        F.children -> collect(children | thisModule.resolveTemp(children,
+                                                        'R'))
+                                else
+                                        Sequence {}
+                                endif
+                )
+}
+
+lazy rule CreateNestedTextElement {
+        from
+                F: FigmaMM!TEXT
+        to
+                R: ReactMM!HTMLElement (
+                        name <- F.getTextTag(),
+                        content <- F.characters,
+                        isSelfClosing <- false,
+                        key <- F.id,
+                        attributes <- Sequence{thisModule.CreateAttribute('id', F.id)}
+                )
+}
+
+-- Specialized lazy rule for instance properties
+lazy rule CreateInstanceProp {
+        from
+        name: String,
+        type: String,
+        value: String
+        to
+                prop: ReactMM!Props (
+                        name <- name,
+                        -- For boolean values, convert string to actual boolean if needed
+                        value <- if type = 'BOOLEAN' then
+                                        if value = 'True' or value = 'true' then
+                        'true'
+                    else
+                        'false'
+                    endif
+                                else
+                                        value
+                                endif,
+                        defaultValue <- value,
+                        -- Use the actual value as default too
+                        isRequire <- false,
+                        type <- thisModule.figmaTypeToTsType(type)
+                )
+}
+
+
+
+
+helper context FigmaMM!TEXT def: isProcessed(): Boolean =
+        self.refImmediateComposite().oclIsTypeOf(FigmaMM!FRAME);
+
+-- Replace the current isProcessed() helper with this more specific one
+helper context FigmaMM!TEXT def: isInsideButton(): Boolean =
+        self.refImmediateComposite().oclIsTypeOf(FigmaMM!FRAME) and self.
+                        refImmediateComposite().isButtonContainer();
+
+lazy rule CreateButtonElement {
+        from
+                F: FigmaMM!FRAME
+        to
+                R: ReactMM!HTMLElement (
+                        name <- 'button',
+                        attributes <- Sequence{
+                                thisModule.CreateAttribute('id', F.id),
+                                thisModule.CreateAttribute('style',F.getFrameStyles())
+                        },
+                        isSelfClosing <- false,
+                        children <- if not F.children.oclIsUndefined() then
+                                        let buttonText: FigmaMM!TEXT =
+                                                F.children -> select(e | e.isText() and not e.isProcessed()) ->
+                                                                first()
+                                        in
+                                                if not buttonText.oclIsUndefined() then
+                                                        thisModule.CreateButtonTextElement(buttonText)
+                                                else
+                                                        Sequence {}
+                                                endif
+                                else
+                                        Sequence {}
+                                endif
+                )
+}
+
+lazy rule CreateButtonTextElement {
+        from
+                F: FigmaMM!TEXT
+        to
+                R: ReactMM!HTMLElement (
+                        name <- 'span',
+                        attributes <- Sequence{
+                                thisModule.CreateAttribute('id', F.id),
+                                thisModule.CreateAttribute('style',F.getTextStyles())
+                        },
+                        content <- F.characters,
+                        isSelfClosing <- false,
+                        key <- F.id
+                )
+}
+
+lazy rule CreateDivElement {
+        from
+                F: FigmaMM!FRAME
+        to
+                R: ReactMM!HTMLElement (
+                        name <- 'div',
+                        key <- F.id,
+                        isSelfClosing <- false,
+                        attributes <- Sequence{
+                                thisModule.CreateAttribute('id',F.id),
+                                thisModule.CreateAttribute('style',F.getFrameStyles())
+                        },
+                        children <- if not F.children.oclIsUndefined() then
+                                        F.children -> collect(children | thisModule.resolveTemp(children,
+                                                        'R'))
+                                else
+                                        Sequence {}
+                                endif
+                )
+}
+
+-- class rules
+-- rule to convert from figma app to react app
+rule FigmaApp2ReactApp {
+        from
+                F: FigmaMM!FigmaApp
+        to
+                R: ReactMM!ReactApplication (
+                        name <- F.name,
+                        router <- F.document
+                )
+}
+
+-- rule to convert from figma document to react router
+rule FigmaDocument2ReactRouter {
+        from
+                F: FigmaMM!Document
+        to
+                R: ReactMM!Router (
+                        basname <- F.name,
+                        route <- F.children -> select(c | c.isCanvas()) -> collect(canvas |
+                                        thisModule.CreateCanvasRoute(canvas, F))
+                )
+}
+
+-- rule to convert from figma vector to svg react element
+rule VectorToSvg {
+        from
+                F: FigmaMM!Children (
+                        F.isVector()
+                )
+        to
+                R: ReactMM!HTMLElement (
+                        name <- 'svg',
+                        isSelfClosing <- false,
+                        key <- F.id,
+                        attributes <- Sequence{thisModule.CreateAttribute('viewBox', if not F.
+                                        absoluteBoundingBox.oclIsUndefined() then
+                                                        '0 0 ' + F.absoluteBoundingBox.width.toString() + ' ' + F.
+                                                                        absoluteBoundingBox.height.toString()
+                                                else
+                                                        '0 0 24 24' -- default viewBox
+                                                        
+                                                endif),
+                                                thisModule.CreateAttribute('xmlns', 'http://www.w3.org/2000/svg'),
+                                                thisModule.CreateAttribute('width', if not F.absoluteBoundingBox.
+                                                                oclIsUndefined() then
+                                                        F.absoluteBoundingBox.width.toString() + 'px'
+                                                else
+                                                        '24px'
+                                                endif),
+                                                thisModule.CreateAttribute('height', if not F.absoluteBoundingBox.
+                                                                oclIsUndefined() then
+                                                        F.absoluteBoundingBox.height.toString() + 'px'
+                                                else
+                                                        '24px'
+                                                endif)},
+                        children <- if not F.children.oclIsUndefined() then
+                                        F.children -> collect(e | thisModule.resolveTemp(e, 'R'))
+                                else
+                                        Sequence {}
+                                endif
+                )
+}
+
+rule FigmaFrame2ReactDivHtmlElement {
+        from
+                F: FigmaMM!FRAME (
+                        not F.isForm() and not F.isScreenOrPage() and not F.isButtonContainer() and
+                                        not F.isDateInputFrame() and not F.isTextInputFrame() and not F.
+                                        isPasswordInputFrame() and not F.isCheckbox() and not F.
+                                        isEmailInputFrame() and not F.isAnchorTagFrame() and not F.
+                                        isTableElement()
+                )
+        to
+                R: ReactMM!HTMLElement (
+                        name <- if F.hasClickNavigation() and not thisModule.findFrameById(F.
+                                        getNavigationDestination()).oclIsUndefined() then
+                                        'a'
+                                else
+                                        'div'
+                                endif,
+                        isSelfClosing <- false,
+                        key <- F.id,
+                        attributes <- Sequence{thisModule.CreateAttribute('id', F.id),thisModule.CreateAttribute('style',F.getFrameStyles())},
+                        children <- if F.hasClickNavigation() then
+                                        let targetFrame: FigmaMM!Children =
+                                                thisModule.findFrameById(F.getNavigationDestination())
+                                        in
+                                                if not targetFrame.oclIsUndefined() then
+                                                        Sequence{thisModule.CreateNestedFrameElement(F)}
+                                                else
+                                                        if not F.children.oclIsUndefined() then
+                                                                F.children -> collect(children | thisModule.
+                                                                                resolveTemp(children, 'R'))
+                                                        else
+                                                                Sequence {}
+                                                        endif
+                                                endif
+                                else
+                                        if not F.children.oclIsUndefined() then
+                                                F.children -> collect(children | thisModule.resolveTemp(children,
+                                                                'R'))
+                                        else
+                                                Sequence {
+                                                        
+                                        }
+                                        endif
+                                endif
+                )
+}
+
+rule FigmaLine2ReactHrElement {
+        from
+                F: FigmaMM!LINE
+        to
+                R: ReactMM!HTMLElement (
+                        name <- 'hr',
+                        isSelfClosing <- true,
+                        key <- F.id,
+                        attributes <- Sequence{thisModule.CreateAttribute('id', F.id)}
+                )
+}
+
+rule FigmaComponentSet2ReactComponent {
+        from
+                F: FigmaMM!COMPONENT_SET
+        to
+                R: ReactMM!Component (
+                        name <- thisModule.toPascalCase(F.name),
+                        key <- F.id,
+                        children <- if not F.children.oclIsUndefined() then Sequence{thisModule.CreateComponentWrapper(F)} else Sequence{} endif,
+                        isInstance <- false,
+                        props <- F.getComponentProps()
+                )
+}
+
+rule FigmaInstace2ReactComponent {
+        from
+                F: FigmaMM!INSTANCE
+        to
+                R: ReactMM!Component (
+                        name <- thisModule.toPascalCase(F.name),
+                        key <- F.id,
+                        props <-F.getInstanceProps(),
+                        isInstance <- true,
+                        children <- if not F.children.oclIsUndefined() then 
+                        Sequence{thisModule.CreateInstanceWrapper(F)}
+                        else Sequence {}
+                        endif
+                )
+}
+
+rule FigmaComponent2ReactDivHtmlELement {
+        from
+                F: FigmaMM!COMPONENT
+        to
+                R: ReactMM!HTMLElement (
+                        name <- 'div',
+                        key <- F.id,
+                        children <- if not F.children.oclIsUndefined() then
+                                        F.children -> collect(children | thisModule.resolveTemp(children,
+                                                        'R'))
+                                else
+                                        Sequence {}
+                                endif,
+                        attributes <- Sequence{thisModule.CreateAttribute('id', F.id),thisModule.CreateAttribute('style',F.getComponentStyles())}
+                )
+}
+
+rule FigmaFrame2ReactFormHtmlElement {
+        from
+                F: FigmaMM!FRAME (
+                        F.isForm()
+                )
+        to
+                R: ReactMM!HTMLElement (
+                        name <- 'form',
+                        key <- F.id,
+                        attributes <- Sequence{thisModule.CreateAttribute('id', F.id),
+                                                thisModule.CreateAttribute('method', 'POST'),
+                                                thisModule.CreateAttribute('style',F.getFrameStyles())                  
+                        },
+                        isSelfClosing <- false,
+                        children <- if not F.children.oclIsUndefined() then
+                                        F.children -> collect(children | thisModule.resolveTemp(children,
+                                                        'R'))
+                                else
+                                        Sequence {}
+                                endif
+                )
+}
+
+rule FigmaText2ReactDisplatHtlmElement {
+        from
+                F: FigmaMM!TEXT (
+                        not F.isPlaceholder() and not F.isButton() and not F.isInsideButton() and not
+                                        F.isTableCell() and not F.isAnchorTagText()
+                )
+        to
+                R: ReactMM!HTMLElement (
+                        name <- if F.hasClickNavigation() and not thisModule.findFrameById(F.
+                                        getNavigationDestination()).oclIsUndefined() then
+                                        'a'
+                                else
+                                        F.getTextTag()
+                                endif,
+                        content <- if F.hasClickNavigation() and not thisModule.findFrameById(F.
+                                        getNavigationDestination()).oclIsUndefined() then
+                                        OclUndefined
+                                else
+                                        F.characters
+                                endif,
+                        attributes <- if F.hasClickNavigation() then
+                                        let targetFrame: FigmaMM!FRAME =
+                                                thisModule.findFrameById(F.getNavigationDestination())
+                                        in
+                                                if not targetFrame.oclIsUndefined() then
+                                                        Sequence{thisModule.CreateAttribute('href', '/' + thisModule.
+                                                                        sanitizeName(targetFrame.name))}
+                                                else
+                                                        Sequence {
+                                                                thisModule.CreateAttribute('style',F.getTextStyles()),
+                                                                thisModule.CreateAttribute('id',F.id)   
+                                                        }
+                                                endif
+                                else
+                                        Sequence {
+                                                thisModule.CreateAttribute('style',F.getTextStyles()),
+                                                thisModule.CreateAttribute('id',F.id)
+                                        }
+                                endif,
+                        isSelfClosing <- false,
+                        key <- F.id,
+                        children <- if F.hasClickNavigation() then
+                                        let targetFrame: FigmaMM!FRAME =
+                                                thisModule.findFrameById(F.getNavigationDestination())
+                                        in
+                                                if not targetFrame.oclIsUndefined() then
+                                                        Sequence{thisModule.CreateNestedTextElement(F)}
+                                                else
+                                                        if not F.children.oclIsUndefined() then
+                                                                F.children -> collect(e | thisModule.resolveTemp(e, 'R'))
+                                                        else
+                                                                Sequence {}
+                                                        endif
+                                                endif
+                                else
+                                        if not F.children.oclIsUndefined() then
+                                                F.children -> collect(e | thisModule.resolveTemp(e, 'R'))
+                                        else
+                                                Sequence {}
+                                        endif
+                                endif
+                )
+}
+
+rule FigmaLink2ReactLinkElement {
+        from
+                F: FigmaMM!TEXT (
+                        F.isAnchorTagText()
+                )
+        to
+                R: ReactMM!HTMLElement (
+                        name <- 'a',
+                        content <- if not F.characters.oclIsUndefined() then F.characters else ''
+                                        endif,
+                        key <- F.id,
+                        attributes <- if F.hasClickNavigation() then
+                                        let targetFrame: FigmaMM!FRAME =
+                                                thisModule.findFrameById(F.getNavigationDestination())
+                                        in
+                                                if not targetFrame.oclIsUndefined() then
+                                                        Sequence{thisModule.CreateAttribute('id', F.id),
+                                                                        thisModule.CreateAttribute('href', '/' + thisModule.
+                                                                                        sanitizeName(targetFrame.name))}
+                                                else
+                                                        Sequence{thisModule.CreateAttribute('id', F.id),
+                                                                        thisModule.CreateAttribute('href', '#')}
+                                                endif
+                                else
+                                        Sequence{thisModule.CreateAttribute('id', F.id),
+                                                        thisModule.CreateAttribute('href', '#')}
+                                endif
+                )
+}
+
+rule FigmaFrame2ReactInputElement {
+        from
+                F: FigmaMM!FRAME (
+                        F.isTextInputFrame() or F.isPasswordInputFrame() or F.isDateInputFrame() or F.
+                                        isEmailInputFrame()
+                )
+        to
+                R: ReactMM!HTMLElement (
+                        name <- 'input',
+                        isSelfClosing <- true,
+                        key <- F.id,
+                        attributes <- Sequence{thisModule.CreateAttribute('id', F.id),
+                                                thisModule.CreateAttribute('type', thisModule.getInputType(F)),
+                                                thisModule.CreateAttribute('placeholder', let textElement:
+                                                                FigmaMM!TEXT =
+                                                        F.getPlaceholderText()
+                                                in
+                                                        if textElement.oclIsUndefined() then
+                                                                'placeholder'
+                                                        else
+                                                                textElement.characters
+                                                        endif),
+                                                thisModule.CreateAttribute('style',F.getFrameStyles())                          
+                        },
+                        children <- OclUndefined
+                )
+}
+
+rule FigmaFrame2ReactCheckBoxELement {
+        from
+                F: FigmaMM!FRAME (
+                        F.isCheckbox()
+                )
+        to
+                R: ReactMM!HTMLElement (
+                        name <- 'input',
+                        isSelfClosing <- true,
+                        key <- F.id,
+                        attributes <- Sequence{thisModule.CreateAttribute('id', F.id),
+                                                thisModule.CreateAttribute('type', 'checkbox')}
+                )
+}
+
+rule FigmaRectangle2ReactCheckBoxELement {
+        from
+                F: FigmaMM!RECTANGLE (
+                        F.isCheckbox()
+                )
+        to
+                R: ReactMM!HTMLElement (
+                        name <- 'input',
+                        isSelfClosing <- true,
+                        key <- F.id,
+                        attributes <- Sequence{thisModule.CreateAttribute('id', F.id),
+                                                thisModule.CreateAttribute('type', 'checkbox')}
+                )
+}
+
+rule FigmaButton2ReactButtonElement {
+        from
+                F: FigmaMM!FRAME (
+                        F.isButtonContainer()
+                )
+        to
+                R: ReactMM!HTMLElement (
+                        name <- if F.hasClickNavigation() and not thisModule.findFrameById(F.
+                                        getNavigationDestination()).oclIsUndefined() then
+                                        'a'
+                                else
+                                        'button'
+                                endif,
+                        isSelfClosing <- false,
+                        key <- F.id,
+                        attributes <- if F.hasClickNavigation() then
+                                        let targetFrame: FigmaMM!FRAME =
+                                                thisModule.findFrameById(F.getNavigationDestination())
+                                        in
+                                                if not targetFrame.oclIsUndefined() then
+                                                        Sequence{thisModule.CreateAttribute('href', '/' + thisModule.
+                                                                        sanitizeName(targetFrame.name)),
+                                                                        thisModule.CreateAttribute('style',
+                                                                                        'textDecoration:"none",cursor:"pointer"')}
+                                                else
+                                                        Sequence {
+                                                        thisModule.CreateAttribute('style',F.getFrameStyles()),
+                                                thisModule.CreateAttribute('id',F.id)   
+                                                }
+                                                endif
+                                else
+                                        Sequence {
+                                                thisModule.CreateAttribute('style',F.getFrameStyles()),
+                                                thisModule.CreateAttribute('id',F.id)
+                                        }
+                                endif,
+                        children <- if F.hasClickNavigation() and not thisModule.findFrameById(F.
+                                        getNavigationDestination()).oclIsUndefined() then
+                                        thisModule.CreateButtonElement(F)
+                                else
+                                        thisModule.CreateButtonTextElement(F.children -> select(e | e.
+                                                        isText()) -> first())
+                                endif
+                )
+}
+
+rule FigmaFrameLink2ReactLinkHtmlElement {
+        from
+                F: FigmaMM!FRAME (
+                        F.isAnchorTagFrame()
+                )
+        to
+                R: ReactMM!HTMLElement (
+                        name <- 'a',
+                        key <- F.id,
+                        isSelfClosing <- false,
+                        children <- if F.hasClickNavigation() and not thisModule.findFrameById(F.
+                                        getNavigationDestination()).oclIsUndefined() then
+                                        thisModule.CreateDivElement(F)
+                                else
+                                        thisModule.CreateDivElement(F)
+                                endif,
+                        attributes <- if F.hasClickNavigation() then
+                                        let targetFrame: FigmaMM!FRAME =
+                                                thisModule.findFrameById(F.getNavigationDestination())
+                                        in
+                                                if not targetFrame.oclIsUndefined() then
+                                                        Sequence{thisModule.CreateAttribute('href', '/' + thisModule.
+                                                                        sanitizeName(targetFrame.name)),
+                                                                        thisModule.CreateAttribute('style',
+                                                                                        'textDecoration:"none",cursor:"pointer"')}
+                                                else
+                                                        Sequence{thisModule.CreateAttribute('href', '#')}
+                                                endif
+                                else
+                                        Sequence{thisModule.CreateAttribute('href', '#')}
+                                endif
+                )
+}
+
+rule FigmaFrame2ReactTableElement {
+        from
+                F: FigmaMM!FRAME (
+                        F.isTableElement()
+                )
+        to
+                R: ReactMM!HTMLElement (
+                        name <- F.getTableTagName(),
+                        isSelfClosing <- false,
+                        key <- F.id,
+                        attributes <- Sequence{
+                                thisModule.CreateAttribute('id', F.id),
+                                thisModule.CreateAttribute('style',F.getFrameStyles())
+                        },
+                        children <- if not F.children.oclIsUndefined() then
+                                        F.children -> collect(children | thisModule.resolveTemp(children,
+                                                        'R'))
+                                else
+                                        Sequence {}
+                                endif
+                )
+}
+
+rule FigmaText2ReactTableCellElement {
+        from
+                F: FigmaMM!TEXT (
+                        F.isTableCell()
+                )
+        to
+                R: ReactMM!HTMLElement (
+                        name <- F.getTableCellTag(),
+                        isSelfClosing <- false,
+                        key <- F.id,
+                        content <- if not F.characters.oclIsUndefined() then F.characters else ''
+                                        endif,
+                                        attributes <- Sequence{
+                        thisModule.CreateAttribute('style',F.getTextStyles()),
+                                                thisModule.CreateAttribute('id',F.id)           
+                        }
+                )
+}
+-- Styles generations
+-- ATL helper to extract TEXT styles from Figma
+-- This helper converts Figma TEXT styles to React style objects
+helper context FigmaMM!TEXT def: getTextStyles(): String =
+    -- Create a sequence to store style properties
+    let styleProps: Sequence(String) = Sequence{} in
+    
+    -- Font Family
+    let styleProps1: Sequence(String) = 
+        if not self.style.fontFamily.oclIsUndefined() then
+            styleProps->including('"fontFamily": "' + self.style.fontFamily + '"')
+        else
+            styleProps
+        endif
+    in
+    
+    -- Font Size
+    let styleProps2: Sequence(String) = 
+        if not self.style.fontSize.oclIsUndefined() then
+            styleProps1->including('"fontSize": "' + self.style.fontSize.toString() + 'px"')
+        else
+            styleProps1
+        endif
+    in
+    
+    -- Font Weight
+    let styleProps3: Sequence(String) = 
+        if not self.style.fontWeight.oclIsUndefined() then
+            styleProps2->including('"fontWeight": ' + self.style.fontWeight.toString())
+        else
+            styleProps2
+        endif
+    in
+    
+    -- Letter Spacing
+    let styleProps4: Sequence(String) = 
+        if not self.style.letterSpacing.oclIsUndefined() and self.style.letterSpacing <> 0.0 then
+            styleProps3->including('"letterSpacing": "' + self.style.letterSpacing.toString() + 'px"')
+        else
+            styleProps3
+        endif
+    in
+    
+    -- Line Height
+    let styleProps5: Sequence(String) = 
+        if not self.style.lineHeightPx.oclIsUndefined() then
+            styleProps4->including('"lineHeight": "' + self.style.lineHeightPx.toString() + 'px"')
+        else
+            styleProps4
+        endif
+    in
+    
+    -- Text Align Horizontal
+    let styleProps6: Sequence(String) = 
+        if not self.style.textAlignHorizontal.oclIsUndefined() then
+            let alignValue: String =
+                if self.style.textAlignHorizontal.toString() = 'CENTER' then
+                    'center'
+                else
+                    if self.style.textAlignHorizontal.toString() = 'LEFT' then
+                        'left'
+                    else
+                        if self.style.textAlignHorizontal.toString() = 'RIGHT' then
+                            'right'
+                        else
+                            'left'
+                        endif
+                    endif
+                endif
+            in
+            styleProps5->including('"textAlign": "' + alignValue + '"')
+        else
+            styleProps5
+        endif
+    in
+    
+    -- Text Align Vertical (mapped to flexbox alignment)
+    let styleProps7a: Sequence(String) = 
+        if not self.style.textAlignVertical.oclIsUndefined() then
+            let alignValue: String =
+                if self.style.textAlignVertical.toString() = 'CENTER' then
+                    'center'
+                else
+                    if self.style.textAlignVertical.toString() = 'TOP' then
+                        'flex-start'
+                    else
+                        if self.style.textAlignVertical.toString() = 'BOTTOM' then
+                            'flex-end'
+                        else
+                            'flex-start'
+                        endif
+                    endif
+                endif
+            in
+            styleProps6->including('"display": "flex"')
+        else
+            styleProps6
+        endif
+    in
+    
+    let styleProps7: Sequence(String) = 
+        if not self.style.textAlignVertical.oclIsUndefined() then
+            let alignValue: String =
+                if self.style.textAlignVertical.toString() = 'CENTER' then
+                    'center'
+                else
+                    if self.style.textAlignVertical.toString() = 'TOP' then
+                        'flex-start'
+                    else
+                        if self.style.textAlignVertical.toString() = 'BOTTOM' then
+                            'flex-end'
+                        else
+                            'flex-start'
+                        endif
+                    endif
+                endif
+            in
+            styleProps7a->including('"alignItems": "' + alignValue + '"')
+        else
+            styleProps7a
+        endif
+    in
+    
+    -- Color (from fills)
+    let styleProps8: Sequence(String) = 
+        if not self.fills.oclIsUndefined() and not self.fills.color.oclIsUndefined() then
+            let r: Real = self.fills.color.r * 255 in
+            let g: Real = self.fills.color.g * 255 in
+            let b: Real = self.fills.color.b * 255 in
+            let a: Real = self.fills.color.a in
+            if a < 1.0 then
+                styleProps7->including('"color": "rgba(' + r.floor().toString() + ', ' + g.floor().toString() + ', ' + b.floor().toString() + ', ' + a.toString() + ')"')
+            else
+                styleProps7->including('"color": "rgb(' + r.floor().toString() + ', ' + g.floor().toString() + ', ' + b.floor().toString() + ')"')
+            endif
+        else
+            styleProps7
+        endif
+    in
+    
+    -- Padding Top
+    let styleProps9: Sequence(String) = 
+        if not self.paddingTop.oclIsUndefined() and self.paddingTop > 0.0 then
+            styleProps8->including('"paddingTop": "' + self.paddingTop.toString() + 'px"')
+        else
+            styleProps8
+        endif
+    in
+    
+    -- Padding Right
+    let styleProps10: Sequence(String) = 
+        if not self.paddingRight.oclIsUndefined() and self.paddingRight > 0.0 then
+            styleProps9->including('"paddingRight": "' + self.paddingRight.toString() + 'px"')
+        else
+            styleProps9
+        endif
+    in
+    
+    -- Padding Bottom
+    let styleProps11: Sequence(String) = 
+        if not self.paddingBottom.oclIsUndefined() and self.paddingBottom > 0.0 then
+            styleProps10->including('"paddingBottom": "' + self.paddingBottom.toString() + 'px"')
+        else
+            styleProps10
+        endif
+    in
+    
+    -- Padding Left
+    let styleProps12: Sequence(String) = 
+        if not self.paddingLeft.oclIsUndefined() and self.paddingLeft > 0 then
+            styleProps11->including('"paddingLeft": "' + self.paddingLeft.toString() + 'px"')
+        else
+            styleProps11
+        endif
+    in
+    
+    -- Width based on layoutSizing
+    let styleProps13: Sequence(String) = 
+        if self.layoutSizingHorizontal.toString() = 'FIXED' then
+            if not self.absoluteBoundingBox.width.oclIsUndefined() then
+                styleProps12->including('"width": "' + self.absoluteBoundingBox.width.toString() + 'px"')
+            else
+                styleProps12
+            endif
+        else
+            if self.layoutSizingHorizontal.toString() = 'FILL' then
+                styleProps12->including('"width": "100%"')
+            else
+                styleProps12
+            endif
+        endif
+    in
+    
+    -- Height based on layoutSizing
+    let styleProps14: Sequence(String) = 
+        if self.layoutSizingVertical.toString() = 'FIXED' then
+            if not self.absoluteBoundingBox.height.oclIsUndefined() then
+                styleProps13->including('"height": "' + self.absoluteBoundingBox.height.toString() + 'px"')
+            else
+                styleProps13
+            endif
+        else
+            if self.layoutSizingVertical.toString() = 'HUG' then
+                styleProps13->including('"height": "auto"')
+            else
+                styleProps13
+            endif
+        endif
+    in
+    
+    -- White Space handling
+    let styleProps15a: Sequence(String) = 
+        if self.style.textAutoResize.toString() = 'HEIGHT' or self.style.textAutoResize.toString() = 'WIDTH_AND_HEIGHT' then
+            styleProps14->including('"whiteSpace": "pre-wrap"')
+        else
+            styleProps14
+        endif
+    in
+    
+    let styleProps15: Sequence(String) = 
+        if self.style.textAutoResize.toString() = 'HEIGHT' or self.style.textAutoResize.toString() = 'WIDTH_AND_HEIGHT' then
+            styleProps15a->including('"wordBreak": "break-word"')
+        else
+            styleProps15a
+        endif
+    in
+    
+    -- Join all style properties with commas
+    let joinedStyles: String = 
+        styleProps15->iterate(prop; acc : String = '' | 
+            if acc = '' then 
+                prop 
+            else 
+                acc + ', ' + prop 
+            endif
+        )
+    in
+    
+    -- Return style properties without curly braces as requested
+    joinedStyles;
+
+-- ATL helpers to extract styles from various Figma elements and convert them to React style objects
+
+-- Base helper for common styling properties across element types
+
+helper context FigmaMM!Children def: getBaseStyles() : String =
+        let styleProps : Sequence(String) = Sequence{} in
+        
+        -- Position and dimensions
+        let positionedProps : Sequence(String) =
+                if not self.absoluteBoundingBox.oclIsUndefined() then
+                        let propsWithX : Sequence(String) =
+                                if not self.absoluteBoundingBox.x.oclIsUndefined() then
+                                        styleProps->append('"left": "' + self.absoluteBoundingBox.x.toString() + 'px"')
+                                else
+                                        styleProps
+                                endif
+                        in
+                        
+                        let propsWithY : Sequence(String) =
+                                if not self.absoluteBoundingBox.y.oclIsUndefined() then
+                                        propsWithX->append('"top": "' + self.absoluteBoundingBox.y.toString() + 'px"')
+                                else
+                                        propsWithX
+                                endif
+                        in
+                        
+                        let propsWithWidth : Sequence(String) =
+                                if not self.absoluteBoundingBox.width.oclIsUndefined() then
+                                        propsWithY->append('"width": "' + self.absoluteBoundingBox.width.toString() + 'px"')
+                                else
+                                        propsWithY
+                                endif
+                        in
+                        
+                        let propsWithHeight : Sequence(String) =
+                                if not self.absoluteBoundingBox.height.oclIsUndefined() then
+                                        propsWithWidth->append('"height": "' + self.absoluteBoundingBox.height.toString() + 'px"')
+                                else
+                                        propsWithWidth
+                                endif
+                        in
+                        propsWithHeight
+                else
+                        styleProps
+                endif
+        in
+        
+        -- Background color
+        let propsWithBackground : Sequence(String) =
+                if not self.backgroundColor.oclIsUndefined() then
+                        let r : Real = self.backgroundColor.r * 255 in
+                        let g : Real = self.backgroundColor.g * 255 in
+                        let b : Real = self.backgroundColor.b * 255 in
+                        let a : Real = self.backgroundColor.a in
+                        
+                        if a < 1.0 then
+                                positionedProps->append('"backgroundColor": "rgba(' + r.floor().toString() + ', ' + g.floor().toString() + ', ' + b.floor().toString() + ', ' + a.toString() + ')"')
+                        else
+                                positionedProps->append('"backgroundColor": "rgb(' + r.floor().toString() + ', ' + g.floor().toString() + ', ' + b.floor().toString() + ')"')
+                        endif
+                else
+                        -- If no backgroundColor, check fills
+                        if not self.fills.oclIsUndefined() and not self.fills.color.oclIsUndefined() then
+                                let r : Real = self.fills.color.r * 255 in
+                                let g : Real = self.fills.color.g * 255 in
+                                let b : Real = self.fills.color.b * 255 in
+                                let a : Real = self.fills.color.a in
+                                
+                                if a < 1.0 then
+                                        positionedProps->append('"backgroundColor": "rgba(' + r.floor().toString() + ', ' + g.floor().toString() + ', ' + b.floor().toString() + ', ' + a.toString() + ')"')
+                                else
+                                        positionedProps->append('"backgroundColor": "rgb(' + r.floor().toString() + ', ' + g.floor().toString() + ', ' + b.floor().toString() + ')"')
+                                endif
+                        else
+                                positionedProps
+                        endif
+                endif
+        in
+        
+        -- Border radius (corner radius)
+        let propsWithRadius : Sequence(String) =
+                if not self.cornerRadius.oclIsUndefined() and self.cornerRadius > 0.0 then
+                        propsWithBackground->append('"borderRadius": "' + self.cornerRadius.toString() + 'px"')
+                else
+                        propsWithBackground
+                endif
+        in
+        
+        -- Border style (stroke)
+        let propsWithBorderWidth : Sequence(String) =
+                if not self.strokeWeight.oclIsUndefined() and self.strokeWeight > 0.0 then
+                        propsWithRadius->append('"borderWidth": "' + self.strokeWeight.toString() + 'px"')
+                else
+                        propsWithRadius
+                endif
+        in
+        
+        let propsWithBorderColor : Sequence(String) =
+                if not self.strokeWeight.oclIsUndefined() and self.strokeWeight > 0.0 then
+                        if not self.strokes->isEmpty() then
+                                -- First check that the strokes sequence has at least one item
+                                let firstStroke:FigmaMM!Background = self.strokes->first() in
+                                -- Then check if this stroke has a color
+                                if not firstStroke.oclIsUndefined() and not firstStroke.color.oclIsUndefined() then
+                                        let r : Real = firstStroke.color.r * 255 in
+                                        let g : Real = firstStroke.color.g * 255 in
+                                        let b : Real = firstStroke.color.b * 255 in
+                                        let a : Real = firstStroke.color.a in
+                                        
+                                        if a < 1.0 then
+                                                propsWithBorderWidth->append('"borderColor": "rgba(' + r.floor().toString() + ', ' + g.floor().toString() + ', ' + b.floor().toString() + ', ' + a.toString() + ')"')
+                                        else
+                                                propsWithBorderWidth->append('"borderColor": "rgb(' + r.floor().toString() + ', ' + g.floor().toString() + ', ' + b.floor().toString() + ')"')
+                                        endif
+                                else
+                                        -- Default border color if stroke or color is undefined
+                                        propsWithBorderWidth->append('"borderColor": "black"')
+                                endif
+                        else
+                                -- No strokes, set default border color
+                                propsWithBorderWidth->append('"borderColor": "black"')
+                        endif
+                else
+                        propsWithBorderWidth
+                endif
+        in
+        
+        let propsWithBorderStyle : Sequence(String) =
+                if not self.strokeWeight.oclIsUndefined() and self.strokeWeight > 0.0 then
+                        if not self.strokes->isEmpty() then
+                                let firstStroke:FigmaMM!Background = self.strokes->first() in
+                                if not firstStroke.oclIsUndefined() and not firstStroke.type.oclIsUndefined() then
+                                        let borderStyle : String = 
+                                                if firstStroke.type.toString() = 'SOLID' then
+                                                        'solid'
+                                                else
+                                                        'solid' -- Default to solid
+                                                endif
+                                        in
+                                        propsWithBorderColor->append('"borderStyle": "' + borderStyle + '"')
+                                else
+                                        propsWithBorderColor->append('"borderStyle": "solid"')
+                                endif
+                        else
+                                propsWithBorderColor->append('"borderStyle": "solid"')
+                        endif
+                else
+                        propsWithBorderColor
+                endif
+        in
+        
+        -- Border alignment
+        let propsWithBoxSizing : Sequence(String) =
+                if not self.strokeAlign.oclIsUndefined() then
+                        let boxSizing : String = 
+                                if self.strokeAlign.toString() = 'INSIDE' then
+                                        'border-box'
+                                else if self.strokeAlign.toString() = 'OUTSIDE' then
+                                        'content-box'
+                                else
+                                        'border-box' -- Default for CENTER or undefined
+                                endif
+                                endif
+                        in
+                        propsWithBorderStyle->append('"boxSizing": "' + boxSizing + '"')
+                else
+                        propsWithBorderStyle
+                endif
+        in
+        
+        -- Opacity (from blend mode)
+        let propsWithOpacity : Sequence(String) =
+                if not self.blemdMode.oclIsUndefined() and self.blemdMode.toString() <> 'NORMAL' then
+                        if self.blemdMode.toString() = 'PASS_THROUGH' then
+                                propsWithBoxSizing->append('"opacity": "0.5"')
+                        else
+                                propsWithBoxSizing
+                        endif
+                else
+                        propsWithBoxSizing
+                endif
+        in
+        
+        -- Effects (shadows) - Fixed version
+        let propsWithShadow : Sequence(String) =
+            if not self.effects->isEmpty() then
+                let shadowEffects : Sequence(FigmaMM!Effect) = 
+                    self.effects->select(e | e.type.toString() = 'DROP_SHADOW' and e.visible = true) in
+                    
+                if not shadowEffects->isEmpty() then
+                    let firstShadow : FigmaMM!Effect = shadowEffects->first() in
+                    
+                    if not firstShadow.oclIsUndefined() then
+                        -- Default shadow values
+                        let shadowColor : String = 'rgba(0, 0, 0, 0.3)' in
+                        let radius : String = 
+                            if not firstShadow.radius.oclIsUndefined() then
+                                firstShadow.radius.toString()
+                            else
+                                '4'
+                            endif
+                        in
+                        propsWithOpacity->append('"boxShadow": "0px 4px ' + radius + 'px ' + shadowColor + '"')
+                    else
+                        propsWithOpacity
+                    endif
+                else
+                    propsWithOpacity
+                endif
+            else
+                propsWithOpacity
+            endif
+        in
+        
+        -- Display and overflow
+        let finalProps : Sequence(String) =
+                if not self.clipsContent.oclIsUndefined() and self.clipsContent = true then
+                        propsWithShadow->append('"overflow": "hidden"')
+                else
+                        propsWithShadow
+                endif
+        in
+        
+        -- Join all style properties with commas
+        let joinedProps : String = 
+                finalProps->iterate(prop; acc : String = '' | 
+                        if acc = '' then
+                                prop
+                        else
+                                acc + ', ' + prop
+                        endif
+                )
+        in
+        -- Return without curly braces
+        joinedProps
+;
+
+-- Helper for FRAME specific styles
+helper context FigmaMM!FRAME def: getFrameStyles() : String =
+        let baseStyles : String = self.getBaseStyles() in
+        let styleProps : Sequence(String) = Sequence{} in
+        
+        -- Layout properties
+        let propsWithDisplay : Sequence(String) =
+                if not self.layoutMode.oclIsUndefined() then
+                        let display : String = 'flex' in
+                        let direction : String = 
+                                if self.layoutMode.toString() = 'HORIZONTAL' then
+                                        'row'
+                                else if self.layoutMode.toString() = 'VERTICAL' then
+                                        'column'
+                                else
+                                        'column' -- Default
+                                endif
+                                endif
+                        in
+                        let withDisplay : Sequence(String) = styleProps->append('"display": "' + display + '"') in
+                        withDisplay->append('"flexDirection": "' + direction + '"')
+                else
+                        styleProps
+                endif
+        in
+        
+        -- Item spacing (gap in flexbox)
+        let propsWithGap : Sequence(String) =
+                if not self.itemSpacing.oclIsUndefined() and self.itemSpacing > 0 then
+                        propsWithDisplay->append('"gap": "' + self.itemSpacing.toString() + 'px"')
+                else
+                        propsWithDisplay
+                endif
+        in
+        
+        -- Padding
+        let propsWithPaddingLeft : Sequence(String) =
+                if not self.paddingLeft.oclIsUndefined() and self.paddingLeft > 0 then
+                        propsWithGap->append('"paddingLeft": "' + self.paddingLeft.toString() + 'px"')
+                else
+                        propsWithGap
+                endif
+        in
+        
+        let propsWithPaddingRight : Sequence(String) =
+                if not self.paddingRight.oclIsUndefined() and self.paddingRight > 0 then
+                        propsWithPaddingLeft->append('"paddingRight": "' + self.paddingRight.toString() + 'px"')
+                else
+                        propsWithPaddingLeft
+                endif
+        in
+        
+        let propsWithPaddingTop : Sequence(String) =
+                if not self.paddingTop.oclIsUndefined() and self.paddingTop > 0 then
+                        propsWithPaddingRight->append('"paddingTop": "' + self.paddingTop.toString() + 'px"')
+                else
+                        propsWithPaddingRight
+                endif
+        in
+        
+        let propsWithPaddingBottom : Sequence(String) =
+                if not self.paddingBottom.oclIsUndefined() and self.paddingBottom > 0 then
+                        propsWithPaddingTop->append('"paddingBottom": "' + self.paddingBottom.toString() + 'px"')
+                else
+                        propsWithPaddingTop
+                endif
+        in
+        
+        -- Alignment properties
+        let propsWithJustifyContent : Sequence(String) =
+                if not self.primaryAxisAlignItems.oclIsUndefined() then
+                        let justifyContent : String = 
+                                if self.primaryAxisAlignItems.toString() = 'CENTER' then
+                                        'center'
+                                else if self.primaryAxisAlignItems.toString() = 'MAX' then
+                                        'flex-end'
+                                else if self.primaryAxisAlignItems.toString() = 'MIN' then
+                                        'flex-start'
+                                else if self.primaryAxisAlignItems.toString() = 'SPACE_BETWEEN' then
+                                        'space-between'
+                                else
+                                        'flex-start' -- Default
+                                endif
+                                endif
+                                endif
+                                endif
+                        in
+                        propsWithPaddingBottom->append('"justifyContent": "' + justifyContent + '"')
+                else
+                        propsWithPaddingBottom
+                endif
+        in
+        
+        let propsWithAlignItems : Sequence(String) =
+                if not self.counterAxisAlignItems.oclIsUndefined() then
+                        let alignItems : String = 
+                                if self.counterAxisAlignItems.toString() = 'CENTER' then
+                                        'center'
+                                else if self.counterAxisAlignItems.toString() = 'MAX' then
+                                        'flex-end'
+                                else if self.counterAxisAlignItems.toString() = 'MIN' then
+                                        'flex-start'
+                                else if self.counterAxisAlignItems.toString() = 'BASELINE' then
+                                        'baseline'
+                                else
+                                        'stretch' -- Default
+                                endif
+                                endif
+                                endif
+                                endif
+                        in
+                        propsWithJustifyContent->append('"alignItems": "' + alignItems + '"')
+                else
+                        propsWithJustifyContent
+                endif
+        in
+        
+        -- Layout sizing
+        let propsWithWidth : Sequence(String) =
+                if not self.layoutSizingHorizontal.oclIsUndefined() then
+                        if self.layoutSizingHorizontal.toString() = 'FILL' then
+                                propsWithAlignItems->append('"width": "100%"')
+                        else if self.layoutSizingHorizontal.toString() = 'HUG' then
+                                propsWithAlignItems->append('"width": "fit-content"')
+                        else
+                                propsWithAlignItems
+                        endif
+                        endif
+                else
+                        propsWithAlignItems
+                endif
+        in
+        
+        let propsWithHeight : Sequence(String) =
+                if not self.layoutSizingVertical.oclIsUndefined() then
+                        if self.layoutSizingVertical.toString() = 'FILL' then
+                                propsWithWidth->append('"height": "100%"')
+                        else if self.layoutSizingVertical.toString() = 'HUG' then
+                                propsWithWidth->append('"height": "fit-content"')
+                        else
+                                propsWithWidth
+                        endif
+                        endif
+                else
+                        propsWithWidth
+                endif
+        in
+        
+        -- Layout wrap
+        let finalProps : Sequence(String) =
+                if not self.layoutWrap.oclIsUndefined() and self.layoutWrap.toString() <> 'NO_WRAP' then
+                        propsWithHeight->append('"flexWrap": "wrap"')
+                else
+                        propsWithHeight
+                endif
+        in
+        
+        -- Join all style properties with commas
+        let joinedProps : String = 
+                finalProps->iterate(prop; acc : String = '' | 
+                        if acc = '' then
+                                prop
+                        else
+                                acc + ', ' + prop
+                        endif
+                )
+        in
+        
+        -- Final output combining with base styles
+        if baseStyles <> '' and joinedProps <> '' then
+                baseStyles + ', ' + joinedProps
+        else if baseStyles <> '' then
+                baseStyles
+        else if joinedProps <> '' then
+                joinedProps
+        else
+                ''
+        endif
+        endif
+        endif
+;
+                
+-- Helper for RECTANGLE specific styles
+helper context FigmaMM!RECTANGLE def: getRectangleStyles() : String =
+        -- RECTANGLE mainly uses base styles
+        self.getBaseStyles()
+;
+
+-- Helper for COMPONENT_SET specific styles
+helper context FigmaMM!COMPONENT_SET def: getComponentSetStyles() : String =
+        let baseStyles : String = self.getBaseStyles() in
+        let styleProps : Sequence(String) = Sequence{} in
+        let modifiedProps : Sequence(String) = 
+                -- Add component set specific properties
+                if not self.itemSpacing.oclIsUndefined() and self.itemSpacing > 0.0 then
+                        styleProps->append('"gap": "' + self.itemSpacing.toString() + 'px"')
+                else
+                        styleProps
+                endif
+        in
+        
+        -- Create result string
+        let joinedProps : String = 
+                styleProps->iterate(prop; acc : String = '' | 
+                        if acc = '' then
+                                prop
+                        else
+                                acc + ', ' + prop
+                        endif
+                )
+        in
+        
+        -- Final output
+        if baseStyles <> '' and joinedProps <> '' then
+                baseStyles + ', ' + joinedProps
+        else if baseStyles <> '' then
+                baseStyles
+        else if joinedProps <> '' then
+                joinedProps
+        else
+                ''
+        endif
+        endif
+        endif
+;
+
+-- Helper for COMPONENT styles (inherits FRAME styles)
+helper context FigmaMM!COMPONENT def: getComponentStyles() : String =
+        -- COMPONENT extends FRAME so we use the FRAME style helper
+        self.getFrameStyles()
+;
+
+-- Helper for GROUP styles
+helper context FigmaMM!GROUP def: getGroupStyles() : String =
+        -- GROUP extends FRAME so we use the FRAME style helper
+        self.getFrameStyles()
+;
+
+-- Helper for INSTANCE styles
+helper context FigmaMM!INSTANCE def: getInstanceStyles() : String =
+        let baseStyles : String = self.getBaseStyles() in
+        let styleProps : Sequence(String) = Sequence{} in
+        let modifiedProps : Sequence(String) = 
+                -- INSTANCE has component properties that might affect styling
+                -- Here we extract any style-related component properties
+                let componentProps : Sequence(String) = 
+                        if not self.componentProperties->isEmpty() then
+                                self.componentProperties->iterate(prop; result : Sequence(String) = Sequence{} |
+                                        -- Extract any style-related properties
+                                        -- This would need to be customized based on your component property conventions
+                                        result
+                                )
+                        else
+                                Sequence{}
+                        endif
+                in
+                styleProps
+        in
+        
+        -- Create result string
+        let joinedProps : String = 
+                styleProps->iterate(prop; acc : String = '' | 
+                        if acc = '' then
+                                prop
+                        else
+                                acc + ', ' + prop
+                        endif
+                )
+        in
+        
+        -- Final output
+        if baseStyles <> '' and joinedProps <> '' then
+                baseStyles + ', ' + joinedProps
+        else if baseStyles <> '' then
+                baseStyles
+        else if joinedProps <> '' then
+                joinedProps
+        else
+                ''
+        endif
+        endif
+        endif
+;
+
+
+-- Main helper to get the style for any type of Figma element
+-- This will call the specific style helper based on the element type
+helper context FigmaMM!Children def: getAllStyles() : String =
+        if self.oclIsTypeOf(FigmaMM!TEXT) then
+                self.getTextStyles()
+        else if self.oclIsTypeOf(FigmaMM!FRAME) then
+                self.getFrameStyles()
+        else if self.oclIsTypeOf(FigmaMM!RECTANGLE) then
+                self.getRectangleStyles()
+        else if self.oclIsTypeOf(FigmaMM!COMPONENT_SET) then
+                self.getComponentSetStyles()
+        else if self.oclIsTypeOf(FigmaMM!COMPONENT) then
+                self.getComponentStyles()
+        else if self.oclIsTypeOf(FigmaMM!GROUP) then
+                self.getGroupStyles()
+        else if self.oclIsTypeOf(FigmaMM!INSTANCE) then
+                self.getInstanceStyles()
+        else
+                self.getBaseStyles()
+        endif
+        endif
+        endif
+        endif
+        endif
+        endif
+        endif
+;
