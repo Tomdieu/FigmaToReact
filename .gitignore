@@ -1,5 +1,5 @@
 # Ignore everything
-*
+#*
 
 # Except these directories and files
 !atl_help/
@@ -7,7 +7,6 @@
 !Model/
 !README.md
 !table.md
-!Transformations/
 !uml/
 !python_code
 !parser
@@ -17,3 +16,4 @@
 .env
 env
 __pycache__/
+Untitled
