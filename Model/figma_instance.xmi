@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<figma_meta_model:FigmaApp xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:figma_meta_model="www.figma_meta_model.com" xsi:schemaLocation="www.figma_meta_model.com ../Metamodel/figma_meta_model.ecore" name="Untitled" lastModified="2025-03-18T14:31:42Z" thumbnailUrl="https://s3-alpha.figma.com/thumbnails/c168af95-d671-4948-9930-0d102ee20f06?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAQ4GOSFWCUXI2UGDG%2F20250316%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20250316T120000Z&amp;X-Amz-Expires=604800&amp;X-Amz-SignedHeaders=host&amp;X-Amz-Signature=5d1ecee1081c0abbb1d3943e23620f85ee5c73e63a8550fc0f7eec61abdcaa8c" version="2196862217020241098" editorType="figma">
+<figma_meta_model:FigmaApp xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:figma_meta_model="www.figma_meta_model.com" xsi:schemaLocation="www.figma_meta_model.com ../Metamodel/figma_meta_model.ecore" name="Untitled" lastModified="2025-03-24T11:55:47Z" thumbnailUrl="https://s3-alpha.figma.com/thumbnails/d1c9a009-104c-4417-95b8-2f754b9664ff?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAQ4GOSFWCT3MRUCDU%2F20250323%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20250323T120000Z&amp;X-Amz-Expires=604800&amp;X-Amz-SignedHeaders=host&amp;X-Amz-Signature=330f2027e38e11392ef6c5dac160616872e2aa05e172f1aadb0e2cc741684a4d" version="2199048442328286917" editorType="figma">
   <document id="0:0" name="Document" type="DOCUMENT" scrollBehavior="SCROLLS">
     <children xsi:type="figma_meta_model:CANVAS" id="393:39" name="AuthPage" type="CANVAS" scrollBehavior="SCROLLS" clipsContent="false" prototypeStartNodeID="393:41">
       <prototypeDevice xsi:type="figma_meta_model:PrototypeDevice" type="NONE" rotation="NONE"/>
@@ -146,7 +146,7 @@
                   <transition xsi:type="figma_meta_model:Transition"/>
                 </actions>
               </interactions>
-              <children xsi:type="figma_meta_model:TEXT" id="409:57" name="button" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="Login" layoutAlign="INHERIT" layoutGrow="0.0" layoutSizingHorizontal="HUG" layoutSizingVertical="HUG" lineTypes="NONE" lineIndentations="0">
+              <children xsi:type="figma_meta_model:TEXT" id="409:57" name="login" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="Login" layoutAlign="INHERIT" layoutGrow="0.0" layoutSizingHorizontal="HUG" layoutSizingVertical="HUG" lineTypes="NONE" lineIndentations="0">
                 <absoluteBoundingBox x="688.5" y="676.0" width="63.0" height="29.0"/>
                 <absoluteRenderBounds x="691.0238037109375" y="681.0" width="58.23150634765625" height="23.18182373046875"/>
                 <constraints horizontal="CENTER" vertical="CENTER"/>
@@ -391,14 +391,14 @@
                   <color r="0.0" g="0.0" b="0.0" a="1.0"/>
                 </fills>
               </children>
-              <children xsi:type="figma_meta_model:FRAME" id="632:67" name="Frame 10" type="FRAME" scrollBehavior="SCROLLS" clipsContent="true" strokeWeight="1.0" strokeAlign="INSIDE" layoutMode="HORIZONTAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="HUG" layoutSizingVertical="HUG" layoutAlign="INHERIT" itemSpacing="47" counterAxisAlignItems="CENTER" primaryAxisAlignItems="MAX">
-                <absoluteBoundingBox x="2557.0" y="165.5" width="223.0" height="49.0"/>
-                <absoluteRenderBounds x="2557.0" y="165.5" width="223.0" height="49.0"/>
+              <children xsi:type="figma_meta_model:FRAME" id="632:67" name="td" type="FRAME" scrollBehavior="SCROLLS" clipsContent="true" strokeWeight="1.0" strokeAlign="INSIDE" layoutMode="HORIZONTAL" layoutWrap="NO_WRAP" layoutSizingHorizontal="FILL" layoutSizingVertical="HUG" layoutAlign="INHERIT" itemSpacing="47" primaryAxisSizingMode="FIXED" counterAxisAlignItems="CENTER" primaryAxisAlignItems="CENTER">
+                <absoluteBoundingBox x="2557.0" y="165.5" width="323.0" height="49.0"/>
+                <absoluteRenderBounds x="2557.0" y="165.5" width="323.0" height="49.0"/>
                 <constraints horizontal="LEFT" vertical="TOP"/>
                 <backgroundColor r="0.0" g="0.0" b="0.0" a="0.0"/>
                 <children xsi:type="figma_meta_model:TEXT" id="632:68" name="a" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="update" layoutAlign="INHERIT" layoutGrow="0.0" layoutSizingHorizontal="HUG" layoutSizingVertical="HUG" lineTypes="NONE" lineIndentations="0">
-                  <absoluteBoundingBox x="2567.0" y="175.5" width="82.0" height="29.0"/>
-                  <absoluteRenderBounds x="2568.733642578125" y="181.0454559326172" width="79.093017578125" height="22.363632202148438"/>
+                  <absoluteBoundingBox x="2617.0" y="175.5" width="82.0" height="29.0"/>
+                  <absoluteRenderBounds x="2618.733642578125" y="181.0454559326172" width="79.093017578125" height="22.363632202148438"/>
                   <constraints horizontal="LEFT" vertical="TOP"/>
                   <style fontFamily="Inter" fontPostScriptName="Inter-SemiBold" textAutoResize="WIDTH_AND_HEIGHT" fontSize="24.0" fontWeight="600" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="29.045454025268555" textAlignHorizontal="CENTER" textAlignVertical="TOP"/>
                   <fills>
@@ -406,8 +406,8 @@
                   </fills>
                 </children>
                 <children xsi:type="figma_meta_model:TEXT" id="632:69" name="a" type="TEXT" scrollBehavior="SCROLLS" clipsContent="false" strokeWeight="1.0" strokeAlign="OUTSIDE" characters="delete" layoutAlign="INHERIT" layoutGrow="0.0" layoutSizingHorizontal="HUG" layoutSizingVertical="HUG" lineTypes="NONE" lineIndentations="0">
-                  <absoluteBoundingBox x="2696.0" y="175.5" width="74.0" height="29.0"/>
-                  <absoluteRenderBounds x="2697.53271484375" y="181.0454559326172" width="70.9580078125" height="17.710220336914062"/>
+                  <absoluteBoundingBox x="2746.0" y="175.5" width="74.0" height="29.0"/>
+                  <absoluteRenderBounds x="2747.53271484375" y="181.0454559326172" width="70.9580078125" height="17.710220336914062"/>
                   <constraints horizontal="LEFT" vertical="TOP"/>
                   <style fontFamily="Inter" fontPostScriptName="Inter-SemiBold" textAutoResize="WIDTH_AND_HEIGHT" fontSize="24.0" fontWeight="600" letterSpacing="0.0" lineHeightPercent="100.0" lineHeightPx="29.045454025268555" textAlignHorizontal="CENTER" textAlignVertical="TOP"/>
                   <fills>
