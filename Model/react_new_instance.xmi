@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<react_meta_model:ReactApplication xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:react_meta_model="www.react_meta_model.com" name="Untitled">
+  <router basname="Document">
+    <route path="/authpage" exact="true">
+      <children path="login-screen" exact="true">
+        <element xsi:type="react_meta_model:Page" key="393:41" name="LoginScreen">
+          <children xsi:type="react_meta_model:HTMLElement" key="393:41_main" name="main">
+            <children xsi:type="react_meta_model:HTMLElement" key="393:42" name="div">
+              <children xsi:type="react_meta_model:HTMLElement" key="408:55" name="form">
+                <children xsi:type="react_meta_model:HTMLElement" key="393:44" name="h1" content="Login Page">
+                  <attributes name="style" value="{{&quot;fontFamily&quot;: &quot;Inter&quot;, &quot;fontSize&quot;: &quot;24.0px&quot;, &quot;fontWeight&quot;: 500, &quot;letterSpacing&quot;: &quot;0.0px&quot;, &quot;lineHeight&quot;: &quot;29.045454px&quot;, &quot;textAlign&quot;: &quot;center&quot;, &quot;width&quot;: &quot;100%&quot;, &quot;width&quot;: &quot;100%&quot;, &quot;height&quot;: &quot;auto&quot;, &quot;display&quot;: &quot;flex&quot;, &quot;alignItems&quot;: &quot;flex-start&quot;, &quot;color&quot;: &quot;rgb(0, 0, 0)&quot;, &quot;whiteSpace&quot;: &quot;pre-wrap&quot;, &quot;wordBreak&quot;: &quot;break-word&quot;}}" type="string"/>
+                  <attributes name="id" value="393:44" type="string"/>
+                </children>
+                <children xsi:type="react_meta_model:HTMLElement" key="393:45" name="div">
+                  <children xsi:type="react_meta_model:HTMLElement" key="395:46" name="label" content="Username">
+                    <attributes name="style" value="{{&quot;fontFamily&quot;: &quot;Inter&quot;, &quot;fontSize&quot;: &quot;24.0px&quot;, &quot;fontWeight&quot;: 400, &quot;letterSpacing&quot;: &quot;0.0px&quot;, &quot;lineHeight&quot;: &quot;29.045454px&quot;, &quot;textAlign&quot;: &quot;left&quot;, &quot;width&quot;: &quot;100%&quot;, &quot;width&quot;: &quot;100%&quot;, &quot;height&quot;: &quot;auto&quot;, &quot;display&quot;: &quot;flex&quot;, &quot;alignItems&quot;: &quot;center&quot;, &quot;color&quot;: &quot;rgb(0, 0, 0)&quot;, &quot;whiteSpace&quot;: &quot;pre-wrap&quot;, &quot;wordBreak&quot;: &quot;break-word&quot;}}" type="string"/>
+                    <attributes name="id" value="395:46" type="string"/>
+                  </children>
+                  <children xsi:type="react_meta_model:HTMLElement" key="396:48" name="input" isSelfClosing="true">
+                    <attributes name="id" value="396:48" type="string"/>
+                    <attributes name="type" value="email" type="string"/>
+                    <attributes name="placeholder" value="placeholder" type="string"/>
+                    <attributes name="style" value="{{&quot;backgroundColor&quot;: &quot;rgba(0, 0, 0, 0.0)&quot;, &quot;borderRadius&quot;: &quot;8.0px&quot;, &quot;borderWidth&quot;: &quot;1.0px&quot;, &quot;borderColor&quot;: &quot;rgb(194, 187, 187)&quot;, &quot;borderStyle&quot;: &quot;solid&quot;, &quot;boxSizing&quot;: &quot;border-box&quot;, &quot;width&quot;: &quot;100%&quot;, &quot;maxWidth&quot;: &quot;367.0px&quot;, &quot;height&quot;: &quot;60.0px&quot;, &quot;padding&quot;: &quot;8px 12px&quot;, &quot;fontSize&quot;: &quot;24.0px&quot;, &quot;fontFamily&quot;: &quot;Inter&quot;, &quot;border&quot;: &quot;1px solid #ccc&quot;, &quot;borderRadius&quot;: &quot;4px&quot;, &quot;transition&quot;: &quot;border-color 0.3s, box-shadow 0.3s&quot;, &quot;outline&quot;: &quot;none&quot;}}" type="string"/>
+                  </children>
+                  <attributes name="id" value="393:45" type="string"/>
+                  <attributes name="style" value="{{&quot;backgroundColor&quot;: &quot;rgba(0, 0, 0, 0.0)&quot;, &quot;borderWidth&quot;: &quot;1.0px&quot;, &quot;borderColor&quot;: &quot;transparent&quot;, &quot;borderStyle&quot;: &quot;solid&quot;, &quot;boxSizing&quot;: &quot;border-box&quot;, &quot;overflow&quot;: &quot;hidden&quot;, &quot;display&quot;: &quot;flex&quot;, &quot;flexDirection&quot;: &quot;column&quot;, &quot;gap&quot;: &quot;10px&quot;, &quot;justifyContent&quot;: &quot;center&quot;, &quot;alignItems&quot;: &quot;center&quot;}}" type="string"/>
+                </children>
+                <children xsi:type="react_meta_model:HTMLElement" key="400:50" name="div">
+                  <children xsi:type="react_meta_model:HTMLElement" key="400:51" name="label" content="Password">
+                    <attributes name="style" value="{{&quot;fontFamily&quot;: &quot;Inter&quot;, &quot;fontSize&quot;: &quot;24.0px&quot;, &quot;fontWeight&quot;: 400, &quot;letterSpacing&quot;: &quot;0.0px&quot;, &quot;lineHeight&quot;: &quot;29.045454px&quot;, &quot;textAlign&quot;: &quot;left&quot;, &quot;width&quot;: &quot;100%&quot;, &quot;width&quot;: &quot;100%&quot;, &quot;height&quot;: &quot;auto&quot;, &quot;display&quot;: &quot;flex&quot;, &quot;alignItems&quot;: &quot;center&quot;, &quot;color&quot;: &quot;rgb(0, 0, 0)&quot;, &quot;whiteSpace&quot;: &quot;pre-wrap&quot;, &quot;wordBreak&quot;: &quot;break-word&quot;}}" type="string"/>
+                    <attributes name="id" value="400:51" type="string"/>
+                  </children>
+                  <children xsi:type="react_meta_model:HTMLElement" key="400:52" name="input" isSelfClosing="true">
+                    <attributes name="id" value="400:52" type="string"/>
+                    <attributes name="type" value="password" type="string"/>
+                    <attributes name="placeholder" value="password" type="string"/>
+                    <attributes name="style" value="{{&quot;backgroundColor&quot;: &quot;rgba(0, 0, 0, 0.0)&quot;, &quot;borderRadius&quot;: &quot;8.0px&quot;, &quot;borderWidth&quot;: &quot;1.0px&quot;, &quot;borderColor&quot;: &quot;rgb(194, 187, 187)&quot;, &quot;borderStyle&quot;: &quot;solid&quot;, &quot;boxSizing&quot;: &quot;border-box&quot;, &quot;width&quot;: &quot;100%&quot;, &quot;maxWidth&quot;: &quot;367.0px&quot;, &quot;height&quot;: &quot;60.0px&quot;, &quot;padding&quot;: &quot;8px 12px&quot;, &quot;fontSize&quot;: &quot;24.0px&quot;, &quot;fontFamily&quot;: &quot;Inter&quot;, &quot;border&quot;: &quot;1px solid #ccc&quot;, &quot;borderRadius&quot;: &quot;4px&quot;, &quot;transition&quot;: &quot;border-color 0.3s, box-shadow 0.3s&quot;, &quot;outline&quot;: &quot;none&quot;}}" type="string"/>
+                  </children>
+                  <attributes name="id" value="400:50" type="string"/>
+                  <attributes name="style" value="{{&quot;backgroundColor&quot;: &quot;rgba(0, 0, 0, 0.0)&quot;, &quot;borderWidth&quot;: &quot;1.0px&quot;, &quot;borderColor&quot;: &quot;transparent&quot;, &quot;borderStyle&quot;: &quot;solid&quot;, &quot;boxSizing&quot;: &quot;border-box&quot;, &quot;overflow&quot;: &quot;hidden&quot;, &quot;display&quot;: &quot;flex&quot;, &quot;flexDirection&quot;: &quot;column&quot;, &quot;gap&quot;: &quot;10px&quot;, &quot;justifyContent&quot;: &quot;center&quot;, &quot;alignItems&quot;: &quot;center&quot;}}" type="string"/>
+                </children>
+                <children xsi:type="react_meta_model:HTMLElement" key="430:59" name="div">
+                  <children xsi:type="react_meta_model:HTMLElement" key="430:60" name="input" isSelfClosing="true">
+                    <attributes name="id" value="430:60" type="string"/>
+                    <attributes name="type" value="checkbox" type="string"/>
+                  </children>
+                  <children xsi:type="react_meta_model:HTMLElement" key="430:61" name="label" content="Remember me">
+                    <attributes name="style" value="{{&quot;fontFamily&quot;: &quot;Inter&quot;, &quot;fontSize&quot;: &quot;24.0px&quot;, &quot;fontWeight&quot;: 400, &quot;letterSpacing&quot;: &quot;0.0px&quot;, &quot;lineHeight&quot;: &quot;29.045454px&quot;, &quot;textAlign&quot;: &quot;left&quot;, &quot;flexGrow&quot;: &quot;1.0&quot;, &quot;width&quot;: &quot;100%&quot;, &quot;height&quot;: &quot;auto&quot;, &quot;display&quot;: &quot;flex&quot;, &quot;alignItems&quot;: &quot;flex-start&quot;, &quot;color&quot;: &quot;rgb(0, 0, 0)&quot;, &quot;whiteSpace&quot;: &quot;pre-wrap&quot;, &quot;wordBreak&quot;: &quot;break-word&quot;}}" type="string"/>
+                    <attributes name="id" value="430:61" type="string"/>
+                  </children>
+                  <attributes name="id" value="430:59" type="string"/>
+                  <attributes name="style" value="{{&quot;backgroundColor&quot;: &quot;rgba(0, 0, 0, 0.0)&quot;, &quot;borderWidth&quot;: &quot;1.0px&quot;, &quot;borderColor&quot;: &quot;transparent&quot;, &quot;borderStyle&quot;: &quot;solid&quot;, &quot;boxSizing&quot;: &quot;border-box&quot;, &quot;overflow&quot;: &quot;hidden&quot;, &quot;display&quot;: &quot;flex&quot;, &quot;flexDirection&quot;: &quot;row&quot;, &quot;gap&quot;: &quot;10px&quot;, &quot;justifyContent&quot;: &quot;center&quot;, &quot;alignItems&quot;: &quot;center&quot;}}" type="string"/>
+                </children>
+                <children xsi:type="react_meta_model:HTMLElement" key="409:58" name="a">
+                  <children xsi:type="react_meta_model:HTMLElement" name="button">
+                    <children xsi:type="react_meta_model:HTMLElement" key="409:57" name="span" content="Login">
+                      <attributes name="id" value="409:57" type="string"/>
+                      <attributes name="style" value="{{&quot;fontFamily&quot;: &quot;Inter&quot;, &quot;fontSize&quot;: &quot;24.0px&quot;, &quot;fontWeight&quot;: 400, &quot;letterSpacing&quot;: &quot;0.0px&quot;, &quot;lineHeight&quot;: &quot;29.045454px&quot;, &quot;textAlign&quot;: &quot;center&quot;, &quot;height&quot;: &quot;auto&quot;, &quot;display&quot;: &quot;flex&quot;, &quot;alignItems&quot;: &quot;flex-start&quot;, &quot;color&quot;: &quot;rgb(255, 250, 250)&quot;, &quot;whiteSpace&quot;: &quot;pre-wrap&quot;, &quot;wordBreak&quot;: &quot;break-word&quot;}}" type="string"/>
+                    </children>
+                    <attributes name="id" value="409:58" type="string"/>
+                    <attributes name="style" value="{{&quot;backgroundColor&quot;: &quot;rgb(72, 101, 250)&quot;, &quot;borderRadius&quot;: &quot;4.0px&quot;, &quot;borderWidth&quot;: &quot;1.0px&quot;, &quot;borderColor&quot;: &quot;rgb(255, 255, 255)&quot;, &quot;borderStyle&quot;: &quot;solid&quot;, &quot;boxSizing&quot;: &quot;border-box&quot;, &quot;minWidth&quot;: &quot;367.0px&quot;, &quot;height&quot;: &quot;49.0px&quot;, &quot;fontSize&quot;: &quot;16px&quot;, &quot;fontWeight&quot;: &quot;500&quot;, &quot;textAlign&quot;: &quot;center&quot;, &quot;backgroundColor&quot;: &quot;rgb(72, 101, 250)&quot;, &quot;color&quot;: &quot;#ffffff&quot;, &quot;display&quot;: &quot;inline-flex&quot;, &quot;alignItems&quot;: &quot;center&quot;, &quot;justifyContent&quot;: &quot;center&quot;, &quot;cursor&quot;: &quot;pointer&quot;, &quot;border&quot;: &quot;none&quot;, &quot;borderRadius&quot;: &quot;4px&quot;, &quot;padding&quot;: &quot;0 16px&quot;, &quot;transition&quot;: &quot;background-color 0.3s, transform 0.2s&quot;, &quot;userSelect&quot;: &quot;none&quot;}}" type="string"/>
+                  </children>
+                  <attributes name="href" value="/list-screen" type="string"/>
+                  <attributes name="style" value="{{textDecoration:&quot;none&quot;,cursor:&quot;pointer&quot;}}" type="string"/>
+                </children>
+                <attributes name="id" value="408:55" type="string"/>
+                <attributes name="method" value="POST" type="string"/>
+                <attributes name="style" value="{{&quot;backgroundColor&quot;: &quot;rgba(0, 0, 0, 0.0)&quot;, &quot;borderRadius&quot;: &quot;8.0px&quot;, &quot;borderWidth&quot;: &quot;1.0px&quot;, &quot;borderColor&quot;: &quot;rgb(0, 0, 0)&quot;, &quot;borderStyle&quot;: &quot;solid&quot;, &quot;boxSizing&quot;: &quot;border-box&quot;, &quot;overflow&quot;: &quot;hidden&quot;, &quot;display&quot;: &quot;flex&quot;, &quot;flexDirection&quot;: &quot;column&quot;, &quot;gap&quot;: &quot;10px&quot;, &quot;justifyContent&quot;: &quot;center&quot;, &quot;alignItems&quot;: &quot;center&quot;, &quot;width&quot;: &quot;413.0px&quot;, &quot;margin&quot;: &quot;20px auto&quot;}}" type="string"/>
+              </children>
+              <attributes name="id" value="393:42" type="string"/>
+              <attributes name="style" value="{{&quot;backgroundColor&quot;: &quot;rgba(0, 0, 0, 0.0)&quot;, &quot;borderWidth&quot;: &quot;1.0px&quot;, &quot;borderColor&quot;: &quot;transparent&quot;, &quot;borderStyle&quot;: &quot;solid&quot;, &quot;boxSizing&quot;: &quot;border-box&quot;, &quot;overflow&quot;: &quot;hidden&quot;, &quot;display&quot;: &quot;flex&quot;, &quot;flexDirection&quot;: &quot;column&quot;, &quot;gap&quot;: &quot;10px&quot;, &quot;justifyContent&quot;: &quot;center&quot;, &quot;alignItems&quot;: &quot;center&quot;}}" type="string"/>
+            </children>
+            <attributes name="id" value="393:41" type="string"/>
+            <attributes name="style" value="{{&quot;backgroundColor&quot;: &quot;rgb(255, 255, 255)&quot;, &quot;borderWidth&quot;: &quot;1.0px&quot;, &quot;borderColor&quot;: &quot;transparent&quot;, &quot;borderStyle&quot;: &quot;solid&quot;, &quot;boxSizing&quot;: &quot;border-box&quot;, &quot;overflow&quot;: &quot;hidden&quot;, &quot;display&quot;: &quot;flex&quot;, &quot;flexDirection&quot;: &quot;row&quot;, &quot;justifyContent&quot;: &quot;center&quot;, &quot;alignItems&quot;: &quot;center&quot;, &quot;width&quot;: &quot;100%&quot;, &quot;maxWidth&quot;: &quot;1200px&quot;, &quot;margin&quot;: &quot;0 auto&quot;, &quot;boxSizing&quot;: &quot;border-box&quot;, &quot;padding&quot;: &quot;var(--page-padding-y, 24px) var(--page-padding-x, 24px)&quot;, &quot;backgroundColor&quot;: &quot;rgb(255, 255, 255)&quot;, &quot;minHeight&quot;: &quot;100vh&quot;, &quot;overflowX&quot;: &quot;hidden&quot;, &quot;display&quot;: &quot;flex&quot;, &quot;flexDirection&quot;: &quot;row&quot;, &quot;flexWrap&quot;: &quot;wrap&quot;, &quot;--mobile-breakpoint&quot;: &quot;480px&quot;, &quot;--tablet-breakpoint&quot;: &quot;768px&quot;, &quot;--desktop-breakpoint&quot;: &quot;1024px&quot;, &quot;--large-desktop-breakpoint&quot;: &quot;1440px&quot;}}" type="string"/>
+          </children>
+        </element>
+      </children>
+      <children path="list-screen" exact="true">
+        <element xsi:type="react_meta_model:Page" key="552:3" name="ListScreen">
+          <children xsi:type="react_meta_model:HTMLElement" key="552:3_main" name="main">
+            <children xsi:type="react_meta_model:HTMLElement" key="632:8" name="div">
+              <children xsi:type="react_meta_model:HTMLElement" key="632:12" name="div">
+                <children xsi:type="react_meta_model:HTMLElement" key="632:11" name="h1" content="Sidebar">
+                  <attributes name="style" value="{{&quot;fontFamily&quot;: &quot;Inter&quot;, &quot;fontSize&quot;: &quot;40.0px&quot;, &quot;fontWeight&quot;: 600, &quot;letterSpacing&quot;: &quot;0.0px&quot;, &quot;lineHeight&quot;: &quot;48.40909px&quot;, &quot;textAlign&quot;: &quot;left&quot;, &quot;flexGrow&quot;: &quot;1.0&quot;, &quot;width&quot;: &quot;100%&quot;, &quot;height&quot;: &quot;auto&quot;, &quot;display&quot;: &quot;flex&quot;, &quot;alignItems&quot;: &quot;flex-start&quot;, &quot;color&quot;: &quot;rgb(0, 0, 0)&quot;, &quot;whiteSpace&quot;: &quot;pre-wrap&quot;, &quot;wordBreak&quot;: &quot;break-word&quot;}}" type="string"/>
+                  <attributes name="id" value="632:11" type="string"/>
+                </children>
+                <attributes name="id" value="632:12" type="string"/>
+                <attributes name="style" value="{{&quot;backgroundColor&quot;: &quot;rgba(0, 0, 0, 0.0)&quot;, &quot;borderWidth&quot;: &quot;1.0px&quot;, &quot;borderColor&quot;: &quot;transparent&quot;, &quot;borderStyle&quot;: &quot;solid&quot;, &quot;boxSizing&quot;: &quot;border-box&quot;, &quot;display&quot;: &quot;flex&quot;, &quot;flexDirection&quot;: &quot;row&quot;, &quot;gap&quot;: &quot;10px&quot;, &quot;justifyContent&quot;: &quot;center&quot;, &quot;alignItems&quot;: &quot;center&quot;}}" type="string"/>
+              </children>
+              <children xsi:type="react_meta_model:HTMLElement" key="632:13" name="div">
+                <children xsi:type="react_meta_model:HTMLElement" key="632:15" name="a">
+                  <children xsi:type="react_meta_model:HTMLElement" key="632:15" name="div">
+                    <children xsi:type="react_meta_model:Component" key="632:37" name="Users" isInstance="true">
+                      <children xsi:type="react_meta_model:HTMLElement" key="632:37_wrapper" name="div">
+                        <children xsi:type="react_meta_model:HTMLElement" key="I632:37;7758:12542" name="svg">
+                          <attributes name="viewBox" value="0 0 27.5 22.5" type="string"/>
+                          <attributes name="xmlns" value="http://www.w3.org/2000/svg" type="string"/>
+                          <attributes name="width" value="27.5px" type="string"/>
+                          <attributes name="height" value="22.5px" type="string"/>
+                        </children>
+                      </children>
+                      <props name="size" defaultValue="48" value="48" type="string"/>
+                    </children>
+                    <children xsi:type="react_meta_model:HTMLElement" key="632:14" name="h4" content="Users">
+                      <attributes name="style" value="{{&quot;fontFamily&quot;: &quot;Inter&quot;, &quot;fontSize&quot;: &quot;24.0px&quot;, &quot;fontWeight&quot;: 400, &quot;letterSpacing&quot;: &quot;0.0px&quot;, &quot;lineHeight&quot;: &quot;29.045454px&quot;, &quot;textAlign&quot;: &quot;left&quot;, &quot;flexGrow&quot;: &quot;1.0&quot;, &quot;width&quot;: &quot;100%&quot;, &quot;height&quot;: &quot;auto&quot;, &quot;display&quot;: &quot;flex&quot;, &quot;alignItems&quot;: &quot;flex-start&quot;, &quot;color&quot;: &quot;rgb(0, 0, 0)&quot;, &quot;whiteSpace&quot;: &quot;pre-wrap&quot;, &quot;wordBreak&quot;: &quot;break-word&quot;}}" type="string"/>
+                      <attributes name="id" value="632:14" type="string"/>
+                    </children>
+                    <attributes name="id" value="632:15" type="string"/>
+                    <attributes name="style" value="{{&quot;backgroundColor&quot;: &quot;rgba(0, 0, 0, 0.0)&quot;, &quot;borderWidth&quot;: &quot;1.0px&quot;, &quot;borderColor&quot;: &quot;transparent&quot;, &quot;borderStyle&quot;: &quot;solid&quot;, &quot;boxSizing&quot;: &quot;border-box&quot;, &quot;display&quot;: &quot;flex&quot;, &quot;flexDirection&quot;: &quot;row&quot;, &quot;gap&quot;: &quot;10px&quot;, &quot;justifyContent&quot;: &quot;center&quot;, &quot;alignItems&quot;: &quot;center&quot;}}" type="string"/>
+                  </children>
+                  <attributes name="href" value="#" type="string"/>
+                </children>
+                <children xsi:type="react_meta_model:HTMLElement" key="632:40" name="a">
+                  <children xsi:type="react_meta_model:HTMLElement" key="632:40" name="div">
+                    <children xsi:type="react_meta_model:Component" key="632:41" name="Users" isInstance="true">
+                      <children xsi:type="react_meta_model:HTMLElement" key="632:41_wrapper" name="div">
+                        <children xsi:type="react_meta_model:HTMLElement" key="I632:41;7758:12542" name="svg">
+                          <attributes name="viewBox" value="0 0 27.5 22.5" type="string"/>
+                          <attributes name="xmlns" value="http://www.w3.org/2000/svg" type="string"/>
+                          <attributes name="width" value="27.5px" type="string"/>
+                          <attributes name="height" value="22.5px" type="string"/>
+                        </children>
+                      </children>
+                      <props name="size" defaultValue="48" value="48" type="string"/>
+                    </children>
+                    <children xsi:type="react_meta_model:HTMLElement" key="632:42" name="h4" content="Add User">
+                      <attributes name="style" value="{{&quot;fontFamily&quot;: &quot;Inter&quot;, &quot;fontSize&quot;: &quot;24.0px&quot;, &quot;fontWeight&quot;: 400, &quot;letterSpacing&quot;: &quot;0.0px&quot;, &quot;lineHeight&quot;: &quot;29.045454px&quot;, &quot;textAlign&quot;: &quot;left&quot;, &quot;flexGrow&quot;: &quot;1.0&quot;, &quot;width&quot;: &quot;100%&quot;, &quot;height&quot;: &quot;auto&quot;, &quot;display&quot;: &quot;flex&quot;, &quot;alignItems&quot;: &quot;flex-start&quot;, &quot;color&quot;: &quot;rgb(0, 0, 0)&quot;, &quot;whiteSpace&quot;: &quot;pre-wrap&quot;, &quot;wordBreak&quot;: &quot;break-word&quot;}}" type="string"/>
+                      <attributes name="id" value="632:42" type="string"/>
+                    </children>
+                    <attributes name="id" value="632:40" type="string"/>
+                    <attributes name="style" value="{{&quot;backgroundColor&quot;: &quot;rgba(0, 0, 0, 0.0)&quot;, &quot;borderWidth&quot;: &quot;1.0px&quot;, &quot;borderColor&quot;: &quot;transparent&quot;, &quot;borderStyle&quot;: &quot;solid&quot;, &quot;boxSizing&quot;: &quot;border-box&quot;, &quot;display&quot;: &quot;flex&quot;, &quot;flexDirection&quot;: &quot;row&quot;, &quot;gap&quot;: &quot;10px&quot;, &quot;justifyContent&quot;: &quot;center&quot;, &quot;alignItems&quot;: &quot;center&quot;}}" type="string"/>
+                  </children>
+                  <attributes name="href" value="/add-user-screen" type="string"/>
+                  <attributes name="style" value="{{textDecoration:&quot;none&quot;,cursor:&quot;pointer&quot;}}" type="string"/>
+                </children>
+                <attributes name="id" value="632:13" type="string"/>
+                <attributes name="style" value="{{&quot;backgroundColor&quot;: &quot;rgba(0, 0, 0, 0.0)&quot;, &quot;borderWidth&quot;: &quot;1.0px&quot;, &quot;borderColor&quot;: &quot;transparent&quot;, &quot;borderStyle&quot;: &quot;solid&quot;, &quot;boxSizing&quot;: &quot;border-box&quot;, &quot;overflow&quot;: &quot;hidden&quot;, &quot;display&quot;: &quot;flex&quot;, &quot;flexDirection&quot;: &quot;column&quot;, &quot;gap&quot;: &quot;22px&quot;, &quot;justifyContent&quot;: &quot;center&quot;, &quot;alignItems&quot;: &quot;center&quot;}}" type="string"/>
+              </children>
+              <attributes name="id" value="632:8" type="string"/>
+              <attributes name="style" value="{{&quot;backgroundColor&quot;: &quot;rgba(0, 0, 0, 0.0)&quot;, &quot;borderWidth&quot;: &quot;1.0px&quot;, &quot;borderColor&quot;: &quot;transparent&quot;, &quot;borderStyle&quot;: &quot;solid&quot;, &quot;boxSizing&quot;: &quot;border-box&quot;, &quot;overflow&quot;: &quot;hidden&quot;, &quot;display&quot;: &quot;flex&quot;, &quot;flexDirection&quot;: &quot;column&quot;, &quot;gap&quot;: &quot;10px&quot;, &quot;justifyContent&quot;: &quot;center&quot;, &quot;alignItems&quot;: &quot;center&quot;}}" type="string"/>
+            </children>
+            <children xsi:type="react_meta_model:HTMLElement" key="632:10" name="div">
+              <children xsi:type="react_meta_model:HTMLElement" key="632:47" name="div">
+                <children xsi:type="react_meta_model:HTMLElement" key="632:46" name="h4" content="Users">
+                  <attributes name="style" value="{{&quot;fontFamily&quot;: &quot;Inter&quot;, &quot;fontSize&quot;: &quot;24.0px&quot;, &quot;fontWeight&quot;: 600, &quot;letterSpacing&quot;: &quot;0.0px&quot;, &quot;lineHeight&quot;: &quot;29.045454px&quot;, &quot;textAlign&quot;: &quot;left&quot;, &quot;height&quot;: &quot;auto&quot;, &quot;display&quot;: &quot;flex&quot;, &quot;alignItems&quot;: &quot;flex-start&quot;, &quot;color&quot;: &quot;rgb(0, 0, 0)&quot;, &quot;whiteSpace&quot;: &quot;pre-wrap&quot;, &quot;wordBreak&quot;: &quot;break-word&quot;}}" type="string"/>
+                  <attributes name="id" value="632:46" type="string"/>
+                </children>
+                <attributes name="id" value="632:47" type="string"/>
+                <attributes name="style" value="{{&quot;backgroundColor&quot;: &quot;rgba(0, 0, 0, 0.0)&quot;, &quot;borderWidth&quot;: &quot;1.0px&quot;, &quot;borderColor&quot;: &quot;transparent&quot;, &quot;borderStyle&quot;: &quot;solid&quot;, &quot;boxSizing&quot;: &quot;content-box&quot;, &quot;boxShadow&quot;: &quot;0px 4px 4.0px rgba(0, 0, 0, 0.3)&quot;, &quot;display&quot;: &quot;flex&quot;, &quot;flexDirection&quot;: &quot;row&quot;, &quot;gap&quot;: &quot;10px&quot;, &quot;justifyContent&quot;: &quot;center&quot;, &quot;alignItems&quot;: &quot;center&quot;}}" type="string"/>
+              </children>
+              <children xsi:type="react_meta_model:HTMLElement" key="632:51" name="table">
+                <children xsi:type="react_meta_model:HTMLElement" key="632:52" name="tr">
+                  <children xsi:type="react_meta_model:HTMLElement" key="632:55" name="th" content="Name">
+                    <attributes name="style" value="{{&quot;display&quot;: &quot;table-cell&quot;, &quot;fontFamily&quot;: &quot;Inter&quot;, &quot;fontSize&quot;: &quot;24.0px&quot;, &quot;fontWeight&quot;: 600, &quot;textAlign&quot;: &quot;left&quot;, &quot;color&quot;: &quot;rgb(0, 0, 0)&quot;, &quot;borderBottom&quot;: &quot;2px solid #cbd5e0&quot;, &quot;padding&quot;: &quot;12px 16px&quot;, &quot;verticalAlign&quot;: &quot;middle&quot;, &quot;backgroundColor&quot;: &quot;#f7fafc&quot;, &quot;whiteSpace&quot;: &quot;nowrap&quot;}}" type="string"/>
+                    <attributes name="id" value="632:55" type="string"/>
+                  </children>
+                  <children xsi:type="react_meta_model:HTMLElement" key="632:56" name="th" content="LastName">
+                    <attributes name="style" value="{{&quot;display&quot;: &quot;table-cell&quot;, &quot;fontFamily&quot;: &quot;Inter&quot;, &quot;fontSize&quot;: &quot;24.0px&quot;, &quot;fontWeight&quot;: 600, &quot;textAlign&quot;: &quot;left&quot;, &quot;color&quot;: &quot;rgb(0, 0, 0)&quot;, &quot;borderBottom&quot;: &quot;2px solid #cbd5e0&quot;, &quot;padding&quot;: &quot;12px 16px&quot;, &quot;verticalAlign&quot;: &quot;middle&quot;, &quot;backgroundColor&quot;: &quot;#f7fafc&quot;, &quot;whiteSpace&quot;: &quot;nowrap&quot;}}" type="string"/>
+                    <attributes name="id" value="632:56" type="string"/>
+                  </children>
+                  <children xsi:type="react_meta_model:HTMLElement" key="632:58" name="th" content="Email">
+                    <attributes name="style" value="{{&quot;display&quot;: &quot;table-cell&quot;, &quot;fontFamily&quot;: &quot;Inter&quot;, &quot;fontSize&quot;: &quot;24.0px&quot;, &quot;fontWeight&quot;: 600, &quot;textAlign&quot;: &quot;left&quot;, &quot;color&quot;: &quot;rgb(0, 0, 0)&quot;, &quot;borderBottom&quot;: &quot;2px solid #cbd5e0&quot;, &quot;padding&quot;: &quot;12px 16px&quot;, &quot;verticalAlign&quot;: &quot;middle&quot;, &quot;backgroundColor&quot;: &quot;#f7fafc&quot;, &quot;whiteSpace&quot;: &quot;nowrap&quot;}}" type="string"/>
+                    <attributes name="id" value="632:58" type="string"/>
+                  </children>
+                  <children xsi:type="react_meta_model:HTMLElement" key="632:62" name="th" content="Actions">
+                    <attributes name="style" value="{{&quot;display&quot;: &quot;table-cell&quot;, &quot;fontFamily&quot;: &quot;Inter&quot;, &quot;fontSize&quot;: &quot;24.0px&quot;, &quot;fontWeight&quot;: 600, &quot;textAlign&quot;: &quot;center&quot;, &quot;color&quot;: &quot;rgb(0, 0, 0)&quot;, &quot;borderBottom&quot;: &quot;2px solid #cbd5e0&quot;, &quot;padding&quot;: &quot;12px 16px&quot;, &quot;verticalAlign&quot;: &quot;middle&quot;, &quot;backgroundColor&quot;: &quot;#f7fafc&quot;, &quot;whiteSpace&quot;: &quot;nowrap&quot;}}" type="string"/>
+                    <attributes name="id" value="632:62" type="string"/>
+                  </children>
+                  <attributes name="id" value="632:52" type="string"/>
+                </children>
+                <children xsi:type="react_meta_model:HTMLElement" key="632:63" name="tr">
+                  <children xsi:type="react_meta_model:HTMLElement" key="632:64" name="td" content="ivantom">
+                    <attributes name="style" value="{{&quot;display&quot;: &quot;table-cell&quot;, &quot;fontFamily&quot;: &quot;Inter&quot;, &quot;fontSize&quot;: &quot;24.0px&quot;, &quot;fontWeight&quot;: 300, &quot;textAlign&quot;: &quot;center&quot;, &quot;color&quot;: &quot;rgb(0, 0, 0)&quot;, &quot;borderBottom&quot;: &quot;1px solid #e2e8f0&quot;, &quot;padding&quot;: &quot;12px 16px&quot;, &quot;verticalAlign&quot;: &quot;middle&quot;, &quot;whiteSpace&quot;: &quot;normal&quot;, &quot;wordBreak&quot;: &quot;break-word&quot;}}" type="string"/>
+                    <attributes name="id" value="632:64" type="string"/>
+                  </children>
+                  <children xsi:type="react_meta_model:HTMLElement" key="632:65" name="td" content="ivantom">
+                    <attributes name="style" value="{{&quot;display&quot;: &quot;table-cell&quot;, &quot;fontFamily&quot;: &quot;Inter&quot;, &quot;fontSize&quot;: &quot;24.0px&quot;, &quot;fontWeight&quot;: 300, &quot;textAlign&quot;: &quot;center&quot;, &quot;color&quot;: &quot;rgb(0, 0, 0)&quot;, &quot;borderBottom&quot;: &quot;1px solid #e2e8f0&quot;, &quot;padding&quot;: &quot;12px 16px&quot;, &quot;verticalAlign&quot;: &quot;middle&quot;, &quot;whiteSpace&quot;: &quot;normal&quot;, &quot;wordBreak&quot;: &quot;break-word&quot;}}" type="string"/>
+                    <attributes name="id" value="632:65" type="string"/>
+                  </children>
+                  <children xsi:type="react_meta_model:HTMLElement" key="632:66" name="td" content="ivan.tomdieu@gmail.com">
+                    <attributes name="style" value="{{&quot;display&quot;: &quot;table-cell&quot;, &quot;fontFamily&quot;: &quot;Inter&quot;, &quot;fontSize&quot;: &quot;24.0px&quot;, &quot;fontWeight&quot;: 300, &quot;textAlign&quot;: &quot;center&quot;, &quot;color&quot;: &quot;rgb(0, 0, 0)&quot;, &quot;borderBottom&quot;: &quot;1px solid #e2e8f0&quot;, &quot;padding&quot;: &quot;12px 16px&quot;, &quot;verticalAlign&quot;: &quot;middle&quot;, &quot;whiteSpace&quot;: &quot;normal&quot;, &quot;wordBreak&quot;: &quot;break-word&quot;}}" type="string"/>
+                    <attributes name="id" value="632:66" type="string"/>
+                  </children>
+                  <children xsi:type="react_meta_model:HTMLElement" key="632:67" name="div">
+                    <children xsi:type="react_meta_model:HTMLElement" key="632:68" name="a" content="update">
+                      <attributes name="id" value="632:68" type="string"/>
+                      <attributes name="href" value="#" type="string"/>
+                    </children>
+                    <children xsi:type="react_meta_model:HTMLElement" key="632:69" name="a" content="delete">
+                      <attributes name="id" value="632:69" type="string"/>
+                      <attributes name="href" value="#" type="string"/>
+                    </children>
+                    <attributes name="id" value="632:67" type="string"/>
+                  </children>
+                  <attributes name="id" value="632:63" type="string"/>
+                </children>
+                <attributes name="id" value="632:51" type="string"/>
+              </children>
+              <attributes name="id" value="632:10" type="string"/>
+              <attributes name="style" value="{{&quot;backgroundColor&quot;: &quot;rgba(0, 0, 0, 0.0)&quot;, &quot;borderWidth&quot;: &quot;1.0px&quot;, &quot;borderColor&quot;: &quot;transparent&quot;, &quot;borderStyle&quot;: &quot;solid&quot;, &quot;boxSizing&quot;: &quot;border-box&quot;, &quot;overflow&quot;: &quot;hidden&quot;, &quot;display&quot;: &quot;flex&quot;, &quot;flexDirection&quot;: &quot;column&quot;, &quot;gap&quot;: &quot;10px&quot;, &quot;justifyContent&quot;: &quot;center&quot;, &quot;alignItems&quot;: &quot;center&quot;}}" type="string"/>
+            </children>
+            <attributes name="id" value="552:3" type="string"/>
+            <attributes name="style" value="{{&quot;backgroundColor&quot;: &quot;rgb(255, 255, 255)&quot;, &quot;borderWidth&quot;: &quot;1.0px&quot;, &quot;borderColor&quot;: &quot;transparent&quot;, &quot;borderStyle&quot;: &quot;solid&quot;, &quot;boxSizing&quot;: &quot;border-box&quot;, &quot;overflow&quot;: &quot;hidden&quot;, &quot;display&quot;: &quot;flex&quot;, &quot;flexDirection&quot;: &quot;row&quot;, &quot;gap&quot;: &quot;10px&quot;, &quot;justifyContent&quot;: &quot;center&quot;, &quot;alignItems&quot;: &quot;center&quot;, &quot;width&quot;: &quot;100%&quot;, &quot;maxWidth&quot;: &quot;1200px&quot;, &quot;margin&quot;: &quot;0 auto&quot;, &quot;boxSizing&quot;: &quot;border-box&quot;, &quot;padding&quot;: &quot;var(--page-padding-y, 24px) var(--page-padding-x, 24px)&quot;, &quot;backgroundColor&quot;: &quot;rgb(255, 255, 255)&quot;, &quot;minHeight&quot;: &quot;100vh&quot;, &quot;overflowX&quot;: &quot;hidden&quot;, &quot;display&quot;: &quot;flex&quot;, &quot;flexDirection&quot;: &quot;row&quot;, &quot;flexWrap&quot;: &quot;wrap&quot;, &quot;--mobile-breakpoint&quot;: &quot;480px&quot;, &quot;--tablet-breakpoint&quot;: &quot;768px&quot;, &quot;--desktop-breakpoint&quot;: &quot;1024px&quot;, &quot;--large-desktop-breakpoint&quot;: &quot;1440px&quot;}}" type="string"/>
+          </children>
+        </element>
+      </children>
+      <children path="add-user-screen" exact="true">
+        <element xsi:type="react_meta_model:Page" key="632:70" name="AddUserScreen">
+          <children xsi:type="react_meta_model:HTMLElement" key="632:70_main" name="main">
+            <children xsi:type="react_meta_model:HTMLElement" key="632:74" name="div">
+              <children xsi:type="react_meta_model:HTMLElement" key="632:75" name="div">
+                <children xsi:type="react_meta_model:HTMLElement" key="632:76" name="h1" content="Sidebar">
+                  <attributes name="style" value="{{&quot;fontFamily&quot;: &quot;Inter&quot;, &quot;fontSize&quot;: &quot;40.0px&quot;, &quot;fontWeight&quot;: 600, &quot;letterSpacing&quot;: &quot;0.0px&quot;, &quot;lineHeight&quot;: &quot;48.40909px&quot;, &quot;textAlign&quot;: &quot;left&quot;, &quot;flexGrow&quot;: &quot;1.0&quot;, &quot;width&quot;: &quot;100%&quot;, &quot;height&quot;: &quot;auto&quot;, &quot;display&quot;: &quot;flex&quot;, &quot;alignItems&quot;: &quot;flex-start&quot;, &quot;color&quot;: &quot;rgb(0, 0, 0)&quot;, &quot;whiteSpace&quot;: &quot;pre-wrap&quot;, &quot;wordBreak&quot;: &quot;break-word&quot;}}" type="string"/>
+                  <attributes name="id" value="632:76" type="string"/>
+                </children>
+                <attributes name="id" value="632:75" type="string"/>
+                <attributes name="style" value="{{&quot;backgroundColor&quot;: &quot;rgba(0, 0, 0, 0.0)&quot;, &quot;borderWidth&quot;: &quot;1.0px&quot;, &quot;borderColor&quot;: &quot;transparent&quot;, &quot;borderStyle&quot;: &quot;solid&quot;, &quot;boxSizing&quot;: &quot;border-box&quot;, &quot;display&quot;: &quot;flex&quot;, &quot;flexDirection&quot;: &quot;row&quot;, &quot;gap&quot;: &quot;10px&quot;, &quot;justifyContent&quot;: &quot;center&quot;, &quot;alignItems&quot;: &quot;center&quot;}}" type="string"/>
+              </children>
+              <children xsi:type="react_meta_model:HTMLElement" key="632:77" name="div">
+                <children xsi:type="react_meta_model:HTMLElement" key="632:78" name="a">
+                  <children xsi:type="react_meta_model:HTMLElement" key="632:78" name="div">
+                    <children xsi:type="react_meta_model:Component" key="632:79" name="Users" isInstance="true">
+                      <children xsi:type="react_meta_model:HTMLElement" key="632:79_wrapper" name="div">
+                        <children xsi:type="react_meta_model:HTMLElement" key="I632:79;7758:12542" name="svg">
+                          <attributes name="viewBox" value="0 0 27.5 22.5" type="string"/>
+                          <attributes name="xmlns" value="http://www.w3.org/2000/svg" type="string"/>
+                          <attributes name="width" value="27.5px" type="string"/>
+                          <attributes name="height" value="22.5px" type="string"/>
+                        </children>
+                      </children>
+                      <props name="size" defaultValue="48" value="48" type="string"/>
+                    </children>
+                    <children xsi:type="react_meta_model:HTMLElement" key="632:80" name="h4" content="Users">
+                      <attributes name="style" value="{{&quot;fontFamily&quot;: &quot;Inter&quot;, &quot;fontSize&quot;: &quot;24.0px&quot;, &quot;fontWeight&quot;: 400, &quot;letterSpacing&quot;: &quot;0.0px&quot;, &quot;lineHeight&quot;: &quot;29.045454px&quot;, &quot;textAlign&quot;: &quot;left&quot;, &quot;flexGrow&quot;: &quot;1.0&quot;, &quot;width&quot;: &quot;100%&quot;, &quot;height&quot;: &quot;auto&quot;, &quot;display&quot;: &quot;flex&quot;, &quot;alignItems&quot;: &quot;flex-start&quot;, &quot;color&quot;: &quot;rgb(0, 0, 0)&quot;, &quot;whiteSpace&quot;: &quot;pre-wrap&quot;, &quot;wordBreak&quot;: &quot;break-word&quot;}}" type="string"/>
+                      <attributes name="id" value="632:80" type="string"/>
+                    </children>
+                    <attributes name="id" value="632:78" type="string"/>
+                    <attributes name="style" value="{{&quot;backgroundColor&quot;: &quot;rgba(0, 0, 0, 0.0)&quot;, &quot;borderWidth&quot;: &quot;1.0px&quot;, &quot;borderColor&quot;: &quot;transparent&quot;, &quot;borderStyle&quot;: &quot;solid&quot;, &quot;boxSizing&quot;: &quot;border-box&quot;, &quot;display&quot;: &quot;flex&quot;, &quot;flexDirection&quot;: &quot;row&quot;, &quot;gap&quot;: &quot;10px&quot;, &quot;justifyContent&quot;: &quot;center&quot;, &quot;alignItems&quot;: &quot;center&quot;}}" type="string"/>
+                  </children>
+                  <attributes name="href" value="/list-screen" type="string"/>
+                  <attributes name="style" value="{{textDecoration:&quot;none&quot;,cursor:&quot;pointer&quot;}}" type="string"/>
+                </children>
+                <children xsi:type="react_meta_model:HTMLElement" key="632:81" name="a">
+                  <children xsi:type="react_meta_model:HTMLElement" key="632:81" name="div">
+                    <children xsi:type="react_meta_model:Component" key="632:82" name="Users" isInstance="true">
+                      <children xsi:type="react_meta_model:HTMLElement" key="632:82_wrapper" name="div">
+                        <children xsi:type="react_meta_model:HTMLElement" key="I632:82;7758:12542" name="svg">
+                          <attributes name="viewBox" value="0 0 27.5 22.5" type="string"/>
+                          <attributes name="xmlns" value="http://www.w3.org/2000/svg" type="string"/>
+                          <attributes name="width" value="27.5px" type="string"/>
+                          <attributes name="height" value="22.5px" type="string"/>
+                        </children>
+                      </children>
+                      <props name="size" defaultValue="48" value="48" type="string"/>
+                    </children>
+                    <children xsi:type="react_meta_model:HTMLElement" key="632:83" name="h4" content="Add User">
+                      <attributes name="style" value="{{&quot;fontFamily&quot;: &quot;Inter&quot;, &quot;fontSize&quot;: &quot;24.0px&quot;, &quot;fontWeight&quot;: 400, &quot;letterSpacing&quot;: &quot;0.0px&quot;, &quot;lineHeight&quot;: &quot;29.045454px&quot;, &quot;textAlign&quot;: &quot;left&quot;, &quot;flexGrow&quot;: &quot;1.0&quot;, &quot;width&quot;: &quot;100%&quot;, &quot;height&quot;: &quot;auto&quot;, &quot;display&quot;: &quot;flex&quot;, &quot;alignItems&quot;: &quot;flex-start&quot;, &quot;color&quot;: &quot;rgb(0, 0, 0)&quot;, &quot;whiteSpace&quot;: &quot;pre-wrap&quot;, &quot;wordBreak&quot;: &quot;break-word&quot;}}" type="string"/>
+                      <attributes name="id" value="632:83" type="string"/>
+                    </children>
+                    <attributes name="id" value="632:81" type="string"/>
+                    <attributes name="style" value="{{&quot;backgroundColor&quot;: &quot;rgba(0, 0, 0, 0.0)&quot;, &quot;borderWidth&quot;: &quot;1.0px&quot;, &quot;borderColor&quot;: &quot;transparent&quot;, &quot;borderStyle&quot;: &quot;solid&quot;, &quot;boxSizing&quot;: &quot;border-box&quot;, &quot;display&quot;: &quot;flex&quot;, &quot;flexDirection&quot;: &quot;row&quot;, &quot;gap&quot;: &quot;10px&quot;, &quot;justifyContent&quot;: &quot;center&quot;, &quot;alignItems&quot;: &quot;center&quot;}}" type="string"/>
+                  </children>
+                  <attributes name="href" value="/add-user-screen" type="string"/>
+                  <attributes name="style" value="{{textDecoration:&quot;none&quot;,cursor:&quot;pointer&quot;}}" type="string"/>
+                </children>
+                <attributes name="id" value="632:77" type="string"/>
+                <attributes name="style" value="{{&quot;backgroundColor&quot;: &quot;rgba(0, 0, 0, 0.0)&quot;, &quot;borderWidth&quot;: &quot;1.0px&quot;, &quot;borderColor&quot;: &quot;transparent&quot;, &quot;borderStyle&quot;: &quot;solid&quot;, &quot;boxSizing&quot;: &quot;border-box&quot;, &quot;overflow&quot;: &quot;hidden&quot;, &quot;display&quot;: &quot;flex&quot;, &quot;flexDirection&quot;: &quot;column&quot;, &quot;gap&quot;: &quot;22px&quot;, &quot;justifyContent&quot;: &quot;center&quot;, &quot;alignItems&quot;: &quot;center&quot;}}" type="string"/>
+              </children>
+              <attributes name="id" value="632:74" type="string"/>
+              <attributes name="style" value="{{&quot;backgroundColor&quot;: &quot;rgba(0, 0, 0, 0.0)&quot;, &quot;borderWidth&quot;: &quot;1.0px&quot;, &quot;borderColor&quot;: &quot;transparent&quot;, &quot;borderStyle&quot;: &quot;solid&quot;, &quot;boxSizing&quot;: &quot;border-box&quot;, &quot;overflow&quot;: &quot;hidden&quot;, &quot;display&quot;: &quot;flex&quot;, &quot;flexDirection&quot;: &quot;column&quot;, &quot;gap&quot;: &quot;10px&quot;, &quot;justifyContent&quot;: &quot;center&quot;, &quot;alignItems&quot;: &quot;center&quot;}}" type="string"/>
+            </children>
+            <children xsi:type="react_meta_model:HTMLElement" key="632:87" name="div">
+              <children xsi:type="react_meta_model:HTMLElement" key="632:88" name="div">
+                <children xsi:type="react_meta_model:HTMLElement" key="632:89" name="h4" content="Add User">
+                  <attributes name="style" value="{{&quot;fontFamily&quot;: &quot;Inter&quot;, &quot;fontSize&quot;: &quot;24.0px&quot;, &quot;fontWeight&quot;: 600, &quot;letterSpacing&quot;: &quot;0.0px&quot;, &quot;lineHeight&quot;: &quot;29.045454px&quot;, &quot;textAlign&quot;: &quot;left&quot;, &quot;height&quot;: &quot;auto&quot;, &quot;display&quot;: &quot;flex&quot;, &quot;alignItems&quot;: &quot;flex-start&quot;, &quot;color&quot;: &quot;rgb(0, 0, 0)&quot;, &quot;whiteSpace&quot;: &quot;pre-wrap&quot;, &quot;wordBreak&quot;: &quot;break-word&quot;}}" type="string"/>
+                  <attributes name="id" value="632:89" type="string"/>
+                </children>
+                <attributes name="id" value="632:88" type="string"/>
+                <attributes name="style" value="{{&quot;backgroundColor&quot;: &quot;rgba(0, 0, 0, 0.0)&quot;, &quot;borderWidth&quot;: &quot;1.0px&quot;, &quot;borderColor&quot;: &quot;transparent&quot;, &quot;borderStyle&quot;: &quot;solid&quot;, &quot;boxSizing&quot;: &quot;content-box&quot;, &quot;boxShadow&quot;: &quot;0px 4px 4.0px rgba(0, 0, 0, 0.3)&quot;, &quot;display&quot;: &quot;flex&quot;, &quot;flexDirection&quot;: &quot;row&quot;, &quot;gap&quot;: &quot;10px&quot;, &quot;justifyContent&quot;: &quot;center&quot;, &quot;alignItems&quot;: &quot;center&quot;}}" type="string"/>
+              </children>
+              <children xsi:type="react_meta_model:HTMLElement" key="632:104" name="div">
+                <children xsi:type="react_meta_model:HTMLElement" key="632:105" name="form">
+                  <children xsi:type="react_meta_model:HTMLElement" key="632:106" name="h1" content="Add User">
+                    <attributes name="style" value="{{&quot;fontFamily&quot;: &quot;Inter&quot;, &quot;fontSize&quot;: &quot;24.0px&quot;, &quot;fontWeight&quot;: 600, &quot;letterSpacing&quot;: &quot;0.0px&quot;, &quot;lineHeight&quot;: &quot;29.045454px&quot;, &quot;textAlign&quot;: &quot;left&quot;, &quot;height&quot;: &quot;auto&quot;, &quot;display&quot;: &quot;flex&quot;, &quot;alignItems&quot;: &quot;flex-start&quot;, &quot;color&quot;: &quot;rgb(0, 0, 0)&quot;, &quot;whiteSpace&quot;: &quot;pre-wrap&quot;, &quot;wordBreak&quot;: &quot;break-word&quot;}}" type="string"/>
+                    <attributes name="id" value="632:106" type="string"/>
+                  </children>
+                  <children xsi:type="react_meta_model:HTMLElement" key="632:107" name="div">
+                    <children xsi:type="react_meta_model:HTMLElement" key="632:108" name="label" content="name">
+                      <attributes name="style" value="{{&quot;fontFamily&quot;: &quot;Inter&quot;, &quot;fontSize&quot;: &quot;24.0px&quot;, &quot;fontWeight&quot;: 600, &quot;letterSpacing&quot;: &quot;0.0px&quot;, &quot;lineHeight&quot;: &quot;29.045454px&quot;, &quot;textAlign&quot;: &quot;left&quot;, &quot;height&quot;: &quot;auto&quot;, &quot;display&quot;: &quot;flex&quot;, &quot;alignItems&quot;: &quot;flex-start&quot;, &quot;color&quot;: &quot;rgb(0, 0, 0)&quot;, &quot;whiteSpace&quot;: &quot;pre-wrap&quot;, &quot;wordBreak&quot;: &quot;break-word&quot;}}" type="string"/>
+                      <attributes name="id" value="632:108" type="string"/>
+                    </children>
+                    <children xsi:type="react_meta_model:HTMLElement" key="632:110" name="input" isSelfClosing="true">
+                      <attributes name="id" value="632:110" type="string"/>
+                      <attributes name="type" value="email" type="string"/>
+                      <attributes name="placeholder" value="placeholder" type="string"/>
+                      <attributes name="style" value="{{&quot;backgroundColor&quot;: &quot;rgba(0, 0, 0, 0.0)&quot;, &quot;borderRadius&quot;: &quot;8.0px&quot;, &quot;borderWidth&quot;: &quot;1.0px&quot;, &quot;borderColor&quot;: &quot;rgb(0, 0, 0)&quot;, &quot;borderStyle&quot;: &quot;solid&quot;, &quot;boxSizing&quot;: &quot;border-box&quot;, &quot;width&quot;: &quot;100%&quot;, &quot;maxWidth&quot;: &quot;779.0px&quot;, &quot;height&quot;: &quot;49.0px&quot;, &quot;padding&quot;: &quot;8px 12px&quot;, &quot;fontSize&quot;: &quot;24.0px&quot;, &quot;fontFamily&quot;: &quot;Inter&quot;, &quot;border&quot;: &quot;1px solid #ccc&quot;, &quot;borderRadius&quot;: &quot;4px&quot;, &quot;transition&quot;: &quot;border-color 0.3s, box-shadow 0.3s&quot;, &quot;outline&quot;: &quot;none&quot;}}" type="string"/>
+                    </children>
+                    <attributes name="id" value="632:107" type="string"/>
+                    <attributes name="style" value="{{&quot;backgroundColor&quot;: &quot;rgba(0, 0, 0, 0.0)&quot;, &quot;borderWidth&quot;: &quot;1.0px&quot;, &quot;borderColor&quot;: &quot;transparent&quot;, &quot;borderStyle&quot;: &quot;solid&quot;, &quot;boxSizing&quot;: &quot;border-box&quot;, &quot;overflow&quot;: &quot;hidden&quot;, &quot;display&quot;: &quot;flex&quot;, &quot;flexDirection&quot;: &quot;column&quot;, &quot;gap&quot;: &quot;4px&quot;, &quot;justifyContent&quot;: &quot;center&quot;, &quot;alignItems&quot;: &quot;center&quot;}}" type="string"/>
+                  </children>
+                  <children xsi:type="react_meta_model:HTMLElement" key="632:111" name="div">
+                    <children xsi:type="react_meta_model:HTMLElement" key="632:112" name="label" content="last name">
+                      <attributes name="style" value="{{&quot;fontFamily&quot;: &quot;Inter&quot;, &quot;fontSize&quot;: &quot;24.0px&quot;, &quot;fontWeight&quot;: 600, &quot;letterSpacing&quot;: &quot;0.0px&quot;, &quot;lineHeight&quot;: &quot;29.045454px&quot;, &quot;textAlign&quot;: &quot;left&quot;, &quot;height&quot;: &quot;auto&quot;, &quot;display&quot;: &quot;flex&quot;, &quot;alignItems&quot;: &quot;flex-start&quot;, &quot;color&quot;: &quot;rgb(0, 0, 0)&quot;, &quot;whiteSpace&quot;: &quot;pre-wrap&quot;, &quot;wordBreak&quot;: &quot;break-word&quot;}}" type="string"/>
+                      <attributes name="id" value="632:112" type="string"/>
+                    </children>
+                    <children xsi:type="react_meta_model:HTMLElement" key="632:113" name="input" isSelfClosing="true">
+                      <attributes name="id" value="632:113" type="string"/>
+                      <attributes name="type" value="email" type="string"/>
+                      <attributes name="placeholder" value="placeholder" type="string"/>
+                      <attributes name="style" value="{{&quot;backgroundColor&quot;: &quot;rgba(0, 0, 0, 0.0)&quot;, &quot;borderRadius&quot;: &quot;8.0px&quot;, &quot;borderWidth&quot;: &quot;1.0px&quot;, &quot;borderColor&quot;: &quot;rgb(0, 0, 0)&quot;, &quot;borderStyle&quot;: &quot;solid&quot;, &quot;boxSizing&quot;: &quot;border-box&quot;, &quot;width&quot;: &quot;100%&quot;, &quot;maxWidth&quot;: &quot;779.0px&quot;, &quot;height&quot;: &quot;49.0px&quot;, &quot;padding&quot;: &quot;8px 12px&quot;, &quot;fontSize&quot;: &quot;24.0px&quot;, &quot;fontFamily&quot;: &quot;Inter&quot;, &quot;border&quot;: &quot;1px solid #ccc&quot;, &quot;borderRadius&quot;: &quot;4px&quot;, &quot;transition&quot;: &quot;border-color 0.3s, box-shadow 0.3s&quot;, &quot;outline&quot;: &quot;none&quot;}}" type="string"/>
+                    </children>
+                    <attributes name="id" value="632:111" type="string"/>
+                    <attributes name="style" value="{{&quot;backgroundColor&quot;: &quot;rgba(0, 0, 0, 0.0)&quot;, &quot;borderWidth&quot;: &quot;1.0px&quot;, &quot;borderColor&quot;: &quot;transparent&quot;, &quot;borderStyle&quot;: &quot;solid&quot;, &quot;boxSizing&quot;: &quot;border-box&quot;, &quot;overflow&quot;: &quot;hidden&quot;, &quot;display&quot;: &quot;flex&quot;, &quot;flexDirection&quot;: &quot;column&quot;, &quot;gap&quot;: &quot;4px&quot;, &quot;justifyContent&quot;: &quot;center&quot;, &quot;alignItems&quot;: &quot;center&quot;}}" type="string"/>
+                  </children>
+                  <children xsi:type="react_meta_model:HTMLElement" key="632:116" name="div">
+                    <children xsi:type="react_meta_model:HTMLElement" key="632:117" name="label" content="email">
+                      <attributes name="style" value="{{&quot;fontFamily&quot;: &quot;Inter&quot;, &quot;fontSize&quot;: &quot;24.0px&quot;, &quot;fontWeight&quot;: 600, &quot;letterSpacing&quot;: &quot;0.0px&quot;, &quot;lineHeight&quot;: &quot;29.045454px&quot;, &quot;textAlign&quot;: &quot;left&quot;, &quot;height&quot;: &quot;auto&quot;, &quot;display&quot;: &quot;flex&quot;, &quot;alignItems&quot;: &quot;flex-start&quot;, &quot;color&quot;: &quot;rgb(0, 0, 0)&quot;, &quot;whiteSpace&quot;: &quot;pre-wrap&quot;, &quot;wordBreak&quot;: &quot;break-word&quot;}}" type="string"/>
+                      <attributes name="id" value="632:117" type="string"/>
+                    </children>
+                    <children xsi:type="react_meta_model:HTMLElement" key="632:118" name="input" isSelfClosing="true">
+                      <attributes name="id" value="632:118" type="string"/>
+                      <attributes name="type" value="text" type="string"/>
+                      <attributes name="placeholder" value="placeholder" type="string"/>
+                      <attributes name="style" value="{{&quot;backgroundColor&quot;: &quot;rgba(0, 0, 0, 0.0)&quot;, &quot;borderRadius&quot;: &quot;8.0px&quot;, &quot;borderWidth&quot;: &quot;1.0px&quot;, &quot;borderColor&quot;: &quot;rgb(0, 0, 0)&quot;, &quot;borderStyle&quot;: &quot;solid&quot;, &quot;boxSizing&quot;: &quot;border-box&quot;, &quot;width&quot;: &quot;100%&quot;, &quot;maxWidth&quot;: &quot;779.0px&quot;, &quot;height&quot;: &quot;49.0px&quot;, &quot;padding&quot;: &quot;8px 12px&quot;, &quot;fontSize&quot;: &quot;24.0px&quot;, &quot;fontFamily&quot;: &quot;Inter&quot;, &quot;border&quot;: &quot;1px solid #ccc&quot;, &quot;borderRadius&quot;: &quot;4px&quot;, &quot;transition&quot;: &quot;border-color 0.3s, box-shadow 0.3s&quot;, &quot;outline&quot;: &quot;none&quot;}}" type="string"/>
+                    </children>
+                    <attributes name="id" value="632:116" type="string"/>
+                    <attributes name="style" value="{{&quot;backgroundColor&quot;: &quot;rgba(0, 0, 0, 0.0)&quot;, &quot;borderWidth&quot;: &quot;1.0px&quot;, &quot;borderColor&quot;: &quot;transparent&quot;, &quot;borderStyle&quot;: &quot;solid&quot;, &quot;boxSizing&quot;: &quot;border-box&quot;, &quot;overflow&quot;: &quot;hidden&quot;, &quot;display&quot;: &quot;flex&quot;, &quot;flexDirection&quot;: &quot;column&quot;, &quot;gap&quot;: &quot;4px&quot;, &quot;justifyContent&quot;: &quot;center&quot;, &quot;alignItems&quot;: &quot;center&quot;}}" type="string"/>
+                  </children>
+                  <children xsi:type="react_meta_model:HTMLElement" key="632:121" name="button">
+                    <children xsi:type="react_meta_model:HTMLElement" key="632:120" name="span" content="Add User">
+                      <attributes name="id" value="632:120" type="string"/>
+                      <attributes name="style" value="{{&quot;fontFamily&quot;: &quot;Inter&quot;, &quot;fontSize&quot;: &quot;24.0px&quot;, &quot;fontWeight&quot;: 600, &quot;letterSpacing&quot;: &quot;0.0px&quot;, &quot;lineHeight&quot;: &quot;29.045454px&quot;, &quot;textAlign&quot;: &quot;left&quot;, &quot;height&quot;: &quot;auto&quot;, &quot;display&quot;: &quot;flex&quot;, &quot;alignItems&quot;: &quot;flex-start&quot;, &quot;color&quot;: &quot;rgb(255, 255, 255)&quot;, &quot;whiteSpace&quot;: &quot;pre-wrap&quot;, &quot;wordBreak&quot;: &quot;break-word&quot;}}" type="string"/>
+                    </children>
+                    <attributes name="style" value="{{&quot;backgroundColor&quot;: &quot;rgb(0, 125, 227)&quot;, &quot;borderRadius&quot;: &quot;6.0px&quot;, &quot;borderWidth&quot;: &quot;1.0px&quot;, &quot;borderColor&quot;: &quot;rgb(35, 93, 240)&quot;, &quot;borderStyle&quot;: &quot;solid&quot;, &quot;boxSizing&quot;: &quot;border-box&quot;, &quot;minWidth&quot;: &quot;779.0px&quot;, &quot;height&quot;: &quot;57.0px&quot;, &quot;fontSize&quot;: &quot;16px&quot;, &quot;fontWeight&quot;: &quot;500&quot;, &quot;textAlign&quot;: &quot;center&quot;, &quot;backgroundColor&quot;: &quot;rgb(0, 125, 227)&quot;, &quot;color&quot;: &quot;#ffffff&quot;, &quot;display&quot;: &quot;inline-flex&quot;, &quot;alignItems&quot;: &quot;center&quot;, &quot;justifyContent&quot;: &quot;center&quot;, &quot;cursor&quot;: &quot;pointer&quot;, &quot;border&quot;: &quot;none&quot;, &quot;borderRadius&quot;: &quot;4px&quot;, &quot;padding&quot;: &quot;0 16px&quot;, &quot;transition&quot;: &quot;background-color 0.3s, transform 0.2s&quot;, &quot;userSelect&quot;: &quot;none&quot;}}" type="string"/>
+                    <attributes name="id" value="632:121" type="string"/>
+                  </children>
+                  <attributes name="id" value="632:105" type="string"/>
+                  <attributes name="method" value="POST" type="string"/>
+                  <attributes name="style" value="{{&quot;backgroundColor&quot;: &quot;rgba(0, 0, 0, 0.0)&quot;, &quot;borderRadius&quot;: &quot;8.0px&quot;, &quot;borderWidth&quot;: &quot;1.0px&quot;, &quot;borderColor&quot;: &quot;rgb(0, 0, 0)&quot;, &quot;borderStyle&quot;: &quot;solid&quot;, &quot;boxSizing&quot;: &quot;border-box&quot;, &quot;overflow&quot;: &quot;hidden&quot;, &quot;display&quot;: &quot;flex&quot;, &quot;flexDirection&quot;: &quot;column&quot;, &quot;gap&quot;: &quot;24px&quot;, &quot;justifyContent&quot;: &quot;center&quot;, &quot;alignItems&quot;: &quot;center&quot;, &quot;maxWidth&quot;: &quot;835.0px&quot;, &quot;width&quot;: &quot;100%&quot;, &quot;margin&quot;: &quot;20px auto&quot;}}" type="string"/>
+                </children>
+                <attributes name="id" value="632:104" type="string"/>
+                <attributes name="style" value="{{&quot;backgroundColor&quot;: &quot;rgba(0, 0, 0, 0.0)&quot;, &quot;borderWidth&quot;: &quot;1.0px&quot;, &quot;borderColor&quot;: &quot;transparent&quot;, &quot;borderStyle&quot;: &quot;solid&quot;, &quot;boxSizing&quot;: &quot;border-box&quot;, &quot;overflow&quot;: &quot;hidden&quot;, &quot;display&quot;: &quot;flex&quot;, &quot;flexDirection&quot;: &quot;column&quot;, &quot;gap&quot;: &quot;10px&quot;, &quot;justifyContent&quot;: &quot;center&quot;, &quot;alignItems&quot;: &quot;center&quot;}}" type="string"/>
+              </children>
+              <attributes name="id" value="632:87" type="string"/>
+              <attributes name="style" value="{{&quot;backgroundColor&quot;: &quot;rgba(0, 0, 0, 0.0)&quot;, &quot;borderWidth&quot;: &quot;1.0px&quot;, &quot;borderColor&quot;: &quot;transparent&quot;, &quot;borderStyle&quot;: &quot;solid&quot;, &quot;boxSizing&quot;: &quot;border-box&quot;, &quot;overflow&quot;: &quot;hidden&quot;, &quot;display&quot;: &quot;flex&quot;, &quot;flexDirection&quot;: &quot;column&quot;, &quot;gap&quot;: &quot;10px&quot;, &quot;justifyContent&quot;: &quot;center&quot;, &quot;alignItems&quot;: &quot;center&quot;}}" type="string"/>
+            </children>
+            <attributes name="id" value="632:70" type="string"/>
+            <attributes name="style" value="{{&quot;backgroundColor&quot;: &quot;rgb(255, 255, 255)&quot;, &quot;borderWidth&quot;: &quot;1.0px&quot;, &quot;borderColor&quot;: &quot;transparent&quot;, &quot;borderStyle&quot;: &quot;solid&quot;, &quot;boxSizing&quot;: &quot;border-box&quot;, &quot;overflow&quot;: &quot;hidden&quot;, &quot;display&quot;: &quot;flex&quot;, &quot;flexDirection&quot;: &quot;row&quot;, &quot;gap&quot;: &quot;10px&quot;, &quot;justifyContent&quot;: &quot;center&quot;, &quot;alignItems&quot;: &quot;center&quot;, &quot;width&quot;: &quot;100%&quot;, &quot;maxWidth&quot;: &quot;1200px&quot;, &quot;margin&quot;: &quot;0 auto&quot;, &quot;boxSizing&quot;: &quot;border-box&quot;, &quot;padding&quot;: &quot;var(--page-padding-y, 24px) var(--page-padding-x, 24px)&quot;, &quot;backgroundColor&quot;: &quot;rgb(255, 255, 255)&quot;, &quot;minHeight&quot;: &quot;100vh&quot;, &quot;overflowX&quot;: &quot;hidden&quot;, &quot;display&quot;: &quot;flex&quot;, &quot;flexDirection&quot;: &quot;row&quot;, &quot;flexWrap&quot;: &quot;wrap&quot;, &quot;--mobile-breakpoint&quot;: &quot;480px&quot;, &quot;--tablet-breakpoint&quot;: &quot;768px&quot;, &quot;--desktop-breakpoint&quot;: &quot;1024px&quot;, &quot;--large-desktop-breakpoint&quot;: &quot;1440px&quot;}}" type="string"/>
+          </children>
+        </element>
+      </children>
+    </route>
+  </router>
+</react_meta_model:ReactApplication>
