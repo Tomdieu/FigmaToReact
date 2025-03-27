@@ -45,6 +45,10 @@ def main() -> None:
     file_key = "HDmpqjXyKIlTDxSIr9Vq4M"
     figma_token = os.getenv("FIGMA_TOKEN")
     figma_json = get_figma_file(file_key, figma_token)
+    # create json file
+    with open('../Model/figma_instance.json', 'w', encoding='utf-8') as f:
+        json.dump(figma_json, f, ensure_ascii=False, indent=4)
+    # Specify the output file path
     output_file = '../Model/figma_instance.xmi'
     # Parse and generate XMI
     figma_parser.parse_figma_json(figma_json, output_file)
