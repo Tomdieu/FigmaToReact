@@ -443,7 +443,7 @@ helper context FigmaMM!FRAME def: isCaption(): Boolean =
 helper context FigmaMM!FRAME def: isTableElement(): Boolean =
         -- Check if the frame itself is a table-related element (table, tr, td, th, thead,
                         -- tfoot, tbody, colgroup, col, caption)
-        self.isTable() or self.isTableRow() or self.isTableHeaderSection() or self.
+        self.isTable() or self.isTableRow() or self.isTableHeaderSection() or self.isTableData() or self.
                         isTableFooter() or self.isTableBody() or self.isColGroup() or self.isCol() or
                         self.isCaption();
 
@@ -474,7 +474,7 @@ helper context FigmaMM!FRAME def: getTableTagName(): String =
                                                                 if self.isCaption() then
                                                                         'caption'
                                                                 else
-                                                                        'undefined' -- Return 'undefined' if the
+                                                                        'div' -- Return 'undefined' if the
                                                                                         -- frame is not a recognized table
                                                                                         -- element
                                                                         
@@ -795,7 +795,7 @@ lazy rule CreateMainWrapper {
                         isSelfClosing <- false,
                         attributes <- Sequence {
                         	thisModule.CreateAttribute('id',F.id),
-							thisModule.CreateAttribute('style',F.getFrameStyles())
+							thisModule.CreateAttribute('style',F.getResponsivePageStyles())
                         },
                         children <- if not F.children.oclIsUndefined() then
                                         F.children -> collect(children | thisModule.resolveTemp(children,
@@ -971,12 +971,12 @@ lazy rule CreateButtonElement {
                         name <- 'button',
                         attributes <- Sequence{
                                 thisModule.CreateAttribute('id', F.id),
-                                thisModule.CreateAttribute('style',F.getFrameStyles())
+                                thisModule.CreateAttribute('style',F.getButtonStyles())
                         },
                         isSelfClosing <- false,
                         children <- if not F.children.oclIsUndefined() then
                                         let buttonText: FigmaMM!TEXT =
-                                                F.children -> select(e | e.isText() and not e.isProcessed()) ->
+                                                F.children -> select(e | e.isText()) ->
                                                                 first()
                                         in
                                                 if not buttonText.oclIsUndefined() then
@@ -1207,7 +1207,7 @@ rule FigmaFrame2ReactFormHtmlElement {
                         key <- F.id,
                         attributes <- Sequence{thisModule.CreateAttribute('id', F.id),
                                                 thisModule.CreateAttribute('method', 'POST'),
-                                                thisModule.CreateAttribute('style',F.getFrameStyles())                  
+                                                thisModule.CreateAttribute('style',F.getFormStyles())                  
                         },
                         isSelfClosing <- false,
                         children <- if not F.children.oclIsUndefined() then
@@ -1335,7 +1335,7 @@ rule FigmaFrame2ReactInputElement {
                                                         else
                                                                 textElement.characters
                                                         endif),
-                                                thisModule.CreateAttribute('style',F.getFrameStyles())                          
+                                                thisModule.CreateAttribute('style',F.getInputStyles())                          
                         },
                         children <- OclUndefined
                 )
@@ -1397,13 +1397,13 @@ rule FigmaButton2ReactButtonElement {
                                                                                         'textDecoration:"none",cursor:"pointer"')}
                                                 else
                                                         Sequence {
-                                                        thisModule.CreateAttribute('style',F.getFrameStyles()),
+                                                        thisModule.CreateAttribute('style',F.getButtonStyles()),
                                                 thisModule.CreateAttribute('id',F.id)   
                                                 }
                                                 endif
                                 else
                                         Sequence {
-                                                thisModule.CreateAttribute('style',F.getFrameStyles()),
+                                                thisModule.CreateAttribute('style',F.getButtonStyles()),
                                                 thisModule.CreateAttribute('id',F.id)
                                         }
                                 endif,
@@ -1462,8 +1462,8 @@ rule FigmaFrame2ReactTableElement {
                         isSelfClosing <- false,
                         key <- F.id,
                         attributes <- Sequence{
-                                thisModule.CreateAttribute('id', F.id),
-                                thisModule.CreateAttribute('style',F.getFrameStyles())
+                                thisModule.CreateAttribute('id', F.id)
+                                -- thisModule.CreateAttribute('style',F.getTableElementStyles())
                         },
                         children <- if not F.children.oclIsUndefined() then
                                         F.children -> collect(children | thisModule.resolveTemp(children,
@@ -1487,65 +1487,66 @@ rule FigmaText2ReactTableCellElement {
                         content <- if not F.characters.oclIsUndefined() then F.characters else ''
                                         endif,
                                         attributes <- Sequence{
-                        thisModule.CreateAttribute('style',F.getTextStyles()),
+                        thisModule.CreateAttribute('style',F.getTableCellTextStyles()),
                                                 thisModule.CreateAttribute('id',F.id)           
                         }
                 )
 }
+
 -- Styles generations
 -- ATL helper to extract TEXT styles from Figma
--- This helper converts Figma TEXT styles to React style objects
+-- Updated helper for text styling that includes layout attributes
 helper context FigmaMM!TEXT def: getTextStyles(): String =
     -- Create a sequence to store style properties
     let styleProps: Sequence(String) = Sequence{} in
-    
+
     -- Font Family
-    let styleProps1: Sequence(String) = 
+    let styleProps1: Sequence(String) =
         if not self.style.fontFamily.oclIsUndefined() then
             styleProps->including('"fontFamily": "' + self.style.fontFamily + '"')
         else
             styleProps
         endif
     in
-    
+
     -- Font Size
-    let styleProps2: Sequence(String) = 
+    let styleProps2: Sequence(String) =
         if not self.style.fontSize.oclIsUndefined() then
             styleProps1->including('"fontSize": "' + self.style.fontSize.toString() + 'px"')
         else
             styleProps1
         endif
     in
-    
+
     -- Font Weight
-    let styleProps3: Sequence(String) = 
+    let styleProps3: Sequence(String) =
         if not self.style.fontWeight.oclIsUndefined() then
             styleProps2->including('"fontWeight": ' + self.style.fontWeight.toString())
         else
             styleProps2
         endif
     in
-    
+
     -- Letter Spacing
-    let styleProps4: Sequence(String) = 
+    let styleProps4: Sequence(String) =
         if not self.style.letterSpacing.oclIsUndefined() and self.style.letterSpacing <> 0.0 then
             styleProps3->including('"letterSpacing": "' + self.style.letterSpacing.toString() + 'px"')
         else
             styleProps3
         endif
     in
-    
+
     -- Line Height
-    let styleProps5: Sequence(String) = 
+    let styleProps5: Sequence(String) =
         if not self.style.lineHeightPx.oclIsUndefined() then
             styleProps4->including('"lineHeight": "' + self.style.lineHeightPx.toString() + 'px"')
         else
             styleProps4
         endif
     in
-    
+
     -- Text Align Horizontal
-    let styleProps6: Sequence(String) = 
+    let styleProps6: Sequence(String) =
         if not self.style.textAlignHorizontal.oclIsUndefined() then
             let alignValue: String =
                 if self.style.textAlignHorizontal.toString() = 'CENTER' then
@@ -1567,169 +1568,192 @@ helper context FigmaMM!TEXT def: getTextStyles(): String =
             styleProps5
         endif
     in
-    
-    -- Text Align Vertical (mapped to flexbox alignment)
-    let styleProps7a: Sequence(String) = 
-        if not self.style.textAlignVertical.oclIsUndefined() then
-            let alignValue: String =
-                if self.style.textAlignVertical.toString() = 'CENTER' then
-                    'center'
-                else
-                    if self.style.textAlignVertical.toString() = 'TOP' then
-                        'flex-start'
-                    else
-                        if self.style.textAlignVertical.toString() = 'BOTTOM' then
-                            'flex-end'
-                        else
-                            'flex-start'
-                        endif
-                    endif
-                endif
-            in
-            styleProps6->including('"display": "flex"')
+
+    -- Layout Align and Grow Properties
+    let styleProps7: Sequence(String) =
+        if not self.layoutAlign.oclIsUndefined() and self.layoutAlign.toString() = 'STRETCH' then
+            styleProps6->including('"width": "100%"')
         else
             styleProps6
         endif
     in
-    
-    let styleProps7: Sequence(String) = 
+
+    let styleProps8: Sequence(String) =
+        if not self.layoutGrow.oclIsUndefined() and self.layoutGrow > 0.0 then
+            styleProps7->including('"flexGrow": "' + self.layoutGrow.toString() + '"')
+        else
+            styleProps7
+        endif
+    in
+
+    -- Layout Sizing Horizontal
+    let styleProps9: Sequence(String) =
+        if not self.layoutSizingHorizontal.oclIsUndefined() then
+            if self.layoutSizingHorizontal.toString() = 'FILL' then
+                styleProps8->including('"width": "100%"')
+            else
+                styleProps8
+            endif
+        else
+            styleProps8
+        endif
+    in
+
+    -- Layout Sizing Vertical
+    let styleProps10: Sequence(String) =
+        if not self.layoutSizingVertical.oclIsUndefined() then
+            if self.layoutSizingVertical.toString() = 'FILL' then
+                styleProps9->including('"height": "100%"')
+            else if self.layoutSizingVertical.toString() = 'HUG' then
+                styleProps9->including('"height": "auto"')
+            else
+                styleProps9
+            endif endif
+        else
+            styleProps9
+        endif
+    in
+
+    -- Text Align Vertical (mapped to flexbox alignment)
+    let styleProps11a: Sequence(String) =
         if not self.style.textAlignVertical.oclIsUndefined() then
             let alignValue: String =
                 if self.style.textAlignVertical.toString() = 'CENTER' then
                     'center'
+                else if self.style.textAlignVertical.toString() = 'TOP' then
+                    'flex-start'
+                else if self.style.textAlignVertical.toString() = 'BOTTOM' then
+                    'flex-end'
                 else
-                    if self.style.textAlignVertical.toString() = 'TOP' then
-                        'flex-start'
-                    else
-                        if self.style.textAlignVertical.toString() = 'BOTTOM' then
-                            'flex-end'
-                        else
-                            'flex-start'
-                        endif
-                    endif
-                endif
+                    'flex-start'
+                endif endif endif
             in
-            styleProps7a->including('"alignItems": "' + alignValue + '"')
+            styleProps10->including('"display": "flex"')
         else
-            styleProps7a
+            styleProps10
         endif
     in
-    
+
+    let styleProps11: Sequence(String) =
+        if not self.style.textAlignVertical.oclIsUndefined() then
+            let alignValue: String =
+                if self.style.textAlignVertical.toString() = 'CENTER' then
+                    'center'
+                else if self.style.textAlignVertical.toString() = 'TOP' then
+                    'flex-start'
+                else if self.style.textAlignVertical.toString() = 'BOTTOM' then
+                    'flex-end'
+                else
+                    'flex-start'
+                endif endif endif
+            in
+            styleProps11a->including('"alignItems": "' + alignValue + '"')
+        else
+            styleProps11a
+        endif
+    in
+
     -- Color (from fills)
-    let styleProps8: Sequence(String) = 
+    let styleProps12: Sequence(String) =
         if not self.fills.oclIsUndefined() and not self.fills.color.oclIsUndefined() then
             let r: Real = self.fills.color.r * 255 in
             let g: Real = self.fills.color.g * 255 in
             let b: Real = self.fills.color.b * 255 in
             let a: Real = self.fills.color.a in
             if a < 1.0 then
-                styleProps7->including('"color": "rgba(' + r.floor().toString() + ', ' + g.floor().toString() + ', ' + b.floor().toString() + ', ' + a.toString() + ')"')
+                styleProps11->including('"color": "rgba(' + r.floor().toString() + ', ' + g.floor().toString() + ', ' + b.floor().toString() + ', ' + a.toString() + ')"')
             else
-                styleProps7->including('"color": "rgb(' + r.floor().toString() + ', ' + g.floor().toString() + ', ' + b.floor().toString() + ')"')
+                styleProps11->including('"color": "rgb(' + r.floor().toString() + ', ' + g.floor().toString() + ', ' + b.floor().toString() + ')"')
             endif
-        else
-            styleProps7
-        endif
-    in
-    
-    -- Padding Top
-    let styleProps9: Sequence(String) = 
-        if not self.paddingTop.oclIsUndefined() and self.paddingTop > 0.0 then
-            styleProps8->including('"paddingTop": "' + self.paddingTop.toString() + 'px"')
-        else
-            styleProps8
-        endif
-    in
-    
-    -- Padding Right
-    let styleProps10: Sequence(String) = 
-        if not self.paddingRight.oclIsUndefined() and self.paddingRight > 0.0 then
-            styleProps9->including('"paddingRight": "' + self.paddingRight.toString() + 'px"')
-        else
-            styleProps9
-        endif
-    in
-    
-    -- Padding Bottom
-    let styleProps11: Sequence(String) = 
-        if not self.paddingBottom.oclIsUndefined() and self.paddingBottom > 0.0 then
-            styleProps10->including('"paddingBottom": "' + self.paddingBottom.toString() + 'px"')
-        else
-            styleProps10
-        endif
-    in
-    
-    -- Padding Left
-    let styleProps12: Sequence(String) = 
-        if not self.paddingLeft.oclIsUndefined() and self.paddingLeft > 0 then
-            styleProps11->including('"paddingLeft": "' + self.paddingLeft.toString() + 'px"')
         else
             styleProps11
         endif
     in
-    
-    -- Width based on layoutSizing
-    let styleProps13: Sequence(String) = 
-        if self.layoutSizingHorizontal.toString() = 'FIXED' then
-            if not self.absoluteBoundingBox.width.oclIsUndefined() then
-                styleProps12->including('"width": "' + self.absoluteBoundingBox.width.toString() + 'px"')
-            else
-                styleProps12
-            endif
+
+    -- Padding Top
+    let styleProps13: Sequence(String) =
+        if not self.paddingTop.oclIsUndefined() and self.paddingTop > 0.0 then
+            styleProps12->including('"paddingTop": "' + self.paddingTop.toString() + 'px"')
         else
-            if self.layoutSizingHorizontal.toString() = 'FILL' then
-                styleProps12->including('"width": "100%"')
-            else
-                styleProps12
-            endif
+            styleProps12
         endif
     in
-    
-    -- Height based on layoutSizing
-    let styleProps14: Sequence(String) = 
-        if self.layoutSizingVertical.toString() = 'FIXED' then
-            if not self.absoluteBoundingBox.height.oclIsUndefined() then
-                styleProps13->including('"height": "' + self.absoluteBoundingBox.height.toString() + 'px"')
-            else
-                styleProps13
-            endif
+
+    -- Padding Right
+    let styleProps14: Sequence(String) =
+        if not self.paddingRight.oclIsUndefined() and self.paddingRight > 0.0 then
+            styleProps13->including('"paddingRight": "' + self.paddingRight.toString() + 'px"')
         else
-            if self.layoutSizingVertical.toString() = 'HUG' then
-                styleProps13->including('"height": "auto"')
-            else
-                styleProps13
-            endif
+            styleProps13
         endif
     in
-    
-    -- White Space handling
-    let styleProps15a: Sequence(String) = 
-        if self.style.textAutoResize.toString() = 'HEIGHT' or self.style.textAutoResize.toString() = 'WIDTH_AND_HEIGHT' then
-            styleProps14->including('"whiteSpace": "pre-wrap"')
+
+    -- Padding Bottom
+    let styleProps15: Sequence(String) =
+        if not self.paddingBottom.oclIsUndefined() and self.paddingBottom > 0.0 then
+            styleProps14->including('"paddingBottom": "' + self.paddingBottom.toString() + 'px"')
         else
             styleProps14
         endif
     in
-    
-    let styleProps15: Sequence(String) = 
-        if self.style.textAutoResize.toString() = 'HEIGHT' or self.style.textAutoResize.toString() = 'WIDTH_AND_HEIGHT' then
-            styleProps15a->including('"wordBreak": "break-word"')
+
+    -- Padding Left
+    let styleProps16: Sequence(String) =
+        if not self.paddingLeft.oclIsUndefined() and self.paddingLeft > 0 then
+            styleProps15->including('"paddingLeft": "' + self.paddingLeft.toString() + 'px"')
         else
-            styleProps15a
+            styleProps15
         endif
     in
-    
+
+    -- Width based on absoluteBoundingBox (if needed)
+    let styleProps17: Sequence(String) =
+        if not self.absoluteBoundingBox.oclIsUndefined() and not self.absoluteBoundingBox.width.oclIsUndefined() and
+           self.layoutSizingHorizontal.oclIsUndefined() and self.layoutAlign.oclIsUndefined() then
+            styleProps16->including('"width": "' + self.absoluteBoundingBox.width.toString() + 'px"')
+        else
+            styleProps16
+        endif
+    in
+
+    -- Height based on absoluteBoundingBox (if needed)
+    let styleProps18: Sequence(String) =
+        if not self.absoluteBoundingBox.oclIsUndefined() and not self.absoluteBoundingBox.height.oclIsUndefined() and
+           self.layoutSizingVertical.oclIsUndefined() then
+            styleProps17->including('"height": "' + self.absoluteBoundingBox.height.toString() + 'px"')
+        else
+            styleProps17
+        endif
+    in
+
+    -- White Space handling
+    let styleProps19a: Sequence(String) =
+        if self.style.textAutoResize.toString() = 'HEIGHT' or self.style.textAutoResize.toString() = 'WIDTH_AND_HEIGHT' then
+            styleProps18->including('"whiteSpace": "pre-wrap"')
+        else
+            styleProps18
+        endif
+    in
+
+    let styleProps19: Sequence(String) =
+        if self.style.textAutoResize.toString() = 'HEIGHT' or self.style.textAutoResize.toString() = 'WIDTH_AND_HEIGHT' then
+            styleProps19a->including('"wordBreak": "break-word"')
+        else
+            styleProps19a
+        endif
+    in
+
     -- Join all style properties with commas
-    let joinedStyles: String = 
-        styleProps15->iterate(prop; acc : String = '' | 
-            if acc = '' then 
-                prop 
-            else 
-                acc + ', ' + prop 
+    let joinedStyles: String =
+        styleProps19->iterate(prop; acc : String = '' |
+            if acc = '' then
+                prop
+            else
+                acc + ', ' + prop
             endif
         )
     in
-    
+
     -- Return style properties without curly braces as requested
     joinedStyles;
 
@@ -1738,547 +1762,1630 @@ helper context FigmaMM!TEXT def: getTextStyles(): String =
 -- Base helper for common styling properties across element types
 
 helper context FigmaMM!Children def: getBaseStyles() : String =
-        let styleProps : Sequence(String) = Sequence{} in
-        
-        -- Position and dimensions
-        let positionedProps : Sequence(String) =
-                if not self.absoluteBoundingBox.oclIsUndefined() then
-                        let propsWithX : Sequence(String) =
-                                if not self.absoluteBoundingBox.x.oclIsUndefined() then
-                                        styleProps->append('"left": "' + self.absoluteBoundingBox.x.toString() + 'px"')
-                                else
-                                        styleProps
-                                endif
-                        in
-                        
-                        let propsWithY : Sequence(String) =
-                                if not self.absoluteBoundingBox.y.oclIsUndefined() then
-                                        propsWithX->append('"top": "' + self.absoluteBoundingBox.y.toString() + 'px"')
-                                else
-                                        propsWithX
-                                endif
-                        in
-                        
-                        let propsWithWidth : Sequence(String) =
-                                if not self.absoluteBoundingBox.width.oclIsUndefined() then
-                                        propsWithY->append('"width": "' + self.absoluteBoundingBox.width.toString() + 'px"')
-                                else
-                                        propsWithY
-                                endif
-                        in
-                        
-                        let propsWithHeight : Sequence(String) =
-                                if not self.absoluteBoundingBox.height.oclIsUndefined() then
-                                        propsWithWidth->append('"height": "' + self.absoluteBoundingBox.height.toString() + 'px"')
-                                else
-                                        propsWithWidth
-                                endif
-                        in
-                        propsWithHeight
+    let styleProps : Sequence(String) = Sequence{} in
+
+    -- Position and dimensions
+     let positionedProps : Sequence(String) =
+        if not self.absoluteBoundingBox.oclIsUndefined() then
+            -- Removed "left" and "top"
+            styleProps
+        else
+            styleProps
+        endif
+    in
+
+    -- Background color
+    let propsWithBackground : Sequence(String) =
+        if not self.backgroundColor.oclIsUndefined() then
+            let r : Real = self.backgroundColor.r * 255 in
+            let g : Real = self.backgroundColor.g * 255 in
+            let b : Real = self.backgroundColor.b * 255 in
+            let a : Real = self.backgroundColor.a in
+
+            if a < 1.0 then
+                positionedProps->append('"backgroundColor": "rgba(' + r.floor().toString() + ', ' + g.floor().toString() + ', ' + b.floor().toString() + ', ' + a.toString() + ')"')
+            else
+                positionedProps->append('"backgroundColor": "rgb(' + r.floor().toString() + ', ' + g.floor().toString() + ', ' + b.floor().toString() + ')"')
+            endif
+        else
+            -- If no backgroundColor, check fills
+            if not self.fills.oclIsUndefined() and not self.fills.color.oclIsUndefined() then
+                let r : Real = self.fills.color.r * 255 in
+                let g : Real = self.fills.color.g * 255 in
+                let b : Real = self.fills.color.b * 255 in
+                let a : Real = self.fills.color.a in
+
+                if a < 1.0 then
+                    positionedProps->append('"backgroundColor": "rgba(' + r.floor().toString() + ', ' + g.floor().toString() + ', ' + b.floor().toString() + ', ' + a.toString() + ')"')
                 else
-                        styleProps
+                    positionedProps->append('"backgroundColor": "rgb(' + r.floor().toString() + ', ' + g.floor().toString() + ', ' + b.floor().toString() + ')"')
                 endif
-        in
-        
-        -- Background color
-        let propsWithBackground : Sequence(String) =
-                if not self.backgroundColor.oclIsUndefined() then
-                        let r : Real = self.backgroundColor.r * 255 in
-                        let g : Real = self.backgroundColor.g * 255 in
-                        let b : Real = self.backgroundColor.b * 255 in
-                        let a : Real = self.backgroundColor.a in
-                        
-                        if a < 1.0 then
-                                positionedProps->append('"backgroundColor": "rgba(' + r.floor().toString() + ', ' + g.floor().toString() + ', ' + b.floor().toString() + ', ' + a.toString() + ')"')
-                        else
-                                positionedProps->append('"backgroundColor": "rgb(' + r.floor().toString() + ', ' + g.floor().toString() + ', ' + b.floor().toString() + ')"')
-                        endif
-                else
-                        -- If no backgroundColor, check fills
-                        if not self.fills.oclIsUndefined() and not self.fills.color.oclIsUndefined() then
-                                let r : Real = self.fills.color.r * 255 in
-                                let g : Real = self.fills.color.g * 255 in
-                                let b : Real = self.fills.color.b * 255 in
-                                let a : Real = self.fills.color.a in
-                                
-                                if a < 1.0 then
-                                        positionedProps->append('"backgroundColor": "rgba(' + r.floor().toString() + ', ' + g.floor().toString() + ', ' + b.floor().toString() + ', ' + a.toString() + ')"')
-                                else
-                                        positionedProps->append('"backgroundColor": "rgb(' + r.floor().toString() + ', ' + g.floor().toString() + ', ' + b.floor().toString() + ')"')
-                                endif
-                        else
-                                positionedProps
-                        endif
-                endif
-        in
-        
-        -- Border radius (corner radius)
-        let propsWithRadius : Sequence(String) =
-                if not self.cornerRadius.oclIsUndefined() and self.cornerRadius > 0.0 then
-                        propsWithBackground->append('"borderRadius": "' + self.cornerRadius.toString() + 'px"')
-                else
-                        propsWithBackground
-                endif
-        in
-        
-        -- Border style (stroke)
-        let propsWithBorderWidth : Sequence(String) =
-                if not self.strokeWeight.oclIsUndefined() and self.strokeWeight > 0.0 then
-                        propsWithRadius->append('"borderWidth": "' + self.strokeWeight.toString() + 'px"')
-                else
-                        propsWithRadius
-                endif
-        in
-        
-        let propsWithBorderColor : Sequence(String) =
-                if not self.strokeWeight.oclIsUndefined() and self.strokeWeight > 0.0 then
-                        if not self.strokes->isEmpty() then
-                                -- First check that the strokes sequence has at least one item
-                                let firstStroke:FigmaMM!Background = self.strokes->first() in
-                                -- Then check if this stroke has a color
-                                if not firstStroke.oclIsUndefined() and not firstStroke.color.oclIsUndefined() then
-                                        let r : Real = firstStroke.color.r * 255 in
-                                        let g : Real = firstStroke.color.g * 255 in
-                                        let b : Real = firstStroke.color.b * 255 in
-                                        let a : Real = firstStroke.color.a in
-                                        
-                                        if a < 1.0 then
-                                                propsWithBorderWidth->append('"borderColor": "rgba(' + r.floor().toString() + ', ' + g.floor().toString() + ', ' + b.floor().toString() + ', ' + a.toString() + ')"')
-                                        else
-                                                propsWithBorderWidth->append('"borderColor": "rgb(' + r.floor().toString() + ', ' + g.floor().toString() + ', ' + b.floor().toString() + ')"')
-                                        endif
-                                else
-                                        -- Default border color if stroke or color is undefined
-                                        propsWithBorderWidth->append('"borderColor": "black"')
-                                endif
-                        else
-                                -- No strokes, set default border color
-                                propsWithBorderWidth->append('"borderColor": "black"')
-                        endif
-                else
-                        propsWithBorderWidth
-                endif
-        in
-        
-        let propsWithBorderStyle : Sequence(String) =
-                if not self.strokeWeight.oclIsUndefined() and self.strokeWeight > 0.0 then
-                        if not self.strokes->isEmpty() then
-                                let firstStroke:FigmaMM!Background = self.strokes->first() in
-                                if not firstStroke.oclIsUndefined() and not firstStroke.type.oclIsUndefined() then
-                                        let borderStyle : String = 
-                                                if firstStroke.type.toString() = 'SOLID' then
-                                                        'solid'
-                                                else
-                                                        'solid' -- Default to solid
-                                                endif
-                                        in
-                                        propsWithBorderColor->append('"borderStyle": "' + borderStyle + '"')
-                                else
-                                        propsWithBorderColor->append('"borderStyle": "solid"')
-                                endif
-                        else
-                                propsWithBorderColor->append('"borderStyle": "solid"')
-                        endif
-                else
-                        propsWithBorderColor
-                endif
-        in
-        
-        -- Border alignment
-        let propsWithBoxSizing : Sequence(String) =
-                if not self.strokeAlign.oclIsUndefined() then
-                        let boxSizing : String = 
-                                if self.strokeAlign.toString() = 'INSIDE' then
-                                        'border-box'
-                                else if self.strokeAlign.toString() = 'OUTSIDE' then
-                                        'content-box'
-                                else
-                                        'border-box' -- Default for CENTER or undefined
-                                endif
-                                endif
-                        in
-                        propsWithBorderStyle->append('"boxSizing": "' + boxSizing + '"')
-                else
-                        propsWithBorderStyle
-                endif
-        in
-        
-        -- Opacity (from blend mode)
-        let propsWithOpacity : Sequence(String) =
-                if not self.blemdMode.oclIsUndefined() and self.blemdMode.toString() <> 'NORMAL' then
-                        if self.blemdMode.toString() = 'PASS_THROUGH' then
-                                propsWithBoxSizing->append('"opacity": "0.5"')
-                        else
-                                propsWithBoxSizing
-                        endif
-                else
-                        propsWithBoxSizing
-                endif
-        in
-        
-        -- Effects (shadows) - Fixed version
-        let propsWithShadow : Sequence(String) =
-            if not self.effects->isEmpty() then
-                let shadowEffects : Sequence(FigmaMM!Effect) = 
-                    self.effects->select(e | e.type.toString() = 'DROP_SHADOW' and e.visible = true) in
-                    
-                if not shadowEffects->isEmpty() then
-                    let firstShadow : FigmaMM!Effect = shadowEffects->first() in
-                    
-                    if not firstShadow.oclIsUndefined() then
-                        -- Default shadow values
-                        let shadowColor : String = 'rgba(0, 0, 0, 0.3)' in
-                        let radius : String = 
-                            if not firstShadow.radius.oclIsUndefined() then
-                                firstShadow.radius.toString()
-                            else
-                                '4'
-                            endif
-                        in
-                        propsWithOpacity->append('"boxShadow": "0px 4px ' + radius + 'px ' + shadowColor + '"')
+            else
+                positionedProps
+            endif
+        endif
+    in
+
+    -- Border radius (corner radius)
+    let propsWithRadius : Sequence(String) =
+        if not self.cornerRadius.oclIsUndefined() and self.cornerRadius > 0.0 then
+            propsWithBackground->append('"borderRadius": "' + self.cornerRadius.toString() + 'px"')
+        else
+            propsWithBackground
+        endif
+    in
+
+    -- Border style (stroke)
+    let propsWithBorderWidth : Sequence(String) =
+        if not self.strokeWeight.oclIsUndefined() and self.strokeWeight > 0.0 then
+            propsWithRadius->append('"borderWidth": "' + self.strokeWeight.toString() + 'px"')
+        else
+            propsWithRadius
+        endif
+    in
+
+    let propsWithBorderColor : Sequence(String) =
+        if not self.strokeWeight.oclIsUndefined() and self.strokeWeight > 0.0 then
+            if not self.strokes->isEmpty() then
+                -- First check that the strokes sequence has at least one item
+                let firstStroke:FigmaMM!Background = self.strokes->first() in
+                -- Then check if this stroke has a color
+                if not firstStroke.oclIsUndefined() and not firstStroke.color.oclIsUndefined() then
+                    let r : Real = firstStroke.color.r * 255 in
+                    let g : Real = firstStroke.color.g * 255 in
+                    let b : Real = firstStroke.color.b * 255 in
+                    let a : Real = firstStroke.color.a in
+
+                    if a < 1.0 then
+                        propsWithBorderWidth->append('"borderColor": "rgba(' + r.floor().toString() + ', ' + g.floor().toString() + ', ' + b.floor().toString() + ', ' + a.toString() + ')"')
                     else
-                        propsWithOpacity
+                        propsWithBorderWidth->append('"borderColor": "rgb(' + r.floor().toString() + ', ' + g.floor().toString() + ', ' + b.floor().toString() + ')"')
                     endif
+                else
+                    -- Default border color if stroke or color is undefined
+                    propsWithBorderWidth->append('"borderColor": "transparent"')
+                endif
+            else
+                -- No strokes, set default border color
+                propsWithBorderWidth->append('"borderColor": "transparent"')
+            endif
+        else
+            propsWithBorderWidth
+        endif
+    in
+
+    let propsWithBorderStyle : Sequence(String) =
+        if not self.strokeWeight.oclIsUndefined() and self.strokeWeight > 0.0 then
+            if not self.strokes->isEmpty() then
+                let firstStroke:FigmaMM!Background = self.strokes->first() in
+                if not firstStroke.oclIsUndefined() and not firstStroke.type.oclIsUndefined() then
+                    let borderStyle : String =
+                        if firstStroke.type.toString() = 'SOLID' then
+                            'solid'
+                        else
+                            'solid' -- Default to solid
+                        endif
+                    in
+                    propsWithBorderColor->append('"borderStyle": "' + borderStyle + '"')
+                else
+                    propsWithBorderColor->append('"borderStyle": "solid"')
+                endif
+            else
+                propsWithBorderColor->append('"borderStyle": "solid"')
+            endif
+        else
+            propsWithBorderColor
+        endif
+    in
+
+    -- Border alignment
+    let propsWithBoxSizing : Sequence(String) =
+        if not self.strokeAlign.oclIsUndefined() then
+            let boxSizing : String =
+                if self.strokeAlign.toString() = 'INSIDE' then
+                    'border-box'
+                else if self.strokeAlign.toString() = 'OUTSIDE' then
+                    'content-box'
+                else
+                    'border-box' -- Default for CENTER or undefined
+                endif
+				endif
+            in
+            propsWithBorderStyle->append('"boxSizing": "' + boxSizing + '"')
+        else
+            propsWithBorderStyle
+        endif
+    in
+
+    -- Opacity (from blend mode)
+    let propsWithOpacity : Sequence(String) =
+        if not self.blemdMode.oclIsUndefined() and self.blemdMode.toString() <> 'NORMAL' then
+            if self.blemdMode.toString() = 'PASS_THROUGH' then
+                propsWithBoxSizing->append('"opacity": "0.5"')
+            else
+                propsWithBoxSizing
+            endif
+        else
+            propsWithBoxSizing
+        endif
+    in
+
+    -- Effects (shadows) - Fixed version
+    let propsWithShadow : Sequence(String) =
+        if not self.effects->isEmpty() then
+            let shadowEffects : Sequence(FigmaMM!Effect) =
+                self.effects->select(e | e.type.toString() = 'DROP_SHADOW' and e.visible = true) in
+
+            if not shadowEffects->isEmpty() then
+                let firstShadow : FigmaMM!Effect = shadowEffects->first() in
+
+                if not firstShadow.oclIsUndefined() then
+                    -- Default shadow values
+                    let shadowColor : String = 'rgba(0, 0, 0, 0.3)' in
+                    let radius : String =
+                        if not firstShadow.radius.oclIsUndefined() then
+                            firstShadow.radius.toString()
+                        else
+                            '4'
+                        endif
+                    in
+                    propsWithOpacity->append('"boxShadow": "0px 4px ' + radius + 'px ' + shadowColor + '"')
                 else
                     propsWithOpacity
                 endif
             else
                 propsWithOpacity
             endif
-        in
-        
-        -- Display and overflow
-        let finalProps : Sequence(String) =
-                if not self.clipsContent.oclIsUndefined() and self.clipsContent = true then
-                        propsWithShadow->append('"overflow": "hidden"')
-                else
-                        propsWithShadow
-                endif
-        in
-        
-        -- Join all style properties with commas
-        let joinedProps : String = 
-                finalProps->iterate(prop; acc : String = '' | 
-                        if acc = '' then
-                                prop
-                        else
-                                acc + ', ' + prop
-                        endif
-                )
-        in
-        -- Return without curly braces
-        joinedProps
+        else
+            propsWithOpacity
+        endif
+    in
+
+    -- Display and overflow
+    let finalProps : Sequence(String) =
+        if not self.clipsContent.oclIsUndefined() and self.clipsContent = true then
+            propsWithShadow->append('"overflow": "hidden"')
+        else
+            propsWithShadow
+        endif
+    in
+
+    -- Join all style properties with commas
+    let joinedProps : String =
+        finalProps->iterate(prop; acc : String = '' |
+            if acc = '' then
+                prop
+            else
+                acc + ', ' + prop
+            endif
+        )
+    in
+    -- Return without curly braces
+    joinedProps
 ;
 
 -- Helper for FRAME specific styles
 helper context FigmaMM!FRAME def: getFrameStyles() : String =
-        let baseStyles : String = self.getBaseStyles() in
-        let styleProps : Sequence(String) = Sequence{} in
-        
-        -- Layout properties
-        let propsWithDisplay : Sequence(String) =
-                if not self.layoutMode.oclIsUndefined() then
-                        let display : String = 'flex' in
-                        let direction : String = 
-                                if self.layoutMode.toString() = 'HORIZONTAL' then
-                                        'row'
-                                else if self.layoutMode.toString() = 'VERTICAL' then
-                                        'column'
-                                else
-                                        'column' -- Default
-                                endif
-                                endif
-                        in
-                        let withDisplay : Sequence(String) = styleProps->append('"display": "' + display + '"') in
-                        withDisplay->append('"flexDirection": "' + direction + '"')
+    let baseStyles : String = self.getBaseStyles() in
+    let styleProps : Sequence(String) = Sequence{} in
+
+    -- Layout properties
+    let propsWithDisplay : Sequence(String) =
+        if not self.layoutMode.oclIsUndefined() then
+            let display : String = 'flex' in
+            let direction : String =
+                if self.layoutMode.toString() = 'HORIZONTAL' then
+                    'row'
+                else if self.layoutMode.toString() = 'VERTICAL' then
+                    'column'
                 else
-                        styleProps
+                    'column' -- Default
                 endif
+				endif
+            in
+            let withDisplay : Sequence(String) = styleProps->append('"display": "' + display + '"') in
+            withDisplay->append('"flexDirection": "' + direction + '"')
+        else
+            styleProps
+        endif
+    in
+
+    -- Item spacing (gap in flexbox)
+    let propsWithGap : Sequence(String) =
+        if not self.itemSpacing.oclIsUndefined() and self.itemSpacing > 0 then
+            propsWithDisplay->append('"gap": "' + self.itemSpacing.toString() + 'px"')
+        else
+            propsWithDisplay
+        endif
+    in
+
+    -- Padding
+    let propsWithPaddingLeft : Sequence(String) =
+        if not self.paddingLeft.oclIsUndefined() and self.paddingLeft > 0 then
+            propsWithGap->append('"paddingLeft": "' + self.paddingLeft.toString() + 'px"')
+        else
+            propsWithGap
+        endif
+    in
+
+    let propsWithPaddingRight : Sequence(String) =
+        if not self.paddingRight.oclIsUndefined() and self.paddingRight > 0 then
+            propsWithPaddingLeft->append('"paddingRight": "' + self.paddingRight.toString() + 'px"')
+        else
+            propsWithPaddingLeft
+        endif
+    in
+
+    let propsWithPaddingTop : Sequence(String) =
+        if not self.paddingTop.oclIsUndefined() and self.paddingTop > 0 then
+            propsWithPaddingRight->append('"paddingTop": "' + self.paddingTop.toString() + 'px"')
+        else
+            propsWithPaddingRight
+        endif
+    in
+
+    let propsWithPaddingBottom : Sequence(String) =
+        if not self.paddingBottom.oclIsUndefined() and self.paddingBottom > 0 then
+            propsWithPaddingTop->append('"paddingBottom": "' + self.paddingBottom.toString() + 'px"')
+        else
+            propsWithPaddingTop
+        endif
+    in
+
+    -- Alignment properties
+    let propsWithJustifyContent : Sequence(String) =
+        if not self.primaryAxisAlignItems.oclIsUndefined() then
+            let justifyContent : String =
+                if self.primaryAxisAlignItems.toString() = 'CENTER' then
+                    'center'
+                else if self.primaryAxisAlignItems.toString() = 'MAX' then
+                    'flex-end'
+                else if self.primaryAxisAlignItems.toString() = 'MIN' then
+                    'flex-start'
+                else if self.primaryAxisAlignItems.toString() = 'SPACE_BETWEEN' then
+                    'space-between'
+                else
+                    'flex-start' -- Default
+                endif
+				endif
+				endif
+				endif
+            in
+            propsWithPaddingBottom->append('"justifyContent": "' + justifyContent + '"')
+        else
+            propsWithPaddingBottom
+        endif
+    in
+
+    let propsWithAlignItems : Sequence(String) =
+        if not self.counterAxisAlignItems.oclIsUndefined() then
+            let alignItems : String =
+                if self.counterAxisAlignItems.toString() = 'CENTER' then
+                    'center'
+                else if self.counterAxisAlignItems.toString() = 'MAX' then
+                    'flex-end'
+                else if self.counterAxisAlignItems.toString() = 'MIN' then
+                    'flex-start'
+                else if self.counterAxisAlignItems.toString() = 'BASELINE' then
+                    'baseline'
+                else
+                    'stretch' -- Default
+                endif
+				endif
+				endif
+				endif
+            in
+            propsWithJustifyContent->append('"alignItems": "' + alignItems + '"')
+        else
+            propsWithJustifyContent
+        endif
+    in
+
+    -- Layout sizing **REMOVED**
+    let propsWithWidth : Sequence(String) = propsWithAlignItems in
+
+    let propsWithHeight : Sequence(String) = propsWithWidth in
+
+    -- Layout wrap
+    let finalProps : Sequence(String) =
+        if not self.layoutWrap.oclIsUndefined() and self.layoutWrap.toString() <> 'NO_WRAP' then
+            propsWithHeight->append('"flexWrap": "wrap"')
+        else
+            propsWithHeight
+        endif
+    in
+
+	-- Layout sizing (added logic)
+	let propsWithSizing : Sequence(String) =
+	let withHorizontalSizing : Sequence(String) =
+			if not self.layoutSizingHorizontal.oclIsUndefined() and self.layoutSizingHorizontal.toString() = 'FILL' then
+			finalProps->append('"width": "100%"')
+			else
+			finalProps
+			endif
+	in
+	if not self.layoutSizingVertical.oclIsUndefined() and self.layoutSizingVertical.toString() = 'FILL' then
+			withHorizontalSizing->append('"height": "100%"')
+	else
+			withHorizontalSizing
+	endif
+	in
+
+    -- Join all style properties with commas
+    let joinedProps : String =
+        finalProps->iterate(prop; acc : String = '' |
+            if acc = '' then
+                prop
+            else
+                acc + ', ' + prop
+            endif
+        )
+    in
+	
+
+    -- Final output combining with base styles
+    if baseStyles <> '' and joinedProps <> '' then
+        baseStyles + ', ' + joinedProps
+    else if baseStyles <> '' then
+        baseStyles
+    else if joinedProps <> '' then
+        joinedProps
+    else
+        ''
+    endif
+    endif
+    endif
+;
+
+-- Helper for responsive page styles
+helper context FigmaMM!FRAME def: getResponsivePageStyles() : String =
+    let baseStyles : String = self.getFrameStyles() in
+    let styleProps : Sequence(String) = Sequence{} in
+
+    -- Page container styles for responsiveness
+    let propsWithContainer : Sequence(String) =
+        styleProps
+            ->append('"width": "100%"')
+            ->append('"maxWidth": "1200px"')
+            ->append('"margin": "0 auto"')
+            ->append('"boxSizing": "border-box"')
+    in
+
+    -- Responsive padding that adjusts based on screen size
+    let propsWithResponsivePadding : Sequence(String) =
+        if not self.paddingLeft.oclIsUndefined() and self.paddingLeft > 0 and
+           not self.paddingRight.oclIsUndefined() and self.paddingRight > 0 then
+            -- Using CSS variables for responsive padding
+            propsWithContainer->append('"padding": "var(--page-padding-y, ' + 
+                                    self.paddingTop.toString() + 'px) var(--page-padding-x, ' + 
+                                    self.paddingRight.toString() + 'px)"')
+        else
+            -- Default responsive padding
+            propsWithContainer->append('"padding": "var(--page-padding-y, 24px) var(--page-padding-x, 24px)"')
+        endif
+    in
+
+    -- Page background
+    let propsWithBackground : Sequence(String) =
+        if not self.backgroundColor.oclIsUndefined() then
+            let r : Real = self.backgroundColor.r * 255 in
+            let g : Real = self.backgroundColor.g * 255 in
+            let b : Real = self.backgroundColor.b * 255 in
+            let a : Real = self.backgroundColor.a in
+
+            if a < 1.0 then
+                propsWithResponsivePadding->append('"backgroundColor": "rgba(' + r.floor().toString() + ', ' + g.floor().toString() + ', ' + b.floor().toString() + ', ' + a.toString() + ')"')
+            else
+                propsWithResponsivePadding->append('"backgroundColor": "rgb(' + r.floor().toString() + ', ' + g.floor().toString() + ', ' + b.floor().toString() + ')"')
+            endif
+        else
+            propsWithResponsivePadding
+        endif
+    in
+
+    -- Min height to ensure page takes up at least the full viewport
+    let propsWithMinHeight : Sequence(String) =
+        propsWithBackground->append('"minHeight": "100vh"')
+    in
+
+    -- Overflow handling
+    let propsWithOverflow : Sequence(String) =
+        propsWithMinHeight->append('"overflowX": "hidden"')
+    in
+
+    -- Responsive display properties
+    let propsWithDisplay : Sequence(String) =
+        if not self.layoutMode.oclIsUndefined() then
+            let display : String = 'flex' in
+            let direction : String =
+                if self.layoutMode.toString() = 'HORIZONTAL' then
+                    'row'
+                else if self.layoutMode.toString() = 'VERTICAL' then
+                    'column'
+                else
+                    'column' -- Default for pages
+                endif
+                endif
+            in
+            let withDisplay : Sequence(String) = propsWithOverflow->append('"display": "' + display + '"') in
+            let withDirection : Sequence(String) = withDisplay->append('"flexDirection": "' + direction + '"') in
+
+            -- For responsive layouts, we often want items to wrap
+            withDirection->append('"flexWrap": "wrap"')
+        else
+            propsWithOverflow->append('"display": "flex"')->append('"flexDirection": "column"')
+        endif
+    in
+
+    -- Add layout sizing for responsive pages
+    let propsWithLayoutSizing : Sequence(String) =
+        let withHorizontalSizing : Sequence(String) =
+            if not self.layoutSizingHorizontal.oclIsUndefined() and self.layoutSizingHorizontal.toString() = 'FILL' then
+                propsWithDisplay->append('"width": "100%"')
+            else
+                propsWithDisplay
+            endif
         in
         
-        -- Item spacing (gap in flexbox)
-        let propsWithGap : Sequence(String) =
-                if not self.itemSpacing.oclIsUndefined() and self.itemSpacing > 0 then
-                        propsWithDisplay->append('"gap": "' + self.itemSpacing.toString() + 'px"')
-                else
-                        propsWithDisplay
-                endif
-        in
-        
-        -- Padding
-        let propsWithPaddingLeft : Sequence(String) =
-                if not self.paddingLeft.oclIsUndefined() and self.paddingLeft > 0 then
-                        propsWithGap->append('"paddingLeft": "' + self.paddingLeft.toString() + 'px"')
-                else
-                        propsWithGap
-                endif
-        in
-        
-        let propsWithPaddingRight : Sequence(String) =
-                if not self.paddingRight.oclIsUndefined() and self.paddingRight > 0 then
-                        propsWithPaddingLeft->append('"paddingRight": "' + self.paddingRight.toString() + 'px"')
-                else
-                        propsWithPaddingLeft
-                endif
-        in
-        
-        let propsWithPaddingTop : Sequence(String) =
-                if not self.paddingTop.oclIsUndefined() and self.paddingTop > 0 then
-                        propsWithPaddingRight->append('"paddingTop": "' + self.paddingTop.toString() + 'px"')
-                else
-                        propsWithPaddingRight
-                endif
-        in
-        
-        let propsWithPaddingBottom : Sequence(String) =
-                if not self.paddingBottom.oclIsUndefined() and self.paddingBottom > 0 then
-                        propsWithPaddingTop->append('"paddingBottom": "' + self.paddingBottom.toString() + 'px"')
-                else
-                        propsWithPaddingTop
-                endif
-        in
-        
-        -- Alignment properties
-        let propsWithJustifyContent : Sequence(String) =
-                if not self.primaryAxisAlignItems.oclIsUndefined() then
-                        let justifyContent : String = 
-                                if self.primaryAxisAlignItems.toString() = 'CENTER' then
-                                        'center'
-                                else if self.primaryAxisAlignItems.toString() = 'MAX' then
-                                        'flex-end'
-                                else if self.primaryAxisAlignItems.toString() = 'MIN' then
-                                        'flex-start'
-                                else if self.primaryAxisAlignItems.toString() = 'SPACE_BETWEEN' then
-                                        'space-between'
-                                else
-                                        'flex-start' -- Default
-                                endif
-                                endif
-                                endif
-                                endif
-                        in
-                        propsWithPaddingBottom->append('"justifyContent": "' + justifyContent + '"')
-                else
-                        propsWithPaddingBottom
-                endif
-        in
-        
-        let propsWithAlignItems : Sequence(String) =
-                if not self.counterAxisAlignItems.oclIsUndefined() then
-                        let alignItems : String = 
-                                if self.counterAxisAlignItems.toString() = 'CENTER' then
-                                        'center'
-                                else if self.counterAxisAlignItems.toString() = 'MAX' then
-                                        'flex-end'
-                                else if self.counterAxisAlignItems.toString() = 'MIN' then
-                                        'flex-start'
-                                else if self.counterAxisAlignItems.toString() = 'BASELINE' then
-                                        'baseline'
-                                else
-                                        'stretch' -- Default
-                                endif
-                                endif
-                                endif
-                                endif
-                        in
-                        propsWithJustifyContent->append('"alignItems": "' + alignItems + '"')
-                else
-                        propsWithJustifyContent
-                endif
-        in
-        
-        -- Layout sizing
-        let propsWithWidth : Sequence(String) =
-                if not self.layoutSizingHorizontal.oclIsUndefined() then
-                        if self.layoutSizingHorizontal.toString() = 'FILL' then
-                                propsWithAlignItems->append('"width": "100%"')
-                        else if self.layoutSizingHorizontal.toString() = 'HUG' then
-                                propsWithAlignItems->append('"width": "fit-content"')
+        if not self.layoutSizingVertical.oclIsUndefined() and self.layoutSizingVertical.toString() = 'FILL' then
+            withHorizontalSizing->append('"height": "100%"')
+        else
+            withHorizontalSizing
+        endif
+    in
+
+    -- CSS Variables for responsive breakpoints
+    let propsWithCssVars : Sequence(String) =
+        propsWithLayoutSizing
+            ->append('"--mobile-breakpoint": "480px"')
+            ->append('"--tablet-breakpoint": "768px"')
+            ->append('"--desktop-breakpoint": "1024px"')
+            ->append('"--large-desktop-breakpoint": "1440px"')
+    in
+
+    -- Join all responsive page style properties with commas
+    let joinedProps : String =
+        propsWithCssVars->iterate(prop; acc : String = '' |
+            if acc = '' then
+                prop
+            else
+                acc + ', ' + prop
+            endif
+        )
+    in
+
+    -- Final output combining with base styles
+    if baseStyles <> '' and joinedProps <> '' then
+        baseStyles + ', ' + joinedProps
+    else if baseStyles <> '' then
+        baseStyles
+    else if joinedProps <> '' then
+        joinedProps
+    else
+        ''
+    endif
+    endif
+    endif
+;
+
+-- Helper to get media query styles for responsive components
+helper context FigmaMM!Children def: getResponsiveMediaQueryStyles() : String =
+    -- Media query template for different screen sizes
+    let mobileStyles : String = '@media (max-width: var(--mobile-breakpoint)) { ' +
+        '  --page-padding-x: 16px; ' +
+        '  --page-padding-y: 16px; ' +
+        '}' 
+    in
+    
+    let tabletStyles : String = '@media (min-width: var(--mobile-breakpoint)) and (max-width: var(--tablet-breakpoint)) { ' +
+        '  --page-padding-x: 24px; ' +
+        '  --page-padding-y: 20px; ' +
+        '}' 
+    in
+    
+    let desktopStyles : String = '@media (min-width: var(--tablet-breakpoint)) and (max-width: var(--desktop-breakpoint)) { ' +
+        '  --page-padding-x: 32px; ' +
+        '  --page-padding-y: 24px; ' +
+        '}' 
+    in
+    
+    let largeDesktopStyles : String = '@media (min-width: var(--desktop-breakpoint)) { ' +
+        '  --page-padding-x: 48px; ' +
+        '  --page-padding-y: 32px; ' +
+        '}' 
+    in
+    
+    -- Combine all media queries
+    mobileStyles + ' ' + tabletStyles + ' ' + desktopStyles + ' ' + largeDesktopStyles
+;
+
+-- NEW HELPERS FOR FORMS, INPUTS, BUTTONS AND RESPONSIVE PAGES
+
+-- Helper for Form specific styles
+helper context FigmaMM!FRAME def: getFormStyles() : String =
+    let baseStyles : String = self.getFrameStyles() in
+    let styleProps : Sequence(String) = Sequence{} in
+
+    -- Add form-specific properties
+    -- Forms typically need a width that's responsive
+    let propsWithWidth : Sequence(String) =
+        if not self.absoluteBoundingBox.oclIsUndefined() and not self.absoluteBoundingBox.width.oclIsUndefined() then
+            let width : Real = self.absoluteBoundingBox.width in
+            -- Make width responsive - use percentage for larger widths or max-width
+            if width > 500.0 then
+                styleProps->append('"maxWidth": "' + width.toString() + 'px"')->append('"width": "100%"')
+            else
+                styleProps->append('"width": "' + width.toString() + 'px"')
+            endif
+        else
+            styleProps
+        endif
+    in
+
+    -- Form specific box-shadow if it exists
+    let propsWithShadow : Sequence(String) =
+        if not self.effects->isEmpty() then
+            let shadowEffects : Sequence(FigmaMM!Effect) =
+                self.effects->select(e | e.type.toString() = 'DROP_SHADOW' and e.visible = true) in
+
+            if not shadowEffects->isEmpty() then
+                let firstShadow : FigmaMM!Effect = shadowEffects->first() in
+
+                if not firstShadow.oclIsUndefined() then
+                    -- Enhanced shadow for forms
+                    let offsetX : String = 
+                        if not firstShadow.offset.x.oclIsUndefined() then 
+                            firstShadow.offset.x.toString() 
+                        else '0' 
+                        endif in
+                    let offsetY : String = 
+                        if not firstShadow.offset.y.oclIsUndefined() then 
+                            firstShadow.offset.y.toString() 
+                        else '4' 
+                        endif in
+                    let radius : String =
+                        if not firstShadow.radius.oclIsUndefined() then
+                            firstShadow.radius.toString()
                         else
-                                propsWithAlignItems
+                            '8'
                         endif
-                        endif
+                    in
+                    let shadowColor : String = 'rgba(0, 0, 0, 0.1)' in
+                    propsWithWidth->append('"boxShadow": "' + offsetX + 'px ' + offsetY + 'px ' + radius + 'px ' + shadowColor + '"')
                 else
-                        propsWithAlignItems
+                    propsWithWidth
                 endif
+            else
+                propsWithWidth
+            endif
+        else
+            propsWithWidth
+        endif
+    in
+
+    -- Forms typically need some margin
+    let propsWithMargin : Sequence(String) =
+        propsWithShadow->append('"margin": "20px auto"')
+    in
+
+    -- Join all form-specific style properties with commas
+    let joinedProps : String =
+        propsWithMargin->iterate(prop; acc : String = '' |
+            if acc = '' then
+                prop
+            else
+                acc + ', ' + prop
+            endif
+        )
+    in
+
+    -- Final output combining with base styles
+    if baseStyles <> '' and joinedProps <> '' then
+        baseStyles + ', ' + joinedProps
+    else if baseStyles <> '' then
+        baseStyles
+    else if joinedProps <> '' then
+        joinedProps
+    else
+        ''
+    endif
+    endif
+    endif
+;
+
+-- Helper for Input specific styles
+helper context FigmaMM!FRAME def: getInputStyles() : String =
+    let baseStyles : String = self.getBaseStyles() in
+    let styleProps : Sequence(String) = Sequence{} in
+
+    -- Input fields typically need specific styling
+    -- Width 
+    let propsWithWidth : Sequence(String) =
+        if not self.absoluteBoundingBox.oclIsUndefined() and not self.absoluteBoundingBox.width.oclIsUndefined() then
+            styleProps->append('"width": "100%"')->append('"maxWidth": "' + self.absoluteBoundingBox.width.toString() + 'px"')
+        else
+            styleProps->append('"width": "100%"')
+        endif
+    in
+
+    -- Height
+    let propsWithHeight : Sequence(String) =
+        if not self.absoluteBoundingBox.oclIsUndefined() and not self.absoluteBoundingBox.height.oclIsUndefined() then
+            propsWithWidth->append('"height": "' + self.absoluteBoundingBox.height.toString() + 'px"')
+        else
+            propsWithWidth
+        endif
+    in
+
+    -- Input specific padding
+    let propsWithPadding : Sequence(String) =
+        if not self.paddingLeft.oclIsUndefined() and self.paddingLeft > 0 and
+           not self.paddingRight.oclIsUndefined() and self.paddingRight > 0 and
+           not self.paddingTop.oclIsUndefined() and self.paddingTop > 0 and
+           not self.paddingBottom.oclIsUndefined() and self.paddingBottom > 0 then
+            propsWithHeight->append('"padding": "' + self.paddingTop.toString() + 'px ' +
+                                      self.paddingRight.toString() + 'px ' +
+                                      self.paddingBottom.toString() + 'px ' +
+                                      self.paddingLeft.toString() + 'px"')
+        else
+            -- Default padding if not specified
+            propsWithHeight->append('"padding": "8px 12px"')
+        endif
+    in
+
+    -- Font styling for inputs
+    let propsWithFontStyles : Sequence(String) =
+        let propsWithFontSize : Sequence(String) =
+            if not self.children->isEmpty() then
+                let textChild : FigmaMM!TEXT = self.children->select(c | c.oclIsTypeOf(FigmaMM!TEXT))->first() in
+                if not textChild.oclIsUndefined() and not textChild.style.oclIsUndefined() and not textChild.style.fontSize.oclIsUndefined() then
+                    propsWithPadding->append('"fontSize": "' + textChild.style.fontSize.toString() + 'px"')
+                else
+                    propsWithPadding->append('"fontSize": "16px"')
+                endif
+            else
+                propsWithPadding->append('"fontSize": "16px"')
+            endif
         in
         
-        let propsWithHeight : Sequence(String) =
-                if not self.layoutSizingVertical.oclIsUndefined() then
-                        if self.layoutSizingVertical.toString() = 'FILL' then
-                                propsWithWidth->append('"height": "100%"')
-                        else if self.layoutSizingVertical.toString() = 'HUG' then
-                                propsWithWidth->append('"height": "fit-content"')
-                        else
-                                propsWithWidth
-                        endif
-                        endif
+        -- Font family for inputs
+        let propsWithFontFamily : Sequence(String) =
+            if not self.children->isEmpty() then
+                let textChild : FigmaMM!TEXT = self.children->select(c | c.oclIsTypeOf(FigmaMM!TEXT))->first() in
+                if not textChild.oclIsUndefined() and not textChild.style.oclIsUndefined() and not textChild.style.fontFamily.oclIsUndefined() then
+                    propsWithFontSize->append('"fontFamily": "' + textChild.style.fontFamily + '"')
                 else
-                        propsWithWidth
+                    propsWithFontSize
                 endif
+            else
+                propsWithFontSize
+            endif
         in
         
-        -- Layout wrap
-        let finalProps : Sequence(String) =
-                if not self.layoutWrap.oclIsUndefined() and self.layoutWrap.toString() <> 'NO_WRAP' then
-                        propsWithHeight->append('"flexWrap": "wrap"')
-                else
-                        propsWithHeight
-                endif
-        in
-        
-        -- Join all style properties with commas
-        let joinedProps : String = 
-                finalProps->iterate(prop; acc : String = '' | 
-                        if acc = '' then
-                                prop
-                        else
-                                acc + ', ' + prop
-                        endif
+        propsWithFontFamily
+    in
+
+    -- Additional input-specific styles (outline, appearance, etc.)
+    let propsWithInputSpecific : Sequence(String) =
+        propsWithFontStyles
+            ->append('"border": "1px solid #ccc"')
+            ->append('"borderRadius": "4px"')
+            ->append('"transition": "border-color 0.3s, box-shadow 0.3s"')
+            ->append('"outline": "none"')
+    in
+
+    -- Join all input-specific style properties with commas
+    let joinedProps : String =
+        propsWithInputSpecific->iterate(prop; acc : String = '' |
+            if acc = '' then
+                prop
+            else
+                acc + ', ' + prop
+            endif
+        )
+    in
+
+    -- Final output combining with base styles
+    if baseStyles <> '' and joinedProps <> '' then
+        baseStyles + ', ' + joinedProps
+    else if baseStyles <> '' then
+        baseStyles
+    else if joinedProps <> '' then
+        joinedProps
+    else
+        ''
+    endif
+    endif
+    endif
+;
+
+-- Simplified Button Styles Helper that avoids collection operations
+helper context FigmaMM!FRAME def: getButtonStyles() : String =
+    let baseStyles : String = self.getBaseStyles() in
+    let styleProps : Sequence(String) = Sequence{} in
+
+    -- Basic dimensions from bounding box
+    let propsWithDimensions : Sequence(String) =
+        if not self.absoluteBoundingBox.oclIsUndefined() then
+            let width : Real = self.absoluteBoundingBox.width in
+            let height : Real = self.absoluteBoundingBox.height in
+            styleProps
+                ->append('"minWidth": "' + width.toString() + 'px"')
+                ->append('"height": "' + height.toString() + 'px"')
+        else
+            styleProps
+                ->append('"minWidth": "120px"')
+                ->append('"height": "40px"')
+        endif
+    in
+
+    -- Standard button text styles without relying on children collection
+    let propsWithTextStyles : Sequence(String) =
+        propsWithDimensions
+            ->append('"fontSize": "16px"')
+            ->append('"fontWeight": "500"')
+            ->append('"textAlign": "center"')
+    in
+
+    -- Add background color - use backgroundColor if available, else use default
+    let propsWithBackground : Sequence(String) =
+        if not self.backgroundColor.oclIsUndefined() then
+            let r : Real = self.backgroundColor.r * 255 in
+            let g : Real = self.backgroundColor.g * 255 in
+            let b : Real = self.backgroundColor.b * 255 in
+            let a : Real = self.backgroundColor.a in
+
+            if a < 1.0 then
+                propsWithTextStyles->append('"backgroundColor": "rgba(' + r.floor().toString() + ', ' + g.floor().toString() + ', ' + b.floor().toString() + ', ' + a.toString() + ')"')
+            else
+                propsWithTextStyles->append('"backgroundColor": "rgb(' + r.floor().toString() + ', ' + g.floor().toString() + ', ' + b.floor().toString() + ')"')
+            endif
+        else
+            -- Default button background if none specified
+            propsWithTextStyles->append('"backgroundColor": "#3b82f6"')
+        endif
+    in
+
+    -- Add text color (always white for a safe default)
+    let propsWithTextColor : Sequence(String) =
+        propsWithBackground->append('"color": "#ffffff"')
+    in
+
+    -- Button specific styles
+    let propsWithButtonSpecific : Sequence(String) =
+        propsWithTextColor
+            ->append('"display": "inline-flex"')
+            ->append('"alignItems": "center"')
+            ->append('"justifyContent": "center"')
+            ->append('"cursor": "pointer"')
+            ->append('"border": "none"')
+            ->append('"borderRadius": "4px"')
+            ->append('"padding": "0 16px"')
+            ->append('"transition": "background-color 0.3s, transform 0.2s"')
+            ->append('"userSelect": "none"')
+    in
+
+    -- Join all button-specific style properties with commas
+    let joinedProps : String =
+        propsWithButtonSpecific->iterate(prop; acc : String = '' |
+            if acc = '' then
+                prop
+            else
+                acc + ', ' + prop
+            endif
+        )
+    in
+
+    -- Final output combining with base styles
+    if baseStyles <> '' and joinedProps <> '' then
+        baseStyles + ', ' + joinedProps
+    else if baseStyles <> '' then
+        baseStyles
+    else if joinedProps <> '' then
+        joinedProps
+    else
+        ''
+    endif
+    endif
+    endif
+;
+
+
+-- Table Element Styling Helpers
+
+-- Main helper to get table tag name
+-- helper context FigmaMM!FRAME def: getTableTagName() : String =
+--     if self.isTable() then 'table'
+--     else if self.isTableRow() then 'tr'
+--     else if self.isTableHeader() then 'th'
+--     else if self.isTableHeaderSection() then 'thead'
+--     else if self.isTableData() then 'td'
+--     else if self.isTableFooter() then 'tfoot'
+--     else if self.isTableBody() then 'tbody'
+--     else if self.isColGroup() then 'colgroup'
+--     else if self.isCol() then 'col'
+--     else if self.isCaption() then 'caption'
+--     else 'div' -- fallback
+--     endif endif endif endif endif endif endif endif endif endif;
+
+-- Helper for <table> element styling (Fixed for proper table rendering)
+helper context FigmaMM!FRAME def: getTableStyles() : String =
+    let baseStyles : String = self.getBaseStyles() in
+    let tableProps : Sequence(String) = Sequence{} in
+    
+    -- Table specific styles
+    let withDisplay : Sequence(String) = 
+        tableProps->append('"display": "table"')
+    in
+    
+    let withBorderCollapse : Sequence(String) = 
+        withDisplay->append('"borderCollapse": "collapse"')
+    in
+    
+    let withWidth : Sequence(String) =
+        if not self.absoluteBoundingBox.oclIsUndefined() and not self.absoluteBoundingBox.width.oclIsUndefined() then
+            withBorderCollapse->append('"width": "100%"')
+                ->append('"maxWidth": "' + self.absoluteBoundingBox.width.toString() + 'px"')
+        else
+            withBorderCollapse->append('"width": "100%"')
+        endif
+    in
+    
+    let withMargin : Sequence(String) = 
+        withWidth->append('"margin": "0 auto"')
+                ->append('"tableLayout": "fixed"')
+    in
+    
+    -- Border and spacing
+    let withBorder : Sequence(String) =
+        if not self.strokeWeight.oclIsUndefined() and self.strokeWeight > 0.0 then
+            -- Table has a border defined
+            withMargin
+        else
+            -- Add a default subtle border
+            withMargin->append('"border": "1px solid #e2e8f0"')
+        endif
+    in
+    
+    -- Join all table-specific style properties
+    let tableSpecificStyles : String =
+        withBorder->iterate(prop; acc : String = '' |
+            if acc = '' then
+                prop
+            else
+                acc + ', ' + prop
+            endif
+        )
+    in
+    
+    -- Combine with base styles (but remove flex display properties)
+    let cleanedBaseStyles : String =
+        if baseStyles.indexOf('"display":') >= 0 then
+            baseStyles.regexReplaceAll('"display":[^,]+,?', '')
+        else
+            baseStyles
+        endif
+    in
+    
+    -- Also remove alignItems and justifyContent that may conflict
+    let intermediateBaseStyles : String =
+        if cleanedBaseStyles.indexOf('"alignItems":') >= 0 then
+            cleanedBaseStyles.regexReplaceAll('"alignItems":[^,]+,?', '')
+        else
+            cleanedBaseStyles
+        endif
+    in
+    
+    let finalBaseStyles : String =
+        if intermediateBaseStyles.indexOf('"justifyContent":') >= 0 then
+            intermediateBaseStyles.regexReplaceAll('"justifyContent":[^,]+,?', '')
+        else
+            intermediateBaseStyles
+        endif
+    in
+    
+    if finalBaseStyles <> '' and tableSpecificStyles <> '' then
+        finalBaseStyles + ', ' + tableSpecificStyles
+    else if finalBaseStyles <> '' then
+        finalBaseStyles
+    else
+        tableSpecificStyles
+    endif endif
+;
+-- Helper for <thead> element styling
+helper context FigmaMM!FRAME def: getTableHeadStyles() : String =
+    let baseStyles : String = self.getBaseStyles() in
+    let headProps : Sequence(String) = Sequence{} in
+    
+    -- thead specific styling
+    let withBorder : Sequence(String) = 
+        headProps->append('"borderBottom": "2px solid #cbd5e0"')
+    in
+    
+    let withBgColor : Sequence(String) =
+        if not self.backgroundColor.oclIsUndefined() then
+            withBorder
+        else
+            -- Default subtle background
+            withBorder->append('"backgroundColor": "#f7fafc"')
+        endif
+    in
+    
+    -- Join all thead-specific style properties
+    let headSpecificStyles : String =
+        withBgColor->iterate(prop; acc : String = '' |
+            if acc = '' then
+                prop
+            else
+                acc + ', ' + prop
+            endif
+        )
+    in
+    
+    -- Combine with base styles
+    if baseStyles <> '' and headSpecificStyles <> '' then
+        baseStyles + ', ' + headSpecificStyles
+    else if baseStyles <> '' then
+        baseStyles
+    else
+        headSpecificStyles
+    endif endif
+;
+
+-- Helper for <tbody> element styling
+helper context FigmaMM!FRAME def: getTableBodyStyles() : String =
+    let baseStyles : String = self.getBaseStyles() in
+    let bodyProps : Sequence(String) = Sequence{} in
+    
+    -- Subtle body styles
+    let bodySpecificStyles : String =
+        bodyProps->append('"verticalAlign": "top"')
+                ->iterate(prop; acc : String = '' |
+                    if acc = '' then
+                        prop
+                    else
+                        acc + ', ' + prop
+                    endif
                 )
-        in
-        
-        -- Final output combining with base styles
-        if baseStyles <> '' and joinedProps <> '' then
-                baseStyles + ', ' + joinedProps
-        else if baseStyles <> '' then
-                baseStyles
-        else if joinedProps <> '' then
-                joinedProps
-        else
-                ''
-        endif
-        endif
-        endif
-;
-                
--- Helper for RECTANGLE specific styles
-helper context FigmaMM!RECTANGLE def: getRectangleStyles() : String =
-        -- RECTANGLE mainly uses base styles
-        self.getBaseStyles()
+    in
+    
+    -- Combine with base styles
+    if baseStyles <> '' and bodySpecificStyles <> '' then
+        baseStyles + ', ' + bodySpecificStyles
+    else if baseStyles <> '' then
+        baseStyles
+    else
+        bodySpecificStyles
+    endif endif
 ;
 
--- Helper for COMPONENT_SET specific styles
-helper context FigmaMM!COMPONENT_SET def: getComponentSetStyles() : String =
-        let baseStyles : String = self.getBaseStyles() in
-        let styleProps : Sequence(String) = Sequence{} in
-        let modifiedProps : Sequence(String) = 
-                -- Add component set specific properties
-                if not self.itemSpacing.oclIsUndefined() and self.itemSpacing > 0.0 then
-                        styleProps->append('"gap": "' + self.itemSpacing.toString() + 'px"')
+-- Helper for <tr> element styling (Fixed for proper table rendering)
+helper context FigmaMM!FRAME def: getTableRowStyles() : String =
+    let baseStyles : String = self.getBaseStyles() in
+    let rowProps : Sequence(String) = Sequence{} in
+    
+    -- Row style with proper table-row display
+    let withDisplay : Sequence(String) = 
+        rowProps->append('"display": "table-row"')
+    in
+    
+    let withBorder : Sequence(String) = 
+        withDisplay->append('"borderBottom": "1px solid #e2e8f0"')
+    in
+    
+    let withTransition : Sequence(String) = 
+        withBorder->append('"transition": "background-color 0.2s ease"')
+    in
+    
+    -- Join all row-specific style properties
+    let rowSpecificStyles : String =
+        withTransition->iterate(prop; acc : String = '' |
+            if acc = '' then
+                prop
+            else
+                acc + ', ' + prop
+            endif
+        )
+    in
+    
+    -- Combine with base styles (but remove flex display properties)
+    let cleanedBaseStyles : String =
+        if baseStyles.indexOf('"display":') >= 0 then
+            baseStyles.regexReplaceAll('"display":[^,]+,?', '')
+        else
+            baseStyles
+        endif
+    in
+    
+    -- Also remove alignItems and justifyContent that may conflict
+    let intermediateBaseStyles : String =
+        if cleanedBaseStyles.indexOf('"alignItems":') >= 0 then
+            cleanedBaseStyles.regexReplaceAll('"alignItems":[^,]+,?', '')
+        else
+            cleanedBaseStyles
+        endif
+    in
+    
+    let finalBaseStyles : String =
+        if intermediateBaseStyles.indexOf('"justifyContent":') >= 0 then
+            intermediateBaseStyles.regexReplaceAll('"justifyContent":[^,]+,?', '')
+        else
+            intermediateBaseStyles
+        endif
+    in
+    
+    if finalBaseStyles <> '' and rowSpecificStyles <> '' then
+        finalBaseStyles + ', ' + rowSpecificStyles
+    else if finalBaseStyles <> '' then
+        finalBaseStyles
+    else
+        rowSpecificStyles
+    endif endif
+;
+
+-- Helper for <th> element styling (Fixed for proper table rendering)
+helper context FigmaMM!FRAME def: getTableHeaderCellStyles() : String =
+    let baseStyles : String = self.getBaseStyles() in
+    let thProps : Sequence(String) = Sequence{} in
+    
+    -- Header cell specific styling - proper table cell display
+    let withDisplay : Sequence(String) = 
+        thProps->append('"display": "table-cell"')
+    in
+    
+    let withPadding : Sequence(String) = 
+        withDisplay->append('"padding": "12px 16px"')
+    in
+    
+    let withTextAlign : Sequence(String) = 
+        withPadding->append('"textAlign": "left"')
+    in
+    
+    let withFontWeight : Sequence(String) = 
+        withTextAlign->append('"fontWeight": "600"')
+    in
+    
+    let withBgColor : Sequence(String) =
+        if not self.backgroundColor.oclIsUndefined() then
+            withFontWeight
+        else
+            -- Default subtle background
+            withFontWeight->append('"backgroundColor": "#f7fafc"')
+        endif
+    in
+    
+    let withVerticalAlign : Sequence(String) =
+        withBgColor->append('"verticalAlign": "middle"')
+    in
+    
+    let withBorder : Sequence(String) =
+        withVerticalAlign->append('"borderBottom": "2px solid #cbd5e0"')
+    in
+    
+    let withFontStyles : Sequence(String) =
+        if not self.children.oclIsUndefined() then
+            -- Attempt to find text child for font details - avoiding collection operations
+            withBorder
+        else
+            -- Default font styling
+            withBorder->append('"fontSize": "14px"')
+                    ->append('"color": "#4a5568"')
+        endif
+    in
+    
+    -- Join all th-specific style properties
+    let thSpecificStyles : String =
+        withFontStyles->iterate(prop; acc : String = '' |
+            if acc = '' then
+                prop
+            else
+                acc + ', ' + prop
+            endif
+        )
+    in
+    
+    -- Combine with base styles (but remove flex display properties)
+    let cleanedBaseStyles : String =
+        if baseStyles.indexOf('"display":') >= 0 then
+            baseStyles.regexReplaceAll('"display":[^,]+,?', '')
+        else
+            baseStyles
+        endif
+    in
+    
+    -- Also remove alignItems that may conflict
+    let finalBaseStyles : String =
+        if cleanedBaseStyles.indexOf('"alignItems":') >= 0 then
+            cleanedBaseStyles.regexReplaceAll('"alignItems":[^,]+,?', '')
+        else
+            cleanedBaseStyles
+        endif
+    in
+    
+    if finalBaseStyles <> '' and thSpecificStyles <> '' then
+        finalBaseStyles + ', ' + thSpecificStyles
+    else if finalBaseStyles <> '' then
+        finalBaseStyles
+    else
+        thSpecificStyles
+    endif endif
+;
+
+-- Helper for <td> element styling (Fixed for proper table rendering)
+helper context FigmaMM!FRAME def: getTableCellStyles() : String =
+    let baseStyles : String = self.getBaseStyles() in
+    let tdProps : Sequence(String) = Sequence{} in
+    
+    -- Cell specific styling - proper table cell display
+    let withDisplay : Sequence(String) = 
+        tdProps->append('"display": "table-cell"')
+    in
+    
+    let withPadding : Sequence(String) = 
+        withDisplay->append('"padding": "12px 16px"')
+    in
+    
+    let withTextAlign : Sequence(String) = 
+        withPadding->append('"textAlign": "left"')
+    in
+    
+    let withVerticalAlign : Sequence(String) =
+        withTextAlign->append('"verticalAlign": "middle"')
+    in
+    
+    let withBorder : Sequence(String) =
+        withVerticalAlign->append('"borderBottom": "1px solid #e2e8f0"')
+    in
+    
+    let withFontStyles : Sequence(String) =
+        if not self.children.oclIsUndefined() then
+            -- Attempt to find text child for font details - avoiding collection operations
+            withBorder
+        else
+            -- Default font styling
+            withBorder->append('"fontSize": "14px"')
+                    ->append('"color": "#2d3748"')
+                    ->append('"fontWeight": "400"')
+        endif
+    in
+    
+    -- Join all td-specific style properties
+    let tdSpecificStyles : String =
+        withFontStyles->iterate(prop; acc : String = '' |
+            if acc = '' then
+                prop
+            else
+                acc + ', ' + prop
+            endif
+        )
+    in
+    
+    -- Combine with base styles (but remove flex display properties)
+    let cleanedBaseStyles : String =
+        if baseStyles.indexOf('"display":') >= 0 then
+            baseStyles.regexReplaceAll('"display":[^,]+,?', '')
+        else
+            baseStyles
+        endif
+    in
+    
+    -- Also remove alignItems that may conflict
+    let finalBaseStyles : String =
+        if cleanedBaseStyles.indexOf('"alignItems":') >= 0 then
+            cleanedBaseStyles.regexReplaceAll('"alignItems":[^,]+,?', '')
+        else
+            cleanedBaseStyles
+        endif
+    in
+    
+    if finalBaseStyles <> '' and tdSpecificStyles <> '' then
+        finalBaseStyles + ', ' + tdSpecificStyles
+    else if finalBaseStyles <> '' then
+        finalBaseStyles
+    else
+        tdSpecificStyles
+    endif endif
+;
+
+-- Helper for <tfoot> element styling
+helper context FigmaMM!FRAME def: getTableFootStyles() : String =
+    let baseStyles : String = self.getBaseStyles() in
+    let footProps : Sequence(String) = Sequence{} in
+    
+    -- tfoot specific styling
+    let withBorder : Sequence(String) = 
+        footProps->append('"borderTop": "2px solid #cbd5e0"')
+    in
+    
+    let withFontWeight : Sequence(String) = 
+        withBorder->append('"fontWeight": "600"')
+    in
+    
+    let withBgColor : Sequence(String) =
+        if not self.backgroundColor.oclIsUndefined() then
+            withFontWeight
+        else
+            -- Default subtle background
+            withFontWeight->append('"backgroundColor": "#f7fafc"')
+        endif
+    in
+    
+    -- Join all tfoot-specific style properties
+    let footSpecificStyles : String =
+        withBgColor->iterate(prop; acc : String = '' |
+            if acc = '' then
+                prop
+            else
+                acc + ', ' + prop
+            endif
+        )
+    in
+    
+    -- Combine with base styles
+    if baseStyles <> '' and footSpecificStyles <> '' then
+        baseStyles + ', ' + footSpecificStyles
+    else if baseStyles <> '' then
+        baseStyles
+    else
+        footSpecificStyles
+    endif endif
+;
+
+-- Helper for <caption> element styling
+helper context FigmaMM!FRAME def: getTableCaptionStyles() : String =
+    let baseStyles : String = self.getBaseStyles() in
+    let captionProps : Sequence(String) = Sequence{} in
+    
+    -- Caption specific styling
+    let withPadding : Sequence(String) = 
+        captionProps->append('"padding": "12px 0"')
+    in
+    
+    let withTextAlign : Sequence(String) = 
+        withPadding->append('"captionSide": "top"')
+                  ->append('"textAlign": "center"')
+    in
+    
+    let withFontStyles : Sequence(String) =
+        withTextAlign->append('"fontWeight": "600"')
+                   ->append('"fontSize": "16px"')
+                   ->append('"color": "#4a5568"')
+    in
+    
+    -- Join all caption-specific style properties
+    let captionSpecificStyles : String =
+        withFontStyles->iterate(prop; acc : String = '' |
+            if acc = '' then
+                prop
+            else
+                acc + ', ' + prop
+            endif
+        )
+    in
+    
+    -- Combine with base styles
+    if baseStyles <> '' and captionSpecificStyles <> '' then
+        baseStyles + ', ' + captionSpecificStyles
+    else if baseStyles <> '' then
+        baseStyles
+    else
+        captionSpecificStyles
+    endif endif
+;
+
+-- Helper for <colgroup> and <col> styling (simpler as they're primarily structural)
+helper context FigmaMM!FRAME def: getColStyles() : String =
+    let baseStyles : String = self.getBaseStyles() in
+    
+    -- Col elements are primarily structural but we include width if available
+    let colProps : Sequence(String) = Sequence{} in
+    
+    let withWidth : Sequence(String) =
+        if not self.absoluteBoundingBox.oclIsUndefined() and not self.absoluteBoundingBox.width.oclIsUndefined() then
+            colProps->append('"width": "' + self.absoluteBoundingBox.width.toString() + 'px"')
+        else
+            colProps
+        endif
+    in
+    
+    -- Join all col-specific style properties
+    let colSpecificStyles : String =
+        withWidth->iterate(prop; acc : String = '' |
+            if acc = '' then
+                prop
+            else
+                acc + ', ' + prop
+            endif
+        )
+    in
+    
+    -- Combine with base styles
+    if baseStyles <> '' and colSpecificStyles <> '' then
+        baseStyles + ', ' + colSpecificStyles
+    else if baseStyles <> '' then
+        baseStyles
+    else
+        colSpecificStyles
+    endif endif
+;
+
+-- Master helper to get the right styles based on table element type
+helper context FigmaMM!FRAME def: getTableElementStyles() : String =
+    if self.isTable() then 
+        self.getTableStyles()
+    else if self.isTableHeaderSection() then 
+        self.getTableHeadStyles()
+    else if self.isTableBody() then 
+        self.getTableBodyStyles()
+    else if self.isTableRow() then 
+        self.getTableRowStyles()
+    else if self.isTableHeader() then 
+        self.getTableHeaderCellStyles()
+    else if self.isTableData() then 
+        self.getTableCellStyles()
+    else if self.isTableFooter() then 
+        self.getTableFootStyles()
+    else if self.isCaption() then 
+        self.getTableCaptionStyles()
+    else if self.isColGroup() or self.isCol() then 
+        self.getColStyles()
+    else 
+        self.getFrameStyles() -- Fallback to standard frame styles
+    endif endif endif endif endif endif endif endif endif
+;
+
+-- Helper for styling text elements that should be rendered as <th> cells
+helper context FigmaMM!TEXT def: getTableHeaderTextStyles(): String =
+    -- Create a sequence to store style properties
+    let styleProps: Sequence(String) = Sequence{} in
+    
+    -- Set proper display for table cells
+    let withDisplay: Sequence(String) = 
+        styleProps->append('"display": "table-cell"')
+    in
+    
+    -- Font Family
+    let withFontFamily: Sequence(String) =
+        if not self.style.fontFamily.oclIsUndefined() then
+            withDisplay->append('"fontFamily": "' + self.style.fontFamily + '"')
+        else
+            withDisplay->append('"fontFamily": "inherit"')
+        endif
+    in
+
+    -- Font Size
+    let withFontSize: Sequence(String) =
+        if not self.style.fontSize.oclIsUndefined() then
+            withFontFamily->append('"fontSize": "' + self.style.fontSize.toString() + 'px"')
+        else
+            withFontFamily->append('"fontSize": "16px"')
+        endif
+    in
+
+    -- Font Weight
+    let withFontWeight: Sequence(String) =
+        if not self.style.fontWeight.oclIsUndefined() then
+            withFontSize->append('"fontWeight": ' + self.style.fontWeight.toString())
+        else
+            -- Header cells should be bold by default
+            withFontSize->append('"fontWeight": "600"')
+        endif
+    in
+
+    -- Text Align Horizontal
+    let withTextAlign: Sequence(String) =
+        if not self.style.textAlignHorizontal.oclIsUndefined() then
+            let alignValue: String =
+                if self.style.textAlignHorizontal.toString() = 'CENTER' then
+                    'center'
+                else if self.style.textAlignHorizontal.toString() = 'LEFT' then
+                    'left'
+                else if self.style.textAlignHorizontal.toString() = 'RIGHT' then
+                    'right'
                 else
-                        styleProps
+                    'left'
+                endif endif endif
+            in
+            withFontWeight->append('"textAlign": "' + alignValue + '"')
+        else
+            withFontWeight->append('"textAlign": "left"')
+        endif
+    in
+
+    -- Color (from fills)
+    let withColor: Sequence(String) =
+        if not self.fills.oclIsUndefined() and not self.fills.color.oclIsUndefined() then
+            let r: Real = self.fills.color.r * 255 in
+            let g: Real = self.fills.color.g * 255 in
+            let b: Real = self.fills.color.b * 255 in
+            let a: Real = self.fills.color.a in
+            if a < 1.0 then
+                withTextAlign->append('"color": "rgba(' + r.floor().toString() + ', ' + g.floor().toString() + ', ' + b.floor().toString() + ', ' + a.toString() + ')"')
+            else
+                withTextAlign->append('"color": "rgb(' + r.floor().toString() + ', ' + g.floor().toString() + ', ' + b.floor().toString() + ')"')
+            endif
+        else
+            -- Default text color for header cells
+            withTextAlign->append('"color": "#333333"')
+        endif
+    in
+    
+    -- Table header specific styling
+    let withBorderBottom: Sequence(String) =
+        withColor->append('"borderBottom": "2px solid #cbd5e0"')
+    in
+    
+    let withPadding: Sequence(String) =
+        withBorderBottom->append('"padding": "12px 16px"')
+    in
+    
+    let withVerticalAlign: Sequence(String) =
+        withPadding->append('"verticalAlign": "middle"')
+    in
+    
+    let withBackgroundColor: Sequence(String) =
+        withVerticalAlign->append('"backgroundColor": "#f7fafc"')
+    in
+    
+    -- Prevent line breaking in headers
+    let withWhiteSpace: Sequence(String) =
+        if self.style.textAutoResize.toString() = 'HEIGHT' or self.style.textAutoResize.toString() = 'WIDTH_AND_HEIGHT' then
+            withBackgroundColor->append('"whiteSpace": "nowrap"')
+        else
+            withBackgroundColor
+        endif
+    in
+
+    -- Join all style properties with commas
+    let joinedStyles: String =
+        withWhiteSpace->iterate(prop; acc : String = '' |
+            if acc = '' then
+                prop
+            else
+                acc + ', ' + prop
+            endif
+        )
+    in
+
+    -- Return style properties without curly braces
+    joinedStyles;
+
+-- Helper for styling text elements that should be rendered as <td> cells with layout properties
+helper context FigmaMM!TEXT def: getTableDataTextStyles(): String =
+    -- Create a sequence to store style properties
+    let styleProps: Sequence(String) = Sequence{} in
+    
+    -- Set proper display for table cells
+    let withDisplay: Sequence(String) = 
+        styleProps->append('"display": "table-cell"')
+    in
+    
+    -- Font Family
+    let withFontFamily: Sequence(String) =
+        if not self.style.fontFamily.oclIsUndefined() then
+            withDisplay->append('"fontFamily": "' + self.style.fontFamily + '"')
+        else
+            withDisplay->append('"fontFamily": "inherit"')
+        endif
+    in
+
+    -- Font Size
+    let withFontSize: Sequence(String) =
+        if not self.style.fontSize.oclIsUndefined() then
+            withFontFamily->append('"fontSize": "' + self.style.fontSize.toString() + 'px"')
+        else
+            withFontFamily->append('"fontSize": "14px"')
+        endif
+    in
+
+    -- Font Weight
+    let withFontWeight: Sequence(String) =
+        if not self.style.fontWeight.oclIsUndefined() then
+            withFontSize->append('"fontWeight": ' + self.style.fontWeight.toString())
+        else
+            -- Data cells should be normal weight by default
+            withFontSize->append('"fontWeight": "400"')
+        endif
+    in
+
+    -- Text Align Horizontal
+    let withTextAlign: Sequence(String) =
+        if not self.style.textAlignHorizontal.oclIsUndefined() then
+            let alignValue: String =
+                if self.style.textAlignHorizontal.toString() = 'CENTER' then
+                    'center'
+                else if self.style.textAlignHorizontal.toString() = 'LEFT' then
+                    'left'
+                else if self.style.textAlignHorizontal.toString() = 'RIGHT' then
+                    'right'
+                else
+                    'left'
+                endif endif endif
+            in
+            withFontWeight->append('"textAlign": "' + alignValue + '"')
+        else
+            withFontWeight->append('"textAlign": "left"')
+        endif
+    in
+
+    -- Color (from fills)
+    let withColor: Sequence(String) =
+        if not self.fills.oclIsUndefined() and not self.fills.color.oclIsUndefined() then
+            let r: Real = self.fills.color.r * 255 in
+            let g: Real = self.fills.color.g * 255 in
+            let b: Real = self.fills.color.b * 255 in
+            let a: Real = self.fills.color.a in
+            if a < 1.0 then
+                withTextAlign->append('"color": "rgba(' + r.floor().toString() + ', ' + g.floor().toString() + ', ' + b.floor().toString() + ', ' + a.toString() + ')"')
+            else
+                withTextAlign->append('"color": "rgb(' + r.floor().toString() + ', ' + g.floor().toString() + ', ' + b.floor().toString() + ')"')
+            endif
+        else
+            -- Default text color for data cells
+            withTextAlign->append('"color": "#4a5568"')
+        endif
+    in
+    
+    -- Layout properties
+    let withLayoutProperties: Sequence(String) =
+        if not self.layoutSizingHorizontal.oclIsUndefined() and self.layoutSizingHorizontal.toString() = 'FILL' then
+            withColor->append('"width": "100%"')
+        else
+            if not self.layoutAlign.oclIsUndefined() and self.layoutAlign.toString() = 'STRETCH' then
+                withColor->append('"width": "100%"')
+            else
+                if not self.layoutGrow.oclIsUndefined() and self.layoutGrow > 0.0 then
+                    withColor->append('"flexGrow": "' + self.layoutGrow.toString() + '"')
+                else
+                    withColor
                 endif
-        in
-        
-        -- Create result string
-        let joinedProps : String = 
-                styleProps->iterate(prop; acc : String = '' | 
-                        if acc = '' then
-                                prop
-                        else
-                                acc + ', ' + prop
-                        endif
-                )
-        in
-        
-        -- Final output
-        if baseStyles <> '' and joinedProps <> '' then
-                baseStyles + ', ' + joinedProps
-        else if baseStyles <> '' then
-                baseStyles
-        else if joinedProps <> '' then
-                joinedProps
+            endif
+        endif
+    in
+    
+    -- Table data specific styling
+    let withBorderBottom: Sequence(String) =
+        withLayoutProperties->append('"borderBottom": "1px solid #e2e8f0"')
+    in
+    
+    let withPadding: Sequence(String) =
+        withBorderBottom->append('"padding": "12px 16px"')
+    in
+    
+    let withVerticalAlign: Sequence(String) =
+        withPadding->append('"verticalAlign": "middle"')
+    in
+    
+    -- If text is likely to overflow, handle it nicely
+    let withOverflow: Sequence(String) =
+        if self.style.textAutoResize.toString() = 'HEIGHT' or self.style.textAutoResize.toString() = 'WIDTH_AND_HEIGHT' then
+            withVerticalAlign->append('"whiteSpace": "normal"')
+                          ->append('"wordBreak": "break-word"')
         else
-                ''
+            withVerticalAlign
         endif
-        endif
-        endif
-;
+    in
 
--- Helper for COMPONENT styles (inherits FRAME styles)
-helper context FigmaMM!COMPONENT def: getComponentStyles() : String =
-        -- COMPONENT extends FRAME so we use the FRAME style helper
-        self.getFrameStyles()
-;
+    -- Join all style properties with commas
+    let joinedStyles: String =
+        withOverflow->iterate(prop; acc : String = '' |
+            if acc = '' then
+                prop
+            else
+                acc + ', ' + prop
+            endif
+        )
+    in
 
--- Helper for GROUP styles
-helper context FigmaMM!GROUP def: getGroupStyles() : String =
-        -- GROUP extends FRAME so we use the FRAME style helper
-        self.getFrameStyles()
-;
+    -- Return style properties without curly braces
+    joinedStyles;
 
--- Helper for INSTANCE styles
-helper context FigmaMM!INSTANCE def: getInstanceStyles() : String =
-        let baseStyles : String = self.getBaseStyles() in
-        let styleProps : Sequence(String) = Sequence{} in
-        let modifiedProps : Sequence(String) = 
-                -- INSTANCE has component properties that might affect styling
-                -- Here we extract any style-related component properties
-                let componentProps : Sequence(String) = 
-                        if not self.componentProperties->isEmpty() then
-                                self.componentProperties->iterate(prop; result : Sequence(String) = Sequence{} |
-                                        -- Extract any style-related properties
-                                        -- This would need to be customized based on your component property conventions
-                                        result
-                                )
-                        else
-                                Sequence{}
-                        endif
-                in
-                styleProps
-        in
-        
-        -- Create result string
-        let joinedProps : String = 
-                styleProps->iterate(prop; acc : String = '' | 
-                        if acc = '' then
-                                prop
-                        else
-                                acc + ', ' + prop
-                        endif
-                )
-        in
-        
-        -- Final output
-        if baseStyles <> '' and joinedProps <> '' then
-                baseStyles + ', ' + joinedProps
-        else if baseStyles <> '' then
-                baseStyles
-        else if joinedProps <> '' then
-                joinedProps
-        else
-                ''
-        endif
-        endif
-        endif
-;
-
-
--- Main helper to get the style for any type of Figma element
--- This will call the specific style helper based on the element type
-helper context FigmaMM!Children def: getAllStyles() : String =
-        if self.oclIsTypeOf(FigmaMM!TEXT) then
-                self.getTextStyles()
-        else if self.oclIsTypeOf(FigmaMM!FRAME) then
-                self.getFrameStyles()
-        else if self.oclIsTypeOf(FigmaMM!RECTANGLE) then
-                self.getRectangleStyles()
-        else if self.oclIsTypeOf(FigmaMM!COMPONENT_SET) then
-                self.getComponentSetStyles()
-        else if self.oclIsTypeOf(FigmaMM!COMPONENT) then
-                self.getComponentStyles()
-        else if self.oclIsTypeOf(FigmaMM!GROUP) then
-                self.getGroupStyles()
-        else if self.oclIsTypeOf(FigmaMM!INSTANCE) then
-                self.getInstanceStyles()
-        else
-                self.getBaseStyles()
-        endif
-        endif
-        endif
-        endif
-        endif
-        endif
-        endif
-;
+-- Master helper for getting table cell styles from text elements
+helper context FigmaMM!TEXT def: getTableCellTextStyles(): String =
+    if self.getTableCellTag() = 'th' then
+        self.getTableHeaderTextStyles()
+    else if self.getTableCellTag() = 'td' then
+        self.getTableDataTextStyles()
+    else
+        self.getTextStyles() -- Fallback to regular text styles
+    endif endif;

@@ -262,7 +262,7 @@ helper def : generateRoutes(routes : Sequence(React!Route), indent : String) : S
         acc + if acc = '' then s else '\n' + indent + s endif
     );
 
--- Helper to find components in JSX elements
+-- Helper to find components in JSX elements and prevent duplicates
 helper context React!JSXElement def : findComponents() : Set(React!Component) =
     let directComponents : Set(React!Component) = 
         if self.children.oclIsUndefined() then
@@ -295,11 +295,24 @@ helper context React!Page def : generatePageFile() : String =
             self.findComponents()
         endif
     in
+
+    -- Get unique components by name to prevent duplicate imports
+    let uniqueComponentsByName : Set(React!Component) = 
+        components->iterate(c; acc : Set(React!Component) = Set{} |
+            -- Check if a component with the same name already exists in the accumulator
+            if acc->exists(existingComp | existingComp.name = c.name) then
+                acc
+            else
+                acc->including(c)
+            endif
+        )
+    in
+    
     'import React from "react";\n' +
     'import { Outlet } from "react-router-dom";\n' +
-    -- Import components
-    (if not components->isEmpty() then
-        components->collect(c | 
+    -- Import components (now with duplicates removed)
+    (if not uniqueComponentsByName->isEmpty() then
+        uniqueComponentsByName->collect(c | 
             'import { ' + c.name + ' } from "../components/' + c.name + '";'
         )->iterate(s; acc : String = '' | acc + '\n' + s)
     else
@@ -581,5 +594,3 @@ helper context React!JSXElement def : generateAttributes() : String =
                 acc + if acc = '' then s else ' ' + s endif)
         endif
     endif;
-
-

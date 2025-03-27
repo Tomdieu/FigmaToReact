@@ -1,0 +1,2302 @@
+-- @path React=/Figma2React/Metamodel/react_meta_model.ecore
+-- @path Figma=/Figma2React/Metamodel/figma_meta_model.ecore
+
+module transformer;
+create OUT : React from IN : Figma;
+
+-- Helper functions to check node types
+helper context Figma!Children def : isCanvas() : Boolean = 
+    if self.type.toString() = 'CANVAS' then
+        true
+    else
+        false
+    endif;
+
+-- Enhanced helper to check if an element is a screen, handling both FRAME and INSTANCE
+helper context Figma!Children def : isScreen() : Boolean =
+    if self.type.toString() = 'FRAME' then
+        -- For frames, check if name contains 'screen' or 'page'
+        not self.name.oclIsUndefined() and 
+        (self.name.toLowerCase().indexOf('screen') <> -1 or 
+         self.name.toLowerCase().indexOf('page') <> -1)
+    else if self.type.toString() = 'INSTANCE' then
+        -- For instances, check if name contains 'screen', 'page', or 'desktop'
+        not self.name.oclIsUndefined() and 
+        (self.name.toLowerCase().indexOf('screen') <> -1 or 
+         self.name.toLowerCase().indexOf('page') <> -1 or
+         self.name.toLowerCase().indexOf('desktop') <> -1)
+    else
+        false
+    endif endif;
+
+-- Simplified helper to check if an element is a frame or an instance
+helper context Figma!Children def : isFrameOrInstance() : Boolean =
+    if self.type.toString() = 'FRAME' or self.type.toString() = 'INSTANCE' then
+        true
+    else
+        false
+    endif;
+
+helper context Figma!FRAME def : isCheckbox() : Boolean =
+    not self.name.oclIsUndefined() and 
+    self.name.toLowerCase().indexOf('checkbox') <> -1;
+
+helper context Figma!Children def : isFrame() : Boolean = 
+    if self.type.toString() = 'FRAME' then
+        true
+    else
+        false
+    endif;
+
+helper context Figma!Children def : isRectangle() : Boolean = 
+	if self.type.toString() = 'RECTANGLE' then
+		true
+	else
+		false
+	
+	endif;
+
+helper context Figma!Children def : isText() : Boolean = 
+	if self.type.toString() = 'TEXT' then
+		true
+	else
+		false
+	endif;
+
+helper context Figma!Children def : isLine() : Boolean = 
+	if self.type.toString() = 'LINE' then
+		true
+	else
+		false
+	endif;
+
+helper context Figma!Children def : isComponent() : Boolean = 
+	if self.type.toString() = 'COMPONENT' then
+		true
+	else
+		false
+	endif;
+
+helper context Figma!Children def : isComponentSet() : Boolean = 
+    if self.type.toString() = 'COMPONENT_SET' then
+        true
+    else
+        false
+    endif;
+    
+helper context Figma!Children def : isDocument() : Boolean = 
+	if self.type.toString() = 'DOCUMENT' then
+		true
+	else
+		false
+	endif;
+
+helper context Figma!Children def : isInstance() : Boolean = 
+    if self.type.toString() = 'INSTANCE' then 
+        true 
+    else 
+        false 
+endif;
+
+helper context Figma!Children def : isVector() : Boolean = 
+	if self.type.toString() = 'VECTOR' then
+		true
+	else
+		false
+endif;
+
+helper context Figma!Children def : isEllipse(): Boolean = 
+	if self.type.toString() = 'ELLIPSE' then
+		true
+	else
+		false
+endif;
+
+helper context Figma!Children def : isGroup() : Boolean = 
+	if self.type.toString() = 'GROUP' then
+		true
+	else
+		false
+endif;
+
+helper context Figma!Children def : isRegularPolygon() : Boolean =
+	if self.type.toString() = 'REGULAR_POLYGON' then
+		true
+	else
+		false
+endif;
+
+helper def : sanitizeName(name : String) : String =
+    name.replaceAll(' ', '-').toLower();
+
+
+rule FigmaApp2ReactApp {
+	from
+		F : Figma!FigmaApp
+	to 
+		R : React!ReactApplication (
+			name <- F.name,
+			router <- F.document
+		)
+}
+
+-- Modified FigmaDocument2ReactRouter rule with proper type checking for instances
+rule FigmaDocument2ReactRouter {
+    from
+        F : Figma!Document
+    to 
+        R : React!Router (
+            basname <- F.name,
+            route <- 
+                -- First, get routes from canvases
+                F.children->select(c | c.isCanvas())->collect(canvas | 
+                    thisModule.CreateCanvasRoute(canvas)
+                )->union(
+                -- Then, get routes from screens at the top level (frames or instances)
+                F.children->select(c | c.isFrameOrInstance() and c.isScreen())->collect(screen |
+                    thisModule.CreateTopLevelScreenRoute(screen)
+                )
+                )
+        )
+}
+
+-- Helper rule to create a Screen route at the top level
+lazy rule CreateTopLevelScreenRoute {
+    from
+        F : Figma!Children
+    to
+        R : React!Route (
+            path <- '/' + thisModule.sanitizeName(F.name.toLowerCase()),
+            exact <- true,
+            element <- thisModule.CreateScreenElement(F)
+        )
+}
+
+
+-- Helper lazy rule to create the appropriate screen element based on type
+lazy rule CreateScreenElement {
+    from
+        F : Figma!Children
+    to
+        R : React!Page (
+            name <- thisModule.toPascalCase(F.name),
+            key <- F.id,
+            children <- if not F.children.oclIsUndefined() then
+                F.children->collect(e | thisModule.resolveTemp(e, 'R'))
+            else
+                Sequence {}
+            endif
+        )
+}
+
+
+-- Helper rule to create a Canvas route
+lazy rule CreateCanvasRoute {
+    from
+        F : Figma!CANVAS
+    to
+        R : React!Route (
+            path <- '/' + thisModule.sanitizeName(F.name.toLowerCase()),
+            exact <- true,
+            element <- thisModule.resolveTemp(F, 'R'),  -- Canvas Page component
+            -- Find all elements inside this canvas that are screens and create routes
+            children <- if not F.children.oclIsUndefined() then
+                F.children->select(c | c.isFrameOrInstance() and c.isScreen())->collect(screen | 
+                    thisModule.CreateScreenRoute(screen)
+                )
+            else
+                Sequence {}
+            endif
+        )
+}
+
+-- Helper rule to create a Screen route as a child of a canvas
+lazy rule CreateScreenRoute {
+    from
+        F : Figma!Children
+    to
+        R : React!Route (
+            path <- thisModule.sanitizeName(F.name.toLowerCase()),  -- No leading slash for sub-routes
+            exact <- true,
+            element <- thisModule.CreateScreenElement(F)
+        )
+}
+
+
+
+-- Helper rule to create a Canvas route with nested screen routes
+lazy rule CreateCanvasRouteWithNestedScreens {
+    from
+        F : Figma!CANVAS
+    to
+        R : React!Route (
+            path <- '/' + thisModule.sanitizeName(F.name.toLowerCase()),
+            exact <- true,
+            element <- thisModule.resolveTemp(F, 'R'),  -- Canvas Page component
+            children <- 
+                -- Find all screens inside this canvas and create routes for them
+                if not F.children.oclIsUndefined() then
+                    F.children->select(c | 
+                        c.isFrame() and c.isScreen()
+                    )->collect(screen | 
+                        thisModule.CreateScreenSubRoute(screen)
+                    )
+                else
+                    Sequence {}
+                endif
+        )
+}
+
+-- Helper rule to create a Screen sub-route
+lazy rule CreateScreenSubRoute {
+    from
+        F : Figma!FRAME
+    to
+        R : React!Route (
+            path <- thisModule.sanitizeName(F.name.toLowerCase()),  -- No leading slash for sub-routes
+            exact <- true,
+            element <- thisModule.FigmaFrame2ReactPage(F)  -- Screen Page component
+        )
+}
+
+-- Helper rule to create a route from a screen frame
+lazy rule CreateRouteFromScreen {
+    from
+        F : Figma!FRAME
+    to
+        R : React!Route (
+            path <- '/' + thisModule.sanitizeName(F.name.toLowerCase()),
+            exact <- true,
+            element <- thisModule.FigmaFrame2ReactPage(F)
+        )
+}
+
+-- Helper lazy rule to transform Frame to Page for screens
+lazy rule FigmaFrame2ReactPage {
+    from
+        F : Figma!FRAME
+    to
+        R : React!Page (
+            name <- thisModule.toPascalCase(F.name),
+            key <- F.id,
+            children <- if not F.children.oclIsUndefined() then
+                F.children->collect(e | thisModule.resolveTemp(e, 'R'))
+            else
+                Sequence {}
+            endif
+        )
+}
+
+-- Helper rule to create a route for a canvas
+
+lazy rule CreateRoute {
+    from
+        F : Figma!CANVAS
+    to
+        R : React!Route (
+            path <- '/' + thisModule.sanitizeName(F.name.toLowerCase()),
+            exact <- true,
+            element <- thisModule.resolveTemp(F, 'R')  -- This will resolve to the Page component created by FigmaCanvas2ReactComponent
+        )
+}
+
+helper def : toComponentName(name:String) : String =
+   let words : Sequence(String) = 
+       name.split(' ')->reject(w | w = '')
+   in
+   words->iterate(w; acc : String = '' | 
+       acc + w.substring(1, 1).toUpper() + 
+       if w.size() > 1 then
+           w.substring(2, w.size())
+       else
+           ''
+       endif
+   );
+
+-- We'll update the Canvas to React Component rule to create a Page for each canvas
+rule FigmaCanvas2ReactComponent {
+    from
+        F : Figma!CANVAS(F.isCanvas())
+    to 
+        R : React!Page (
+            name <- thisModule.toPascalCase(F.name),
+            key <- F.id,
+            children <- if not F.children.oclIsUndefined() then
+                -- Include all children except screens (which will be handled by the router)
+                F.children->reject(c | 
+                    c.isFrame() and c.isScreen()
+                )->collect(e | 
+                    thisModule.resolveTemp(e, 'R')
+                )
+            else
+                Sequence {}
+            endif
+        )
+}
+
+-- Helper to check if a frame is already processed by the router
+helper def : isFrameProcessedByRouter(frame : Figma!FRAME) : Boolean =
+    -- Check if this frame is a direct child of the document
+    let doc : Figma!Document = Figma!Document.allInstances()->first() in
+    doc.children->includes(frame) or
+    -- Or a screen nested within a direct child
+    doc.children->exists(c |
+        c.isFrame() and not c.children.oclIsUndefined() and
+        c.children->includes(frame)
+    );
+
+
+-- Updated Screen rule to only handle screens not already processed by the router
+rule FigmaScreen2ReactPage {
+    from
+        F : Figma!FRAME(
+            F.isFrame() and 
+            F.isScreen() and 
+            not thisModule.isScreenProcessedByRouter(F)
+        )
+    to 
+        R : React!Page (
+            name <- thisModule.toPascalCase(F.name),
+            key <- F.id,
+            children <- if not F.children.oclIsUndefined() then
+                F.children->collect(e | thisModule.resolveTemp(e, 'R'))
+            else
+                Sequence {}
+            endif
+        )
+}
+
+-- Helper to check if a screen is already processed by the router
+helper def : isScreenProcessedByRouter(screen : Figma!FRAME) : Boolean =
+    -- Check if this screen is inside a canvas
+    let allCanvases : Sequence(Figma!CANVAS) = 
+        Figma!CANVAS.allInstances()
+    in
+    allCanvases->exists(canvas | 
+        not canvas.children.oclIsUndefined() and
+        canvas.children->includes(screen)
+    );
+
+rule VectorToSvg {
+    from
+        F: Figma!Children(F.isVector())
+    to
+        R: React!HTMLElement(
+            name <- 'svg',
+            isSelfClosing <- false,
+            key <- F.id,
+            attributes <- Sequence {
+                thisModule.CreateAttribute('viewBox', 
+                    if not F.absoluteBoundingBox.oclIsUndefined() then
+                        '0 0 ' + F.absoluteBoundingBox.width.toString() + ' ' + F.absoluteBoundingBox.height.toString()
+                    else
+                        '0 0 24 24'  -- default viewBox
+                    endif
+                ),
+                thisModule.CreateAttribute('xmlns', 'http://www.w3.org/2000/svg'),
+                thisModule.CreateAttribute('width', 
+                    if not F.absoluteBoundingBox.oclIsUndefined() then
+                        F.absoluteBoundingBox.width.toString() + 'px'
+                    else
+                        '24px'
+                    endif
+                ),
+                thisModule.CreateAttribute('height', 
+                    if not F.absoluteBoundingBox.oclIsUndefined() then
+                        F.absoluteBoundingBox.height.toString() + 'px'
+                    else
+                        '24px'
+                    endif
+                )
+            },
+            children <- if not F.children.oclIsUndefined() then
+                F.children->collect(e | thisModule.resolveTemp(e, 'R'))
+            else
+                Sequence {}
+            endif
+        )
+}
+
+-- Add the same guard to other rules that generate elements
+
+-- Now we need to update our Frame rule to exclude input frames and their containers
+rule FigmaFrame2ReactDivHtmlElement {
+    from
+        F : Figma!FRAME(
+            F.isFrame() and 
+            not F.name.toString().toLower().startsWith('form') and
+            not F.isInput() and  -- Skip input frames
+            not F.isInputContainer() and  -- Skip input containers
+            not F.isScreen() and 
+            not F.isCheckbox() and
+            not F.isButtonContainer()
+        )
+    to 
+        R : React!HTMLElement (
+            -- [Rest of the rule stays the same]
+            name <- if F.hasClickNavigation() and not thisModule.findCanvasById(F.getNavigationDestination()).oclIsUndefined() then 
+                     'a' 
+                    else 
+                     'div' 
+                    endif,
+            
+            isSelfClosing <- false,
+            key <- F.id,
+            
+            -- Only add href attributes if we have a valid navigation target
+            attributes <- if F.hasClickNavigation() then
+                let targetCanvas : Figma!Children = thisModule.findCanvasById(F.getNavigationDestination()) in
+                if not targetCanvas.oclIsUndefined() then
+                    Sequence {
+                        thisModule.CreateAttribute('href', '/' + thisModule.sanitizeName(targetCanvas.name)),
+                        thisModule.CreateAttribute('style', 'textDecoration: none; color: inherit;')
+                    }
+                else
+                    -- If no target canvas, use regular frame attributes
+                    Sequence {
+                        thisModule.CreateAttribute('style', F.generateFrameStyles()),
+                        thisModule.CreateAttribute('id', F.id)
+                    }
+                endif
+            else
+                Sequence {
+                    thisModule.CreateAttribute('style', F.generateFrameStyles()),
+                    thisModule.CreateAttribute('id', F.id)
+                }
+            endif,
+            
+            -- Only create nested children with a wrapper if we have a valid navigation target
+            children <- if F.hasClickNavigation() then
+                let targetCanvas : Figma!Children = thisModule.findCanvasById(F.getNavigationDestination()) in
+                if not targetCanvas.oclIsUndefined() then
+                    -- For navigation, create a div with the original styles that will be inside the <a> tag
+                    Sequence {
+                        thisModule.CreateNestedElement(F)
+                    }
+                else
+                    -- If no target canvas, just process children normally
+                    if not F.children.oclIsUndefined() then
+                        F.children->collect(e | thisModule.resolveTemp(e, 'R'))
+                    else
+                        Sequence {}
+                    endif
+                endif
+            else
+                if not F.children.oclIsUndefined() then
+                    F.children->collect(e | thisModule.resolveTemp(e, 'R'))
+                else
+                    Sequence {}
+                endif
+            endif
+        )
+}
+
+
+helper context Figma!FRAME def : getStyleString() : String =
+    'display: flex; ' +
+    (if not self.backgroundColor.oclIsUndefined() then 
+        ' background-color: ' + self.backgroundColor.toRGBA() + ';'
+    else 
+        ''
+    endif);
+
+-- Helper for Color to RGBA
+-- For Background objects
+helper context Figma!Background def : toRGBA() : String =
+    if not self.color.oclIsUndefined() then
+        self.color.toRGBA()
+    else
+        'rgba(0, 0, 0, 0)'
+    endif;
+
+lazy rule CreateAttribute {
+	from
+		name : String,
+		value : String
+	to
+		attr: React!HTMLAttribute(
+			name <- name,
+			value <- value,
+			isRequire <- false,
+			type <- 'string'
+		)
+}
+
+-- For rectangle elements, add a guard condition
+rule FigmaRectangle2ReactDivHtmlElement {
+    from
+        F : Figma!Children(
+            F.isRectangle() and
+            F.isPartOfProcessedHierarchy()  -- Only process rectangles that are part of the hierarchy
+        )
+    to 
+        R : React!HTMLElement (
+            name <- if F.hasClickNavigation() then 'a' else 'div' endif,
+            isSelfClosing <- false,
+            key <- F.id,
+            attributes <- if F.hasClickNavigation() then
+                let targetCanvas : Figma!Children = thisModule.findCanvasById(F.getNavigationDestination()) in
+                if not targetCanvas.oclIsUndefined() then
+                    Sequence {
+                        thisModule.CreateAttribute('href', '/' + thisModule.sanitizeName(targetCanvas.name)),
+                        thisModule.CreateAttribute('style', 'textDecoration: none; color: inherit;')
+                    }
+                else
+                    Sequence {}
+                endif
+            else
+                Sequence {
+                    thisModule.CreateAttribute('id', F.id)
+                }
+            endif,
+            children <- if F.hasClickNavigation() then
+                Sequence {
+                    thisModule.CreateNestedElement(F)
+                }
+            else
+                F.children->collect(e | thisModule.resolveTemp(e, 'R'))
+            endif
+        )
+}
+
+
+-- rule FigmLine2ReactHrHtmlElement {
+-- 	from
+-- 		F : Figma!LINE
+-- 	to 
+-- 		R : React!HTMLElement (
+-- 			name <- 'hr',
+-- 			isSelfClosing <- true,
+-- 			key <- F.id,
+-- 			attributes <- Sequence{
+-- 				thisModule.CreateAttribute('id',F.id)
+-- 			}
+-- 		)
+-- }
+
+-- Update line rule
+rule FigmLine2ReactHrHtmlElement {
+    from
+        F : Figma!LINE(
+            F.isPartOfProcessedHierarchy()  -- Only process lines that are part of the hierarchy
+        )
+    to 
+        R : React!HTMLElement (
+            name <- 'hr',
+            isSelfClosing <- true,
+            key <- F.id,
+            attributes <- Sequence{
+                thisModule.CreateAttribute('id',F.id)
+            }
+        )
+}
+
+
+helper context Figma!COMPONENT_SET def : getComponentProps() : Sequence(React!Props) =
+    -- Create an empty sequence to store the props
+    let props : Sequence(React!Props) = Sequence{} in
+    
+    -- Check if componentPropertyDefinitions exists
+    if self.componentPropertyDefinitions.oclIsUndefined() then
+        props
+    else
+        -- Extract all componentPropertyDefinitions
+        self.componentPropertyDefinitions->iterate(
+            propDef; 
+            acc : Sequence(React!Props) = props | 
+            
+            -- For each property definition, create a prop
+            let propName : String = 
+                if propDef.key.oclIsUndefined() then
+                    'unnamed_prop'
+                else
+                    propDef.key
+                endif
+            in
+            
+            let propType : String = 
+                if propDef.componentpropertydefinition.oclIsUndefined() or
+                   propDef.componentpropertydefinition.type.oclIsUndefined() then
+                    'TEXT'  -- Default type
+                else
+                    propDef.componentpropertydefinition.type.toString()
+                endif
+            in
+            
+            let defaultValue : String = 
+                if propDef.componentpropertydefinition.oclIsUndefined() or
+                   propDef.componentpropertydefinition.defaultValue.oclIsUndefined() then
+                    ''  -- Default empty value
+                else
+                    propDef.componentpropertydefinition.defaultValue.toString()
+                endif
+            in
+            
+            -- Check if we have variant options
+            let hasVariants : Boolean = 
+                not propDef.componentpropertydefinition.oclIsUndefined() and
+                not propDef.componentpropertydefinition.variantOptions.oclIsUndefined() and
+                not propDef.componentpropertydefinition.variantOptions->isEmpty()
+            in
+            
+            -- Add the new prop to the accumulator using the appropriate rule
+            if hasVariants and propType = 'VARIANT' then
+                acc->including(
+                    thisModule.CreateComponentPropWithVariants(
+                        propName, 
+                        propType, 
+                        defaultValue, 
+                        propDef.componentpropertydefinition.variantOptions
+                    )
+                )
+            else
+                acc->including(
+                    thisModule.CreateComponentProp(propName, propType, defaultValue)
+                )
+            endif
+        )
+    endif;
+-- Helper to get instance properties
+helper context Figma!INSTANCE def : getComponentProps() : Sequence(React!Props) =
+    if self.componentProperties.oclIsUndefined() then
+        Sequence{}
+    else
+        self.componentProperties->collect(entry |
+            thisModule.CreateComponentProp(
+                entry.key,
+                entry.value.type.toString(),
+                entry.value.value.toString()
+            )
+        )
+    endif;
+
+
+-- Helper to safely get PropType enum value
+helper def : getPropType(typeStr : String) : React!PropType =
+    if typeStr = 'BOOLEAN' then 
+        React!PropType.allInstances()->select(e | e.name = 'boolean')->first()
+    else if typeStr = 'TEXT' or typeStr = 'VARIANT' then 
+        React!PropType.allInstances()->select(e | e.name = 'String')->first()
+    else 
+        React!PropType.allInstances()->select(e | e.name = 'ANY')->first()
+    endif endif;
+
+-- Convert a string to camelCase (e.g., "Show Helper text#258:13" -> "showHelperText")
+helper def : toCamelCase(input : String) : String =
+    let cleanInput : String = 
+        -- Remove any ID suffixes like #258:13
+        if input.indexOf('#') > 0 then
+            input.substring(1, input.indexOf('#'))
+        else
+            input
+        endif
+    in
+    let words : Sequence(String) = cleanInput.split(' ') in
+    words->iterate(word; result : String = '' |
+        if result = '' then
+            -- First word starts with lowercase
+            word.toLowerCase()
+        else
+            -- Subsequent words start with uppercase
+            result + word.substring(1, 1).toUpper() + 
+            if word.size() > 1 then
+                word.substring(2, word.size()).toLowerCase()
+            else
+                ''
+            endif
+        endif
+    );
+
+
+-- Convert Figma type to React TypeScript type
+helper def : figmaTypeToTsType(figmaType : String) : String =
+    if figmaType = 'BOOLEAN' then
+        'boolean'
+    else if figmaType = 'TEXT' then
+        'string'
+    else if figmaType = 'VARIANT' then
+        'string'
+    else
+        'any'
+    endif endif endif;
+
+-- Basic version without variants
+lazy rule CreateComponentProp {
+    from
+        name : String,
+        type : String,
+        defaultValue : String
+    to
+        prop : React!Props (
+            name <- thisModule.toCamelCase(name),
+            -- Keep value for PropType enum
+            value <- 
+                if type = 'BOOLEAN' then
+                    'boolean'
+                else if type = 'TEXT' then
+                    'String'
+                else if type = 'VARIANT' then
+                    'String'
+                else
+                    'ANY'
+                endif endif endif,
+            defaultValue <- defaultValue,
+            isRequire <- false,
+            -- Use proper TypeScript type
+            type <- thisModule.figmaTypeToTsType(type)
+        )
+}
+
+-- Extended version with variants
+lazy rule CreateComponentPropWithVariants {
+    from
+        name : String,
+        type : String,
+        defaultValue : String,
+        variants : Sequence(String)
+    to
+        prop : React!Props (
+            name <- thisModule.toCamelCase(name),
+            -- For variant types, just use the default value directly
+            value <- 
+                if type = 'VARIANT' then
+                    defaultValue
+                else if type = 'BOOLEAN' then
+                    'boolean'
+                else if type = 'TEXT' then
+                    'String'
+                else
+                    'ANY'
+                endif endif endif,
+            defaultValue <- defaultValue,
+            isRequire <- false,
+            -- For variants, create a clean union type like "default"|"secondary"
+            type <- 
+                if type = 'VARIANT' and not variants->isEmpty() then
+                    -- Create a union type without quotes around the values
+                    variants->iterate(v; acc : String = '' |
+                        if acc = '' then
+                            v
+                        else
+                            acc + '|' + v
+                        endif
+                    )
+                else
+                    thisModule.figmaTypeToTsType(type)
+                endif
+        )
+}
+
+-- Helper to convert a component name to PascalCase (e.g., "Input Component" -> "InputComponent")
+helper def : toPascalCase(input : String) : String =
+    let cleanInput : String = 
+        -- Remove any special characters or dashes
+        if input.indexOf('-') > 0 then
+            input.regexReplaceAll('-', ' ')
+        else
+            input
+        endif
+    in
+    let words : Sequence(String) = cleanInput.split(' ') in
+    words->iterate(word; result : String = '' |
+        if word.size() > 0 then
+            -- Capitalize first letter of each word
+            result + word.substring(1, 1).toUpper() + 
+            if word.size() > 1 then
+                word.substring(2, word.size())
+            else
+                ''
+            endif
+        else
+            result
+        endif
+    );
+
+-- Updated rule for component sets
+rule FigmaComponentSet2ReactComponent {
+    from
+        F : Figma!Children(F.isComponentSet())
+    to 
+        R : React!Component (
+            name <- thisModule.toPascalCase(F.name),
+            key <- F.id,
+            props <- F.getComponentProps(),
+            children <- Sequence{
+                thisModule.CreateComponentWrapper(F)
+            },
+            isInstance <- false
+        )
+}
+
+
+-- Helper rule to create a wrapper div with the styles
+lazy rule CreateComponentWrapper {
+    from
+        F : Figma!COMPONENT_SET
+    to
+        R : React!HTMLElement (
+            name <- 'div',
+            attributes <- Sequence {
+                thisModule.CreateAttribute('style', F.generateFrameStyles())
+            },
+            children <- if not F.children.oclIsUndefined() then
+                F.children->collect(e | thisModule.resolveTemp(e, 'R'))
+            else
+                Sequence {}
+            endif
+        )
+}
+
+-- Helper to get instance properties with their actual values
+helper context Figma!INSTANCE def : getInstanceProps() : Sequence(React!Props) =
+    if self.componentProperties.oclIsUndefined() then
+        Sequence{}
+    else
+        -- Extract the actual properties with their values
+        self.componentProperties->collect(propDef |
+            let propName : String = 
+                if propDef.key.oclIsUndefined() then
+                    'unnamed_prop'
+                else
+                    propDef.key
+                endif
+            in
+            
+            let propType : String = 
+                if propDef.value.oclIsUndefined() or
+                   propDef.value.type.oclIsUndefined() then
+                    'TEXT'  -- Default type
+                else
+                    propDef.value.type.toString()
+                endif
+            in
+            
+            let propValue : String = 
+                if propDef.value.oclIsUndefined() or
+                   propDef.value.value.oclIsUndefined() then
+                    ''  -- Default empty value
+                else
+                    propDef.value.value.toString()
+                endif
+            in
+            
+            -- Create prop with the actual value
+            thisModule.CreateInstanceProp(
+                thisModule.toCamelCase(propName),
+                propType,
+                propValue
+            )
+        )
+    endif;
+
+-- Specialized lazy rule for instance properties
+lazy rule CreateInstanceProp {
+    from
+        name : String,
+        type : String,
+        value : String
+    to
+        prop : React!Props (
+            name <- name,
+            -- For boolean values, convert string to actual boolean if needed
+            value <- 
+                if type = 'BOOLEAN' then
+                    if value = 'True' or value = 'true' then
+                        'true'
+                    else
+                        'false'
+                    endif
+                else
+                    value
+                endif,
+            defaultValue <- value,  -- Use the actual value as default too
+            isRequire <- false,
+            type <- thisModule.figmaTypeToTsType(type)
+        )
+}
+
+
+
+-- Update component instance rule
+rule FigmaInstance2ReactComponent {
+    from
+        F : Figma!Children(
+            F.isInstance() and 
+            not F.isScreen() and
+            F.isPartOfProcessedHierarchy()  -- Only process instances that are part of the hierarchy
+        )
+    to 
+        R : React!Component (
+            name <- thisModule.toPascalCase(F.name),
+            key <- F.id,
+            props <- F.getInstanceProps(),
+            children <- if not F.children.oclIsUndefined() then
+                Sequence {
+                    thisModule.CreateStyledWrapper(F)
+                }
+            else
+                Sequence {}
+            endif,
+            isInstance <- true
+        )
+}
+
+
+
+-- Helper rule to create a styled wrapper div for instances
+lazy rule CreateStyledWrapper {
+    from
+        F : Figma!INSTANCE
+    to
+        R : React!HTMLElement (
+            name <- 'div',
+            key <- F.id + '_wrapper',
+            isSelfClosing <- false,
+            attributes <- Sequence {
+                thisModule.CreateAttribute('style', F.generateFrameStyles())
+            },
+            children <- if not F.children.oclIsUndefined() then
+                F.children->collect(e | thisModule.resolveTemp(e, 'R'))
+            else
+                Sequence {}
+            endif
+        )
+}
+
+
+-- Update component rule
+rule FigmaComponent2RectDivHtmlElement {
+    from
+        F : Figma!COMPONENT(
+            F.isPartOfProcessedHierarchy()  -- Only process components that are part of the hierarchy
+        )
+    to 
+        R : React!HTMLElement (
+            name<-'div',
+            children <- if not F.children.oclIsUndefined() then
+                F.children->collect(e | thisModule.resolveTemp(e, 'R'))
+            else
+                Sequence {}
+            endif,
+            attributes <- Sequence{
+                thisModule.CreateAttribute('id',F.id)
+            }
+        )
+}
+
+helper context Figma!TEXT def : isLabel() : Boolean = 
+	if self.name.toString().toLower().startsWith('label') then
+		true
+	else
+		false		
+	endif;
+
+helper context Figma!TEXT def : isPlaceholder() : Boolean = 
+	if self.name.toString().toLower().startsWith('placeholder') then
+		true
+	else
+		false
+	endif;
+
+
+helper context Figma!TEXT def : isParagraph() : Boolean = 
+	if self.name.toString().toLower().startsWith('p') then
+		true
+	else
+		false
+	endif;
+
+helper context Figma!TEXT def : isButton() : Boolean = 
+	if self.name.toString().toLower().startsWith('button') then
+		true
+	else
+		false
+	endif;
+
+
+helper context Figma!TEXT def : getTextTag(): String =
+    if self.name.toString().toLower().startsWith('label') then
+        'label'
+    else 
+        if self.name.toString().toLower().startsWith('p') then
+            'p'
+        else 
+            if self.name.toString().toLower().startsWith('small') then
+                'small'
+            else 
+                if self.name.toString().toLower().startsWith('h1') then
+                    'h1'
+                else 
+                    if self.name.toString().toLower().startsWith('h2') then
+                        'h2'
+                    else 
+                        if self.name.toString().toLower().startsWith('h3') then
+                            'h3'
+                        else 
+                            if self.name.toString().toLower().startsWith('h4') then
+                                'h4'
+                            else 
+                                if self.name.toString().toLower().startsWith('h5') then
+                                    'h5'
+                                else 
+                                    if self.name.toString().toLower().startsWith('h6') then
+                                        'h6'
+                                    else 
+                                        if self.name.toString().toLower().startsWith('span') then
+                                            'span'
+                                        else 
+                                            if not self.style.oclIsUndefined() then
+                                                if self.style.fontSize >= 40 then
+                                                    'h1'
+                                                else 
+                                                    if self.style.fontSize >= 32 then
+                                                        'h2'
+                                                    else 
+                                                        if self.style.fontSize >= 28 then
+                                                            'h3'
+                                                        else 
+                                                            if self.style.fontSize >= 24 then
+                                                                'h4'
+                                                            else 
+                                                                if self.style.fontSize >= 20 then
+                                                                    'h5'
+                                                                else 
+                                                                    if self.style.fontSize >= 16 then
+                                                                        'h6'
+                                                                    else 
+                                                                        if self.style.fontSize <= 12 then
+                                                                            'small'
+                                                                        else 
+                                                                            'p'
+                                                                        endif
+                                                                    endif
+                                                                endif
+                                                            endif
+                                                        endif
+                                                    endif
+                                                endif
+                                            else
+                                                'p'
+                                            endif
+                                        endif
+                                    endif
+                                endif
+                            endif
+                        endif
+                    endif
+                endif
+            endif
+        endif
+    endif;
+
+
+helper context Figma!FRAME def : isInput() : Boolean =
+    if self.type.toString() = 'FRAME' and
+       not self.name.oclIsUndefined() and
+       (
+         self.name.toLowerCase().startsWith('input') or
+         (
+           not self.children.oclIsUndefined() and not self.children->isEmpty() and
+           self.children->exists(c |
+             not c.oclIsUndefined() and
+             c.type.toString() = 'TEXT' and
+             not c.name.oclIsUndefined() and
+             c.name.toLowerCase().startsWith('placeholder')
+           )
+         )
+       )
+    then
+        true
+    else
+        false
+    endif;
+
+helper context Figma!FRAME def : isInputContainer() : Boolean =
+    if self.type.toString() = 'FRAME' and
+       not self.children.oclIsUndefined() and not self.children->isEmpty() and
+       self.children->exists(c | c.isFrame() and c.isInput())
+    then
+        true
+    else
+        false
+    endif;
+
+
+-- Helper to get placeholder text
+helper context Figma!FRAME def : getPlaceholderText() : Figma!Children =
+    if not self.children.isEmpty() then
+        self.children->select(c | 
+            c.type.toString() = 'TEXT' and 
+            c.name.toLowerCase().startsWith('placeholder')
+        )->first()
+    else
+        OclUndefined
+    endif;
+
+-- Helper to get label text for an input
+helper context Figma!FRAME def : getLabelText() : Figma!Children =
+    if not self.children.oclIsUndefined() and not self.children->isEmpty() then
+        self.children->select(c | 
+            c.type.toString() = 'TEXT' and 
+            not c.name.oclIsUndefined() and
+            c.name.toLowerCase().startsWith('label')
+        )->first()
+    else
+        OclUndefined
+    endif;
+
+
+-- Add this helper to print debug info
+helper def : debugFrame(frame : Figma!FRAME) : String = 
+    let debugInfo : String = frame.debugIsInput() in
+    frame.name + ' debug info: ' + debugInfo;
+
+
+helper context Figma!FRAME def : debugIsInput() : String =
+    'Frame type: ' + self.type.toString() + ', ' +
+    'Name: ' + self.name.toString() + ', ' +
+    'Has children: ' + (not self.children.isEmpty()).toString() + ', ' +
+    'Has placeholder: ' + (self.children->exists(c | 
+        c.type.toString() = 'TEXT' and 
+        c.name.toLowerCase().startsWith('placeholder')
+    )).toString();
+
+-- Rule for Input Container
+rule FigmaInputContainer2Div {
+   from
+       F : Figma!FRAME(F.isInputContainer())
+   to 
+       R : React!HTMLElement (
+           name <- 'div',
+           key <- F.id,
+           isSelfClosing <- false,
+           attributes <- Sequence {
+               thisModule.CreateAttribute('style',
+                   '{display: flex, flexDirection: column, ' +
+                   (if not F.absoluteBoundingBox.oclIsUndefined() then
+                       'width: ' + F.absoluteBoundingBox.width.toString() + 'px, ' +
+                       'height: ' + F.absoluteBoundingBox.height.toString() + 'px, '
+                   else
+                       ''
+                   endif) +
+                   'backgroundColor: "' + 
+                   (if not F.backgroundColor.oclIsUndefined() then
+                       F.backgroundColor.toRGBA()
+                   else
+                       'rgba(0, 0, 0, 0.0)'
+                   endif) + 
+                   '", ' +
+                   'alignItems: center, ' +
+                   (if not F.itemSpacing.oclIsUndefined() then
+                       'gap: ' + F.itemSpacing.toString() + 'px, '
+                   else
+                       'gap: 12px, '
+                   endif) +
+                   (if not F.layoutWrap.oclIsUndefined() and F.layoutWrap.toString() = 'NO_WRAP' then
+                       'flexWrap: nowrap, '
+                   else
+                       'flexWrap: wrap, '
+                   endif) +
+                   (if not F.cornerRadius.oclIsUndefined() then
+                       'borderRadius: ' + F.cornerRadius.toString() + 'px'
+                   else
+                       'borderRadius: 0.0px'
+                   endif) +
+                   '}'
+               ),
+               thisModule.CreateAttribute('id', F.id)
+           },
+           -- Include children, ensuring both label and input elements are properly transformed
+           -- We'll process the input frames separately with the rule below
+           children <- 
+               -- First, get any label texts
+               F.children->select(c | c.type.toString() = 'TEXT')->collect(e | thisModule.resolveTemp(e, 'R'))->
+               -- Then, get input frames (which will be transformed by FigmaFrame2Input)
+               union(F.children->select(c | c.isFrame() and c.isInput())->collect(e | thisModule.resolveTemp(e, 'R')))
+       )
+}
+
+-- Improved rule for Input frames - updated to be more robust and dynamic
+rule FigmaFrame2Input {
+   from
+       F : Figma!FRAME(F.isInput())
+   using {
+       placeholderText : Figma!Children = F.getPlaceholderText();
+       
+       -- Create a professional style string based on the frame attributes
+       styleString : String =
+           '{' +
+           -- Use explicit padding values from the frame if available
+           (if not F.paddingLeft.oclIsUndefined() or not F.paddingRight.oclIsUndefined() or 
+               not F.paddingTop.oclIsUndefined() or not F.paddingBottom.oclIsUndefined() then
+               'padding: "' + 
+               (if not F.paddingTop.oclIsUndefined() then F.paddingTop.toString() else '8' endif) + 'px ' +
+               (if not F.paddingRight.oclIsUndefined() then F.paddingRight.toString() else '12' endif) + 'px ' +
+               (if not F.paddingBottom.oclIsUndefined() then F.paddingBottom.toString() else '8' endif) + 'px ' +
+               (if not F.paddingLeft.oclIsUndefined() then F.paddingLeft.toString() else '12' endif) + 'px", '
+           else if not F.itemSpacing.oclIsUndefined() then
+               -- Use itemSpacing as fallback
+               'padding: "' + F.itemSpacing.toString() + 'px", ' 
+           else
+               'padding: "8px 12px", '  -- Default padding
+           endif endif) +
+           
+           -- Border styling from strokes
+           (if not F.strokes.oclIsUndefined() and not F.strokes->isEmpty() and not F.strokeWeight.oclIsUndefined() then
+               'border: "' + F.strokeWeight.toString() + 'px solid ' + 
+               (if not F.strokes->first().color.oclIsUndefined() then
+                   F.strokes->first().color.toRGBA()
+               else
+                   'rgba(204, 204, 204, 1.0)'  -- Default border color
+               endif) + '", '
+           else
+               'border: "1px solid #ccc", '  -- Default border
+           endif) +
+           
+           -- Corner radius from frame
+           (if not F.cornerRadius.oclIsUndefined() then
+               'borderRadius: "' + F.cornerRadius.toString() + 'px", '
+           else
+               'borderRadius: "4px", '
+           endif) +
+           
+           -- Background color
+           (if not F.backgroundColor.oclIsUndefined() then
+               'backgroundColor: "' + F.backgroundColor.toRGBA() + '", '
+           else
+               'backgroundColor: "rgba(255, 255, 255, 1.0)", '  -- White background
+           endif) +
+           
+           -- Layout mode styles
+           (if not F.layoutMode.oclIsUndefined() and F.layoutMode.toString() = 'HORIZONTAL' then
+               'display: "flex", flexDirection: "row", '
+           else
+               'display: "flex", ' -- Default
+           endif) +
+           
+           -- Alignment styles
+           (if not F.counterAxisAlignItems.oclIsUndefined() then
+               'alignItems: "' + 
+               (if F.counterAxisAlignItems.toString() = 'CENTER' then 'center'
+                else if F.counterAxisAlignItems.toString() = 'MIN' then 'flex-start'
+                else if F.counterAxisAlignItems.toString() = 'MAX' then 'flex-end'
+                else 'stretch'
+                endif endif endif) + '", '
+           else
+               ''
+           endif) +
+           
+           -- Font styling from placeholder text or defaults
+           (if not placeholderText.oclIsUndefined() and not placeholderText.style.oclIsUndefined() then
+               (if not placeholderText.style.fontFamily.oclIsUndefined() then
+                   'fontFamily: "' + placeholderText.style.fontFamily + '", '
+               else
+                   'fontFamily: "Inter", '  -- Default from example
+               endif) +
+               (if not placeholderText.style.fontSize.oclIsUndefined() then
+                   'fontSize: "' + placeholderText.style.fontSize + 'px", '
+               else
+                   'fontSize: "24.0px", '  -- Default from example
+               endif) +
+               (if not placeholderText.style.fontWeight.oclIsUndefined() then
+                   'fontWeight: ' + placeholderText.style.fontWeight + ', '
+               else
+                   'fontWeight: 400, '  -- Default from example
+               endif) +
+               (if not placeholderText.style.letterSpacing.oclIsUndefined() then
+                   'letterSpacing: "' + placeholderText.style.letterSpacing + 'px", '
+               else
+                   'letterSpacing: "0.0px", '  -- Default from example
+               endif) +
+               (if not placeholderText.style.lineHeightPx.oclIsUndefined() then
+                   'lineHeight: "' + placeholderText.style.lineHeightPx + 'px"'
+               else
+                   'lineHeight: "29.045454px"'  -- Default from example
+               endif)
+           else
+               -- Default styling from example if no placeholder text available
+               'fontFamily: "Inter", ' +
+               'fontSize: "24.0px", ' +
+               'fontWeight: 400, ' +
+               'letterSpacing: "0.0px", ' +
+               'lineHeight: "29.045454px"'
+           endif) +
+           '}';
+   }
+   to
+       R : React!HTMLElement (
+           name <- 'input',
+           key <- F.id,
+           isSelfClosing <- true,
+           attributes <- Sequence {
+               thisModule.CreateAttribute('style', styleString),
+               thisModule.CreateAttribute('type', 'text'),
+               thisModule.CreateAttribute('placeholder',
+                   if not placeholderText.oclIsUndefined() and not placeholderText.characters.oclIsUndefined() then
+                       placeholderText.characters
+                   else
+                       ''
+                   endif
+               ),
+               thisModule.CreateAttribute('id', F.id)
+           }
+       )
+}
+
+
+-- Helper to convert text style to CSS string
+helper context Figma!Style def : toStyleString() : String =
+   '{' +
+   'fontFamily: "' + self.fontFamily + '", ' +
+   'fontSize: "' + self.fontSize.toString() + 'px", ' +
+   'fontWeight: "' + self.fontWeight.toString() + '", ' +
+   'letterSpacing: "' + self.letterSpacing.toString() + 'px", ' +
+   'lineHeight: "' + 
+   (if self.lineHeightUnit.toString() = 'INTRINSIC_' then 
+       self.lineHeightPx 
+   else 
+       self.lineHeightPercent 
+   endif).toString() + 'px"' +
+   '}';
+
+
+rule FigmaFrame2Form{
+    from
+        F: Figma!FRAME(
+            F.isFrame() and 
+            F.name.toString().toLower().startsWith('form') and
+            not F.isScreen() and
+            F.isPartOfProcessedHierarchy()  -- Only process form frames that are part of the hierarchy
+        )
+    to
+        R: React!HTMLElement(
+            name <- 'form',
+            key <- F.id,
+            isSelfClosing <- false,
+            attributes <- Sequence{
+                thisModule.CreateAttribute('id',F.id),
+                thisModule.CreateAttribute('style',F.generateFrameStyles()),
+                -- Set method to POST by default
+                thisModule.CreateAttribute('method','POST')
+            },
+            children <- if not F.children.oclIsUndefined() then
+                F.children->collect(e | thisModule.resolveTemp(e, 'R'))
+            else
+                Sequence {}
+            endif
+        )
+}
+
+-- Update checkbox rule
+rule FigmaFrame2Checkbox{
+    from
+        F: Figma!FRAME(
+            F.isFrame() and 
+            F.name.toString().toLower().indexOf('checkbox') <> -1 and
+            F.isPartOfProcessedHierarchy()  -- Only process checkbox frames that are part of the hierarchy
+        )
+    to
+        R: React!HTMLElement(
+            name <- 'input',
+            key <- F.id,
+            isSelfClosing <- true,
+            attributes <- Sequence{
+                thisModule.CreateAttribute('id',F.id),
+                thisModule.CreateAttribute('type','checkbox'),
+                thisModule.CreateAttribute('style',F.generateFrameStyles())
+            }
+        )
+}
+
+
+-- For text elements, add a guard condition
+rule FigmaText2ReactDisplaylHtmlElement {
+    from
+        F : Figma!TEXT(
+            not F.isPlaceholder() and 
+            not F.isButton() and
+            F.isPartOfProcessedHierarchy()  -- Only process text elements that are part of the hierarchy
+        )
+    to 
+        R : React!HTMLElement(
+            -- Only create an <a> tag if hasClickNavigation AND we can find the target canvas
+            name <- if F.hasClickNavigation() and not thisModule.findCanvasById(F.getNavigationDestination()).oclIsUndefined() then 
+                     'a' 
+                    else 
+                     F.getTextTag() 
+                    endif,
+            
+            -- Content handling depends on whether we created an <a> tag
+            content <- if F.hasClickNavigation() and not thisModule.findCanvasById(F.getNavigationDestination()).oclIsUndefined() then 
+                        OclUndefined 
+                       else 
+                        F.characters 
+                       endif,
+            
+            isSelfClosing <- false,
+            
+            -- Only add href attributes if we have a valid navigation target
+            attributes <- if F.hasClickNavigation() then
+                let targetCanvas : Figma!Children = thisModule.findCanvasById(F.getNavigationDestination()) in
+                if not targetCanvas.oclIsUndefined() then
+                    Sequence {
+                        thisModule.CreateAttribute('href', '/' + thisModule.sanitizeName(targetCanvas.name)),
+                        thisModule.CreateAttribute('style', 'text-decoration: none;')
+                    }
+                else
+                    -- If no target, don't add any attributes (regular text element attributes will apply)
+                    Sequence {}
+                endif
+            else
+                -- Regular styling for text without navigation
+                Sequence {
+                   thisModule.CreateAttribute('style', 
+                    F.generateTextStyles()) 
+                }
+            endif,
+            
+            -- Only create nested children if we have a valid navigation target
+            children <- if F.hasClickNavigation() then
+                let targetCanvas : Figma!Children = thisModule.findCanvasById(F.getNavigationDestination()) in
+                if not targetCanvas.oclIsUndefined() then
+                    -- Use the nested text element rule to create a proper child
+                    Sequence {
+                        thisModule.CreateNestedTextElement(F)
+                    }
+                else
+                    -- If no target canvas, just return any children directly
+                    if not F.children.oclIsUndefined() then
+                        F.children->collect(e | thisModule.resolveTemp(e, 'R'))
+                    else
+                        Sequence {}
+                    endif
+                endif
+            else
+                -- Handle regular children if any
+                if not F.children.oclIsUndefined() then
+                    F.children->collect(e | thisModule.resolveTemp(e, 'R'))
+                else
+                    Sequence {}
+                endif
+            endif
+        )
+}
+
+-- Frame styles helper
+
+-- Helper to convert color to RGBA string
+
+-- For Color objects
+helper context Figma!Color def : toRGBA() : String =
+    'rgba(' +
+    (if not self.r.oclIsUndefined() then (self.r * 255).round().toString() else '0' endif) + ', ' +
+    (if not self.g.oclIsUndefined() then (self.g * 255).round().toString() else '0' endif) + ', ' +
+    (if not self.b.oclIsUndefined() then (self.b * 255).round().toString() else '0' endif) + ', ' +
+    (if not self.a.oclIsUndefined() then self.a.toString() else '1' endif) + ')';
+
+-- Comprehensive helper that handles all element types safely
+helper context Figma!Children def : getBackgroundColor() : String =
+    -- Check the specific element type and handle accordingly
+    if self.oclIsTypeOf(Figma!TEXT) then
+        'transparent'  -- Default for TEXT elements
+    else if self.oclIsTypeOf(Figma!INSTANCE) then
+        'transparent'  -- Default for INSTANCE elements
+    else if self.oclIsTypeOf(Figma!RECTANGLE) then
+        -- Handle RECTANGLE elements which don't have backgroundColor property
+        if not self.fills.oclIsUndefined() then
+            if not self.fills.color.oclIsUndefined() then
+                self.fills.color.toRGBA()
+            else
+                'transparent'
+            endif
+        else
+            'transparent'
+        endif
+    else if not self.backgroundColor.oclIsUndefined() then
+        self.backgroundColor.toRGBA()  -- Use backgroundColor when available for other types
+    else
+        'transparent'  -- Default fallback
+    endif endif endif endif;
+
+-- Helper to build flexbox styles from frame layout properties
+helper context Figma!FRAME def : getFlexStyles() : String =
+    let layoutModeStyle : String = 
+        if self.layoutMode.toString() = 'HORIZONTAL' then
+            'flexDirection: "row"'
+        else
+            'flexDirection: "column"'
+        endif
+    in
+    let alignItemsStyle : String =
+        if not self.counterAxisAlignItems.oclIsUndefined() then
+            if self.counterAxisAlignItems.toString() = 'CENTER' then
+                ', alignItems: "center"'
+            else
+                ''
+            endif
+        else
+            ''
+        endif
+    in
+    let gapStyle : String =
+        if not self.itemSpacing.oclIsUndefined() then
+            ', gap: "' + self.itemSpacing.toString() + 'px"'
+        else
+            ''
+        endif
+    in
+    let layoutWrapStyle : String =
+        if not self.layoutWrap.oclIsUndefined() and self.layoutWrap.toString() = 'NO_WRAP' then
+            ', flexWrap: "nowrap"'
+        else
+            ''
+        endif
+    in
+    layoutModeStyle + alignItemsStyle + gapStyle + layoutWrapStyle;
+
+-- Helper to check if element needs frame styles
+helper context Figma!Children def : needsFrameStyles() : Boolean =
+    self.isFrame() or self.isComponent() or self.isInstance() or self.isComponentSet();
+
+
+helper context Figma!Children def : generateFrameStyles() : String =
+    -- Use different style generation based on element type
+    if self.oclIsTypeOf(Figma!RECTANGLE) then
+        -- RECTANGLE specific styling (avoid accessing properties that don't exist)
+        let backgroundColor : String = 
+            if not self.fills.oclIsUndefined() and not self.fills.color.oclIsUndefined() then
+                self.fills.color.toRGBA()
+            else
+                'transparent'
+            endif
+        in
+        let dimensions : String =
+            if not self.absoluteBoundingBox.oclIsUndefined() then
+                'width: ' + self.absoluteBoundingBox.width.toString() + 'px, ' +
+                'height: ' + self.absoluteBoundingBox.height.toString() + 'px'
+            else
+                ''
+            endif
+        in
+        '{display: flex, flexDirection: column' + 
+        (if dimensions <> '' then ', ' + dimensions else '' endif) +
+        ', backgroundColor: "' + backgroundColor + '"}'
+    
+    else if self.oclIsTypeOf(Figma!TEXT) then
+        -- TEXT specific styling
+        let dimensions : String =
+            if not self.absoluteBoundingBox.oclIsUndefined() then
+                'width: ' + self.absoluteBoundingBox.width.toString() + 'px, ' +
+                'height: ' + self.absoluteBoundingBox.height.toString() + 'px'
+            else
+                ''
+            endif
+        in
+        '{display: flex, flexDirection: column' + 
+        (if dimensions <> '' then ', ' + dimensions else '' endif) +
+        ', backgroundColor: "transparent"}'
+    
+    else if self.oclIsTypeOf(Figma!INSTANCE) then
+        -- INSTANCE specific styling
+        let dimensions : String =
+            if not self.absoluteBoundingBox.oclIsUndefined() then
+                'width: ' + self.absoluteBoundingBox.width.toString() + 'px, ' +
+                'height: ' + self.absoluteBoundingBox.height.toString() + 'px'
+            else
+                ''
+            endif
+        in
+        '{display: flex, flexDirection: column' + 
+        (if dimensions <> '' then ', ' + dimensions else '' endif) +
+        ', backgroundColor: "transparent"}'
+    
+    else if self.oclIsTypeOf(Figma!FRAME) then
+        -- FRAME specific styling with all its properties
+        let backgroundColor : String = 
+            if not self.backgroundColor.oclIsUndefined() then
+                self.backgroundColor.toRGBA()
+            else
+                'transparent'
+            endif
+        in
+        let dimensions : String =
+            if not self.absoluteBoundingBox.oclIsUndefined() then
+                'width: ' + self.absoluteBoundingBox.width.toString() + 'px, ' +
+                'height: ' + self.absoluteBoundingBox.height.toString() + 'px'
+            else
+                ''
+            endif
+        in
+        let flexDirection : String =
+            if not self.layoutMode.oclIsUndefined() then
+                if self.layoutMode.toString() = 'HORIZONTAL' then
+                    'flexDirection: row'
+                else
+                    'flexDirection: column'
+                endif
+            else
+                'flexDirection: column'
+            endif
+        in
+        let alignItems : String =
+            if not self.counterAxisAlignItems.oclIsUndefined() and
+               self.counterAxisAlignItems.toString() = 'CENTER' then
+                ', alignItems: center'
+            else
+                ''
+            endif
+        in
+        let gap : String =
+            if not self.itemSpacing.oclIsUndefined() then
+                ', gap: ' + self.itemSpacing.toString() + 'px'
+            else
+                ''
+            endif
+        in
+        let flexWrap : String =
+            if not self.layoutWrap.oclIsUndefined() and 
+               self.layoutWrap.toString() = 'NO_WRAP' then
+                ', flexWrap: nowrap'
+            else
+                ''
+            endif
+        in
+        let borderRadius : String =
+            if not self.cornerRadius.oclIsUndefined() then
+                ', borderRadius: ' + self.cornerRadius.toString() + 'px'
+            else
+                ''
+            endif
+        in
+        '{display: flex, ' + 
+        flexDirection +
+        (if dimensions <> '' then ', ' + dimensions else '' endif) +
+        ', backgroundColor: "' + backgroundColor + '"' +
+        alignItems +
+        gap +
+        flexWrap +
+        borderRadius +
+        '}'
+    
+    else
+        -- Default styling for any other element type
+        '{display: flex, flexDirection: column, backgroundColor: "transparent"}'
+    
+    endif endif endif endif;
+
+-- Helper to find a Canvas or Screen by ID in the entire document
+helper def : findCanvasById(id : String) : Figma!Children =
+    if id = '' then
+        OclUndefined
+    else
+        let allCanvases : Sequence(Figma!Children) = 
+            Figma!Children.allInstances()->select(c | 
+                (c.isCanvas() or (c.isFrame() and c.isScreen())) and not c.id.oclIsUndefined()
+            )
+        in
+        let matchingCanvas : Figma!Children = 
+            allCanvases->select(c | c.id = id)->first()
+        in
+        matchingCanvas
+    endif;
+
+-- Helper to check if an element has click navigation
+helper context Figma!Children def : hasClickNavigation() : Boolean =
+    if self.interactions.oclIsUndefined() or self.interactions->isEmpty() then
+        false
+    else
+        self.interactions->exists(i | 
+            not i.trigger.oclIsUndefined() and 
+            i.trigger.type = 'ON_CLICK' and
+            not i.actions.oclIsUndefined() and 
+            not i.actions->isEmpty() and
+            i.actions->exists(a | 
+                not a.navigation.oclIsUndefined() and
+                a.navigation = 'NAVIGATE' and
+                not a.destinationId.oclIsUndefined() and
+                a.destinationId <> ''
+            )
+        )
+    endif;
+
+-- Helper to get navigation destination
+helper context Figma!Children def : getNavigationDestination() : String =
+    let clickInteraction : Figma!Interaction = 
+        self.interactions->select(i | 
+            not i.trigger.oclIsUndefined() and 
+            i.trigger.type.toString() = 'ON_CLICK'
+        )->first()
+    in
+    if clickInteraction.oclIsUndefined() then
+        ''
+    else
+        let navigateAction : Figma!Action = 
+            clickInteraction.actions->select(a | 
+                a.navigation.toString() = 'NAVIGATE'
+            )->first()
+        in
+        if navigateAction.oclIsUndefined() then
+            ''
+        else
+            navigateAction.destinationId
+        endif
+    endif;
+    
+
+
+-- Helper rule to create a nested element for navigation
+-- Generic nested element for frames and rectangles with navigation
+lazy rule CreateNestedElement {
+    from
+        F : Figma!Children
+    to
+        R : React!HTMLElement (
+            -- Preserve the original element type (div for FRAME and RECTANGLE)
+            name <- 'div',
+            isSelfClosing <- false,
+            key <- F.id + '_inner',
+            -- Preserve the original styling
+            attributes <- Sequence {
+                thisModule.CreateAttribute('style', F.generateFrameStyles())
+            },
+            -- Maintain the children
+            children <- if not F.children.oclIsUndefined() then
+                F.children->collect(e | thisModule.resolveTemp(e, 'R'))
+            else
+                Sequence {}
+            endif
+        )
+}
+
+
+-- Helper rule for text elements specifically
+-- For text elements with navigation links: create proper nested elements
+lazy rule CreateNestedTextElement {
+    from
+        F : Figma!TEXT
+    to
+        R : React!HTMLElement (
+            -- Preserve the original text tag type (h1, p, etc.)
+            name <- F.getTextTag(),
+            key <- F.id + '_inner',
+            -- Keep the original text content
+            content <- F.characters,
+            isSelfClosing <- false,
+            -- Apply original Figma styles with inheritance for navigation context
+            attributes <- Sequence {
+                thisModule.CreateAttribute('style', 
+                    F.generateTextStyles() + '; color: inherit; text-decoration: inherit;')
+            }
+        )
+}
+
+-- For button elements with navigation links
+lazy rule CreateNestedButtonElement {
+    from
+        F : Figma!TEXT(F.isButton())
+    to
+        R : React!HTMLElement (
+            -- Keep it as a button
+            name <- 'button',
+            key <- F.id + '_inner',
+            content <- F.characters,
+            isSelfClosing <- false,
+            -- Apply original Figma button styles
+            attributes <- Sequence {
+                thisModule.CreateAttribute('style', 
+                    F.generateTextStyles() + '; cursor: pointer;')
+            }
+        )
+}
+
+-- Helper to generate proper React text styles - only adding properties that have values
+helper context Figma!TEXT def : generateTextStyles() : String =
+    let baseStyle : String = 'display: "flex"' in
+    
+    -- Font properties
+    let fontStyles : String = 
+        (if not self.style.oclIsUndefined() and not self.style.fontFamily.oclIsUndefined() and self.style.fontFamily.size() > 0 then 
+            ', fontFamily: "' + self.style.fontFamily + '"' 
+        else 
+            '' 
+        endif) +
+        (if not self.style.oclIsUndefined() and not self.style.fontPostScriptName.oclIsUndefined() and self.style.fontPostScriptName.size() > 0 then 
+            ', fontPostScriptName: "' + self.style.fontPostScriptName + '"' 
+        else 
+            '' 
+        endif) +
+        (if not self.style.oclIsUndefined() and not self.style.fontSize.oclIsUndefined() then 
+            ', fontSize: "' + self.style.fontSize + 'px"' 
+        else 
+            '' 
+        endif) +
+        (if not self.style.oclIsUndefined() and not self.style.fontWeight.oclIsUndefined() then 
+            ', fontWeight: ' + self.style.fontWeight 
+        else 
+            '' 
+        endif)
+    in
+    
+    -- Text layout
+    let textLayoutStyles : String = 
+        (if not self.style.oclIsUndefined() and not self.style.letterSpacing.oclIsUndefined() then 
+            ', letterSpacing: "' + self.style.letterSpacing + 'px"'
+        else 
+            '' 
+        endif) +
+        (if not self.style.oclIsUndefined() and not self.style.lineHeightPx.oclIsUndefined() then 
+            ', lineHeight: "' + self.style.lineHeightPx + 'px"'
+        else if not self.style.oclIsUndefined() and not self.style.lineHeightPercent.oclIsUndefined() then
+            ', lineHeight: "' + self.style.lineHeightPercent + '%"'
+        else 
+            '' 
+        endif endif) +
+        (if not self.style.oclIsUndefined() and not self.style.textAlignHorizontal.oclIsUndefined() then 
+            ', textAlign: "' + 
+            (if self.style.textAlignHorizontal.toString() = 'CENTER' then 
+                'center'
+            else if self.style.textAlignHorizontal.toString() = 'LEFT' then
+                'left'
+            else if self.style.textAlignHorizontal.toString() = 'RIGHT' then
+                'right'
+            else if self.style.textAlignHorizontal.toString() = 'JUSTIFIED' then
+                'justify'
+            else
+                'left'
+            endif endif endif endif) + '"'
+        else 
+            '' 
+        endif) +
+        (if not self.style.oclIsUndefined() and not self.style.textAlignVertical.oclIsUndefined() then 
+            ', verticalAlign: "' + 
+            (if self.style.textAlignVertical.toString() = 'CENTER' then 
+                'middle'
+            else if self.style.textAlignVertical.toString() = 'TOP' then
+                'top'
+            else if self.style.textAlignVertical.toString() = 'BOTTOM' then
+                'bottom'
+            else
+                'baseline'
+            endif endif endif) + '"'
+        else 
+            '' 
+        endif)
+    in
+    
+    -- Text auto resize
+    let textResizeStyles : String = 
+        (if not self.style.oclIsUndefined() and not self.style.textAutoResize.oclIsUndefined() then 
+            (if self.style.textAutoResize.toString() = 'WIDTH_AND_HEIGHT' then 
+                ', whiteSpace: "normal", width: "fit-content", height: "fit-content"'
+            else if self.style.textAutoResize.toString() = 'HEIGHT' then
+                ', whiteSpace: "normal", height: "fit-content"'
+            else if self.style.textAutoResize.toString() = 'NONE' then
+                ', overflow: "hidden"'
+            else
+                ''
+            endif endif endif)
+        else 
+            '' 
+        endif)
+    in
+    
+    -- Text color
+    let colorStyles : String = 
+        (if not self.fills.oclIsUndefined() and not self.fills.color.oclIsUndefined() then 
+            ', color: "' + self.fills.color.toRGBA() + '"'
+        else 
+            '' 
+        endif)
+    in
+    
+    -- Layout properties (specific to text)
+    let layoutStyles : String = 
+        (if not self.layoutAlign.oclIsUndefined() then
+            ', alignSelf: "' + 
+            (if self.layoutAlign.toString() = 'STRETCH' then 
+                'stretch'
+            else if self.layoutAlign.toString() = 'CENTER' then 
+                'center'
+            else if self.layoutAlign.toString() = 'INHERIT' then 
+                'inherit'
+            else
+                'auto'
+            endif endif endif) + '"'
+        else
+            ''
+        endif) +
+        (if not self.layoutGrow.oclIsUndefined() then
+            ', flexGrow: ' + self.layoutGrow.toString()
+        else
+            ''
+        endif) +
+        (if not self.layoutSizingHorizontal.oclIsUndefined() then
+            if self.layoutSizingHorizontal.toString() = 'FILL' then 
+                ', width: "100%"'
+            else if self.layoutSizingHorizontal.toString() = 'HUG' then
+                ', width: "fit-content"'
+            else
+                ''  -- Omit width for FIXED
+            endif endif
+        else
+            ''  -- No explicit width if layoutSizingHorizontal is undefined
+        endif) +
+        (if not self.layoutSizingVertical.oclIsUndefined() then
+            if self.layoutSizingVertical.toString() = 'FILL' then 
+                ', height: "100%"'
+            else if self.layoutSizingVertical.toString() = 'HUG' then
+                ', height: "fit-content"'
+            else
+                ''  -- Omit height for FIXED
+            endif endif
+        else
+            ''  -- No explicit height if layoutSizingVertical is undefined
+        endif)
+    in
+    
+    -- Margins based on constraints
+    let marginStyles : String = 
+        (if not self.constraints.oclIsUndefined() then
+            (if not self.constraints.horizontal.oclIsUndefined() then
+                (if self.constraints.horizontal.toString() = 'CENTER' then 
+                    ', marginLeft: "auto", marginRight: "auto"'
+                else if self.constraints.horizontal.toString() = 'RIGHT' then
+                    ', marginLeft: "auto"'
+                else if self.constraints.horizontal.toString() = 'LEFT' then
+                    ', marginRight: "auto"'
+                else
+                    ''
+                endif endif endif)
+            else
+                ''
+            endif) +
+            (if not self.constraints.vertical.oclIsUndefined() then
+                (if self.constraints.vertical.toString() = 'CENTER' then 
+                    ', marginTop: "auto", marginBottom: "auto"'
+                else if self.constraints.vertical.toString() = 'BOTTOM' then
+                    ', marginTop: "auto"'
+                else if self.constraints.vertical.toString() = 'TOP' then
+                    ', marginBottom: "auto"'
+                else
+                    ''
+                endif endif endif)
+            else
+                ''
+            endif)
+        else
+            ''
+        endif)
+    in
+    
+    -- Create the final style string - only including sections that aren't empty
+    '{' + baseStyle + 
+    (if fontStyles <> '' then fontStyles else '' endif) +
+    (if textLayoutStyles <> '' then textLayoutStyles else '' endif) +
+    (if textResizeStyles <> '' then textResizeStyles else '' endif) +
+    (if colorStyles <> '' then colorStyles else '' endif) +
+    (if layoutStyles <> '' then layoutStyles else '' endif) +
+    (if marginStyles <> '' then marginStyles else '' endif) +
+    '}';
+
+-- Helper to check if a frame is a button container
+helper context Figma!FRAME def : isButtonContainer() : Boolean =
+    if self.isFrame() and 
+       not self.name.oclIsUndefined() and 
+       self.name.toString().toLowerCase().indexOf('button') <> -1 and
+       not self.children.oclIsUndefined() and
+       not self.children->isEmpty() and
+       self.children->exists(c | c.isText())
+    then
+        true
+    else
+        false
+    endif;
+
+-- Helper to get the text child from a button container
+helper context Figma!FRAME def : getButtonText() : Figma!TEXT =
+    if not self.children.oclIsUndefined() and not self.children->isEmpty() then
+        self.children->select(c | c.isText())->first()
+    else
+        OclUndefined
+    endif;
+
+-- Helper to generate comprehensive button styles from a frame
+helper context Figma!FRAME def : generateButtonFrameStyles() : String =
+    let baseStyles : String = 'display: flex' in
+    
+    -- Layout and alignment
+    let layoutStyles : String = 
+        (if not self.layoutMode.oclIsUndefined() then
+            ', flexDirection: "' + 
+            (if self.layoutMode.toString() = 'HORIZONTAL' then 'row' else 'column' endif) + '"'
+        else 
+            ', flexDirection: "row"'  -- Default to row
+        endif) +
+        (if not self.primaryAxisAlignItems.oclIsUndefined() then
+            ', justifyContent: "' + 
+            (if self.primaryAxisAlignItems.toString() = 'CENTER' then 'center'
+             else if self.primaryAxisAlignItems.toString() = 'MIN' then 'flex-start'
+             else if self.primaryAxisAlignItems.toString() = 'MAX' then 'flex-end'
+             else if self.primaryAxisAlignItems.toString() = 'SPACE_BETWEEN' then 'space-between'
+             else 'center'  -- Default to center
+             endif endif endif endif) + '"'
+        else
+            ', justifyContent: "center"'  -- Default to center
+        endif) +
+        (if not self.counterAxisAlignItems.oclIsUndefined() then
+            ', alignItems: "' + 
+            (if self.counterAxisAlignItems.toString() = 'CENTER' then 'center'
+             else if self.counterAxisAlignItems.toString() = 'MIN' then 'flex-start'
+             else if self.counterAxisAlignItems.toString() = 'MAX' then 'flex-end'
+             else 'center'  -- Default to center
+             endif endif endif) + '"'
+        else
+            ', alignItems: "center"'  -- Default to center
+        endif) +
+        (if not self.itemSpacing.oclIsUndefined() then
+            ', gap: "' + self.itemSpacing.toString() + 'px"'
+        else
+            ''
+        endif) +
+        (if not self.layoutWrap.oclIsUndefined() then
+            ', flexWrap: "' + 
+            (if self.layoutWrap.toString() = 'NO_WRAP' then 'nowrap' else 'wrap' endif) + '"'
+        else
+            ''
+        endif)
+    in
+    
+    -- Dimensions
+    let dimensionStyles : String =
+        (if not self.absoluteBoundingBox.oclIsUndefined() then
+            ', width: "' + self.absoluteBoundingBox.width.toString() + 'px", ' +
+            'height: "' + self.absoluteBoundingBox.height.toString() + 'px"'
+        else
+            ''
+        endif)
+    in
+    
+    -- Background and border
+    let appearanceStyles : String =
+        (if not self.backgroundColor.oclIsUndefined() then
+            ', backgroundColor: "' + self.backgroundColor.toRGBA() + '"'
+        else if not self.fills.oclIsUndefined() and not self.fills->isEmpty() and not self.fills->first().color.oclIsUndefined() then
+            ', backgroundColor: "' + self.fills->first().color.toRGBA() + '"'
+        else
+            ''
+        endif endif) +
+        (if not self.cornerRadius.oclIsUndefined() then
+            ', borderRadius: "' + self.cornerRadius.toString() + 'px"'
+        else
+            ''
+        endif) +
+        (if not self.strokeWeight.oclIsUndefined() and self.strokeWeight > 0 then
+            ', borderWidth: "' + self.strokeWeight.toString() + 'px"'
+        else
+            ''
+        endif) +
+        (if not self.strokes.oclIsUndefined() and not self.strokes->isEmpty() and not self.strokes->first().color.oclIsUndefined() then
+            ', borderColor: "' + self.strokes->first().color.toRGBA() + '"'
+        else
+            ''
+        endif) +
+        (if not self.strokeAlign.oclIsUndefined() then
+            ', borderStyle: "solid"'
+        else
+            ''
+        endif)
+    in
+    
+    -- Other properties
+    let otherStyles : String =
+        ', cursor: "pointer", textDecoration: "none", userSelect: "none"'
+    in
+    
+    -- Create the final style string
+    '{' + baseStyles + layoutStyles + dimensionStyles + appearanceStyles + otherStyles + '}';
+
+
+-- Update frame button rule
+rule FigmaFrameButton2HtmlButton {
+    from
+        F : Figma!FRAME (
+            F.isButtonContainer() and
+            F.isPartOfProcessedHierarchy()  -- Only process button frames that are part of the hierarchy
+        )
+    using {
+        -- Get the text child to use as button content
+        buttonText : Figma!TEXT = F.getButtonText();
+    }
+    to 
+        R : React!HTMLElement (
+            name <- if F.hasClickNavigation() then 'a' else 'button' endif,
+            isSelfClosing <- false,
+            key <- F.id,
+            -- Use text character content if available
+            content <- if F.hasClickNavigation() or buttonText.oclIsUndefined() then 
+                        OclUndefined 
+                       else 
+                        buttonText.characters 
+                       endif,
+            -- Include navigation attributes if needed
+            attributes <- if F.hasClickNavigation() then
+                let targetCanvas : Figma!Children = thisModule.findCanvasById(F.getNavigationDestination()) in
+                if not targetCanvas.oclIsUndefined() then
+                    Sequence {
+                        thisModule.CreateAttribute('href', '/' + thisModule.sanitizeName(targetCanvas.name)),
+                        thisModule.CreateAttribute('style', F.generateButtonFrameStyles())
+                    }
+                else
+                    Sequence {
+                        thisModule.CreateAttribute('style', F.generateButtonFrameStyles()),
+                        thisModule.CreateAttribute('id', F.id)
+                    }
+                endif
+            else
+                Sequence {
+                    thisModule.CreateAttribute('style', F.generateButtonFrameStyles()),
+                    thisModule.CreateAttribute('id', F.id),
+                    thisModule.CreateAttribute('type', 'button')
+                }
+            endif,
+            -- For navigation links, include wrapper with original text content
+            children <- if F.hasClickNavigation() then
+                let targetCanvas : Figma!Children = thisModule.findCanvasById(F.getNavigationDestination()) in
+                if not targetCanvas.oclIsUndefined() and not buttonText.oclIsUndefined() then
+                    Sequence {
+                        thisModule.CreateButtonTextContentElement(buttonText)
+                    }
+                else
+                    -- Otherwise, remove text child since we're using it as content
+                    F.children->reject(c | c = buttonText)->collect(e | thisModule.resolveTemp(e, 'R'))
+                endif
+            else
+                -- For regular buttons, remove text child since we're using it as content
+                F.children->reject(c | c = buttonText)->collect(e | thisModule.resolveTemp(e, 'R'))
+            endif
+        )
+}
+
+-- Helper lazy rule to create content for button text with proper styling
+lazy rule CreateButtonTextContentElement {
+    from
+        T : Figma!TEXT
+    to
+        R : React!HTMLElement (
+            name <- 'span',
+            isSelfClosing <- false,
+            key <- T.id + '_button_content',
+            content <- T.characters,
+            attributes <- Sequence {
+                thisModule.CreateAttribute('style', 
+                    -- Generate comprehensive text styles
+                    '{' +
+                    -- Font properties
+                    (if not T.style.oclIsUndefined() and not T.style.fontFamily.oclIsUndefined() then 
+                        'fontFamily: "' + T.style.fontFamily + '"' 
+                    else 
+                        'fontFamily: "inherit"' 
+                    endif) +
+                    (if not T.style.oclIsUndefined() and not T.style.fontSize.oclIsUndefined() then 
+                        ', fontSize: "' + T.style.fontSize + 'px"' 
+                    else 
+                        '' 
+                    endif) +
+                    (if not T.style.oclIsUndefined() and not T.style.fontWeight.oclIsUndefined() then 
+                        ', fontWeight: ' + T.style.fontWeight 
+                    else 
+                        '' 
+                    endif) +
+                    -- Text layout
+                    (if not T.style.oclIsUndefined() and not T.style.letterSpacing.oclIsUndefined() then 
+                        ', letterSpacing: "' + T.style.letterSpacing + 'px"'
+                    else 
+                        '' 
+                    endif) +
+                    (if not T.style.oclIsUndefined() and not T.style.lineHeightPx.oclIsUndefined() then 
+                        ', lineHeight: "' + T.style.lineHeightPx + 'px"'
+                    else if not T.style.oclIsUndefined() and not T.style.lineHeightPercent.oclIsUndefined() then
+                        ', lineHeight: "' + T.style.lineHeightPercent + '%"'
+                    else 
+                        '' 
+                    endif endif) +
+                    -- Text alignment
+                    (if not T.style.oclIsUndefined() and not T.style.textAlignHorizontal.oclIsUndefined() then 
+                        ', textAlign: "' + 
+                        (if T.style.textAlignHorizontal.toString() = 'CENTER' then 
+                            'center'
+                        else if T.style.textAlignHorizontal.toString() = 'LEFT' then
+                            'left'
+                        else if T.style.textAlignHorizontal.toString() = 'RIGHT' then
+                            'right'
+                        else if T.style.textAlignHorizontal.toString() = 'JUSTIFIED' then
+                            'justify'
+                        else
+                            'inherit'
+                        endif endif endif endif) + '"'
+                    else 
+                        '' 
+                    endif) +
+                    -- Text color (using fills)
+                    (if not T.fills.oclIsUndefined() and not T.fills->isEmpty() and not T.fills->first().color.oclIsUndefined() then 
+                        ', color: "' + T.fills->first().color.toRGBA() + '"'
+                    else 
+                        ', color: "inherit"' 
+                    endif) +
+                    -- Dimensions (if available)
+                    (if not T.absoluteBoundingBox.oclIsUndefined() then 
+                        ', width: "' + T.absoluteBoundingBox.width + 'px", ' +
+                        'height: "' + T.absoluteBoundingBox.height + 'px"'
+                    else 
+                        '' 
+                    endif) +
+                    -- Override these properties to ensure button text looks right
+                    ', textDecoration: "inherit", margin: "0", padding: "0", pointerEvents: "none"' +
+                    '}'
+                )
+            }
+        )
+}
+
+--- updated
+
+-- Let's add a helper to determine if a Figma element belongs to a node that's
+-- already included in the React hierarchy
+helper context Figma!Children def : isPartOfProcessedHierarchy() : Boolean =
+    let doc : Figma!Document = Figma!Document.allInstances()->first() in
+    
+    -- Check if it's a direct child of the document
+    doc.children->includes(self) or
+    
+    -- Check if it's a child of a canvas
+    doc.children->exists(c | 
+        c.isCanvas() and 
+        not c.children.oclIsUndefined() and
+        c.children->includes(self)
+    ) or
+    
+    -- Check if it's a child of a screen frame
+    doc.children->exists(c | 
+        c.isFrame() and 
+        not c.children.oclIsUndefined() and
+        c.children->includes(self)
+    ) or
+    
+    -- Check if it's a child of any processed frame
+    Figma!FRAME.allInstances()->exists(f | 
+        not f.children.oclIsUndefined() and
+        f.children->includes(self)
+    ) or
+    
+    -- Check if it's a child of any processed component
+    Figma!COMPONENT.allInstances()->exists(c | 
+        not c.children.oclIsUndefined() and
+        c.children->includes(self)
+    ) or
+    
+    -- Check if it's a child of any processed instance
+    Figma!INSTANCE.allInstances()->exists(i | 
+        not i.children.oclIsUndefined() and
+        i.children->includes(self)
+    );
+
