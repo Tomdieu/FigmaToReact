@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.figma</groupId>
+    <artifactId>atl-runner</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <eclipse.home>/home/ivantom/tool/eclipse</eclipse.home>
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>maven-central</id>
+            <url>https://repo1.maven.org/maven2/</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <!-- Eclipse EMF Core -->
+        <dependency>
+            <groupId>org.eclipse.emf</groupId>
+            <artifactId>org.eclipse.emf.ecore</artifactId>
+            <version>2.26.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.emf</groupId>
+            <artifactId>org.eclipse.emf.ecore.xmi</artifactId>
+            <version>2.16.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.emf</groupId>
+            <artifactId>org.eclipse.emf.common</artifactId>
+            <version>2.24.0</version>
+        </dependency>
+
+        <!-- Eclipse ATL - using local JARs from Eclipse installation -->
+        <dependency>
+            <groupId>org.eclipse.m2m.atl</groupId>
+            <artifactId>org.eclipse.m2m.atl.engine.emfvm</artifactId>
+            <version>4.9.0</version>
+            <scope>system</scope>
+            <systemPath>${eclipse.home}/plugins/org.eclipse.m2m.atl.engine.emfvm_4.9.0.v202312070913.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.m2m.atl</groupId>
+            <artifactId>org.eclipse.m2m.atl.engine</artifactId>
+            <version>4.9.0</version>
+            <scope>system</scope>
+            <systemPath>${eclipse.home}/plugins/org.eclipse.m2m.atl.engine_4.9.0.v202312070913.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.m2m.atl</groupId>
+            <artifactId>org.eclipse.m2m.atl.core</artifactId>
+            <version>4.9.0</version>
+            <scope>system</scope>
+            <systemPath>${eclipse.home}/plugins/org.eclipse.m2m.atl.core_4.9.0.v202312070913.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.m2m.atl</groupId>
+            <artifactId>org.eclipse.m2m.atl.common</artifactId>
+            <version>4.9.0</version>
+            <scope>system</scope>
+            <systemPath>${eclipse.home}/plugins/org.eclipse.m2m.atl.common_4.9.0.v202312070913.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.m2m.atl</groupId>
+            <artifactId>org.eclipse.m2m.atl.engine.vm</artifactId>
+            <version>4.9.0</version>
+            <scope>system</scope>
+            <systemPath>${eclipse.home}/plugins/org.eclipse.m2m.atl.engine.vm_4.9.0.v202312070913.jar</systemPath>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.3.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>com.figma.transformer.ATLRunner</mainClass>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.6.0</version>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                            <includeScope>compile</includeScope>
+                            <excludeScope>system</excludeScope>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
