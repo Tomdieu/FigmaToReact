@@ -36,7 +36,6 @@ This project presents a **Model-Driven Development (MDD)** approach for automati
 
 This work contributes to the field of **Model-Driven Engineering (MDE)** by:
 - Proposing domain-specific metamodels for design-to-code transformation
-- Implementing bidirectional traceability between design and code artifacts
 - Demonstrating the feasibility of automated UI code generation
 - Reducing the manual effort in front-end development workflows
 
