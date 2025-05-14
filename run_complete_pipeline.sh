@@ -45,7 +45,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 # Configuration
-FETCH_FIGMA=${FETCH_FIGMA:-false}  # Fetch Figma design from API
+FETCH_FIGMA=${FETCH_FIGMA:-true}  # Fetch Figma design from API
 VALIDATE_FIGMA=${VALIDATE_FIGMA:-true}
 VALIDATE_REACT=${VALIDATE_REACT:-false}  # Optional - React metamodel may not have OCL yet
 RUN_TRANSFORMATION=${RUN_TRANSFORMATION:-true}
