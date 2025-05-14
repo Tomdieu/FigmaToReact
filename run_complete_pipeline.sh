@@ -28,8 +28,24 @@ NC='\033[0m' # No Color
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR"
 
+# Parse command line arguments
+FILE_KEY=""
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        --file_key)
+            FILE_KEY="$2"
+            shift 2
+            ;;
+        *)
+            echo -e "${RED}Unknown argument: $1${NC}"
+            echo "Usage: $0 [--file_key FIGMA_FILE_KEY]"
+            exit 1
+            ;;
+    esac
+done
+
 # Configuration
-FETCH_FIGMA=${FETCH_FIGMA:-true}  # Fetch Figma design from API
+FETCH_FIGMA=${FETCH_FIGMA:-false}  # Fetch Figma design from API
 VALIDATE_FIGMA=${VALIDATE_FIGMA:-true}
 VALIDATE_REACT=${VALIDATE_REACT:-false}  # Optional - React metamodel may not have OCL yet
 RUN_TRANSFORMATION=${RUN_TRANSFORMATION:-true}
@@ -44,6 +60,9 @@ echo -e "${BOLD}           FIGMA TO REACT - COMPLETE TRANSFORMATION PIPELINE${NC
 echo -e "${BOLD}================================================================================${NC}"
 echo -e "${BLUE}Pipeline Configuration:${NC}"
 echo -e "  Fetch Figma Design: ${FETCH_FIGMA}"
+if [ -n "$FILE_KEY" ]; then
+    echo -e "  Figma File Key: ${BOLD}${FILE_KEY}${NC}"
+fi
 echo -e "  Validate Figma Model: ${VALIDATE_FIGMA}"
 echo -e "  Run M2M Transformation: ${RUN_TRANSFORMATION}"
 echo -e "  Validate React Model: ${VALIDATE_REACT}"
@@ -131,7 +150,18 @@ if [ "$FETCH_FIGMA" = true ]; then
     # Run the Python script
     echo -e ""
     echo -e "Fetching Figma design and converting to XMI..."
-    python3 main.py
+    
+    # Build the python command with optional --file_key argument
+    PYTHON_CMD="python3 main.py"
+    if [ -n "$FILE_KEY" ]; then
+        echo -e "Using custom file key: ${BOLD}${FILE_KEY}${NC}"
+        PYTHON_CMD="$PYTHON_CMD --file_key $FILE_KEY"
+    else
+        echo -e "Using default file key from main.py"
+    fi
+    
+    # Execute the Python script
+    $PYTHON_CMD
     FETCH_STATUS=$?
 
     # Deactivate virtual environment if it was activated
