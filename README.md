@@ -53,18 +53,163 @@ The system follows a **three-layer MDA architecture**:
 ### Transformation Pipeline
 
 ```mermaid
-graph LR
-    A[Figma Design] --> B[Figma JSON]
-    B --> C[Figma XMI Model]
-    C --> D[ATL Model-to-Model Transform]
-    D --> E[React XMI Model]
-    E --> F[ATL Code Generation]
-    F --> G[React Components]
+graph TB
+    %% Style Definitions
+    classDef figmaStyle fill:#F24E1E,stroke:#333,stroke-width:2px,color:#fff
+    classDef pythonStyle fill:#3776AB,stroke:#333,stroke-width:2px,color:#fff
+    classDef metamodelStyle fill:#9333EA,stroke:#333,stroke-width:2px,color:#fff
+    classDef validationStyle fill:#059669,stroke:#333,stroke-width:2px,color:#fff
+    classDef transformStyle fill:#DC2626,stroke:#333,stroke-width:2px,color:#fff
+    classDef reactStyle fill:#61DAFB,stroke:#333,stroke-width:2px,color:#000
+    classDef outputStyle fill:#10B981,stroke:#333,stroke-width:2px,color:#fff
+    classDef configStyle fill:#F59E0B,stroke:#333,stroke-width:2px,color:#000
+
+    %% Start - Configuration
+    START([🚀 Start Pipeline]):::configStyle
+    CONFIG[📝 Configuration<br/>• FIGMA_TOKEN in .env<br/>• File Key<br/>• Eclipse Path]:::configStyle
+
+    %% Phase 0: Figma Design Input
+    FIGMA_DESIGN[🎨 Figma Design<br/>Design File in Figma]:::figmaStyle
+    FIGMA_API[🌐 Figma REST API<br/>GET /v1/files/:file_key]:::figmaStyle
+
+    %% Phase 1: Python Fetch & Convert
+    PYTHON_FETCH[🐍 Python Script<br/>main.py]:::pythonStyle
+    FETCH_DETAILS[📥 Fetch & Convert<br/>• HTTP Request<br/>• Authentication<br/>• JSON Response]:::pythonStyle
     
-    H[Figma Metamodel] -.-> C
-    I[React Metamodel] -.-> E
-    J[transform.atl] -.-> D
-    K[refine2.atl] -.-> F
+    FIGMA_JSON[(📄 figma_instance.json<br/>Raw Figma API Response)]:::pythonStyle
+    
+    JSON_TO_XMI[🔄 json_to_xmi.py<br/>JSON → XMI Parser]:::pythonStyle
+    
+    FIGMA_XMI[(📦 figma_instance.xmi<br/>Figma Model Instance)]:::pythonStyle
+
+    %% Phase 2: Metamodel Definition
+    FIGMA_META[📐 Figma Metamodel<br/>figma_meta_model.ecore<br/>• Document Structure<br/>• Node Types<br/>• Layout Properties<br/>• Styling<br/>• Components<br/>• Interactions]:::metamodelStyle
+
+    %% Phase 3: OCL Validation (Figma)
+    OCL_FIGMA[🔍 OCL Constraints<br/>figma_meta_model.ocl<br/>45+ Validation Rules]:::validationStyle
+    
+    VALIDATE_FIGMA{✅ Validate Figma Model<br/>OCL Validator<br/>Maven + Java}:::validationStyle
+    
+    VALIDATION_PASS[✓ Validation Passed<br/>Model is Valid]:::validationStyle
+    VALIDATION_FAIL[✗ Validation Failed<br/>Constraint Violations]:::validationStyle
+    
+    FIX_MODEL[🔧 Fix Figma Design<br/>& Re-fetch]:::validationStyle
+
+    %% Phase 4: Model-to-Model Transformation
+    M2M_TRANSFORM[⚙️ M2M Transformation<br/>transform.atl]:::transformStyle
+    
+    M2M_RULES[🎯 Transformation Rules<br/>• FigmaApp → ReactApplication<br/>• Document → Router<br/>• Component → Component<br/>• Frame → Element<br/>• Text → Text<br/>• Auto-layout → Flexbox<br/>• Styles → CSS]:::transformStyle
+    
+    REACT_XMI[(📦 react_new_instance.xmi<br/>React Model Instance)]:::transformStyle
+
+    %% Phase 5: React Metamodel
+    REACT_META[📐 React Metamodel<br/>react_meta_model.ecore<br/>• ReactApplication<br/>• Router & Routes<br/>• Pages<br/>• Components<br/>• JSX Elements<br/>• Props & Styles]:::metamodelStyle
+
+    %% Phase 6: Model-to-Text Transformation
+    M2T_TRANSFORM[⚙️ M2T Transformation<br/>refine2.atl]:::reactStyle
+    
+    M2T_RULES[🎯 Code Generation<br/>• package.json<br/>• vite.config.js<br/>• index.html<br/>• main.jsx<br/>• App.jsx<br/>• Pages/*.jsx<br/>• Components/*.jsx]:::reactStyle
+
+    %% Phase 8: Generated Output
+    REACT_APP[📱 React Application<br/>Vite + React 18]:::outputStyle
+    
+    APP_STRUCTURE[📁 Project Structure<br/>• src/main.jsx<br/>• src/App.jsx<br/>• src/pages/<br/>• src/components/<br/>• package.json<br/>• vite.config.js<br/>• index.html]:::outputStyle
+    
+    NPM_INSTALL[📦 npm install<br/>Install Dependencies]:::outputStyle
+    
+    NPM_RUN[🚀 npm run dev<br/>Development Server<br/>localhost:5173]:::outputStyle
+    
+    FINAL_APP([✨ Running React App<br/>Deployed Application]):::outputStyle
+
+    %% Pipeline Flow Connections
+    START --> CONFIG
+    CONFIG --> FIGMA_DESIGN
+    FIGMA_DESIGN --> FIGMA_API
+    FIGMA_API --> PYTHON_FETCH
+    PYTHON_FETCH --> FETCH_DETAILS
+    FETCH_DETAILS --> FIGMA_JSON
+    FIGMA_JSON --> JSON_TO_XMI
+    JSON_TO_XMI --> FIGMA_XMI
+    
+    %% Metamodel Conformance
+    FIGMA_META -.conforms to.-> FIGMA_XMI
+    
+    %% OCL Validation Flow
+    FIGMA_XMI --> VALIDATE_FIGMA
+    OCL_FIGMA -.validates.-> VALIDATE_FIGMA
+    VALIDATE_FIGMA -->|Pass| VALIDATION_PASS
+    VALIDATE_FIGMA -->|Fail| VALIDATION_FAIL
+    VALIDATION_FAIL --> FIX_MODEL
+    FIX_MODEL -.retry.-> FIGMA_DESIGN
+    
+    %% M2M Transformation
+    VALIDATION_PASS --> M2M_TRANSFORM
+    M2M_TRANSFORM --> M2M_RULES
+    M2M_RULES --> REACT_XMI
+    
+    %% React Metamodel Conformance
+    REACT_META -.conforms to.-> REACT_XMI
+    
+    %% M2T Transformation
+    REACT_XMI --> M2T_TRANSFORM
+    
+    %% M2T Transformation
+    M2T_TRANSFORM --> M2T_RULES
+    M2T_RULES --> REACT_APP
+    
+    %% Final Output
+    REACT_APP --> APP_STRUCTURE
+    APP_STRUCTURE --> NPM_INSTALL
+    NPM_INSTALL --> NPM_RUN
+    NPM_RUN --> FINAL_APP
+
+    %% Pipeline Steps Annotation
+    subgraph STEP1["🔹 STEP 0: Configuration"]
+        CONFIG
+    end
+    
+    subgraph STEP2["🔹 STEP 1: Fetch Figma Design"]
+        FIGMA_DESIGN
+        FIGMA_API
+        PYTHON_FETCH
+        FETCH_DETAILS
+        FIGMA_JSON
+        JSON_TO_XMI
+        FIGMA_XMI
+    end
+    
+    subgraph STEP3["🔹 STEP 2: OCL Validation - Figma"]
+        OCL_FIGMA
+        VALIDATE_FIGMA
+        VALIDATION_PASS
+        VALIDATION_FAIL
+        FIX_MODEL
+    end
+    
+    subgraph STEP4["🔹 STEP 3: Model-to-Model Transformation"]
+        M2M_TRANSFORM
+        M2M_RULES
+        REACT_XMI
+    end
+    
+    subgraph STEP5["🔹 STEP 4: Model-to-Text Transformation"]
+        M2T_TRANSFORM
+        M2T_RULES
+        REACT_APP
+    end
+    
+    subgraph STEP6["🔹 STEP 5: Run Generated Application"]
+        APP_STRUCTURE
+        NPM_INSTALL
+        NPM_RUN
+        FINAL_APP
+    end
+
+    %% Metamodel References
+    subgraph METAMODELS["📐 Metamodels"]
+        FIGMA_META
+        REACT_META
+    end
 ```
 
 ## 🔬 Methodology
