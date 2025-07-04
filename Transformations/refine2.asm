@@ -18,7 +18,7 @@
 		<constant value="2"/>
 		<constant value="J.generateApp():J"/>
 		<constant value="3"/>
-		<constant value="/Figma2React/"/>
+		<constant value="/FigmaToReact/"/>
 		<constant value="J.+(J):J"/>
 		<constant value="4"/>
 		<constant value="/src"/>
@@ -141,9 +141,9 @@
 		<constant value="5:24-5:94"/>
 		<constant value="6:27-6:30"/>
 		<constant value="6:27-6:44"/>
-		<constant value="9:28-9:43"/>
-		<constant value="9:46-9:53"/>
-		<constant value="9:28-9:53"/>
+		<constant value="9:28-9:44"/>
+		<constant value="9:47-9:54"/>
+		<constant value="9:28-9:54"/>
 		<constant value="10:27-10:38"/>
 		<constant value="10:41-10:47"/>
 		<constant value="10:27-10:47"/>
