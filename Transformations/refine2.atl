@@ -6,7 +6,7 @@ let appName : String = if not app.name.oclIsUndefined() then app.name else 'Unna
 let appContent : String = app.generateApp() in
 
 -- Define project path and output path using the app's name
-let projectPath : String = '/Figma2React/' + appName in
+let projectPath : String = '/FigmaToReact/' + appName in
 let outputPath : String = projectPath + '/src' in
 let publicPath : String = projectPath + '/public' in
 let iconsPath : String = publicPath + '/icons/vite.svg' in
