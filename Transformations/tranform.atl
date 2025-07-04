@@ -586,19 +586,19 @@ helper context FigmaMM!FRAME def: isTextArea(): Boolean =
     not self.absoluteBoundingBox.oclIsUndefined() and
     self.absoluteBoundingBox.height > 60.0;
 
-helper context FigmaMM!TEXT def: isLabel(): Boolean =
-    let lowercaseName: String = self.name.toString().toLower() in
-    (
-        lowercaseName.indexOf('label') <> -1 or
-        lowercaseName.indexOf('field-label') <> -1
-    ) or
-    -- Check if text is positioned near an input
-    (not self.refImmediateComposite().oclIsUndefined() and
-     self.refImmediateComposite().oclIsTypeOf(FigmaMM!FRAME) and
-     not self.refImmediateComposite().children.oclIsUndefined() and
-     self.refImmediateComposite().children->exists(c | 
-        c.oclIsTypeOf(FigmaMM!FRAME) and 
-        (c.isTextInputFrame() or c.isPasswordInputFrame() or c.isEmailInputFrame())));
+-- helper context FigmaMM!TEXT def: isLabel(): Boolean =
+--     let lowercaseName: String = self.name.toString().toLower() in
+--     (
+--         lowercaseName.indexOf('label') <> -1 or
+--         lowercaseName.indexOf('field-label') <> -1
+--     ) or
+--     -- Check if text is positioned near an input
+--     (not self.refImmediateComposite().oclIsUndefined() and
+--      self.refImmediateComposite().oclIsTypeOf(FigmaMM!FRAME) and
+--      not self.refImmediateComposite().children.oclIsUndefined() and
+--      self.refImmediateComposite().children->exists(c | 
+--         c.oclIsTypeOf(FigmaMM!FRAME) and 
+--         (c.isTextInputFrame() or c.isPasswordInputFrame() or c.isEmailInputFrame())));
 
 helper context FigmaMM!FRAME def: isFieldset(): Boolean =
     let lowercaseName: String = self.name.toString().toLower() in
