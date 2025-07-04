@@ -1,0 +1,305 @@
+import 'figma_meta_model.ecore'
+
+package figma_meta_model
+
+-- OCL Constraints for Figma Meta-Model
+-- These constraints ensure data integrity and enforce business rules
+
+-- =============================================================================
+-- BASIC VALIDATION CONSTRAINTS
+-- =============================================================================
+
+-- Ensure all nodes have valid non-empty names
+context Children
+inv validName: self.name <> null and self.name.size() > 0
+
+-- Ensure IDs are unique within a document
+context Document
+inv uniqueChildIds: self.children->forAll(c1, c2 | c1 <> c2 implies c1.id <> c2.id)
+
+-- Ensure component IDs are unique within the application
+context FigmaApp
+inv uniqueComponentIds: self.components->forAll(c1, c2 | c1 <> c2 implies c1.id <> c2.id)
+
+-- =============================================================================
+-- COLOR CONSTRAINTS
+-- =============================================================================
+
+-- Color values must be between 0.0 and 1.0 (RGBA)
+context Color
+inv validRGBAValues: 
+    self.r >= 0.0 and self.r <= 1.0 and
+    self.g >= 0.0 and self.g <= 1.0 and
+    self.b >= 0.0 and self.b <= 1.0 and
+    self.a >= 0.0 and self.a <= 1.0
+
+-- =============================================================================
+-- DIMENSION CONSTRAINTS
+-- =============================================================================
+
+-- Dimensions must have positive width and height
+context Dimensions
+inv positiveDimensions: self.width > 0.0 and self.height > 0.0
+
+-- Absolute bounding box must be consistent with render bounds
+context Children
+inv consistentBounds: 
+    self.absoluteBoundingBox <> null and self.absoluteRenderBounds <> null implies
+    (self.absoluteBoundingBox.width <= self.absoluteRenderBounds.width and
+     self.absoluteBoundingBox.height <= self.absoluteRenderBounds.height)
+
+-- =============================================================================
+-- LAYOUT CONSTRAINTS
+-- =============================================================================
+
+-- Frame layout constraints
+context FRAME
+inv validLayoutMode: 
+    self.layoutMode = LayoutMode::HORIZONTAL or self.layoutMode = LayoutMode::VERTICAL implies
+    self.children->size() > 0
+
+-- Item spacing must be non-negative
+context FRAME
+inv nonNegativeItemSpacing: self.itemSpacing >= 0
+
+-- Padding values must be non-negative
+context FRAME
+inv nonNegativePadding:
+    (self.paddingLeft.oclIsUndefined() or self.paddingLeft >= 0) and
+    (self.paddingRight.oclIsUndefined() or self.paddingRight >= 0) and
+    (self.paddingTop.oclIsUndefined() or self.paddingTop >= 0) and
+    (self.paddingBottom.oclIsUndefined() or self.paddingBottom >= 0)
+
+-- Corner radius must be non-negative
+context FRAME
+inv nonNegativeCornerRadius: 
+    self.cornerRadius.oclIsUndefined() or self.cornerRadius >= 0.0
+
+-- =============================================================================
+-- TEXT CONSTRAINTS
+-- =============================================================================
+
+-- Text must have non-empty characters
+context TEXT
+inv nonEmptyText: self.characters <> null and self.characters.size() > 0
+
+-- Font size must be positive
+context Style
+inv positiveFontSize: self.fontSize > 0.0
+
+-- Font weight must be valid (typically 100-900)
+context Style
+inv validFontWeight: self.fontWeight >= 100 and self.fontWeight <= 900
+
+-- Line height percentage must be positive
+context Style
+inv positiveLineHeight: self.lineHeightPercent > 0.0 and self.lineHeightPx > 0.0
+
+-- Text padding must be non-negative
+context TEXT
+inv nonNegativeTextPadding:
+    self.paddingBottom >= 0.0 and self.paddingLeft >= 0.0 and
+    self.paddingRight >= 0.0 and self.paddingTop >= 0.0
+
+-- =============================================================================
+-- COMPONENT CONSTRAINTS
+-- =============================================================================
+
+-- Component instances must reference valid components
+context INSTANCE
+inv validComponentReference: 
+    self.componentId <> null and self.componentId.size() > 0
+
+-- Component property values must match their definitions
+context ComponentPropertyData
+inv validPropertyValue: self.value <> null
+
+-- Boolean component properties must have valid values
+context ComponentProperty
+inv validBooleanValue:
+    self.type = 'BOOLEAN' implies (self.value = 'true' or self.value = 'false')
+
+-- Variant options must not be empty for variant properties
+context ComponentPropertyDefinition
+inv variantOptionsNotEmpty:
+    self.type = ComponentPropertyDefinitionType::VARIANT implies
+    self.variantOptions->size() > 0
+
+-- =============================================================================
+-- INTERACTION CONSTRAINTS
+-- =============================================================================
+
+-- Actions must have valid destination IDs
+context Action
+inv validDestination:
+    self.destinationId <> null and self.destinationId.size() > 0
+
+-- Transition duration must be positive
+context Transition
+inv positiveTransitionDuration: self.duration > 0.0
+
+-- =============================================================================
+-- STROKE AND EFFECT CONSTRAINTS
+-- =============================================================================
+
+-- Stroke weight must be non-negative
+context Children
+inv nonNegativeStrokeWeight:
+    self.strokeWeight.oclIsUndefined() or self.strokeWeight >= 0.0
+
+-- Individual stroke weights must be non-negative
+context StrokeWeight
+inv nonNegativeIndividualWeights:
+    self.top >= 0.0 and self.right >= 0.0 and 
+    self.bottom >= 0.0 and self.left >= 0.0
+
+-- Effect radius must be non-negative
+context Effect
+inv nonNegativeEffectRadius: self.radius >= 0.0
+
+-- =============================================================================
+-- LAYOUT GRID CONSTRAINTS
+-- =============================================================================
+
+-- Layout grid section size must be positive
+context LayoutGrid
+inv positiveSectionSize: self.sectionSize > 0.0
+
+-- Grid count must be positive
+context LayoutGrid
+inv positiveGridCount: self.count > 0
+
+-- Gutter size and offset must be non-negative
+context LayoutGrid
+inv nonNegativeGridValues: self.gutterSize >= 0 and self.offset >= 0
+
+-- =============================================================================
+-- COMPONENT SET CONSTRAINTS
+-- =============================================================================
+
+-- Component set item spacing must be non-negative
+context COMPONENT_SET
+inv nonNegativeComponentSetSpacing: self.itemSpacing >= 0.0
+
+-- Component set corner properties must be non-negative
+context COMPONENT_SET
+inv nonNegativeComponentSetCorner:
+    self.cornerRadius >= 0.0 and self.cornerSmoothing >= 0.0
+
+-- =============================================================================
+-- DOCUMENT STRUCTURE CONSTRAINTS
+-- =============================================================================
+
+-- Document must have at least one canvas child
+context Document
+inv hasCanvas: self.children->exists(c | c.oclIsTypeOf(CANVAS))
+
+-- Canvas must be top-level children of document
+context CANVAS
+inv canvasAtTopLevel: 
+    self.oclContainer().oclIsTypeOf(Document)
+
+-- =============================================================================
+-- PROTOTYPE CONSTRAINTS
+-- =============================================================================
+
+-- Prototype start node must exist in the canvas
+context CANVAS
+inv validPrototypeStartNode:
+    self.prototypeStartNodeID <> null implies
+    self.children->exists(c | c.id = self.prototypeStartNodeID)
+
+-- Flow starting points must reference valid nodes
+context FlowStartingPoint
+inv validFlowStartingPoint:
+    self.nodeId <> null and self.nodeId.size() > 0 and
+    self.name <> null and self.name.size() > 0
+
+-- =============================================================================
+-- OVERRIDE CONSTRAINTS
+-- =============================================================================
+
+-- Override must have valid ID
+context Override
+inv validOverrideId: self.id <> null and self.id.size() > 0
+
+-- Overridden fields must not be empty
+context Override
+inv nonEmptyOverriddenFields: self.overriddenFields->size() > 0
+
+-- =============================================================================
+-- VERSION AND METADATA CONSTRAINTS
+-- =============================================================================
+
+-- FigmaApp must have valid version
+context FigmaApp
+inv validVersion: self.version <> null and self.version.size() > 0
+
+-- Last modified must be a valid timestamp
+context FigmaApp
+inv validLastModified: self.lastModified <> null and self.lastModified.size() > 0
+
+-- Schema version must be present for nodes
+context NodeItem
+inv validSchemaVersion: self.schemaVersion <> null and self.schemaVersion.size() > 0
+
+-- =============================================================================
+-- BACKGROUND CONSTRAINTS
+-- =============================================================================
+
+-- Background opacity must be between 0.0 and 1.0
+context Background
+inv validOpacity: self.opacity >= 0.0 and self.opacity <= 1.0
+
+-- =============================================================================
+-- CONSISTENCY CONSTRAINTS
+-- =============================================================================
+
+-- Children type must match their actual class
+context Children
+inv typeConsistency:
+    (self.oclIsTypeOf(RECTANGLE) implies self.type = DocumentType::RECTANGLE) and
+    (self.oclIsTypeOf(FRAME) implies self.type = DocumentType::FRAME) and
+    (self.oclIsTypeOf(TEXT) implies self.type = DocumentType::TEXT) and
+    (self.oclIsTypeOf(COMPONENT) implies self.type = DocumentType::COMPONENT) and
+    (self.oclIsTypeOf(INSTANCE) implies self.type = DocumentType::INSTANCE) and
+    (self.oclIsTypeOf(VECTOR) implies self.type = DocumentType::VECTOR) and
+    (self.oclIsTypeOf(GROUP) implies self.type = DocumentType::GROUP) and
+    (self.oclIsTypeOf(LINE) implies self.type = DocumentType::LINE) and
+    (self.oclIsTypeOf(ELLIPSE) implies self.type = DocumentType::ELLIPSE) and
+    (self.oclIsTypeOf(REGULAR_POLYGON) implies self.type = DocumentType::REGULAR_POLYGON) and
+    (self.oclIsTypeOf(COMPONENT_SET) implies self.type = DocumentType::COMPONENT_SET)
+
+-- Component property references must have valid keys
+context ComponentPropertyReference
+inv validPropertyReferenceKey:
+    self.key = ComponentPropertyReferenceKeyType::characters or
+    self.key = ComponentPropertyReferenceKeyType::visible
+
+-- =============================================================================
+-- BUSINESS LOGIC CONSTRAINTS
+-- =============================================================================
+
+-- A component cannot be an instance of itself (prevent circular references)
+context INSTANCE
+inv noSelfReference:
+    self.componentId <> self.id
+
+-- Layout sizing constraints consistency
+context FRAME
+inv layoutSizingConsistency:
+    (self.layoutSizingHorizontal = LayoutSizing::FILL implies self.oclContainer() <> null) and
+    (self.layoutSizingVertical = LayoutSizing::FILL implies self.oclContainer() <> null)
+
+-- Text with auto-resize cannot have fixed sizing in conflicting directions
+context TEXT
+inv autoResizeConsistency:
+    (self.style <> null and self.style.textAutoResize = TextAutoResize::WIDTH_AND_HEIGHT) implies
+    (self.layoutSizingHorizontal = LayoutSizing::HUG and self.layoutSizingVertical = LayoutSizing::HUG)
+
+-- Visible effects must have valid blend modes
+context Effect
+inv visibleEffectBlendMode:
+    self.visible = true implies self.blenMode <> null
+
+endpackage
