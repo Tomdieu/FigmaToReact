@@ -19,7 +19,7 @@ This project implements a complete Model-Driven Engineering (MDE) pipeline for t
                                   ▼                         ▼
                          ┌──────────────────┐     ┌──────────────────┐
                          │  main.py         │     │ OCL Validation   │
-                         │  json_to_xmi.py  │     │ (50+ rules)      │
+                         │  json_to_xmi.py  │     │ (45 rules)      │
                          └──────────────────┘     └──────────────────┘
                                                             │
                                                             ▼
@@ -544,22 +544,9 @@ This pipeline is part of a master's research project on Model-Driven Engineering
 
 1. **Comprehensive Metamodels**: Detailed Figma and React metamodels covering real-world scenarios
 2. **Complex Transformations**: 2000+ lines of ATL rules handling layout, styling, and component hierarchies
-3. **Validation Framework**: 50+ OCL constraints ensuring model quality
+3. **Validation Framework**: 45 OCL constraints ensuring model quality
 4. **End-to-End Automation**: Complete pipeline from design to deployable application
 
-## Publication & Citation
-
-If you use this pipeline in your research, please cite:
-
-```bibtex
-@mastersthesis{ivantom2025figma2react,
-  author = {Ivan Tom},
-  title = {Model-Driven Engineering for Automated UI Code Generation: A Figma to React Case Study},
-  school = {[Your University]},
-  year = {2025},
-  type = {Master's Thesis}
-}
-```
 
 ## Future Work
 
@@ -573,13 +560,13 @@ If you use this pipeline in your research, please cite:
 
 ## License
 
-[Your License Here]
+[MIT]
 
 ## Contact
 
 - **Author**: Ivan Tom
-- **Email**: [Your Email]
-- **Research Project**: [Project URL]
+- **Email**: ivan.tomdieu@gmail.com
+- **Research Project**: https://github.com/Tomdieu/FigmaToReact
 
 ## Acknowledgments
 
