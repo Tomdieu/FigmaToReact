@@ -339,13 +339,20 @@ The React metamodel represents the target component structure:
 
 3. **Configure Figma API**:
    ```bash
-   # Create .env file in python_code directory
-   echo "FIGMA_TOKEN=your_figma_api_token_here" > .env
+   # Create .env file in python_code directory  
+   echo "FIGMA_TOKEN=your_figma_api_token_here" > python_code/.env
    ```
 
-4. **Install React dependencies**:
+4. **Make shell scripts executable**:
    ```bash
-   cd Untitled
+   chmod +x *.sh
+   chmod +x ocl-validator/*.sh
+   ```
+
+5. **Install React dependencies** (for running generated apps):
+   ```bash
+   # Example: if your generated app is named "Untitled"
+   cd Untitled  
    npm install
    ```
 
@@ -420,34 +427,103 @@ This configuration generates the actual React JavaScript files from the React XM
 
 ## 📖 Usage
 
-### Basic Workflow
+### Quick Start - Complete Pipeline (Recommended)
+
+**Prerequisites:** Make sure you have completed the [Environment Setup](#environment-setup) section first.
+
+For the fastest and easiest way to transform a Figma design to React code, use the complete pipeline script:
+
+```bash
+# Run the entire pipeline with default Figma file
+./run_complete_pipeline.sh
+
+# Run with a custom Figma file key
+./run_complete_pipeline.sh --file_key YOUR_FIGMA_FILE_KEY
+```
+
+This single command executes the entire transformation pipeline:
+1. ✅ Fetches Figma design from API and converts to XMI
+2. ✅ Validates the Figma model using OCL constraints  
+3. ✅ Performs Model-to-Model transformation (Figma → React)
+4. ✅ Performs Model-to-Text transformation (React model → React code)
+5. ✅ Generates a complete, runnable React application
+
+**Pipeline Configuration Options:**
+
+You can control which steps to run using environment variables:
+
+```bash
+# Skip Figma fetch (use existing figma_instance.xmi)
+FETCH_FIGMA=false ./run_complete_pipeline.sh
+
+# Run only transformation steps (skip fetch and validation)
+FETCH_FIGMA=false VALIDATE_FIGMA=false ./run_complete_pipeline.sh
+
+# Run only model-to-model transformation
+RUN_REFINEMENT=false ./run_complete_pipeline.sh
+
+# Disable strict validation (continue despite OCL constraint violations)
+STRICT_VALIDATION=false ./run_complete_pipeline.sh
+```
+
+**Running the Generated Application:**
+
+After the pipeline completes, navigate to the generated React app and run it:
+
+```bash
+# The folder name matches your Figma design name (e.g., "Untitled", "Dashboard", etc.)
+cd <YourFigmaDesignName>
+npm install
+npm run dev
+```
+
+### Manual Step-by-Step Workflow
+
+If you prefer to run each step manually or need to debug individual components:
 
 1. **Extract Figma Design**:
    ```bash
    cd python_code
-   python main.py
+   python main.py --file_key YOUR_FIGMA_FILE_KEY
+   cd ..
    ```
    This fetches the Figma design and generates `figma_instance.xmi`
 
+2. **Validate Figma Model** (Optional):
+   ```bash
+   ./validate_models.sh figma
+   ```
+
+3. **Run ATL Transformation**:
+   ```bash
+   ./transform_figma_to_react.sh
+   ```
+   Generates `react_new_instance.xmi` from `figma_instance.xmi`
+
+4. **Generate React Code**:
+   ```bash
+   ./refine_react.sh
+   ```
+   This uses the `refine2.atl` transformation to generate the complete React application
+
+5. **Run Generated Application**:
+   ```bash
+   cd <YourFigmaDesignName>
+   npm install
+   npm run dev
+   ```
+
+### Alternative: Eclipse IDE Workflow
+
+For developers who prefer working directly in Eclipse IDE:
+
+1. **Extract Figma Design** (same as above)
 2. **Run ATL Transformation**:
    - Open Eclipse
    - Execute the ATL transformation launch configuration (`FigmaToReact_RunTransformation`)
    - Generates `react_new_instance.xmi` from `figma_instance.xmi`
-
 3. **Generate React Code**:
    - In Eclipse, execute the code generation configuration (`FigmaToReact_RunCodeGeneration`)
-   - This uses the `refine2.atl` transformation to generate the complete React application structure including:
-     - Component files (`.jsx`)
-     - Page files
-     - Main application file (`App.jsx`)
-     - Entry point (`main.jsx`)
-     - Configuration files (`package.json`, `vite.config.js`)
-
-4. **Run Generated Application**:
-   ```bash
-   cd Untitled
-   npm run dev
-   ```
 
 ### Configuration Options
 
@@ -632,7 +708,3 @@ Master's Thesis in Software Engineering
 ## 📄 License
 
 This project is developed for academic purposes as part of a Master's thesis. Please refer to your institution's guidelines for usage and distribution rights.
-
----
-
-*Last Updated: June 2025*
