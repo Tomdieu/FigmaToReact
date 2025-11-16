@@ -47,11 +47,15 @@ def main() -> None:
     parser.add_argument("--file_key", type=str, help="Figma file key to retrieve.")
     args = parser.parse_args()
 
-    # Default file key if none is provided
+    # Use provided file key or fall back to default
     file_key = args.file_key if args.file_key else "HDmpqjXyKIlTDxSIr9Vq4M"
     logger.info(f"Using Figma file_key: {file_key}")
     print(f"Using Figma file_key: {file_key}")
     
+    if not args.file_key:
+        print("No --file_key provided, using default file key.")
+    else:
+        print(f"Using provided file key: {file_key}")
 
     figma_token = os.getenv("FIGMA_TOKEN")
     if not figma_token:
