@@ -226,7 +226,6 @@ graph TB
 
 - **RQ1**: Can design tool structures be effectively represented through formal metamodels?
 - **RQ2**: How accurately can automated transformations preserve design intent in generated code?
-- **RQ3**: What are the scalability limitations of metamodel-based design-to-code transformation?
 
 ## 📁 Project Structure
 
